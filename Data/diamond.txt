@@ -1,0 +1,48 @@
+NAME: Diamond Ring Pricing Using Linear Regression
+TYPE: Random sample
+SIZE: 48 observations, 2 variables
+
+DESCRIPTIVE ABSTRACT:
+This dataset contains the prices of ladies' diamond rings and the carat
+size of their diamond stones.  The rings are made with gold of 20
+carats purity and are each mounted with a single diamond stone.
+
+SOURCE:
+The source of the data is a full page advertisement placed in the
+_Straits Times_ newspaper issue of February 29, 1992, by a
+Singapore-based retailer of diamond jewelry.
+
+VARIABLE DESCRIPTIONS:
+Columns
+ 6 -  8  Size of diamond in carats (1 carat = .2 gram)
+16 - 19  Price of ring in Singapore dollars
+
+Values are aligned and delimited by blanks.  There are no missing values.
+
+STORY BEHIND THE DATA:
+Data presented in a newspaper advertisement suggest the use of simple
+linear regression to relate the prices of diamond rings to the weights
+of their diamond stones.  The intercept of the resulting regression
+line is negative and significantly different from zero.  This finding
+raises questions about an assumed pricing mechanism and motivates
+consideration of remedial actions.
+
+PEDAGOGICAL NOTES:
+This dataset can be used to illustrate model-building in linear
+regression.  A possibly counter-intuitive negative intercept may be
+avoided by using a multiplicative or exponential regression model.
+These regression models are intrinsically linear, and they are
+estimated using standard linear regression technology after a suitable
+transformation of the data.
+
+Additional information about these data can be found in the "Datasets
+and Stories" article "Diamond Ring Pricing Using Linear Regression" in
+the _Journal of Statistics Education_ (Chu 1996).  
+
+SUBMITTED BY:
+Singfat Chu
+Department of Decision Sciences
+National University of Singapore
+10 Kent Ridge Crescent
+Singapore 119260
+fbachucl@nus.sg

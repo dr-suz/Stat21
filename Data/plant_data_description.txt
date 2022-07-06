@@ -1,0 +1,35 @@
+The data can be found at:
+http://stat.cmu.edu/~larry/=stat401/PlantData.txt
+The first row has the variable names. 
+
+The variables are:
+Variable Name Description
+NR Native plant species richness
+Area area in hectares
+Latitude latitude in degrees North Lat
+Elev elevation in meters above sea level
+Dist distance from mainland in km
+Soil number of soil types
+Years years since isolation
+Deglac years since deglaciation
+Human.pop human population
+ 
+The main outcome is native plant species richness, the count of the number of different plant
+species.
+
+There are several research questions and goals:
+(1) The investigator hypothesizes that native species richness (NR) can be predicted from Area,
+Latitude, Elev, Dist, Soil, Years, Deglac, Human.pop.
+(2) The investigator hypothesizes that the most important predictors are Area, Elevation and Soil
+types.
+(3) The investigator hypothesizes that better models will be obtained if a log transformation is
+applied to each covariate.
+The study was inspired by the following article:
+McMaster, Robert T. "Factors influencing vascular plant diversity on
+22 islands off the coast of eastern North America." Journal of
+Biogeography 32.3 (2005): 475-492.
+Your are welcome to track down and read this article if you wish. However, I don’t recommend
+it. We are using a completely different dataset. His analysis of his data might lead you towards an
+analysis that does not work well for our data.
+
+Source: project for regression class at CMU https://www.stat.cmu.edu/~larry/=stat401/DAP2.pdf

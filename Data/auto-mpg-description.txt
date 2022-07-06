@@ -1,0 +1,6 @@
+
+
+
+Data comes from the 1983 American Statistical Association Exposition. The response variable of interest is fuel consumption, measured in miles per gallon. Other attributes of cars like the weight, horsepower, number cylinders, and acceleration time were also recorded for each car. We will study the relationship between mpg and weight (in lbs).
+
+Used in HW 4 from https://www.stat.cmu.edu/~larry/=stat401/

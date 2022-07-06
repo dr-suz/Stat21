@@ -1,0 +1,117 @@
+NAME: Fan Data
+TYPE: Designed experiment
+SIZE: Data for four experiments (4 variables with 8 observations, 
+      4 variables with 16 observations, 4 variables with 32 
+      observations, 4 variables with 64 observations)
+
+DESCRIPTIVE ABSTRACT: 
+This dataset contains the results of a experiment designed to 
+determine the best of two levels for each of three factors used 
+in manufacturing industrial fans:  
+
+(1) the shape of the hole in the fan blade (spyder); 
+(2) the type of assembly method; and 
+(3) the shape of the hub or barrel.  
+
+Destructive testing was used to break the spyder loose from the 
+barrel for each of the fans.  The breaking torque was measured 
+in foot-pounds.
+
+SOURCES: 
+The data represent the results of an actual industrial 
+experiment.  Company representatives have asked that the name 
+of the company not be revealed.
+
+VARIABLE DESCRIPTIONS:
+Data columns 1, 5, 9, and 13 are values for the two types of 
+  hole tested (coded -1 and 1)
+
+Data columns 2, 6, 10, and 14 are values for the two types of 
+  assembly method used (coded -1 and 1)
+
+Data columns 3, 7, 11, and 15 are values for the two barrel 
+  shapes used (coded -1 and 1)
+
+Data columns 4, 8, 12, and 16 are the breaking torques in 
+  foot-pounds for the various factor combinations
+
+Data columns 1 - 4 give the results of the experiment with 
+  one observation for each factor combination
+
+Data columns 5 - 8 give the results of the experiment with 
+  two replications for each factor combination
+
+Data columns 9 - 12 give the results for the experiment with 
+  four replications for each factor combination
+
+Data columns 13 - 16 give the results for the experiment with 
+  eight replications for each factor combination
+
+SPECIAL NOTES: Columns are delimited with spaces.
+
+STORY BEHIND THE DATA:
+A mid-western company that manufactures large industrial fans 
+recently acquired a smaller competitor.  The companies used 
+different manufacturing methods to attach the fan blades 
+(spyders) to the fan hubs.  In an attempt to determine the 
+best manufacturing process, an experiment was designed to 
+investigate:
+
+(1) two types of hole in the spyder, 
+(2) two hub (or barrel) shapes, and 
+(3) two assembly methods.  
+
+Destructive testing was used to break the spyder from the 
+hub and the torque required to break the part was measured in 
+foot-pounds.  The full factorial design resulted in eight 
+factor combinations. 
+
+Since the fans had to be destroyed in order to test the 
+effectiveness of the manufacturing methods, the company's 
+engineers wanted to use as few fans as possible in the 
+experiment.  
+
+The minimum number of fans necessary to estimate the main 
+effects and the two factor interactions was eight.  The 
+authors encouraged the engineers to use a larger sample size 
+than one observation per factor combination.
+
+This dataset can be used to show how smaller sample sizes 
+may lead to incorrect conclusions about the process under 
+investigation.  If the engineers had conducted only the 
+original experiment, they would have missed an opportunity 
+to significantly strengthen the fans manufactured by the 
+company.
+
+PEDAGOGICAL NOTES:
+Analysis of Variance (ANOVA) can be used to determine which 
+factors are important in producing a stronger fan.  Students 
+analyzing the first four columns of data would conclude that 
+only the barrel shape was an important factor.  The average 
+breaking torque of the best barrel shape was 176 foot-pounds.
+
+Conversely, an analysis of columns 5 through 8 (two 
+replications of each factor combination) would suggest that 
+all three factors are important in producing a strong fan.  
+Students will observe that, by increasing the sample size 
+to 32 and finally 64 observations, all main effects and all 
+interactions become significant.  In fact, the average 
+breaking torque for the best combination of the factor 
+levels is 196 foot-pounds.  By identifying the best 
+combination of factor levels and using those settings in 
+the manufacturing process, the company can produce a 
+stronger fan than otherwise possible.
+
+SUBMITTED BY:
+LeRoy A. Franklin
+Rose-Hulman Institute of Technology
+550 Wabash Avenue
+Terre Haute, IN
+USA
+LeRoy.A.Franklin@Rose-Hulman.edu
+
+Belva J. Cooley
+University of Montana
+School of Business Administration
+Missoula, MT 59812
+belva.cooley@business.umt.edu

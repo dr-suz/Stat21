@@ -1,0 +1,74 @@
+NAME: DRAFTED MINOR LEAGUE HITTERS, 1992-2006
+TYPE: Census
+SIZE: 6318 observations , 47 variables (45 numeric, 2 character)
+
+DESCRIPTIVE ABSTRACT:
+This dataset consists of a listing of all hitters who were drafted in Major League Baseball's Amateur Draft in a 15-year period between 1992 and 2006, their attributes, and the number of games played and plate appearances in the minor leagues.
+
+SOURCE:
+Cohen, G. (2008). The Baseball Cube: http://www.thebaseballcube.com
+Major League Baseball (2008). 2008 First-Year Player Draft : June Regular Phase | MLB.com: History: http://mlb.mlb.com/mlb/history/ draft/draft.jsp.
+Sports Reference LLC. Baseball-Reference.com - Major League Statistics and Information. http://www.baseball-reference.com/. 
+
+VARIABLE DESCRIPTIONS:
+Year when drafted						Columns 1-4
+Round drafted							Column 5
+Overall pick							Columns 6-8
+Name								Columns 9-24
+Position							Column 25
+Organization							Columns 26-27
+School								Columns 28-61
+Age when drafted						Columns 62-63
+Birth Date							Columns 64-73
+Bats								Column 74
+Throws								Column 75
+Education Type							Column 76
+Drafted Before							Column 77
+Minor-League Level Started At					Column 78
+If the player appeared in Rookie Leagues			Column 79	
+Number of games played in Rookie Leagues			Columns 80-82
+Number of plate appearances in Rookie Leagues			Columns 83-85
+If the player appeared in Short-Season-A			Column 86
+Number of games played in Short-Season-A			Columns 87-88
+Number of plate appearances in Short-Season-A			Columns 89-91
+If the player appeared in Low-A					Column 92
+Number of games played in Low-A					Columns 93-95
+Number of plate appearances in Low-A				Columns 96-99
+If the player appeared in High-A				Column 100
+Number of games played in High-A				Columns 101-104
+Number of plate appearances in High-A				Columns 105-108
+If the player appeared in Double-A				Column 109
+Number of games played in Double-A				Columns 110-112
+Number of plate appearances in Double-A				Columns 113-116
+If the player appeared in Triple-A				Column 117
+Number of games played in Triple-A				Columns 118-120
+Number of plate appearances in Triple-A				Columns 121-124
+If the player appeared in the Major Leagues			Column 125
+Number of seasons spent in the minor leagues			Columns 126-127
+Total number of games played in the minor leagues		Columns 128-130
+Total number of plate appearances in the minor leagues		Columns 131-134
+Total games played in Short-Season and lower levels		Columns 135-137
+Total plate appearances in Short-Season and lower levels	Columns 138-140
+Total games played in Low-A and lower levels			Columns 141-142
+Total plate appearances in Low-A and lower levels		Columns 143-146
+Total games played in High-A and lower levels			Columns 147-149
+Total plate appearances in High-A and lower levels		Columns 150-153
+Total games played in Double-A and lower levels			Columns 154-156
+Total plate appearances in Double-A and lower levels		Columns 157-160
+Total games played in Triple-A and lower levels			Columns 161-163
+Total plate appearances in Triple-A and lower levels		Columns 164-167
+Average plate appearances per game				Columns 168-175
+
+STORY BEHIND THE DATA:
+The author, who is interested in baseball and player development, used this data for his master's thesis at Indiana University of Pennsylvania. A similar dataset was used for pitchers during this time period.
+
+PEDAGOGICAL NOTES:
+This data can be used for both descriptive and inferential statistics.  In the author's thesis, for example, the data was used for survival analysis tests and logistic regression.
+
+SUBMITTED BY:
+Paul Rossman
+M.S. in Applied Mathematics, Indiana University of Pennsylvania
+783 Route 31
+Ruffs Dale, PA 15679
+psrossman@gmail.com
+

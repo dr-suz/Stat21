@@ -1,0 +1,24 @@
+X1 = salinity ◦/◦◦(SALINITY )
+X2 = acidity as measured in water (pH )
+X3 = potassium ppm (K)
+X4 = sodium ppm (Na)
+X5 = zinc ppm (Zn).
+The dependent variable Y is aerial biomass gm−2.
+
+The data considered are part of a larger study conducted by Dr. Rick
+Linthurst (1979) at North Carolina State University as his Ph.D. thesis
+research. The purpose of his research was to identify the important soil
+characteristics influencing aerial biomass production of the marsh grass
+Spartina alterniflora in the Cape Fear Estuary of North Carolina.
+One phase of Linthurst’s research consisted of sampling three types of Design
+162 5. CASE STUDY: FIVE INDEPENDENT VARIABLES
+Spartina vegetation (revegetated “dead” areas, “short” Spartina areas, and
+“tall” Spartina areas) in each of three locations (Oak Island, Smith Island,
+and Snows Marsh). Samples of the soil substrate from 5 random sites within
+each location–vegetation type (giving 45 total samples) were analyzed for
+14 soil physicochemical characteristics each month for several months. In
+addition, above-ground biomass at each sample site was measured each
+month. The data used in this case study involve only the September sampling
+and these five substrate measurements:
+
+Table of data taken from Applied Regression Analysis : A Research Tool 

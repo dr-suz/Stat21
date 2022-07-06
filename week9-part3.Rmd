@@ -1,0 +1,159 @@
+---
+title: "Week 9 - Part 3"
+subtitle: "Understanding the Coefficient of Determination"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class in Week 9 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+hc_employer_2013 <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_data.txt")) 
+  #read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_2013_cleaned.txt")) 
+colnames(hc_employer_2013) <- c("Location", "TotalHealthSpending", "TotalUninsured", 
+                                "TotalPop", "spending_capita", "prop_uninsured")
+
+SLR_hc <- lm(prop_uninsured ~ spending_capita, hc_employer_2013)
+SLR_hc_pwr <- lm(prop_uninsured^(1/4) ~ spending_capita, hc_employer_2013)
+
+hc_resid_data <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc$residuals, 
+                               fitted_vals = SLR_hc$fitted.values,
+                               residuals_pwr = SLR_hc_pwr$residuals,
+                               fitted_vals_pwr = SLR_hc_pwr$fitted.values) 
+#boxcox(SLR_hc)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## What does the rest of the R output mean? 
+
+
+```{r echo=FALSE, warning=FALSE}
+summary(SLR_hc)
+```
+
+
+---
+## What does the rest of the R output mean? 
+### The <a href="https://en.wikipedia.org/wiki/Coefficient_of_determination">coefficient of determination</a>
+
+
+**Interpretation:** R squared is a *statistic* that represents a proportion. Specifically, it's the proportion of the variability/dispersion of our observations of $Y$, i.e. $(y_1,\dots,y_n)$, that our linear model can account for.
+
+
+
+**Note:** We will use the .blue[adjusted R squared] value whenever we have more than one predictor variable (in multiple linear regression - MLR) but you can use either the adjusted or multiple R squared value for SLR. 
+
+
+---
+## Sums of squares 
+
+As with ANOVA models, we can decompose the variability in our observed response variable into two parts: one due to the linear model that depends on the predictor $(\hat{\beta}_0 + \hat{\beta}_1x)$ and one that is unexplained and due to the random measurement error $(\epsilon)$. The sum of these two components is the total observed variability in the response varible. 
+
+
+**Regression sum of squares:** (SSreg)
+
+$$\sum_{i=1}^{n}\left( \hat{y}_i - \bar{y} \right)^2$$
+
+
+
+**Residual sum of squares/sum square errors:** (SSres or SSE)
+
+$$\sum_{i=1}^{n}\left( y_i - \hat{y}_i \right)^2 = \sum_{i=1}^n e_i^2$$
+
+
+**Total sum of squares:** (SStot)
+
+$$\sum_{i=1}^{n}\left( y_i - \bar{y} \right)^2$$
+
+
+---
+## Health care example 
+### Sums of squares - measurements of dispersion
+
+
+```{r}
+anova(SLR_hc)
+```
+
+
+
+---
+## What does the rest of the R output mean? 
+### The <a href="https://en.wikipedia.org/wiki/Coefficient_of_determination">coefficient of determination</a>
+
+In SLR, we only have one predictor variable and it is also quantitative. In this special scenario, we have covered how the coefficient of determination gives us the same information as calculating the correlation between the predictor and response variable. 
+
+In more complicated models, when we have more than one predictor variable and/or categorical predictor variables, looking at pairwise correlations is no longer as informative as the coefficient of determination. In these instances, R-squared is still providing us with information about the strength of the linear relationship between the predictor(s) and the response. 
+
+
+To understand why this is the case, let's look at the definition of R-squared:
+
+$$R^2 = 1 - \frac{SSres}{SStot}$$
+
+--
+Using the fact that $SStot=SSreg+SSres$ we see that we could also write 
+$$R^2 = \frac{SSreg}{SStot}.$$
+
+
+---
+## Health care example 
+### Coefficient of determination
+
+.scroll-output[
+```{r}
+summary(SLR_hc)
+```
+]
