@@ -1,0 +1,179 @@
+---
+title: "Multiple linear regression (MLR)"
+author: "STAT 021 with Prof Suzy"
+institute: "Swarthmore College"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+
+
+## The multiple linear regression (MLR) model
+
+Suppose we have a quantitative response variable, $Y$, and $p$ predictor variables $x_1$, $x_2$, $\dots$, $x_p$. A multiple linear regression model assumes the true relationship among these variables is: 
+
+$$Y\mid (x_1, x_2, \dots, x_p) = \beta_0 + \beta_1 x_{1} + \beta_2 x_{2} + \dots + \beta_p x_{p} + \epsilon$$
+where $\epsilon$ is a RV with $E[\epsilon]=0$ and $Var[\epsilon]=\sigma^2$. 
+
+
+Our least squares regression model is: 
+
+$$\hat{y}= E[Y | x_{1}, x_{2}, \dots, x_{p}] = \hat{\beta}_0 + \hat{\beta}_1 x_{1} + \hat{\beta}_2 x_{2} + \dots + \hat{\beta}_p x_{p}$$ 
+and the residuals now contain information about all of the $p$ predictor variables
+$$e_i = \hat{y}_i - y_{obs,i}.$$
+
+---
+## The multiple linear regression (MLR) model
+
+
+$$\hat{y}= E[Y | x_{1}, x_{2}, \dots, x_{p}] = \hat{\beta}_0 + \hat{\beta}_1 x_{1} + \hat{\beta}_2 x_{2} + \dots + \hat{\beta}_p x_{p}$$ 
+
+Now we have 
+  
+  - an intercept
+  
+  - $p$ different slopes for $p$ predictor variables 
+  
+  - $i=1, \dots, n$ is our sample size/number of observational units
+  
+
+We interpret the slopes in almost exactly the same way as with SLR however now $\hat{\beta}_1$, for instance, tells us about the expected increase in $Y$ for every unit increase in $x_1$, *given that all other predictors are held constant.* 
+
+
+
+--
+**Note:** When statisticians talk about "big data", we're talking about situations where the number of parameters of interest, $p$, is much larger than the number of observations, $n$. Think about fit-bit data for example, so many variables for just one individual. 
+
+
+---
+## Visualizing a MLR model with two quantitative predictors
+
+```{r echo=FALSE, eval=FALSE}
+#install.packages("devtools")  # so we can install from github
+library("devtools")
+#install_github("ropensci/plotly")  # plotly is part of ropensci
+library('plotly')
+library('reshape2')
+
+mtcars_plot <- plot_ly(data = mtcars, z = ~mpg, x = ~wt, y = ~disp, opacity = 0.6) %>%  add_markers() 
+
+mtcars_lm <- lm(mpg ~ wt + disp, mtcars)
+
+#Graph Resolution (more important for more complex shapes)
+graph_reso <- 0.05
+#Setup Axis
+axis_x <- seq(min(mtcars$wt), max(mtcars$wt), by = graph_reso)
+axis_y <- seq(min(mtcars$disp), max(mtcars$disp), by = graph_reso)
+#Sample points
+mtcars_lm_surface <- expand.grid(wt = axis_x,
+                                 disp = axis_y, KEEP.OUT.ATTRS = F)
+mtcars_lm_surface$mpg <- predict.lm(mtcars_lm, newdata = mtcars_lm_surface)
+mtcars_lm_surface <- acast(mtcars_lm_surface, 
+                           disp ~ wt, 
+                           value.var = "mpg") #y ~ x
+add_trace(p = mtcars_plot,
+                       z = mtcars_lm_surface,
+                       x = axis_x,
+                       y = axis_y,
+                       type = "surface")
+```
+
+```{r class15_3dplot, echo=FALSE, fig.align='center'}
+library("scatterplot3d")
+require("scatterplot3d")
+mtcars_lm <- lm(mpg ~ wt + disp, mtcars)
+plot3d <- scatterplot3d(mtcars$wt, 
+                        mtcars$disp, 
+                        mtcars$mpg,
+                        angle=55, scale.y=0.7, pch=16, color ="red",
+                        main ="3D Regression Plane",
+                        xlab="X1", 
+                        ylab="X2", 
+                        zlab="Y")
+plot3d$plane3d(mtcars_lm, lty.box = "solid")
+#plot3d$points3d(residual_plot_data2$PerPupilSpending, 
+#                residual_plot_data2$StuTeachRatio, 
+#                residual_plot_data2$fitted_vals, col="blue", type="h", pch=16)
+```
+
+
+---
+## Determining the appropriateness of a MLR model 
+
+
+**First: View the data/variables and view pairwise scatter plots of the data**
+
+Basically, we don't know what we expect to see in any particular plot, but we are looking for "clues" that might indicate some sort of relationship (linear or otherwise). This also helps us get a feel for *multidimensional extrapolation* which can be difficult to visualize without viewing actual plots. 
+
+
+In SLR we only looked at a scatter plot of the single numerical predictor and the single numerical response. Now however, we want to look at the relationships
+
+  - between each of the numerical predictor variables with the numerical response and 
+
+  - among the numerical predictor variables themselves. 
+
+
+--
+**Second: Fit a linear model and plot the residuals by the predicted response** 
+
+With more than one predictor variable, residual plots (scatter plots of the fitted values and the residuals) are essential in determining 
+
+  - The appropriateness of a linear model and 
+  
+  - Whether the constant variance assumption is reasonable. 
+
+
+

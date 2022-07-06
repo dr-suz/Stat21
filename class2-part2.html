@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>The Central Limit Theorem and Sampling Distributions</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Prof Suzy" />
+    <script src="class2-part2_files/header-attrs/header-attrs.js"></script>
+    <link href="class2-part2_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class2-part2_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# The Central Limit Theorem and Sampling Distributions
+### STAT 021 with Prof Suzy
+### Swarthmore College
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+
+## The Central Limit Theorem (CLT)
+
+
+&gt; The CLT states that the mean of a random sample has a sampling distribution whose shape can be approximated by a Normal model. The larger the sample, the better the approximation will be.
+
+
+The two conditions necessary for the CLT to hold are 
+
+1. The sample size, `\(n\)`, is sufficiently large and 
+
+2. All observations in the sample are independent of one another. 
+
+
+--
+The CLT .blue[is saying] that the means and proportions of random samples drawn from (just about) any population, approximately follow a Normal distribution.
+
+
+--
+The CLT .red[is not saying] that the data from a random sample is Normally distributed as n increases. In fact, as n increases, the data will more closely resemble the population which can have just about any distribution.
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+&gt; In practice, you can never know for sure if an assumption is true, but you can check to see whether the data were collected in a way that makes these assumptions plausible.
+
+
+
+### Assumption 1
+
+The first condition must be dealt with on a case-by-case basis. We have to think critically about what the population may look like and use any previous information that we may have about it. The rule of thumb is: the more data the better (although often you'll hear about 30 observational units as being "large-enough").
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+
+### Assumption 2
+
+The second condition is met if the sample is a simple random sample from the population. We know however, that this condition will never truly be met. Even in carefully controlled experiments, participants are not drawn randomly from the population. This also must be dealt with on a case-by-case basis as we look for potential sources of bias in the sample selection process.
+
+  - When it is not possible for us to draw a sample from a population with replacement, then the sample is going to be somewhat dependent. To check that this natural dependence is not too big of an issue for the CLT to work we need to understand something about the size of the sample relative to the size of the population.
+
+  - 10% condition: We can consider an unbiased sample drawn without replacement as an independent sample if the sample size, n, is less than 10% of the size of the population from which it is being drawn.
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+
+**Formal/statistical definition of independence:**
+
+Let `\(X\)` and `\(Y\)` be two random variables. Let `\(A\)` be any event (or set of events) contained in the *sample space* of `\(X\)` and similarly, let `\(B\)` be any event (or set of events) in the sample space of `\(Y\)`. The two random variables `\(X\)` and `\(Y\)` are said to be independent if `$$pr(A)\times pr(B) = pr(A \cap B).$$`
+
+
+--
+There is another formal definition of independence that incorporates something called **conditional probability**. We will discuss conditional probability more next class. 
+
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+
+**Formal/statistical definition of independence:**
+
+Let `\(X\)` and `\(Y\)` be two random variables. Let `\(A\)` be any event (or set of events) contained in the *sample space* of `\(X\)` and similarly, let `\(B\)` be any event (or set of events) in the sample space of `\(Y\)`. The two random variables `\(X\)` and `\(Y\)` are said to be independent if `$$pr(A)\times pr(B) = pr(A \cap B).$$`
+
+
+**Informal/heuristic definition of independence:** 
+
+Two (or more) random variables (or random events) are independent of one another if knowing the outcome of one random event does not carry any information about what the outcome of the other random event(s) will be. 
+
+
+--
+### Independence and correlation 
+
+If two random variables (or random events) are independent then they are also uncorrelated. However, uncorrelated RVs are .red[not necessarily] independent. 
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+
+### Independence 
+
+
+Understanding dependence and independence is tricky, and more explored thoroughly is advanced stats courses. (Feel free to chat with me about this if you're interested!) As we'll see later in the semester, when we collect more than one variable for each observational unit, we have to be even more careful about possible dependence between two or more different variables. 
+
+The good news is, if we can verify that the data sampled is truly a **simple random sample** from the population of interest, then we can usually establish that the observational units are independent of one another.
+
+Some variables (categorical or quantitative) like time or number of people someone lives with are **inherently dependent** and there's nothing statistically that can be done to change that. 
+
+
+---
+## Consequence of the CLT
+### Sampling distributions
+
+.pull-left[
+**Case 1:** Suppose we have `\(n\)` IID observations from some population where the variable of interest is a (binary) .blue[categorical] variable (e.g. yes/no or on/off).
+
+
+If we encode each of the two levels of the categorical variable as `\(0\)`'s and `\(1\)`'s, we can compute the point estimate for the probability that an observation from this population is a `\(1\)` (a "success"). The notation for this estimate is `\(\hat{p}=\frac{1}{n}\sum_{i=1}^{n}x_i\)` where each `\(x_i\)` is either a `\(0\)` or `\(1\)`.
+
+
+So although the categorical RV of interest is `\(X \sim Bernoulli(p)\)`, (under the assumptions of the CLT) the distribution of the sample estimate is: `$$\hat{p} = \bar{X} \sim N\left(E[X], \frac{Var[X]}{n}\right).$$`]
+
+.push-right[**Case 2:** Suppose we have `\(n\)` IID observations from some population where the variable of interest is a (continuous) .blue[numerical] variable (e.g. age or weight). 
+
+
+We can compute a point estimate for the center of this random variable by calculating the mean:  `\(\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i\)` where each `\(x_i\)` is a number (possibly a decimal) representing the quantity of the numeric variable. 
+
+
+The distribution of the quantitative RV could be many different options such as `\(X \sim Uniform(a, b)\)` or `\(X \sim \chi^{2}_{\nu}\)` or `\(X \sim t_{\nu}\)`. As long as the assumptions of the CLT hold, the distribution of the sample estimate is: `$$\bar{X} \sim N\left(E[X], \frac{Var[X]}{n}\right)$$`]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
