@@ -66,7 +66,7 @@ pre {
 
 .scroll-output[
 ```{r}
-SAT_data <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/public_school_sat.txt"), col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+SAT_data <- read_table2("Data/sat_data.txt", col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
 colnames(SAT_data) = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot")
 SAT_data <- SAT_data %>% mutate(prop_taking_SAT = PropnStu/100) %>% select(-PropnStu)
 
