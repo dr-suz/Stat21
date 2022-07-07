@@ -1,9 +1,8 @@
 ---
-title: "Week 4 - Part 2"
-subtitle: "Chi-square Goodness-of-fit Procedure"
-author: "Suzanne Thornton"
+title:   "Chi-square Goodness-of-fit Procedure"
+author: "STAT 021 with Prof Suzy"
 institute: "Swarthmore College"
-date: "For class on Week 4 (updated: `r Sys.Date()`)"
+
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -33,8 +32,7 @@ library('cowplot')
 library("RefManageR")
 library("DT")
 
-#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
-#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+ 
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
 ```
@@ -67,6 +65,7 @@ pre {
 
 We have a model/theory about how the data should be distributed. We use a Goodness-of-fit test to determine if that model/theory seems reasonable based off of a representative sample of data. 
 
+.scroll-small[
 **Population:**  
 
 **Model:** 
@@ -85,7 +84,7 @@ No parameter of interest. rather a question about the appropriateness of an enti
 | Level $k$     | 16            | 
 
 
-**Sample size:** rather than being interested in the total sample size, we now have to pay attention to the sample size within each level of the categorical variable. The total number of levels of the categorical variable are $k>2$. 
+**Sample size:** rather than being interested in the total sample size, we now have to pay attention to the sample size within each level of the categorical variable. The total number of levels of the categorical variable are $k>2$. ]
 
 
 ---
