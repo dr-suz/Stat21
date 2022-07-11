@@ -1,9 +1,7 @@
 ---
-title: "Week 6 - Part 2"
-subtitle: "Analysis of Variance (ANOVA) Introduction"
-author: "Suzanne Thornton"
+title: "Analysis of Variance (ANOVA) Introduction"
+author: "STAT 021 with Prof Suzy"
 institute: "Swarthmore College"
-date: "For class in Week 5 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -33,8 +31,7 @@ library('cowplot')
 library("RefManageR")
 library("DT")
 
-#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
-#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
 ```
@@ -78,7 +75,7 @@ where for $i = 1,\dots,n$, each $y_i$ is some number, representing the value of 
 ## ANOVA Setting
 ### Visually understanding the setting 
 
-```{r, echo=FALSE, fig.align='center', out.height=450}
+```{r, echo=FALSE, fig.align='center', out.height=350}
 knitr::include_graphics("Figs/class7-ANOVA.png")
 ```
 

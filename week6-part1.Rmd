@@ -1,9 +1,7 @@
 ---
-title: "Week 6 - Part 1"
-subtitle: "Quantiles and Normality"
-author: "Suzanne Thornton"
+title:  "Quantiles and Normality"
+author: "STAT 021 with Prof Suzy"
 institute: "Swarthmore College"
-date: "For class in Week 6 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -33,8 +31,7 @@ library('cowplot')
 library("RefManageR")
 library("DT")
 
-#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
-#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
 ```
@@ -66,7 +63,7 @@ pre {
 ## How to determine if the population from which you sampled is normal? 
 
 ```{r import_data_class7_1, echo=TRUE, warning=FALSE}
-body_temp_dat <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class3_files/F2019/normtemp_data.txt"))
+body_temp_dat <- read.csv("Data/normtemp_data.csv")
 body_temp_dat %>% head() 
 ```
 We first try to visualize the data. Typically we plot our response variable as a histogram and/or fit a density curve. 
