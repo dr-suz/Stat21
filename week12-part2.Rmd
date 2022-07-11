@@ -1,9 +1,7 @@
 ---
-title: "Week 12 - Part 2"
-subtitle: "Defining and Detecting Multicollinearity"
-author: "STAT 021 with Suzanne Thornton"
+title: "Defining and Detecting Multicollinearity"
+author: "STAT 021 with Prof Suzy"
 institute: "Swarthmore College"
-date: "For class in Week 12 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -107,7 +105,7 @@ In other words, this means that two predictor variables, say, $x_1$ and $x_2$, a
 .scroll-output[Again let's investigate the MLR model with four predictor variables that we built to predict SAT scores of public schools. Does it seem like any of the predictor variables might be correlated with each other? 
 
 ```{r}
-SAT_data <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/public_school_sat.txt"), col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+SAT_data <- read_table2("Data/sat_data.txt", col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
 colnames(SAT_data) = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot")
 SAT_data <- SAT_data %>% mutate(prop_taking_SAT = PropnStu/100) %>% select(-PropnStu)
 SAT_data %>% select(c(PerPupilSpending, StuTeachRatio, Salary, prop_taking_SAT)) %>% plot

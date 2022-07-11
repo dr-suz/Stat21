@@ -1,9 +1,7 @@
 ---
-title: "Week 11 - Part 3"
-subtitle: "Adjusted R-squared for MLR"
-author: "Suzanne Thornton"
+title: "Adjusted R-squared for MLR"
+author: "STAT 021 with Prof Suzy"
 institute: "Swarthmore College"
-date: "For class in Week 11 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -33,8 +31,6 @@ library('cowplot')
 library("RefManageR")
 library("DT")
 
-#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
-#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
 ```
@@ -66,7 +62,7 @@ pre {
 ### SAT model with .blue[two] predictors
 
 ```{r echo=FALSE}
-SAT_data <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/public_school_sat.txt"), col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+SAT_data <- read_table2("Data/sat_data.txt", col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
 colnames(SAT_data) = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot")
 SAT_data <- SAT_data %>% mutate(prop_taking_SAT = PropnStu/100) %>% select(-PropnStu)
 ```

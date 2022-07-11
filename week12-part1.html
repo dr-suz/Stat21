@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Defining and Interpreting Interaction Terms</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Prof Suzy" />
+    <script src="week12-part1_files/header-attrs-2.14/header-attrs.js"></script>
+    <link href="week12-part1_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="week12-part1_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Defining and Interpreting Interaction Terms
+### STAT 021 with Prof Suzy
+### Swarthmore College
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## Polynomial Regression Models 
+
+
+The `\(k\)`th-order polynomial model in one (predictor) variable is 
+`$$Y|x = \beta_0 + \beta_1 x + \beta_2 x^2 + \cdots + \beta_k x^k + \epsilon$$`
+
+We can also fit a polynomial regression model in two (or more) predictor variables, for example
+`$$Y \mid x = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{11} x_1^2 + \beta_{22} x_2^2 + \beta_{12} x_1 x_2 + \epsilon$$` 
+
+Both of these models are still **linear** regression models because they are linear in terms of the coefficients. 
+
+
+### General Principles for Regression Model Complexity
+
+1. Order of the model should be kept as low as possible 
+2. Extrapolation 
+3. Hierarchical models 
+
+
+---
+## Polynomial Regression Models 
+### Shape of response surface  
+
+.scroll-output[
+&lt;img src="Figs/class17-1.png" width="1037" height="400" style="display: block; margin: auto;" /&gt;&lt;img src="Figs/class17-2.png" width="1015" height="400" style="display: block; margin: auto;" /&gt;&lt;img src="Figs/class17-3.png" width="1083" height="400" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Polynomial Regression Models 
+### Interpreting the coefficients (and enumerating them)
+
+Consider the second order polynomial regression model of two predictors with an interaction term: 
+`$$Y \mid x = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{11} x_1^2 + \beta_{22} x_2^2 + \beta_{12} x_1 x_2 + \epsilon.$$`
+
+When we solve for the least-squares estimates of the model coefficients, how do we interpret
+
+  - `\(\hat{\beta}_{11}\)` 
+  - `\(\hat{\beta}_{12}\)` 
+
+
+---
+## Interaction terms
+
+It is possible that the values of any two of these predictor variables may have an affect on a third predictor variable. And, it's possible that the effect is not additive.&lt;sup&gt;[1]&lt;/sup&gt;
+
+A consequence of interaction between variables is that it makes it more difficult to predict the consequences of changing the value of any individual variable.
+
+
+**Q:** Why would we want to include interaction terms in a MLR?
+
+
+--
+**A:** It allows our model to fit differently over different subsets of the data. 
+
+
+*** 
+
+--
+**In practice:**
+
+  - Predictor variables that have large main effects tend to also have large interactions with other predictor variables.&lt;sup&gt;[3]&lt;/sup&gt; 
+
+  - When you include interaction terms in your model, it's a good idea to standardize your data before fitting the model. This helps with the interpretability of the model coefficients since interacting terms may not be measured in the same units.&lt;sup&gt;[3]&lt;/sup&gt;
+
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+Recall the data set for the SAT scores of public schools across each state of the US. 
+
+.scroll-output[
+
+```r
+SAT_data &lt;- read_table2("Data/sat_data.txt", col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+colnames(SAT_data) = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot")
+SAT_data &lt;- SAT_data %&gt;% mutate(prop_taking_SAT = PropnStu/100) %&gt;% select(-PropnStu)
+head(SAT_data)
+```
+
+```
+## # A tibble: 6 x 8
+##   State      PerPupilSpending StuTeachRatio Salary SAT_verbal SAT_math SAT_tot
+##   &lt;chr&gt;                 &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Alabama                4.40          17.2   31.1        491      538    1029
+## 2 Alaska                 8.96          17.6   48.0        445      489     934
+## 3 Arizona                4.78          19.3   32.2        448      496     944
+## 4 Arkansas               4.46          17.1   28.9        482      523    1005
+## 5 California             4.99          24     41.1        417      485     902
+## 6 Colorado               5.44          18.4   34.6        462      518     980
+## # … with 1 more variable: prop_taking_SAT &lt;dbl&gt;
+```
+
+```r
+names(SAT_data)
+```
+
+```
+## [1] "State"            "PerPupilSpending" "StuTeachRatio"    "Salary"          
+## [5] "SAT_verbal"       "SAT_math"         "SAT_tot"          "prop_taking_SAT"
+```
+]
+
+---
+### Public School SAT data 
+
+Recall the MLR model with four predictor variables that we built to predict SAT scores of public schools. 
+
+.scroll-output[
+
+```
+## 
+## Call:
+## lm(formula = SAT_tot ~ PerPupilSpending + StuTeachRatio + Salary + 
+##     prop_taking_SAT, data = SAT_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -90.531 -20.855  -1.746  15.979  66.571 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      1045.972     52.870  19.784  &lt; 2e-16 ***
+## PerPupilSpending    4.463     10.547   0.423    0.674    
+## StuTeachRatio      -3.624      3.215  -1.127    0.266    
+## Salary              1.638      2.387   0.686    0.496    
+## prop_taking_SAT  -290.448     23.126 -12.559 2.61e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 32.7 on 45 degrees of freedom
+## Multiple R-squared:  0.8246,	Adjusted R-squared:  0.809 
+## F-statistic: 52.88 on 4 and 45 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+---
+### Public School SAT data 
+
+Recall the MLR model with four predictor variables that we built to predict SAT scores of public schools. 
+
+.scroll-output[
+&lt;img src="week12-part1_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+Since we want to investigate possible interactions let's standardize all of the quantitative predictor variables in this data set to get rid of all units for each variable. 
+
+.scroll-small[
+
+```r
+SAT_data_standard &lt;- SAT_data %&gt;% 
+                     mutate_at(vars("PerPupilSpending", "StuTeachRatio", "Salary", "prop_taking_SAT"), funs(scale))  
+
+MLR_SAT_standard &lt;- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         prop_taking_SAT, data = SAT_data_standard)
+summary(MLR_SAT_standard)
+```
+
+```
+## 
+## Call:
+## lm(formula = SAT_tot ~ PerPupilSpending + StuTeachRatio + Salary + 
+##     prop_taking_SAT, data = SAT_data_standard)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -90.531 -20.855  -1.746  15.979  66.571 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       965.920      4.625 208.858  &lt; 2e-16 ***
+## PerPupilSpending    6.082     14.373   0.423    0.674    
+## StuTeachRatio      -8.214      7.287  -1.127    0.266    
+## Salary              9.731     14.183   0.686    0.496    
+## prop_taking_SAT   -77.731      6.189 -12.559 2.61e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 32.7 on 45 degrees of freedom
+## Multiple R-squared:  0.8246,	Adjusted R-squared:  0.809 
+## F-statistic: 52.88 on 4 and 45 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+Now that we've made sure all of the predictor variables are unitless, it's clear that the variable with the largest estimated effect on SAT scores is the proportion of students taking the exam. 
+
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+Let's see if there are any interaction effects between the proportion of students taking the exam and the other variables. 
+
+.scroll-small[
+
+```r
+MLR_SAT_interaction &lt;- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         prop_taking_SAT + 
+                         prop_taking_SAT*PerPupilSpending +
+                         prop_taking_SAT*StuTeachRatio +
+                         prop_taking_SAT*Salary, data = SAT_data_standard)
+summary(MLR_SAT_interaction)
+```
+
+```
+## 
+## Call:
+## lm(formula = SAT_tot ~ PerPupilSpending + StuTeachRatio + Salary + 
+##     prop_taking_SAT + prop_taking_SAT * PerPupilSpending + prop_taking_SAT * 
+##     StuTeachRatio + prop_taking_SAT * Salary, data = SAT_data_standard)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -85.330 -14.056  -5.881  20.180  66.456 
+## 
+## Coefficients:
+##                                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                       960.184      5.421 177.135  &lt; 2e-16 ***
+## PerPupilSpending                    5.546     14.716   0.377    0.708    
+## StuTeachRatio                      -8.086      7.256  -1.114    0.271    
+## Salary                              8.224     14.002   0.587    0.560    
+## prop_taking_SAT                   -80.575      6.344 -12.701 5.65e-16 ***
+## PerPupilSpending:prop_taking_SAT   -9.224     14.508  -0.636    0.528    
+## StuTeachRatio:prop_taking_SAT     -12.199      7.343  -1.661    0.104    
+## Salary:prop_taking_SAT             14.138     12.985   1.089    0.282    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 31.69 on 42 degrees of freedom
+## Multiple R-squared:  0.8463,	Adjusted R-squared:  0.8206 
+## F-statistic: 33.03 on 7 and 42 DF,  p-value: 4.178e-15
+```
+]
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+Although, based on the R output, it doesn't look like there's any interaction between the proportion of students and the other three variables, let's consider the mathematical form of the interaction model on the previous slide. 
+
+If `\(Y=\)`SAT score, `\(x_1=\)`per pupil spending, `\(x_2=\)`student teacher ratio, `\(x_3=\)`teacher salary, and `\(x_4=\)` proportion of eligible students who took the SAT, then the model with the three interaction terms from before looks like: 
+`$$Y \mid (x_1, x_2, x_3, x_4) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_4 + \beta_{14} (x_1 x_4) + \beta_{24} (x_2 x_4) + \beta_{34} (x_3 x_4) + \epsilon$$`
+
+--
+which can be rearranged to look like
+`$$Y \mid (x_1, x_2, x_3, x_4)  = \beta_0 + (\beta_1 + \beta_{14} x_4)x_1 +
+ (\beta_2 + \beta_{24} x_4)x_2 +
+  (\beta_3 + \beta_{34} x_4)x_3 +
+   \beta_4 x_4 +\epsilon.$$`
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+The interpretation of the interaction terms is that we expect the effect on SAT scores by changing `\(x_1\)`, for instance, depends also on the value of `\(x_4\)`. 
+
+In our specific model for example, if we consider the interaction between student teacher ratio and the proportion of students, that we expect the effect that the school's student teacher ratio has on SAT scores depends on whether the proportion of students taking the exam is low or high. 
+
+
+---
+## Reading along in your textbook 
+
+Chapter 3 Section 1, Chapter 7 Sections 1, 2, and 4
+
+***
+
+## References
+
+[1]  https://stats.stackexchange.com/questions/113733/what-is-the-difference-between-collinearity-and-interaction
+
+[2] https://datascienceplus.com/multicollinearity-in-r/
+
+[3] Data Analysis Using Regression and Multilevel/Hierarchical Models by Andrew Gelman and Jennifer Hill. Cambridge University Press. (2007)
+
+[4] Linear Statistical Models by James Stapleton. Wiley Series in Probability and Statistics. (2009)
+
+[5] Linear Regression Analysis by George Seber and Alan Lee. Wiley Series in Probability and Statistics. (2003)
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

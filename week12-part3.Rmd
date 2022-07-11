@@ -1,9 +1,7 @@
 ---
-title: "Week 12 - Part 3"
-subtitle: "Residual Analysis"
-author: "STAT 021 with Suzanne Thornton"
+title: "Residual Analysis"
+author: "STAT 021 with Prof Suzy"
 institute: "Swarthmore College"
-date: "For class in Week 12 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -126,18 +124,19 @@ knitr::include_graphics("Figs/week12-resid-qq.png")
 ## Residual plots 
 ### Residuals vs fitted values 
 
-.push-left[
+
 - Outliers
 
 - Non-constant variance
 
 - Non-linearity
-]
-.pull-right[
+
+.scroll-small[ 
 ```{r, echo=FALSE}
 knitr::include_graphics("Figs/week12-resid-funnel.png")
 ```
 ]
+
 
 
 

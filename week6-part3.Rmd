@@ -1,9 +1,7 @@
 ---
-title: "Week 6 - Part 3"
-subtitle: "ANOVA Assumptions"
-author: "Suzanne Thornton"
+title:  "ANOVA Assumptions"
+author: "STAT 021 with Prof Suzy"
 institute: "Swarthmore College"
-date: "For class in Week 6 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
