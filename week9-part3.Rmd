@@ -1,9 +1,7 @@
 ---
-title: "Week 9 - Part 3"
-subtitle: "Understanding the Coefficient of Determination"
-author: "Suzanne Thornton"
+title: "Understanding the Coefficient of Determination"
+author: "STAT 021 with Prof Suzy"
 institute: "Swarthmore College"
-date: "For class in Week 9 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -33,13 +31,11 @@ library('cowplot')
 library("RefManageR")
 library("DT")
 
-#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
-#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+ 
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
 
-hc_employer_2013 <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_data.txt")) 
-  #read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_2013_cleaned.txt")) 
+hc_employer_2013 <- read_table("Data/health_care_data.txt") 
 colnames(hc_employer_2013) <- c("Location", "TotalHealthSpending", "TotalUninsured", 
                                 "TotalPop", "spending_capita", "prop_uninsured")
 
@@ -51,7 +47,6 @@ hc_resid_data <- hc_employer_2013 %>%
                                fitted_vals = SLR_hc$fitted.values,
                                residuals_pwr = SLR_hc_pwr$residuals,
                                fitted_vals_pwr = SLR_hc_pwr$fitted.values) 
-#boxcox(SLR_hc)
 ```
 
 ```{css, echo=FALSE}

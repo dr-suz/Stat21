@@ -1,9 +1,7 @@
 ---
-title: "Week 9 - Part 1"
-subtitle: "Inference with SLR Models"
-author: "Suzanne Thornton"
+title:  "Inference with SLR Models"
+author: "STAT 021 with Prof Suzy"
 institute: "Swarthmore College"
-date: "For class in Week 9 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -33,16 +31,14 @@ library('cowplot')
 library("RefManageR")
 library("DT")
 
-#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
-#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+ 
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
 
-hc_employer_2013 <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_data.txt")) 
-  #read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_2013_cleaned.txt")) 
-colnames(hc_employer_2013) <- c("Location", "TotalHealthSpending", "TotalUninsured", 
+hc_employer_2013 <- read_table("Data/health_care_data.txt") 
+colnames(hc_employer_2013) <- c("Location", "TotalHealthSpending", "TotalUninsured",
                                 "TotalPop", "spending_capita", "prop_uninsured")
-
+hc_employer_2013 %>% head
 SLR_hc <- lm(prop_uninsured ~ spending_capita, hc_employer_2013)
 hc_resid_data <- hc_employer_2013 %>% 
                         mutate(residuals = SLR_hc$residuals, 
@@ -102,11 +98,10 @@ $$Y \mid x  = \beta_0 + \beta_1 x + \epsilon$$
 ## Copy and paste this code to follow along with me
 
 ```{r eval=FALSE}
-hc_employer_2013 <- read_table2(
-  url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_data.txt")) 
+hc_employer_2013 <- read_table("Data/health_care_data.txt") 
 colnames(hc_employer_2013) <- c("Location", "TotalHealthSpending", "TotalUninsured",
                                 "TotalPop", "spending_capita", "prop_uninsured")
-
+hc_employer_2013 %>% head
 SLR_hc <- lm(prop_uninsured ~ spending_capita, hc_employer_2013)
 hc_resid_data <- hc_employer_2013 %>% 
                         mutate(residuals = SLR_hc$residuals, 
