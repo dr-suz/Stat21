@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 27</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class27_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class27_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 27
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/11/11 (updated: 2019-11-11)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+ 
+
+
+
+Review HW 6 
+
+Understanding linear models 
+
+One way ANOVA model output in R 
+
+
+---
+## Can a predictor variable have low correlation with `\(y\)` and still be "statistically significant" in a regression model? 
+
+.scroll-small[
+
+```r
+  set.seed(100)
+  x1 &lt;- rnorm(25, 0, 1)
+  x2 &lt;- rnorm(25, x1, 2)
+  y &lt;- x1 - x2 + rnorm(25, 0 ,1)
+
+cor(y, x1)
+```
+
+```
+## [1] 0.3551022
+```
+
+```r
+cor(y, x2)
+```
+
+```
+## [1] -0.6792083
+```
+
+```r
+summary(lm(y ~ x1 + x2))      
+```
+
+```
+## 
+## Call:
+## lm(formula = y ~ x1 + x2)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.2977 -1.0068 -0.0665  0.6372  2.0132 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.1051     0.2518  -0.418 0.680307    
+## x1            1.4839     0.3652   4.063 0.000517 ***
+## x2           -0.8784     0.1381  -6.362 2.11e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.238 on 22 degrees of freedom
+## Multiple R-squared:  0.6922,	Adjusted R-squared:  0.6643 
+## F-statistic: 24.74 on 2 and 22 DF,  p-value: 2.345e-06
+```
+]
+
+Yes because a regression model looks at joint relationships not just marginal ones! (Note that there the predictor variables are not collinear ($cor(x_1,x_2)=0.44$). 
+
+
+---
+## Can a predictor variable have high correlation with `\(y\)` and not be "statistically significant" in a regression model? 
+
+.scroll-small[
+
+```r
+set.seed(100)
+  x1 &lt;- rnorm(25, 0, 1)
+  x2 &lt;- x1 + rnorm(25,0,0.5)
+  y &lt;-  x1 + x2 + rnorm(25, 0 ,2)
+
+cor(y, x1)
+```
+
+```
+## [1] 0.632057
+```
+
+```r
+cor(y, x2)
+```
+
+```
+## [1] 0.6708392
+```
+
+```r
+summary(lm(y ~ x1 + x2))   
+```
+
+```
+## 
+## Call:
+## lm(formula = y ~ x1 + x2)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.595 -2.014 -0.133  1.274  4.026 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)  -0.2103     0.5036  -0.418   0.6803  
+## x1            1.2379     1.1959   1.035   0.3119  
+## x2            1.9731     1.1046   1.786   0.0878 .
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.477 on 22 degrees of freedom
+## Multiple R-squared:  0.4756,	Adjusted R-squared:  0.4279 
+## F-statistic: 9.975 on 2 and 22 DF,  p-value: 0.0008253
+```
+]
+
+Yes! Here we have two highly **collinear** predictor variables that when both included in the regression model, seem to not be significantly contributing to the model fit. 
+
+
+
+---
+## Model fitting 
+
+When fitting a regression model, it's important to ask yourself why you are building this model? 
+
+  - Are you interested in predicting something? 
+  
+  - Are you interested in the underlying relationship among some group of variables? 
+  
+  - What variables are you including in your model and why? 
+  
+  - Do you need to worry about overfitting? (When a model is overfit this means that it performs very well on one particular data set but is not generalizable to others.)
+  
+  
+  
+---
+## One way ANOVA model
+
+In a one-way ANOVA model we have one categorical predictor variable (with `\(k\)` different levels) and one numerical response variable. The following two models are equivalent, the output in R following the MLR model form. 
+
+
+**Cell means model:**
+`$$y_{ij} = \mu_i +  \epsilon_{ij} \\ \text{ where } 
+i =1,\dots,k \text{; } j=1,\dots,n_{i} \text{; } \sum_{i=1}^{k}n_i = n$$`
+
+
+
+**MLR model:** `$$y_i = \beta_0 + \beta_1 x_{1,i}  + \beta_2 x_{2,i} + \cdots +  + \beta_{k-1} x_{k-1,i} + \epsilon_{i}$$`
+where `\(i=1,\dots,n\)` and `\(x_1, \dots, x_{k-1}\)` are dummy variables with reference level being (say) group 1 and
+`$$x_{1,i} = \begin{cases} 1, \text{ if }i \text{ is in group }2\\
+0, \text{ otherwise}\end{cases}, 
+\quad x_{2,i} = \begin{cases} 1,  \text{ if }i \text{ is in group }3\\
+0, \text{ otherwise}\end{cases}, \dots, 
+x_{k-1,i} = \begin{cases} 1,  \text{ if }i \text{ is in group }k\\
+0, \text{ otherwise}\end{cases}.$$`
+
+
+
+---
+## One way ANOVA model
+### Understanding the R output 
+
+
+**Model:**
+
+`$$y_i = \beta_0 + \beta_1 x_{1,i}  + \beta_2 x_{2,i} + \cdots +  \beta_{k-1} x_{k-1,i} + \epsilon_{i}$$`
+
+where `\(i=1,\dots,n\)` and `\(x_1, \dots, x_{k-1}\)` are dummy variables with reference level being (say) group 1 and
+`$$x_{1,i} = \begin{cases} 1, \text{ if }i \text{ is in group }2\\
+0, \text{ otherwise}\end{cases}, 
+\quad x_{2,i} = \begin{cases} 1,  \text{ if }i \text{ is in group }3\\
+0, \text{ otherwise}\end{cases}, \dots, 
+x_{k-1,i} = \begin{cases} 1,  \text{ if }i \text{ is in group }k\\
+0, \text{ otherwise}\end{cases}.$$`
+
+
+**Output:**
+
+- `\(\hat{\beta}_{0}\)` is the average/expected value of `\(Y\)` for an observation from the reference level (group 1)
+
+- `\(\hat{\beta}_{0} + \hat{\beta}_{1}\)` is the average/expected value of `\(Y\)` for an observation from group 2
+
+- `\(\hat{\beta}_{1}\)` is the average/expected difference in `\(Y\)` if an observation were to change from the reference level to group 2
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

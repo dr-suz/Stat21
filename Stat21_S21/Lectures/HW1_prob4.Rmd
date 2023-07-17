@@ -1,0 +1,57 @@
+---
+title: "Stat 21 Homework 1"
+subtitle: "Problem 4"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+## Problem 4 
+
+A basketball player with a $65\%$ shooting percentage has just made $6$ shots in a row. The announcer says this player "is hot tonight! She's in the zone!" Assuming the payer takes about $20$ shots per game, is it unusual for her to make $6$ or more shots in a row during a game? Justify your answer with statistical reasoning. (You may or may not want to use the chunk of R code below to do some calculations for this problem.)
+
+***
+
+There are more than one ways to solve this problem! This problem will **not** be graded for correctness. What I'd like you to do is use the information on this sheet to try to come up with a solution on your own (or with some study buddies) and write whatever makes sense to you as solution.  
+
+## Some useful math background material
+
+There's a function called the *choice* function which looks like this ${n \choose x}$. The way we read this function is "choose $x$ options from $n$ possible choices" or "$n$ choose $x$" for short. The choices are made without regard for any particular ordering. This is mathematically equivalent to writing
+$${n\choose x} = \frac{n!}{x!(n-x)!},$$
+where the $!$ is something called a *factorial*. The factorial function just takes the number times one less than that number until we get down to the number one; so
+$$n! = n\times(n-1)\times(n-2)\times \cdots \times 1.$$
+
+In R, you can evaluate, say, $25 \choose 2$ by writing:
+```{r}
+choose(25, 2)
+```
+
+## A statistical perspective 
+
+The first question that jumps into my head when I read this problem is "does it matter that the basketball player has made 6 shots *in a row*?" And the answer to this deceptively simple questions is actually, it depends on how you look at the problem.
+
+One way to look at this problem is to consider each shot the player takes as *independent* of the next. So her shooting the ball and scoring in this perspective is essentially the same thing as flipping a weighted coin that has the probability of landing on heads equal to 0.65. A different, yet equally valid way of looking at the problem is to consider that maybe someone is more likely to make subsequent shots after getting a few successful shots in a row (due to increased confidence perhaps). In this perspective, whether or not she makes one shot is *dependent* on whether or not she made the previous shots. 
+
+For the sake of simplicity, try to answer this question using the assumption that the result of each shot is independent of the others. If this doesn't sit right with you, that's OK! But ask yourself this, if this independence assumption isn't appropriate, then what is a shooting average really telling us? 
+
+## A strategy for Problem 4 
+
+Using the information provided above, you can answer the question "how unusual is it that this basketball player would make the first six shots she takes?" To figure out this probability, you need to find (a) the total number of ways she can make the expected 13 shots (out of 20 total attempts) and (b) the total number of these shots in part (a) that start off with the first 6 shots all being successful. (Part (b) is the hard part in my opinion.)
+
+And finally, if you have another strategy or additional questions about this problem, please mention them on the `#hw-q-and-a` channel! As I said before, there's no unique right answer to this problem and there's more than one way to statistically reason your way to a solution. 
+
+
+<!---```{r}
+sims <- 1e4
+games <- rep(NA, sims)
+for(i in 1:sims){
+if(sum(sample(c(0,1), size=20, replace=TRUE, prob=c(0.35, 0.65))[1:6])==6){games[i]<-1}
+else{games[i] <- 0}
+}
+mean(games)
+```---> 

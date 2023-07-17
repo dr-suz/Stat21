@@ -1,0 +1,186 @@
+---
+title: "Class 27"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/11/11 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+ 
+```{r, comic18, echo=FALSE, fig.align='center', out.height=300}
+#knitr::include_graphics("Figs/something.png")
+```
+
+
+Review HW 6 
+
+Understanding linear models 
+
+One way ANOVA model output in R 
+
+
+---
+## Can a predictor variable have low correlation with $y$ and still be "statistically significant" in a regression model? 
+
+.scroll-small[
+```{r}
+  set.seed(100)
+  x1 <- rnorm(25, 0, 1)
+  x2 <- rnorm(25, x1, 2)
+  y <- x1 - x2 + rnorm(25, 0 ,1)
+
+cor(y, x1)
+cor(y, x2)
+
+summary(lm(y ~ x1 + x2))      
+```
+]
+
+Yes because a regression model looks at joint relationships not just marginal ones! (Note that there the predictor variables are not collinear ($cor(x_1,x_2)=0.44$). 
+
+
+---
+## Can a predictor variable have high correlation with $y$ and not be "statistically significant" in a regression model? 
+
+.scroll-small[
+```{r}
+set.seed(100)
+  x1 <- rnorm(25, 0, 1)
+  x2 <- x1 + rnorm(25,0,0.5)
+  y <-  x1 + x2 + rnorm(25, 0 ,2)
+
+cor(y, x1)
+cor(y, x2)
+
+summary(lm(y ~ x1 + x2))   
+```
+]
+
+Yes! Here we have two highly **collinear** predictor variables that when both included in the regression model, seem to not be significantly contributing to the model fit. 
+
+
+
+---
+## Model fitting 
+
+When fitting a regression model, it's important to ask yourself why you are building this model? 
+
+  - Are you interested in predicting something? 
+  
+  - Are you interested in the underlying relationship among some group of variables? 
+  
+  - What variables are you including in your model and why? 
+  
+  - Do you need to worry about overfitting? (When a model is overfit this means that it performs very well on one particular data set but is not generalizable to others.)
+  
+  
+  
+---
+## One way ANOVA model
+
+In a one-way ANOVA model we have one categorical predictor variable (with $k$ different levels) and one numerical response variable. The following two models are equivalent, the output in R following the MLR model form. 
+
+
+**Cell means model:**
+$$y_{ij} = \mu_i +  \epsilon_{ij} \\ \text{ where } 
+i =1,\dots,k \text{; } j=1,\dots,n_{i} \text{; } \sum_{i=1}^{k}n_i = n$$
+
+
+
+**MLR model:** $$y_i = \beta_0 + \beta_1 x_{1,i}  + \beta_2 x_{2,i} + \cdots +  + \beta_{k-1} x_{k-1,i} + \epsilon_{i}$$
+where $i=1,\dots,n$ and $x_1, \dots, x_{k-1}$ are dummy variables with reference level being (say) group 1 and
+$$x_{1,i} = \begin{cases} 1, \text{ if }i \text{ is in group }2\\
+0, \text{ otherwise}\end{cases}, 
+\quad x_{2,i} = \begin{cases} 1,  \text{ if }i \text{ is in group }3\\
+0, \text{ otherwise}\end{cases}, \dots, 
+x_{k-1,i} = \begin{cases} 1,  \text{ if }i \text{ is in group }k\\
+0, \text{ otherwise}\end{cases}.$$
+
+
+
+---
+## One way ANOVA model
+### Understanding the R output 
+
+
+**Model:**
+
+$$y_i = \beta_0 + \beta_1 x_{1,i}  + \beta_2 x_{2,i} + \cdots +  \beta_{k-1} x_{k-1,i} + \epsilon_{i}$$
+
+where $i=1,\dots,n$ and $x_1, \dots, x_{k-1}$ are dummy variables with reference level being (say) group 1 and
+$$x_{1,i} = \begin{cases} 1, \text{ if }i \text{ is in group }2\\
+0, \text{ otherwise}\end{cases}, 
+\quad x_{2,i} = \begin{cases} 1,  \text{ if }i \text{ is in group }3\\
+0, \text{ otherwise}\end{cases}, \dots, 
+x_{k-1,i} = \begin{cases} 1,  \text{ if }i \text{ is in group }k\\
+0, \text{ otherwise}\end{cases}.$$
+
+
+**Output:**
+
+- $\hat{\beta}_{0}$ is the average/expected value of $Y$ for an observation from the reference level (group 1)
+
+- $\hat{\beta}_{0} + \hat{\beta}_{1}$ is the average/expected value of $Y$ for an observation from group 2
+
+- $\hat{\beta}_{1}$ is the average/expected difference in $Y$ if an observation were to change from the reference level to group 2
+
+

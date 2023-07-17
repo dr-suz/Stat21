@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 23</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <script src="class24_files/header-attrs/header-attrs.js"></script>
+    <link href="class24_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class24_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 23
+## Statistical Methods II (Stat 021)
+### Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, May 4, 2021 (updated: 2021-05-06)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- Test 2 Problem 5 (5 mins)
+
+- Interaction effects class review (10 mins)
+
+- Quick lecture: Building a MLR model (10 mins)
+
+- HW 8 and bonus problems open review time (30+ mins)
+
+- Housekeeping items and announcements (5 mins)
+
+---
+# Thursday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+&lt;img src="Figs/feelings_wheel.jpg" width="683" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Test 2 
+### Problem 5a  
+
+
+The following data were collected by a GPS watch worn by the runner of a four-mile course. Using heart rate measurements after each run, an analysis of the runner's post-exercise heart rate recovery provides an indication of cardiovascular fitness. We are interested in answering the question: is the speed of the run (in mph) related to the number of calories burned. 
+
+
+```r
+run_dat &lt;- read_table2("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/Four-Mile-Run-data.txt")
+summary(lm(calories~aveSpeed, run_dat))
+```
+
+
+
+---
+## Test 2 
+### Problem 5a  
+
+
+```
+## 
+## Call:
+## lm(formula = calories ~ aveSpeed, data = run_dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -55.542 -18.918   2.212  16.376  56.130 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  -208.21     161.63  -1.288  0.21495   
+## aveSpeed       80.82      22.51   3.590  0.00225 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 30.84 on 17 degrees of freedom
+## Multiple R-squared:  0.4313,	Adjusted R-squared:  0.3978 
+## F-statistic: 12.89 on 1 and 17 DF,  p-value: 0.002255
+```
+
+
+---
+## Test 2 
+### Problem 5a  
+
+a) What is the estimate for the standard deviation of the number of calories burned based on this linear model?
+
+**Solution:** `\(\hat{\sigma}=30.84\)`
+
+
+
+---
+## Test 2 
+### Problem 5d 
+
+
+d) What numbers in the R output above can help us determine if this model is a good fit for the data? Explain briefly. (There are at least two.)
+
+**Solution:** Any of the following options are valid: 
+
+  - R-squared; 
+
+  - p-value of the F-test for model fit; 
+
+  - p-value of the t-test for the significance of the predictor. 
+
+
+
+---
+## Interpreting effect sizes 
+### Review (10 mins)
+
+In the next few slides we will work through some questions from the edited version of the Class 22 worksheet which is available in the Week 12 material on Moodle.
+
+
+---
+## Interpreting effect sizes 
+
+
+
+**Model 1:** Fit a main effects model with transmission type (A as the reference level) and displacement as the predictors and mileage as the response:
+
+
+`$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 * \text{displacement} + \hat{\beta}_2 * \text{transmission\_typeM},$$`
+
+where `\(displacement=\)` the displacement of the engine and 
+`$$\text{transmission\_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$`
+
+
+
+```r
+mod1 &lt;- lm(mpg ~ displacement + transmission_type, mileage)
+summary(mod1)$coefficients[,1]
+```
+
+```
+##        (Intercept)       displacement transmission_typeM 
+##        33.10192713        -0.04574238         0.51727554
+```
+
+
+
+5. What is the average effect of vehicle weight on gasoline mileage when we go from a car with an automatic transmission to a manual transmission?
+
+
+---
+## Interpreting effect sizes 
+
+**Model 2:** Fit a main effects model with transmission type (M as the reference level) and displacement as the predictors and mileage as the response:
+
+`$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 * \text{displacement} + \hat{\beta}_2 * \text{transmission\_typeA},$$`
+  where `\(displacement=\)` the displacement of the engine and 
+`$$\text{transmission\_typeA} = \begin{cases}1, \quad \text{if transmission type is automatic}\\ 0, \quad \text{otherwise} \end{cases}.$$`
+
+
+
+```r
+mod2 &lt;- lm(mpg ~ displacement + relevel(transmission_type, "M"), mileage)
+summary(mod2)$coefficients[,1]
+```
+
+```
+##                      (Intercept)                     displacement 
+##                      33.61920268                      -0.04574238 
+## relevel(transmission_type, "M")A 
+##                      -0.51727554
+```
+
+
+5. What is the average effect of vehicle weight on gasoline mileage when we go from a car with an automatic transmission to a manual transmission?
+
+
+---
+## Interpreting effect sizes 
+
+**Model 3:** Fit an interaction effects model with transmission type (A as the reference level) and displacement as the predictors and mileage as the response:
+
+`$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 * \text{displacement}) + (\hat{\beta}_2 * \text{transmission\_typeM}) + (\hat{\beta}_4 * \text{displacement} * \text{transmission\_typeM}),$$`
+  where `\(displacement=\)` the displacement of the engine and 
+`$$\text{transmission\_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$`
+
+
+```r
+mod3 &lt;- lm(mpg ~ displacement + transmission_type + displacement*transmission_type, mileage)
+summary(mod3)$coefficients[,1]
+```
+
+```
+##                     (Intercept)                    displacement 
+##                     29.43659139                     -0.03511554 
+##              transmission_typeM displacement:transmission_typeM 
+##                     13.48304040                     -0.08165863
+```
+
+.scroll-small[
+3. What is the average effect of engine displacement on gasoline mileage?   
+
+5. What is the average effect of vehicle weight on gasoline mileage when we go from a car with an automatic transmission to a manual transmission?
+]
+
+---
+## MLR
+### Building a model 
+
+How do we know which terms to include in a regression model? 
+
+Ultimately, it depends on what we want to do with the model. 
+
+---
+## Open review topics 
+
+
+- Homework 8 
+
+- Bonus problems 
+
+---
+## Homework 8 Bonus Problem 
+
+
+For `\(+5\)` bonuse HW points, read the article, “Scientists rise up against statistical significance” at
+https://www.nature.com/articles/d41586-019-00857-9. Answer each part of this question with 2-4 sentences. 
+
+
+(a) The article claims, “...researchers have been warned that a statistically non-significant result does not ‘prove’ the null hypothesis (the hypothesis that there is no difference between groups or no effect of a treatment on some measured outcome).” Explain why failing to reject the null hypothesis does not prove that there is no effect. What does failing to reject the null hypothesis really mean instead?  
+
+(b) In the graphic “Beware false conclusions”, results are shown from two studies: one that found “significant” results, and another that found “non-significant” results. The article claims that it is “ludicrous” to say that the second study found “no association.” Briefly explain why this is the case.  
+
+(c) Regarding the same two studies in part (b), the article claims that it is “absurd” to say that the two studies are in conflict, even though one was “significant” and the other was “not significant”. Briefly explain why this is the case.  
+
+(d) In the section titled “Quit categorizing”, the article claims that, “Statistically significant estimates are biased... Consequently, any discussion that focuses on estimates chosen for their significance will be biased.” Briefly explain why this is the case.   
+
+
+---
+## Homework 7 Bonus Problem 
+
+
+Suppose we have two random variables `\(X\)` and `\(Y\)`. Use the `rnorm()` function in R to create examples of the following instances: 
+
+(a) `\(x_{obs}\)` and `\(y_{obs}\)` are both samples of size 20 from Normal distributions but the samples are uncorrelated. Show the samples are uncorrelated by using the `cor()` function. 
+  
+(b) `\(x_{obs}\)` and `\(y_{obs}\)` are independent samples from the same Normal distribution. There is no method to verify this so make sure your code clearly demonstrates that each sample is independent of the other.  
+  
+(c) `\(x_{obs}\)` and `\(y_{obs}\)` both come from a Normal distribution with the same variance but with different means. Show that the samples have the same variance by using the `var()` function.  
+  
+(d) `\(x_{obs}\)` and `\(y_{obs}\)` are both draws from the same Normal distribution. Verify this by creating a QQ-plot comparing the quantiles of `\(x_{obs}\)` to the quantiles of `\(y_{obs}\)`. (The pseudo-code for this plot is included below but it assumes that you have stored both `\(x_{obs}\)` and `\(y_{obs}\)` in a tibble called `data_part_d` with column names "xobs" and "yobs".)
+
+
+
+
+---
+## HW 6 Bonus Problem 
+
+
+In a survey of `\(988\)` men aged `\(18–24\)`, the regression equation for predicting height from weight was: 
+`$$height = 62.4 + (0.047)(weight),$$`
+where height is measured in inches and weight is measured in lbs. Suppose the variance of our model errors is `\(\sigma^2=2\)` and assume all regression model assumptions are met. 
+
+(a) What is the probability that a `\(180\)`-pound man is between `\(65-70\)` inches tall?  
+
+(b) What is the lower `\(75\)`th quantile height for `\(180\)`-pound men? 
+
+
+
+---
+## HW 5 Bonus Problem 
+
+The following (real) data set contains information on what level of voter identification law was in place for each state in the 2016 US presidential election (no low, non-strict non-photo ID law, strict non-photo ID law, non-strict photo ID law, strict photo ID law) and what was the percentage of voter turnout for each state that year. 
+
+
+
+
+(a) What is the predictor variable and what is the response variable for this statistical model? 
+
+(b) Without standardizing the response variable, what are the p-value for the ANOVA F-test and the MSE based on this ANOVA model?  
+
+(c) Without standardizing the response variable, display the Normal probability plot for states without any voter ID laws. 
+
+Now create a new data object called `voter_turnout2` that contains a third column called `turnout_rate_std` that corresponds to the standardized version of `turnout_rate`. 
+
+(d) Using `turnout_rate_std` as the response variable, what are the p-value for the ANOVA F-test and the MSE based on this ANOVA model?  
+
+
+---
+## HW 5 Bonus Problem 
+
+
+(e) Using `turnout_rate_std` as the response variable, display the Normal probability plot for states without any voter ID laws. 
+
+(f) Compare your answers from parts (b) and (c) to parts (d) and (e). Briefly explain any differences or similarities you see. 
+
+
+---
+## HW 3 Bonus Problem 
+
+
+American League baseball teams play their games with the designated hitter rule, meaning that pitchers do not bat. The league believes that replacing the pitcher, traditionally a weak hitter, with another player in the batting order produces more runs and generates more interest among fans. Below are the average numbers of runs score in American League and National League stadiums for the first half of the 2001 season. 
+
+**American:** 11.1, 10.8, 10.8, 10.3, 10.3, 10.1,10.0, 9.5, 9.4, 9.3, 9.2, 9.2, 9.0, 8.3
+
+**National:** 14.0, 11.6, 10.4, 10.3, 10.2, 9.5, 9.5, 9.5, 9.5, 9.1, 8.8, 8.4, 8.3, 8.2, 8.1, 7.9 
+
+
+a) Estimate the mean number of runs scored in American League games with a 95% CI. 
+
+b) How would you describe the population under study for part (a)?
+
+c) What is the sample variance of the number of runs scored in American League games? 
+
+d) Estimate the mean number of runs scored in National League games with a 95% CI. 
+
+e) How would you describe the population under study for part (c)?
+
+f) What is the sample variance of the number of runs scored in American League games? 
+
+
+---
+## HW 3 Bonus Problem 
+
+
+g) Using the procedure for inference about an un-paired difference in means, find a 95% CI for the mean difference in runs between the two leagues. 
+
+h) How would you define the population under study for part (e)? 
+
+i) What is the sample variance of the difference in the number of runs scored between the American League games and the national league games? 
+
+
+
+---
+## HW 2 Bonus Problem 
+
+Census data for a certain country shows that 19% of the adult residents are Latinx. Suppose 72 people are called for jury duty and only 9 of them are Latinx. We want to know if this apparent under-representation of Latinx jurors calls into question the fairness of the jury selection system.
+
+a) Clearly define the population we are studying.
+
+b) State the unknown parameter that we are interested in estimating. (Hint: It is a proportion.)
+
+c) What is the sample estimate for the parameter in part (b) based on the observed data? 
+
+d) State a null and alternative hypothesis test we can conduct to answer this question and provide the formula for the test statistic. 
+
+e) If the null hypothesis is true, draw a Normal density curve representing the distribution of the sample proportion. Specify the mean and variance of this sampling distribution. Label the observed test statistic and shade the region that corresponds to the p-value for the test in part (d). 
+
+f) Alternatively, we could answer this question with a confidence interval for the parameter in part (b). Suppose you calculate a lower bound (LB) and upper bound (UB) for your confidence interval. Referencing the interval [LB, UB], how we you determine if there is statistical evidence of  under-representation of Latinx jurors? 
+
+
+---
+## HW 2 Bonus Problem 
+
+**Option a: Hypothesis test**
+
+```r
+obs_success &lt;- 9 
+sample_size &lt;- 72
+prop.test(obs_success, sample_size, 0.19, alternative="two.sided", conf.level=0.95)
+```
+
+```
+## 
+## 	1-sample proportions test with continuity correction
+## 
+## data:  obs_success out of sample_size, null probability 0.19
+## X-squared = 1.5768, df = 1, p-value = 0.2092
+## alternative hypothesis: true p is not equal to 0.19
+## 95 percent confidence interval:
+##  0.0622484 0.2290017
+## sample estimates:
+##     p 
+## 0.125
+```
+
+At a significance level of `\(\alpha = 0.05\)`, a p-value of 0.21 for testing whether or not an observed jury with only 9 Latinx (out of 72 total) jurors contradicts the statement that the population is `\(19\%\)` Latinx, means that this observation is not unusual, from a statistical perspective. Therefore this data does not provide us with any statistical evidence that there is  under-representation of Latinx people on this particular jury.    
+
+
+---
+## HW 2 Bonus Problem 
+
+**Option B: Confidence interval**
+
+```r
+obs_success &lt;- 9 
+sample_size &lt;- 72
+prop.test(obs_success, sample_size, conf.level=0.95)
+```
+
+```
+## 
+## 	1-sample proportions test with continuity correction
+## 
+## data:  obs_success out of sample_size, null probability 0.5
+## X-squared = 39.014, df = 1, p-value = 4.208e-10
+## alternative hypothesis: true p is not equal to 0.5
+## 95 percent confidence interval:
+##  0.0622484 0.2290017
+## sample estimates:
+##     p 
+## 0.125
+```
+
+At a `\(95\%\)` confidence level, if the `\(72\)` jurors were chosen randomly and independently we would expect to see anywhere from `\(6.2\%\)` Latinx jurors to `\(23\%\)` Latinx jurors. This confidence interval contains the value corresponding to the percent of the Latinx population, `\(19\%\)`, therefore this data does not provide us with any statistical evidence that there is  under-representation of Latinx people on this particular jury.   
+
+---
+### Announcements 
+
+- Slack
+  
+  * I will be checking Slack every day this week from 1-1:30 pm EST 
+  
+  * If you have coding problems, use the #r-q-and-a channel and include
+  
+    - The code that is causing the error 
+    
+    - The error message 
+  
+  * Final check-in posted
+
+- Office hours 
+
+  * Th May 6 from 2-3 pm EST
+  
+  * M May 10 from 7:30-8:30 pm 
+  
+  * If you cannot make these and need an additional appointment, let me know 24 hrs in advance and I'll do my best to accommodate you 
+
+---
+### Announcements 
+
+- Final Project 
+
+  * Part 3 is due May 11th
+
+  * Part 4 instructions will be posted this week 
+  
+- Test 3 
+
+  * Released at 8am on May 13 
+  
+  * Due to Gradescope by 12pm on May 15th 
+  
+  * Same format and policies as Test 1 and 2 but it will be a bit longer
+
+- Next class 
+
+  * Building a MLR model 
+  
+  * HW bonus problems group work 
+  
+  * HW 8 group work
+  
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

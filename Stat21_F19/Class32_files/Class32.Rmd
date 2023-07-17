@@ -1,0 +1,104 @@
+---
+title: "Class 32"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/11/27 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+### Today's class
+
+  - review Exam 2
+
+  - couple edits to final project file, data options released this afternoon
+  
+  - Model comparisons/variable selection methods 
+  
+    (Note: we will be referencing the wine data set and the mammal sleep data set from earlier in the semester.)
+
+
+---
+## Model building vs. variable selection 
+
+These have different meanings colloquially; statistically, however, these concepts are linked together and could essentially mean the same thing. 
+
+There are many different methods and metrics and tests to do this, many more than I will cover here. I want to introduce you to some of the most commonly used techniques so that you at least have some place to start for any future applications. 
+
+Fit all possible models with all possible predictor variables and compare their relative performance. 
+
+---
+## Addressing collinearity with VIFs
+
+Suppose we have a MLR with $j=1,\dots,p$ predictor variables:
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1x_1 + \cdots + \hat{\beta}_px_p.$$
+We can compute the *variance inflation factor* for each of the predictor variable by
+$$VIF_j = \frac{1}{1-R^2_{j}},$$
+where $R^2_{j}$ is the R-squared value for the regression model that uses all other predictor variables in a model to predict the $j^{th}$ variable as the response:
+$$x_j = \hat{\beta_0} + \hat{\beta_1}x_1 + \cdots + \hat{\beta}_{j-1}x_{j-1} + \hat{\beta}_{j+1}x_{j+1} + \cdots + \hat{\beta}_p x_p.$$
+
+
+---
+## Variance inflation factors 
+
+They help us measuring how inflated the standard errors of our estimated coefficients are. 
+
+VIF is an estimator! (It's just a function of an $R^2$ value, which is, of course, itself an estimator.)
+
+Doesn't make sense to consider the VIF of a dummy variable that codes for some level of a categorical predictor variable **unless** that categorical variable is ordered. (Recall our discussion on correlation with categorical variables.) 

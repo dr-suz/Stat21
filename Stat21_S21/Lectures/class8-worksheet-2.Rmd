@@ -1,0 +1,83 @@
+---
+title: "Stat 21 - Class 8"
+subtitle: "Data Visualization"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+## Instructions 
+Complete the following blocks of R code to create the requested visual displays. Before you can run any of the code, make sure the following packages are installed and then use the following lines of code to call them into your working library. 
+
+
+```{r warning=FALSE, message=FALSE}
+library("datasets")
+library("tidyverse")
+```
+
+
+The mtcars data set is taken from the 1974 Motor Trend magazine and covers fuel consumption and other aspects of automobile design for 32 different cars. Make sure you understand what the different variables are in this data set and what type of variables they are.  
+
+```{r}
+head(mtcars)
+class(mtcars)
+```
+
+The different plot types we have covered so far include:
+`geom_histogram(nbins=)`, `geom_bar()`, `geom_point()`, and `geom_boxplot()`. 
+
+\pagebreak 
+
+## Part 1 
+
+Create a scatterplot of miles per gallon and weight. Label the axes clearly so that the reader can understand the units.  
+
+```{r plot1}
+#ggplot(, aes()) +
+#                + 
+#  labs() + 
+#  xlab() + 
+#  ylab()
+```
+
+## Part 2 
+
+Create a bar chart for the variable that indicates transmission type. 
+
+```{r plot2}
+#ggplot(, aes()) +
+#                + 
+#  labs() + 
+#  xlab() + 
+#  ylab()
+```
+
+## Part 3
+
+Create a histogram for the variable miles per gallon.
+
+
+```{r plot3}
+#ggplot(, aes()) +
+#                + 
+#  labs() + 
+#  xlab() + 
+#  ylab()
+```
+
+## Part 4 
+
+Create a box plot for the variable miles per gallon over each of the two different transmission types. 
+
+```{r plot4}
+#ggplot(, aes()) +
+#                + 
+#  labs() + 
+#  xlab() + 
+#  ylab()
+```

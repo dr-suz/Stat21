@@ -1,0 +1,235 @@
+---
+title: "Stat 21 Homework 5"
+author: ' Person 1, Person 3, etc '
+date: 'Due: Sunday, March 13th by midnight'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+Use this file as the template for your submission. Do not delete anything from this template unless you are prompted to do so (e.g. where to write your name above, where to write your solutions or code below). Make sure you have installed the following packages in your version of RStudio: `tidyverse`, `knitr` __before__ you attempt to knit this document.
+
+Your completed assignment should be submitted as a single __PDF__ using the link under Week 7 titled "Submit HW 5 to Gradescope". You must use R markdown to write up your solutions. For any homework problems that involve coding in R, you must provide __both__ the code and a written answer interpreting the output within the context of the problem. You are allowed to work with your classmates on this homework assignment but you are expected to write up your own solutions. Every answer must be supported by a written statement unless otherwise specified. *A good rule of thumb is to make sure your answer is understandable to someone who hasn't read the problem question (or code output associated with it).* 
+
+**Additionally**, make sure that when you upload your solutions to Gradescope, you select which pages go correspond with which questions. Also, check to make sure that your knitted homework document is not uploaded as an extra-long single page document. Failure to do these things will result in a penalty on your homework grade. Finally, I strongly recommend that you address and resolve any knitting or R coding issues before Saturday as solutions to any R-coding questions that are not knitted properly will not receive any credit. 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data) 
+```
+
+
+# Part I: Non-R Problems
+
+## Problem 1 
+
+Decide if the following statements are true or false and explain why:
+
+(a) For a multiple regression problem, the adjusted coefficient of determination will always be smaller than the regular, unadjusted coefficient of determination. 
+
+(b) If we fit a multiple regression model and then add a new predictor to the model, the (unadjusted) coefficient of determination will never decrease. 
+
+
+**Solution:** 
+
+(a) [Write your solution here.]
+
+(b) [Write your solution here.]
+ 
+
+## Problem 2 
+
+Caterpillars go through free growth periods during each stage of their life. However, these periods end as the animal prepares to mold and then moves into the next stage of life. A biologist is interested in checking to see whether two different regression lines are needed to model the relationship between metabolic rates and body size of caterpillars for free growth and no free growth periods. 
+
+(a) Identify the MLR model for predicting metabolic rate ($Mrate$) from size ($BodySize$) and an indicator variable for free growth ($Ifgp = 1$ for free growth, $0$ otherwise) that would allow for two different regression lines (slopes and/or intercepts) depending on the free growth status. 
+
+(b) Identify the MLR model for predicting $Mrate$ from $BodySize$ and $Ifgp$, when the rate of change in the mean $Mrate$ with respect to size is the same during free growth and no free growth periods. 
+
+(c) Identify the full and reduced models that would be used in a nested F-test to check if one or two regression lines are needed to model metabolic rates. 
+ 
+**Solution:** 
+
+(a) [Write your solution here.]
+
+(b) [Write your solution here.]
+
+(c) [Write your solution here.]
+
+
+## Problem 3 
+ 
+Suppose the biologist in Problem 2 gives you data on $53$ caterpillars. Identify the degrees of freedom for error in each of the models for parts (a) and (b).  
+
+**Solution:** 
+
+(a) [Write your solution here.]
+
+(b) [Write your solution here.]
+
+
+## Problem 4 
+
+Suppose that $X_1$ and $X_2$ are positively related with $X_1 = 2X_2 - 4$. Let $Y=0.5X_1 + 5$ summarize a positive linear relationship between $Y$ and $X_1$. 
+
+(a) Substitute the first equation into the second to show a linear relationship between $Y$ and $X_2$. Comment on the direction of the association between $Y$ and $X_2$ in the new equation. 
+
+(b) Now add the original two equations and rearrange terms to give an equation in the form $Y = aX_1 + bX_2 +c$. Are the coefficients of $X_1$ and $X_2$ both in the direction you would expect based on the signs in the separate equations? 
+
+**Solution:** 
+
+(a) [Write your solution here.]
+
+(b) [Write your solution here.]
+
+
+# Part II: R Problems 
+
+## Problem 5
+
+```{r}
+library(Stat2Data)
+data(ElephantsFB)
+head(ElephantsFB)
+```
+
+Elephants are worse off if there is a drought during the first two years of their life. Suppose we are interested in determining if maternal experience matters as well. That is, we want to determine if it is helpful or harmful if an elephant is firstborn. The data set `ElephantsFB` has data on 138 male African elephants that lived through droughts in the first two years of life. The variable `Height` records shoulder height in cm, `Age` is the age in years, and `Firstborn` is 1 for firstborn and 0 for non-firstborn. 
+
+(a) Plot `Height` against `Age` and comment on the pattern. 
+
+(b) What is the fitted quadratic regression model for using `Age` to predict `Height`? 
+
+(c) Use the fitted model from part (b) to predict the height of a 15-year old elephant. What does the model predict the height will be? 
+
+
+```{r}
+## Erase this line and replace with your code for Problem 5
+```
+
+**Solution:** 
+
+(a) [Write your solution here.]
+
+(b) [Write your solution here.]
+
+(c) [Write your solution here.]
+
+***
+
+Animals that are stressed might increase their oxygen consumption. Biologists measured oxygen consumption of shore crabs that were either exposed to 7.5 minutes of ship-noise or 7.5 minutes of ambient harbor noise. They noticed two things: (1) the greater the mass of the crab, the greater the rate of oxygen consumption and (2) ship-noise affected the crabs differently from ambient noise. The data set `CrabShip` includes the variable `Noise`, which has two levels: "ambient" and "ship". The variable `Mass` (g) is the mass of the crab. The variable `Oxygen` ($\mu moles h^{-1}$) is the rate of oxygen consumption. Use this information to answer problems 6-8. 
+
+```{r}
+library(Stat2Data)
+data(CrabShip)
+head(CrabShip)
+```
+
+## Problem 6
+ 
+Make a scatter plot of $Y= Oxygen$ vs $X=Mass$ and with $Treatment$ as a grouping variable (i.e. use different colors or different plotting symbols for the two levels of `Noise`.) Comment on the plot. 
+
+
+```{r}
+## Erase this line and replace with your code for Problem 6
+```
+
+**Solution:** [Write your solution here.]
+
+
+
+## Problem 7
+
+(a) Fig the regression of `Oxygen` on `Mass` and test whether there is a linear association between the two variables. 
+
+(b) Fit a model that produces parallel regression lines for the two levels of `Noise`. 
+
+(c) Fit the general model that produces nonparallel regression lines for the two levels of `Noise`. 
+
+```{r}
+## Erase this line and replace with your code for Problem 7
+```
+
+**Solution:** [Write your solution here.]
+
+
+## Problem 8
+
+Which model from Problem 7 is the best choice and why? Write down the fitted prediction equation for each level of `Noise` for your final choice. (Hint: Assess the regression model conditions in each of the models from Problem 7 to help inform your choice.)
+ 
+
+```{r}
+## Erase this line and replace with your code for Problem 8
+```
+
+**Solution:** [Write your solution here.]
+
+
+***
+
+The data set `MathEnrollment` contains data on total enrollments in mathematics courses at a small liberal arts college where the academic year consists of two semesters, one in the fall and another in the spring. Use this data set that spans from Fall 2001 to Spring 2012 to answer Problems 9 and 10.
+
+```{r}
+library(Stat2Data)
+data(MathEnrollment)
+head(MathEnrollment)
+```
+
+## Problem 9 
+ 
+(a) Fit a regression model for predicting spring enrollment (`Spring`) from fall enrollment (`Fall`). Identify which year provides unusual data and determine how influential this data point is. 
+
+(b) Create a new data set by removing the influential data point you found in part (a) and then fit the same regression model. Prepare the appropriate residual plots and comment on the slight problems with the conditions for inference in this model. In particular, make sure that you plot the residuals against order (or `AYear`) and comment on the trend. 
+
+(c) What percent of the variability in spring enrollment is explained by this simple linear model and what is the conclusion of a test for the significance of a linear association between spring and fall enrollments? 
+
+```{r}
+## Erase this line and replace with your code for Problem 9
+```
+
+**Solution:** 
+
+(a) [Write your solution here.]
+
+(b) [Write your solution here.]
+
+(c) [Write your solution here.]
+
+
+## Problem 10
+ 
+(a) Using the data set with the influential data point (from Problem 9 (a)) removed, now fit a MLR model for predicting spring enrollment (`Spring`) from fall enrollment (`Fall`) and another predictor academic year (`AYear`). Report the fitted regression equation. 
+
+(b) Create appropriate residual plots and comment on the conditions for inference. Did the slight problems with the residual plots that you noticed in Problem 9 (b) disappear? 
+
+
+```{r}
+## Erase this line and replace with your code for Problem 10
+```
+
+
+**Solution:** 
+
+(a) [Write your solution here.] 
+
+(b) [Write your solution here.]
+
+

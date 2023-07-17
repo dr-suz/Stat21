@@ -1,0 +1,183 @@
+Country Name,Country Code,Year,Value
+Fragile and conflict affected situations,FCS,1990,825
+Fragile and conflict affected situations,FCS,1991,817
+Fragile and conflict affected situations,FCS,1992,812
+Fragile and conflict affected situations,FCS,1993,807
+Fragile and conflict affected situations,FCS,1994,798
+Fragile and conflict affected situations,FCS,1995,785
+Fragile and conflict affected situations,FCS,1996,771
+Fragile and conflict affected situations,FCS,1997,755
+Fragile and conflict affected situations,FCS,1998,740
+Fragile and conflict affected situations,FCS,1999,726
+Fragile and conflict affected situations,FCS,2000,709
+Fragile and conflict affected situations,FCS,2001,693
+Fragile and conflict affected situations,FCS,2002,675
+Fragile and conflict affected situations,FCS,2003,657
+Fragile and conflict affected situations,FCS,2004,639
+Fragile and conflict affected situations,FCS,2005,622
+Fragile and conflict affected situations,FCS,2006,608
+Fragile and conflict affected situations,FCS,2007,596
+Fragile and conflict affected situations,FCS,2008,580
+Fragile and conflict affected situations,FCS,2009,567
+Fragile and conflict affected situations,FCS,2010,554
+Fragile and conflict affected situations,FCS,2011,540
+Fragile and conflict affected situations,FCS,2012,529
+Fragile and conflict affected situations,FCS,2013,514
+Fragile and conflict affected situations,FCS,2014,501
+Fragile and conflict affected situations,FCS,2015,488
+IDA blend,IDB,1990,776
+IDA blend,IDB,1991,764
+IDA blend,IDB,1992,753
+IDA blend,IDB,1993,745
+IDA blend,IDB,1994,743
+IDA blend,IDB,1995,739
+IDA blend,IDB,1996,741
+IDA blend,IDB,1997,741
+IDA blend,IDB,1998,738
+IDA blend,IDB,1999,733
+IDA blend,IDB,2000,724
+IDA blend,IDB,2001,715
+IDA blend,IDB,2002,693
+IDA blend,IDB,2003,668
+IDA blend,IDB,2004,642
+IDA blend,IDB,2005,619
+IDA blend,IDB,2006,588
+IDA blend,IDB,2007,578
+IDA blend,IDB,2008,549
+IDA blend,IDB,2009,564
+IDA blend,IDB,2010,549
+IDA blend,IDB,2011,525
+IDA blend,IDB,2012,516
+IDA blend,IDB,2013,513
+IDA blend,IDB,2014,510
+IDA blend,IDB,2015,506
+China,CHN,1990,97
+China,CHN,1991,92
+China,CHN,1992,87
+China,CHN,1993,82
+China,CHN,1994,77
+China,CHN,1995,72
+China,CHN,1996,68
+China,CHN,1997,64
+China,CHN,1998,62
+China,CHN,1999,60
+China,CHN,2000,58
+China,CHN,2001,56
+China,CHN,2002,54
+China,CHN,2003,52
+China,CHN,2004,50
+China,CHN,2005,48
+China,CHN,2006,45
+China,CHN,2007,43
+China,CHN,2008,40
+China,CHN,2009,38
+China,CHN,2010,35
+China,CHN,2011,33
+China,CHN,2012,31
+China,CHN,2013,29
+China,CHN,2014,28
+China,CHN,2015,27
+India,IND,1990,556
+India,IND,1991,538
+India,IND,1992,521
+India,IND,1993,504
+India,IND,1994,488
+India,IND,1995,471
+India,IND,1996,453
+India,IND,1997,434
+India,IND,1998,414
+India,IND,1999,395
+India,IND,2000,374
+India,IND,2001,354
+India,IND,2002,335
+India,IND,2003,316
+India,IND,2004,298
+India,IND,2005,280
+India,IND,2006,265
+India,IND,2007,250
+India,IND,2008,237
+India,IND,2009,225
+India,IND,2010,215
+India,IND,2011,206
+India,IND,2012,197
+India,IND,2013,189
+India,IND,2014,181
+India,IND,2015,174
+Japan,JPN,1990,14
+Japan,JPN,1991,13
+Japan,JPN,1992,12
+Japan,JPN,1993,12
+Japan,JPN,1994,11
+Japan,JPN,1995,11
+Japan,JPN,1996,11
+Japan,JPN,1997,10
+Japan,JPN,1998,10
+Japan,JPN,1999,10
+Japan,JPN,2000,10
+Japan,JPN,2001,9
+Japan,JPN,2002,8
+Japan,JPN,2003,8
+Japan,JPN,2004,8
+Japan,JPN,2005,7
+Japan,JPN,2006,7
+Japan,JPN,2007,6
+Japan,JPN,2008,6
+Japan,JPN,2009,6
+Japan,JPN,2010,6
+Japan,JPN,2011,6
+Japan,JPN,2012,6
+Japan,JPN,2013,6
+Japan,JPN,2014,6
+Japan,JPN,2015,5
+Russian Federation,RUS,1990,63
+Russian Federation,RUS,1991,63
+Russian Federation,RUS,1992,67
+Russian Federation,RUS,1993,81
+Russian Federation,RUS,1994,88
+Russian Federation,RUS,1995,82
+Russian Federation,RUS,1996,71
+Russian Federation,RUS,1997,62
+Russian Federation,RUS,1998,57
+Russian Federation,RUS,1999,59
+Russian Federation,RUS,2000,57
+Russian Federation,RUS,2001,54
+Russian Federation,RUS,2002,51
+Russian Federation,RUS,2003,49
+Russian Federation,RUS,2004,44
+Russian Federation,RUS,2005,42
+Russian Federation,RUS,2006,36
+Russian Federation,RUS,2007,34
+Russian Federation,RUS,2008,32
+Russian Federation,RUS,2009,30
+Russian Federation,RUS,2010,29
+Russian Federation,RUS,2011,27
+Russian Federation,RUS,2012,26
+Russian Federation,RUS,2013,25
+Russian Federation,RUS,2014,25
+Russian Federation,RUS,2015,25
+Vietnam,VNM,1990,139
+Vietnam,VNM,1991,132
+Vietnam,VNM,1992,126
+Vietnam,VNM,1993,119
+Vietnam,VNM,1994,113
+Vietnam,VNM,1995,107
+Vietnam,VNM,1996,101
+Vietnam,VNM,1997,95
+Vietnam,VNM,1998,90
+Vietnam,VNM,1999,85
+Vietnam,VNM,2000,81
+Vietnam,VNM,2001,76
+Vietnam,VNM,2002,72
+Vietnam,VNM,2003,68
+Vietnam,VNM,2004,64
+Vietnam,VNM,2005,61
+Vietnam,VNM,2006,59
+Vietnam,VNM,2007,58
+Vietnam,VNM,2008,58
+Vietnam,VNM,2009,57
+Vietnam,VNM,2010,58
+Vietnam,VNM,2011,56
+Vietnam,VNM,2012,56
+Vietnam,VNM,2013,55
+Vietnam,VNM,2014,54
+Vietnam,VNM,2015,54

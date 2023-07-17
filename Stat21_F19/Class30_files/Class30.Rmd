@@ -1,0 +1,286 @@
+---
+title: "Class 30"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/11/18 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 72%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+
+.pull-left {
+  float: left;
+  width: 47%;
+}
+
+.pull-right {
+  float: right;
+  width: 47%;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+## Today's topics
+
+- Quick review HW 7
+
+- .blue[Estimation] practice problems
+
+- .red[Inference] with MLR models
+
+ 
+```{r, comic30, echo=FALSE, fig.align='center', out.height=300}
+knitr::include_graphics("Figs/dogbert.png")
+```
+
+
+
+```{r echo=FALSE}
+wine <- read_csv("~/Google Drive Swat/Swat docs/Stat 21/Data/red_wines.csv", 
+                 skip=1, col_names = TRUE, cols(x1 = col_character()))
+wine <- wine %>% mutate(type = fct_inorder(x1, ordered=TRUE))  
+
+MLR_wine1 <- lm(y ~ type + x2 + x9, data=wine)
+MLR_wine1_sum <- summary(MLR_wine1)
+resid_plot_data1 <- wine %>% mutate(residuals = MLR_wine1$residuals,
+                              fitted_vals = MLR_wine1$fitted.values)
+
+MLR_wine4 <- lm(y ~ type + x2 + x9 + type*x9, data=wine)
+MLR_wine4_sum <- summary(MLR_wine4)
+resid_plot_data4 <- wine %>% mutate(residuals = MLR_wine4_sum$residuals,
+                              fitted_vals = MLR_wine4$fitted.values)
+
+### Everything redone with standardized variables 
+wine_standard <- wine %>% mutate_at(vars("x2", "x9"), list(scale)) 
+
+MLR_wine1_standard <- lm(y ~ type + x2 + x9, data=wine_standard)
+MLR_wine1_standard_sum <- summary(MLR_wine1_standard)
+resid_plot_data1_standard <- wine %>% mutate(
+  residuals = MLR_wine1_standard_sum$residuals, 
+  fitted_vals = MLR_wine1_standard$fitted.values)
+
+MLR_wine4_standard <- lm(y ~ type + x2 + x9 + type*x9, data=wine_standard)
+MLR_wine4_standard_sum <- summary(MLR_wine4_standard)
+resid_plot_data4_standard <- wine %>% mutate(residuals = MLR_wine4_sum$residuals,
+                              fitted_vals = MLR_wine4$fitted.values)
+```
+
+
+---
+## Wine data example
+
+Previously, we modeled wine quality as a linear function of three predictor variables: (1) the degree of ionization of anthocyanins, (2) the pH level, (3) the type of wine and discussed the performance of several different MLRs. 
+
+- Response variable - $y$, wine quality from 0-20
+
+- Predictor variable - $w$ (type), dummy variable for wine type, categorical (0=Cabernet Sauvignon, 1=Shiraz)
+
+- Predictor variable - $x_2$, pH level, numerical (0-14, 7 being neutral)
+
+- Predictor variable - $x_9$, percent of ionization, numerical (0-100 %)
+
+
+Thus far, before today, we have only been looking at .blue[estimation] and .blue[prediction] with MLRs. Today we are going to talk about .red[inference] problems. 
+
+---
+## .red[Inference] 
+### Wine example 
+
+Recall the assumptions needed to for estimation and prediction: 
+
+[1.] $E[\epsilon]=0$
+
+[2.] $Var[\epsilon]= \sigma^2$
+
+[3.] All $\epsilon$ are independent of each other  
+
+
+So far we've been able to check all threse of these assumptions and draw some conclusions about model fit and estimated effects on wine quality. 
+
+Now if we want to draw conclusions *with certainty* we need to check that the fourth distributional assumption holds: 
+
+[4.] $\epsilon$ are all Gaussian random variables
+
+---
+## Checking the Gaussian assumption 
+### QQ plots 
+
+.pull-left[
+```{r class29QQ1B, echo=FALSE, out.width=400}
+plot1B <- ggplot(resid_plot_data1_standard, aes(sample = fitted_vals))
+
+plot1B + stat_qq() + stat_qq_line() + labs(title = "Normal probability plot main effect model", subtitle = "Wine data, standardized")
+```
+]
+
+---
+## Checking the Gaussian assumption 
+### QQ plots 
+
+.push-right[
+```{r class29QQ2B, echo=FALSE, out.width=400}
+plot2B <- ggplot(resid_plot_data4_standard, aes(sample = fitted_vals))
+
+plot2B + stat_qq() + stat_qq_line() + labs(title = "Normal probability plot interaction effect model", subtitle = "Wine data, standardized")
+```
+]
+
+---
+## Comparing two models 
+### Hypothesis tests 
+
+We can also do a test for the model fit with the overall F test. Note, unless we are comparing may (say >20) different models, multiple testing is less likely to be a problem here. 
+
+.scroll-small[
+```{r}
+MLR_wine1_standard_sum
+
+MLR_wine4_standard_sum
+```
+]
+
+
+---
+## Comparing two models 
+### Hypothesis tests 
+
+Since the p-values from the overall F tests are both basically zero, I think the interaction model is the better of the two since it seems to satisfy our assumptions about the random error:
+
+  - constant variance and
+  
+  - Gaussian distribution.
+
+
+---
+## Comparing two models 
+### Hypothesis tests 
+
+Now we can continue to dig into inferential problems such as the "significance" of the effects of each different predicor based on the individual t test output. But for this, we do need to be careful of possible multiple testing problems. 
+
+.scroll-small[
+```{r}
+MLR_wine4_standard_sum$coefficients[,3:4]
+```
+]
+
+
+
+---
+## Intervals 
+### Prediction and confidence
+
+Finally, making sure that the Gaussian distribution assumption holds for our model, allows us to create confidence intervals for the mean response and/or prediction intervals for a new observation. 
+
+
+
+Confidence intervals of the **average response** 
+$$\hat{y} \pm t_{\alpha/2, n-2}SE(\hat{y})$$
+where $SE(\hat{y}) = \sum_{i=1}^{n}(y_i - \bar{y})(x_i - \bar{x})\sqrt{\frac{1}{n} + \frac{(x_{new}-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}$
+
+Prediction intervals of the **predicted response**
+$$\hat{y}_{new} \pm t_{\alpha/2, n-2}SE(\hat{y}_{new})$$
+where $SE(\hat{y}_{new}) = \sum_{i=1}^{n}(y_i - \bar{y})(x_i - \bar{x})\sqrt{1 + \frac{1}{n} + \frac{(x_{new}-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}$
+
+
+---
+## Intervals 
+### Prediction and confidence
+
+The prediction interval is designed to cover a “moving target”, the random future value of $y$, while the confidence interval is designed to cover the “fixed target”, the average (expected) value of $Y$, $E(Y)$.
+
+
+.footnote[See Class 13 notes for additional resources on understanding CIs and PIs.]
+
+
+---
+## Confidence intervals and prediction intervals in R 
+### Main effects model 
+
+```{r}
+new_wine_data_point = tibble(type = as.factor(1), x2 = as.double(9.1), x9 = as.double(85)) 
+  
+## Note we are using the models fit to the data including units
+predict(MLR_wine1, new_wine_data_point, interval="confidence", level = 0.95) 
+predict(MLR_wine1, new_wine_data_point, interval="predict", level = 0.95) 
+```
+
+
+---
+## Confidence intervals and prediction intervals in R 
+### Main effects model 
+.scroll-output[
+```{r}
+CI_bounds <- as_tibble(predict(MLR_wine1, wine, interval="confidence", level = 0.95)) 
+CI_bounds
+
+PI_bounds <- as_tibble(predict(MLR_wine1, wine, interval="predict", level = 0.95))
+PI_bounds 
+```
+]
+
+
+
+---
+  ## Wine data example
+  
+  Let's compare our results to the results in the paper that was published and investigated this data. 
+
+> "Statistical analysis: Regression analyses were conducted on various relations. All regressions were approximately linear, and in each instance a test was made of the homogeneity of slope and position between the regressions obtained from data for the two varieties. Where the slopes were not different, a regression line of the same slope was fitted to each varietal group and a test made for displacement. When the slopes were different, it was not relevant to test for displacement, and two regression lines are shown. Where the slopes and position were not significantly different, a single regression line was used for all wines. A separate line for each variety, using common slope, is shown when the positions were significant."
+
+
+.footnote[Source: “Wine Quality: Correlations with Colour Density and Anthocyanin Equilibria in a Group of Young Red Wines,” by T. C. Somers and M. E. Evans, Journal of the Science of Food and Agriculture , 25 , pg 1371]

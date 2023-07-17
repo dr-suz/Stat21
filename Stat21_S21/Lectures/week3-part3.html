@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 3 - Part 3</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="week3-part3_files/remark-css/default.css" rel="stylesheet" />
+    <link href="week3-part3_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 3 - Part 3
+## Statistical Inference for the Difference in Population Means Continued
+### Suzanne Thornton
+### Swarthmore College
+### For class on Week 3 (updated: 2021-02-19)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+
+## Difference in means  
+### Problem Set-up
+
+Just as we were able to determine if there is a statistically significant difference between two population proportions, we are now going to do the same for two populations with quantitative variables of interest. The question that we are interested in now is: "Is there a statistically significant difference between the mean values of these two RVs?" 
+
+
+.pull-left[**Option 1:** Un-paired samples
+
+In this setting, we have two independent simple random samples from two populations (e.g. comparing the SAT scores of public versus private high schools). The two samples may or may not have the same sample size.] 
+.push-right[**Option 2:** Paired sample 
+
+In this setting, we have two samples but they are from the same population (e.g. we may be studying genetic traits across twins or test scores of the same people before and after attending a workshop on test-taking strategies). The samples will always be the same size in this setting.]
+
+&amp;nbsp;
+&amp;nbsp;
+--
+
+.center[The key to understanding the differences between these settings is to think about the variation between the two samples. If the samples are from different populations, then the values that the quantitative variables take on probably varies a lot more than if they were samples from the sample population.]   
+
+---
+## Option 2 - Paired two-sample t-test/CI
+### Problem Set-up
+
+**Population:** 
+
+If we have two dependent samples, we can model the difference between them as a single continuous RV, `\(\Delta\)`. The *population parameter* we are interested in is `\(\mu\)`: the mean of the RV `\(\Delta\)`,
+
+`$$\mu = E[\Delta] = \sum_{d \in S} dPr(\Delta=d),$$`
+where `\(S\)` is the sample spacers of all possible values the difference, `\(D\)`, might take.
+
+**Sample:** We have one random subset of observations from the population, but we have two different instances of observations: 
+
+`$$x_{obs_1} = \{x_{1,1}, x_{1,2}, x_{1,3}, \dots, x_{1,n}\} \quad \text{ and }\quad x_{obs_2} = \{x_{2,1}, x_{2,2}, \dots, x_{2,n}\}.$$`
+
+The data we are really interested in is the difference between these observations:
+
+`$$d_{obs} = \{d_1, d_2, d_3, \dots, d_n \} = \{(x_{1,1} - x_{2,1}), (x_{1,2}-x_{2,2}), (x_{1,3}-x_{2,3}), \dots, (x_{1,n}-x_{2,n})\}.$$` 
+
+The sample size is therefore just the number of **dependent** pairs, `\(n\)`.  
+
+---
+## Option 2 - Paired two-sample t-test/CI
+### Problem Set-up
+
+Now we are in the exact same setting we've handled before where all we need to do is a one-sample t-test or confidence interval! (See Week 3 Part 1)
+
+
+### Assumptions 
+The assumptions are the same as they were for one-sample inference for a population mean, however, we now need to make sure the assumptions hold for the *differences* of the paired observations, rather than for the observations themselves.
+
+1. The values the quantitative variable `\(\Delta\)` can take on, follow roughly a symmetric and uni-modal distribution. For larger sample sizes (i.e. more matched pairs), we can relax this assumption.
+
+2. The differenced data, `\(d_{obs}\)`, are independent of one another, or in other words, the differenced data represent a simple random sample (SRS) from a larger population of differenced RVs. The only dependency in the data should be between the pairs. 
+
+---
+## Option 2 - Paired two-sample t-test/CI
+### Problem Set-up
+
+**In observational studies:** think about the larger population of the RV `\(\Delta\)` and verify that `\(n\)` is less than `\(10\%\)` the size of the entire population of differences. In this setting, we refer to paired data as *matched* data. 
+
+
+**In experiments:** think about possible sources of bias in assignment of treatments. Randomization, or, the random assignment of individuals to a treatment or a control group is the best way to avoid bias. In this setting, we say the data is *blocked* according to whatever defines one pair from the next. 
+
+
+--
+**Note:** We cannot choose which method to use, paired or unpaired t-tests or CIs. We must think about how the data was collected to determine which method is appropriate. 
+
+- Paired data will always have the sample number of observations in each group. However, just because two groups have the same number of observations .red[does not] mean that the data is paired. 
+
+- Paired data is inherently *dependent*, each set of observations represents different values of the same observational unit (e.g. before/after, twins). Un-paired data must be from groups that are *independent* of one another. 
+
+
+---
+## Option 2 - Paired two-sample t-test/CI
+## In R 
+
+Since everything about paired, two-sample tests and CIs is exactly the same as it was for a single sample test and CI, we will instead go over the data processing steps here. 
+
+The only processing step needed here is to compute the difference between the two dependent observations. 
+
+.scroll-small[
+
+```r
+#Define the observed data and then calculate the difference between the pairs 
+x1_obs &lt;- c(160, 200, 205, 181, 190, 187, 172, 193, 182, 192)
+x2_obs &lt;- c(155, 195, 200, 173, 192, 184, 171, 196, 179, 188)
+diff_obs &lt;- x1_obs - x2_obs
+#Then use the t.test() function on the differenced data
+t.test(diff_obs, conf.level=0.95)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  diff_obs
+## t = 2.7121, df = 9, p-value = 0.02391
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  0.4811485 5.3188515
+## sample estimates:
+## mean of x 
+##       2.9
+```
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 6 - Part 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class6-part1_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class6-part1_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 6 - Part 1
+## Chi-squared test for homogeneity or independence
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, Sept 24, 2020 (updated: 2020-09-22)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## More Chi-square Procedures 
+
+There are actually three different chi-square tests we are going to consider. They are tests for
+
+1. Goodness-of-fit 
+
+2. Homogeneity 
+
+3. Independence 
+
+All three of these tests apply to count data (which can be represented as cells in a contingency table) and they all use the same test statistic `$$\text{Test Statistic} = \chi^2 = \sum_{\text{all cells}}\frac{(Obs - Exp)^2}{Exp}.$$`
+
+---
+## More Chi-square Procedures 
+### Goodness-of-fit 
+
+Recall the goodness-of-fit test, helps us determine whether the distribution of counts in a one-way contingency table match some particular distribution or predicted model which defines our null hypothesis. There is one categorical variable represented in the data with `\(k\)` different levels.
+
+| Category      | Observations  |
+|---------------|---------------|
+| Level 1       | 21            |
+| Level 2       | 10            | 
+| Level 3       | 9             | 
+| `\(\dots\)`       | `\(\dots\)`       | 
+| Level `\(k\)`     | 16            | 
+
+
+The expected counts come from this predicting model. The test finds a p-value from a chi-square model with `\(k-1\)` degrees of freedom, where `\(k\)` is the number of levels of the categorical variable. 
+
+---
+## Other Chi-square Procedures 
+### Homogeneity and Independence
+
+These tests are very similar to one another and the formula for the test statistics is exactly the same as for the goodness-of-fit test. 
+
+These tests only differ with one another according to the problem setting. 
+  
+  - If we want to know if the distribution of counts for different levels of a single categorical variable are significantly different from one another across two or more differ groups of subjects, we use a test of homogeneity. 
+  
+  - If we are interested in the relationship between two categorical variables, collected on one group of subjects, we use a test of independence.  
+
+
+---
+## Other Chi-square Procedures 
+### Homogeneity 
+
+|            |         | Group A    | Group B | `\(\dots\)` | Group C |
+|------------|---------|------------|---------|---------|---------|
+|            | Level 1 |      24      |   32      |         |    18     |
+|            | Level 2 |      12      |   36      |         |     19    |
+| **Variable 1** | Level 3 |      34      |   35      |         |     22    |
+|            | `\(\dots\)` |              |           |         |           |
+|            | Level R |      10      |   28      |         |     27    |
+
+
+A chi-square test for homogeneity compares the distribution of counts for two or more groups (columns above) on the same categorical variable (variable 1 above). In this test, we are looking for a change in the counts over different groups/levels. 
+
+This test finds expected counts based on the overall frequencies, adjusted for the totals in each group under the null hypothesis assumption that the distributions are the same for each group. The p-value is calculated from a chi-square model with `\((R-1)\times(C-1)\)` degrees of freedom. 
+
+
+---
+## Other Chi-square Procedures 
+### Homogeneity 
+
+`$$H_0: \text{The levels of Variable 1 have the same distribution (are homogeneous) across all C groups.} \\
+H_A: \text{The levels of Variable 1 do not have the same distribution across all C groups.}$$`
+
+The test for homogeneity is a generalization of the two-sample test for a difference in proportions, only now we have more than two proportions to compare (one corresponding to each level of the null hypothesis). 
+
+
+**Assumptions:** 
+
+Each of the groups must be independent of one another. Also, the expected cell counts must all be at least 5. 
+
+A distinguishing feature of the test of homogeneity, is that here we do not need the random sample assumption to hold unless we want to generalize our results to a larger population. 
+
+---
+## Other Chi-square Procedures 
+### Independence
+
+|    |    |    | Variable 2    |    |    |
+|------------|---------|------------|---------|---------|---------|
+|            |         | Level A    | Level B | `\(\dots\)` | Level C |
+|            | Level 1 |      24      |   32      |         |    18     |
+|            | Level 2 |      12      |   36      |         |     19    |
+| **Variable 1** | Level 3 |      34      |   35      |         |     22    |
+|            | `\(\dots\)` |              |           |         |           |
+|            | Level R |      10      |   28      |         |     27    |
+
+A test of whether two categorical variables are independent examines the distribution of counts for one group of individuals classified according to two categorical variables. 
+
+This test finds expected counts by assuming that knowing the marginal totals tells us the cell frequencies, assuming the null hypothesis is true, that there is no association between the variables. The p-value is calculated from a chi-square model with `\((R-1)\times(C-1)\)` degrees of freedom. 
+
+---
+## Other Chi-square Procedures 
+### Independence
+
+`$$H_0: \text{Variable 1 is independent of Variable 2.}\\ 
+H_{A}: \text{Variable 1 and Variable 2 are not independent.}$$`
+
+If we reject the null hypothesis, that does **not** mean that one variable depends on the other. Dependence suggests a model or pattern. When two categorical variables fail a test of independence, this could be for many different reasons so we instead say that there is evidence that the variables are *associated*. Thus the chi-square test for independence is **not** a way to check an independence assumption necessary for another statistical test. 
+
+
+**Assumptions:** 
+
+The expected cell counts must all be at least 5 and the data must be a simple random sample from the population.  
+
+---
+## More Chi-square Procedures 
+
+- Goodness-of-fit tests compare the observed distribution of a single categorical variable to an expected (or theorized) distribution. 
+
+- Tests of homogeneity compare the distribution of several different groups for the same categorical variable. 
+
+- Tests of independence examine counts from a single group for evidence of an association between two categorical variables. 
+
+
+
+---
+## More Chi-square Procedures 
+### In R
+
+We use the same R function to conduct each of these three chi-square tests. 
+
+
+```r
+## Goodness-of-fit test
+chisq.test(data_vector, p=prob_vector)
+
+## Test of homogeneity or of independence
+chisq.test(data_table)  ## or alternatively
+chisq.test(factor1, factor2)
+```
+
+
+---
+## More Chi-square Procedures 
+### Example 1
+
+A brokerage firm wants to see whether the type of account a customer has (Silver, Gold, or Platinum) affects the type of trades that customer makes (in person, by phone, or online). It collects a random sample of trades made for its customers over the past year and preforms a chi-square test for **independence**. 
+
+.scroll-small[
+|            |         |            | Trade type   |         | 
+|------------|---------|------------|--------------|---------| 
+|            |         | In person  | By phone     | Online  |
+|            | Silver  |      52     |   57        |     220 |  
+| **Account type** | Gold |      103 |   124       |     104 |    
+|           | Platinum |      132    |   24        |   7     |    
+
+
+```r
+data_table &lt;- matrix( c(52, 57, 220, 103, 124,104, 132, 24, 7), byrow=TRUE, ncol=3)
+chisq.test(data_table)
+```
+
+```
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  data_table
+## X-squared = 287.11, df = 4, p-value &lt; 2.2e-16
+```
+]
+
+---
+## More Chi-square Procedures 
+### Example 2
+
+The same brokerage firm wants to know if the type of account affects the size of the account (in dollars). It performs a Chi-square test of **homogeneity** to see if the mean size of the account (categorized as large, medium, or small) is the same for the three account types.  
+
+.scroll-small[   
+|            |         |        | Account Size  |         | 
+|------------|---------|--------|---------------|---------| 
+|            |         | Large  | Medium        |  Small  |
+|            | Silver  |      52     |   57        |     220 |  
+| **Account type** | Gold |      103 |   124       |     104 |    
+|           | Platinum |      132    |   24        |   7     |    
+ 
+
+```r
+data_object &lt;- tibble(type = factor(c(rep("Silver", 52+57+220), 
+                               rep("Gold", 103+124+104),
+                               rep("Platinum", 132+24+7))),
+                      size = factor(c(rep("Large", 52), rep("Medium", 57), rep("Small",220),
+                               rep("Large", 103), rep("Medium", 124), rep("Small", 104),
+                               rep("Large", 132), rep("Medium", 24), rep("Small", 7))))
+table(data_object)
+```
+
+```
+##           size
+## type       Large Medium Small
+##   Gold       103    124   104
+##   Platinum   132     24     7
+##   Silver      52     57   220
+```
+
+```r
+chisq.test(data_object$type, data_object$size)
+```
+
+```
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  data_object$type and data_object$size
+## X-squared = 287.11, df = 4, p-value &lt; 2.2e-16
+```
+]
+
+---
+## More Chi-square Procedures 
+### Example 3
+
+Based on last years findings, this brokerage firm saw that `\(70\%\)` of it's new customers signed up for a Silver account, `\(28\%\)` signed up for a Gold account, and the remaining `\(2\%\)` signed up for a Platinum account. 
+
+Out of the new customers gained this year, the firm had 198 sign up for a Silver account, 45 sign up for a Gold account, and only 7 sign up for a Platinum account. They conduct a **goodness-of-fit** test to determine if the distribution of this year's new accounts matches the distribution from last year. 
+
+.scroll-small[
+| Account type | Count |  
+|--------------|---------|
+| Silver       |      198 |  
+| Gold         |    45  |  
+| Platinum     |    7  |  
+
+
+```r
+obs_counts &lt;- c(198, 45, 7)
+prob_vector &lt;- c(0.70, 0.28, 0.02)
+chisq.test(obs_counts, p=prob_vector)
+```
+
+```
+## 
+## 	Chi-squared test for given probabilities
+## 
+## data:  obs_counts
+## X-squared = 12.751, df = 2, p-value = 0.001702
+```
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

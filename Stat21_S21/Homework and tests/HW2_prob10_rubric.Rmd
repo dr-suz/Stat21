@@ -1,0 +1,71 @@
+---
+title: "Stat 21 Homework 2 Rubric"
+subtitle: "Solution for Problem 10"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code 
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+
+
+## Problem 10 
+
+Researchers comparing the effectiveness of two pain medications randomly selected a group of patients who had been complaining of a certain kind of joint pain. They randomly divided these people into two groups, then administered the pain killers. Of the 112 people in the group who received medication A, 84 said this pain reliever was effective. Of the 108 people in the other group, 66 reported that pain reliever B was effective. 
+
+(a) First, find a $95\%$ CI for the percent of people who may get relief from their joint pain my using medication A. Next, find a $95\%$ CI for the percent of people who may get relief from their joint pain my using medication B. Do these two CIs overlap? What do you think this means about the comparative effectiveness of these medications?
+
+(b) Find and interpret a $95\%$ CI for the difference in the proportions of people who may find these medications effective. Explain what it means if you interval contains or does not contain zero. 
+
+**Solution Problem 10:**
+
+```{r problem10, echo=TRUE, eval=TRUE}
+## Part (a)
+success_A <- 84
+sample_size_A <- 112 
+prop.test(success_A, sample_size_A, conf.level = 0.95)
+
+success_B <- 66
+sample_size_B <- 108 
+prop.test(success_B, sample_size_B, conf.level = 0.95)
+
+## Part (b)
+success <- c(84, 66)
+sample_size <- c(112, 108)
+prop.test(success, sample_size, conf.level = 0.95)
+```
+
+
+(a) A $95\%$ confidence interval for the percent of people who may get relief from medication A is is $[0.658, 0.825]$. On the other hand, a $95\%$ confidence interval for the percent of people who may get relief from medication B is $[0.512, 0.702]$. These intervals do overlap, indicating that the true percent of people finding relief from medication A could be the same as the percent of people finding relief from medication B. In terms of comparative effectiveness, this seems to indicate that neither medication is clearly more effective than the other.  
+
+
+(b) A $95\%$ confidence interval for the difference in the proportion of people who may find relief from these medications is $[0.008, 0.270]$. (Or if students switched the orders of the medications the interval would be $[-0.270, -0.008]$.) This interval does not contain the value of zero. This means that the true difference in these proportions is larger than zero (in magnitude), or another way of phrasing that is to say that there is statistical evidence of an actual difference in the proportions of people who find relief from one medication versus the other. (In particular, medication A seems to be more effective in decreasing pain.)
+
+
+It may be useful to comment on Gradescope and let the students know that the reason these two questions suggest different results is because of the way variance (or standard deviation) is calculated. If we look at the formulas for the test statistics of the one-sample proportion test and of the two-sample difference of proportions test, the term in the denominator for the later actually uses information from both samples. (You do not need to take off any points if the student does not mention this.)
+
+
+When grading, the code is worth 3 points (one point for each confidence interval) and the remaining points can be distributed among the written components of their solutions. The main thing that they need to get full credit for this problem is to realize that the methods of part (a) and (b) yield conflicting results. 

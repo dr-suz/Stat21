@@ -1,0 +1,201 @@
+---
+title: "Class 2"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Sept 10, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+# Happy Thursday!  
+
+Here's the agenda for today's class: 
+
+- Housekeeping items
+
+- Knitting Homework Documents with R Markdown 
+
+- Simulation study of the Central Limit Theorem 
+
+  - Practice with sharing screen 
+  
+  - Practice with Zoom whiteboard 
+
+- Practice problems with one sample proportions  
+
+- An announcement from W+iMS (9:20am/10:40am ET)
+
+---
+# Some housekeeping 
+
+
+### Diverse Statisticians Matter!
+
+If you are planning to attend the lunch on Monday, the 14th at 1:10pm with Dr. Emma Benn please send me a message on Slack! (We want to make sure that at least a few students show up.)
+
+**Fun fact** Dr. Benn is actually a Swat alumnus! 
+
+### Math/Stats Department Social Event 
+```{r, echo=FALSE, fig.align='center', out.height=200}
+knitr::include_graphics("Figs/Sundae20.png")
+```
+
+http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class2_files/Sundae20.pdf
+
+
+---
+# Continuing from last class...
+
+## Introduction to RStudio
+
+- Compile R script document 
+
+- Knit R Markdown document 
+
+  - Run lines of code within 
+  
+  - Create HTML and PDF outputs
+
+
+**Update:** We have a different shared RStudio address: /shared/stat021f20
+(The change is reflected in the syllabus online.)
+
+***
+
+Make sure you have access to all of the following Slack channels:
+
+1. homework-q-and-a
+2. r-q-and-a
+3. typo-alert
+4. weekly-checkin
+5. Your group specific channel
+
+---
+# Group Roles 
+
+
+  - Note-taker - this is the person creating the presentation item on the Zoom whiteboard or separate document etc. 
+
+  - Presenter - this is the person who will report the presentation materials and general discussion.
+
+  - Recorder - this is the person who takes notes on who is in attendance, who is participating, and keeps track of the time.
+
+  - Questioner - this person will push back when the group comes to consensus too quickly, without considering a number of options or points of view.
+  
+
+
+---
+
+# Simulation Study 
+
+**To do:** 
+
+Open the CLT simulations R script file in Rstudio.swarthmore.edu. (Only one group member needs to do this and can share their screen). Answer the questions presented within the R comments (the #'s) at the end of the file. 
+
+
+**Hand in:** 
+
+In the Zoom chat, submit a text document with your group's written answers. 
+
+
+When we come back together as a class, be prepared to discuss what you observed in the simulations with your group. 
+
+---
+
+# Simulation Study 
+## Questions about the CLT 
+
+**From Moodle:** 
+
+- How can a variable that only takes on values from $[-2,3]$ have a mean that has a distribution ranging from negative infinity to infinity?* 
+
+
+Any others? 
+
+
+.footnote[*A good (albeit math-heavy) answer to this question can be found in the comments here: https://stats.stackexchange.com/questions/339759/how-can-the-central-limit-theorem-hold-for-distributions-which-have-limits-on-th. The comment that begins with "This is an excellent question..."]
+
+---
+## Questions about inference for a proportion 
+
+**From Moodle:** 
+
+- I'd like to go over confidence intervals and hypothesis tests in class if possible.
+
+- What is the difference between $p$ and $\hat{p}$? 
+
+- What is the critical value? 
+
+- Can we go over why we use $p_0$ in the formula for the Z-score test statistic? 
+
+
+**Assignment**
+
+For the group Questioner: Make sure all of the above questions are addressed during your group's discussions for Practice problem 1. 
+
+For the group Presenter: Be ready to report your group's responses to any of the questions above. You'll either report your group's solution to these questions (when asked) or you'll report a more refined version of these questions based on your discussion (or both). If you don't have any answers to report but only have more questions, that is ok! Report those. 
+
+
+---
+# Practice Problem 1
+## Inference for a proportion
+
+In New York City on October 23rd, 2014, a doctor who had recently been treating Ebola patients in Guinea went to the hospital with a slight fever and was subsequently diagnosed with Ebola. Soon after, a survey conducted by the Marist Poll, an organization with a carefully designed methodology for drawing random samples from identified populations, found that, out of a sample of size $1042$, $82\%$ of New Yorkers favored a "mandatory 21-day quarantine for anyone who has come in contact with an Ebola patient."
+
+
+**To do:** 
+
+a) Verify that the sampling distribution of $\hat{p}$ is nearly normal.
+
+b) Construct a $95\%$ confidence interval for $p$, the proportion of New York adults who supported a quarantine for anyone who has come into contact with an Ebola patient. Specifically state the values of $\hat{p}_{obs}$, $z_{\alpha/2}^*$, and $SE(\hat{p})$.  
+
+c) Conduct an $\alpha=0.05$ hypothesis test to answer the question: Is the proportion of New York adults who support the mandatory quarantine larger than $75\%$? 
+
+
+**Hand in:** 
+Screenshot of your group's Zoom whiteboard with your answers to the questions above. 
+
+---
+# Practice Problem 1
+## Source
+
+.footnote[Introductory Statistics for the Life and Biomedical Sciences by Julie Vu and David Harrington.]
+
+
+

@@ -1,0 +1,138 @@
+---
+title: "Stat 21 Week 4 Worksheet"
+author: " Person 1, Person 2, Person 3, etc. "
+date: "Monday, Feb 7, 2022"
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+This worksheet is to be completed in class as a group. Take a minute to have everyone introduce themselves and then choose who will play the role of **recorder** and **reporter**. The recorder is responsible for completing this worksheet and emailing the .Rmd file to your professor with the subject **"Stat 21: Week 4 Worksheet"**. Make sure everyone's name is included at the top of this document! The reporter is responsible for taking note of your answers and any questions that come up to share them with Prof. Suzy or the Muse when they stop by to check in on your group. Other groups members are responsible for keeping the discussion on-task and providing possible solutions or sharing questions with the group. 
+
+For this assignment, I suggest that you choose the recorder to be whoever drove a car the most recently and choose the reporter to be whoever hasn't driven a car the longest (or ever). 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)       
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+```
+
+
+
+You need to install the package `Stat2Data` before attempting to run any code chunks below. Then call this package into your working library with the following code: 
+```{r}
+library(Stat2Data)
+data("AccordPrice")
+```
+
+In this worksheet, you are going to practice fitting a SLR model to the "Accord prices" data from Ch 1 of your textbook. This data is called `AccordPrice` and is located in the `Stat2Data` R package. The `names()` function let's us view the different variable names in the data set and the `head()` function let's us view the first few rows. 
+
+Note: Below, we will make use of the "pipe" operator which is defined in the R package `tidyverse`. This operator looks like `%>%` and can be read as if it is a machine taking whatever is on the left hand side and plugging it into whatever is on the right hand side. If you end a line with the pipe operator, R will continue to read the code on the subsequent line until hitting a stopping point. 
+
+```{r}
+AccordPrice %>% names 
+AccordPrice %>% head
+```
+
+
+**Instructions:** Read the following outline and complete the code chunks below to fit a SLR model that predicts the price of the vehicles based on their mileage.   
+
+
+Uncomment the code below and replace the question marks to find the least-squares regression line.
+```{r}
+regmodel <- lm(Price ~ Mileage, data = AccordPrice)
+regmodel %>% summary
+```
+
+**Question 1** What is the estimated regression model? 
+
+**Answer:** [Write your answer here]
+
+
+The fitted values and many other useful statistics are now stored in the `regmodel` object. Uncomment and run the line below. 
+```{r}
+ regmodel %>% names 
+```
+
+
+Uncomment the code below and replace the question marks to find and assign the fitted values and the residuals from `regmodel`. 
+```{r}
+fits <- regmodel$fitted.values
+fits
+
+resids <- regmodel$residuals 
+resids
+```
+
+**Question 2** What is smallest observed residual? What is the average fitted value?  
+
+**Answer:** [Write your answers here]
+
+
+Next, using R as a calculate, we can compute the standard error of regression, $\hat{\sigma}$, by uncommenting the code below:
+```{r}
+n <- length(resids)
+SSE <- sum(resids^2)                      #Sum of squared errors
+SE <- sqrt(SSE/(n-2))
+SE
+```
+
+You can find this standard error in the output of the `summary()` function above. 
+
+**Question 3** What is $\hat{\sigma}$ called in the R output of the `summary()` function? 
+
+**Answer:**  [Write your answer here]
+
+We can also find the estimate of the error variance by looking at an "analysis of variance" (or ANOVA) table for our regression model. This model decomposes the variability of our response variable into a component due to the regression model (i.e. the predictor) and leftover unexplained variability due to the random error. Uncomment and run the line of code below and identify the estimate, $\hat{\sigma}^2$. 
+
+```{r}
+regmodel %>% anova
+```
+
+
+Now we are going to create a residuals plot and a normal quantile plot to help us assess whether some necessary conditions for SLR models seem reasonable for this data. Both plots will be created using `ggplot` so we first build the base and orient the plot and then add the necessary components on new layers. In order for this to work, we need to have a data object, or a `tibble`, that we can plug in to the `ggplot()` function. The `mutate()` function will allow us to supplement the original data set with additional columns for new variables. Uncomment and complete the code below to add two new columns to the `AccordPrice` data for containing the model residuals and fitted values. 
+```{r}
+accord_price_all_data <- AccordPrice %>% mutate(resids = resids, fits = fits)
+accord_price_all_data %>% head  
+```
+
+
+Uncommement and complete the R code chunk below to build a residuals vs fitted values plot and labels it. 
+```{r}
+ggplot(accord_price_all_data, aes(x=fits, y=resids)) + 
+  geom_point() + 
+  labs(title="Residual plot", subtitle="Accord price predicted by mileage", x="Fitted values", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+
+**Question 4** What can you tell about the conditions necessary to fit and use a SLR model based on the residuals plot? 
+
+**Answer:** [Write your answer here.]
+
+
+Uncomment and complete the R code chunk below to build a Normal quantile plot based on this SLR model. Note that in setting the aesthetics of the plot, rather than orient our plot with an x or y variable, we are referencing a *sample* from which quantiles will be computed.  
+```{r}
+ggplot(accord_price_all_data, aes(sample=resids)) + 
+  geom_qq() +
+  geom_qq_line() + 
+  labs(title="Normal quantile plot", subtitle="Accord price predicted by mileage", x="Normal quantiles", y="Ordered residuals") 
+```
+
+**Question 5** What can you tell about the conditions necessary to fit and use a SLR model based on the residuals plot? 
+
+**Answer:** [Write your answer here.]

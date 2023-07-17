@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 12</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <script src="class12_files/header-attrs/header-attrs.js"></script>
+    <link href="class12_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class12_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 12
+## Statistical Methods II (Stat 021)
+### Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, March 23, 2021 (updated: 2021-03-23)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- Conducting the ANOVA F-test (by hand and with R)
+
+- Post-hoc analysis (Tukey HSD)
+
+- Review Test 1
+
+- Housekeeping items and announcements (5 mins)
+
+---
+# Tuesday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+&lt;img src="Figs/feelings_wheel.jpg" width="683" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+## ANOVA Assumptions
+### Penguin data 
+
+.scroll-output[**Pre-process the data:** Make sure the variable type of `bill_length_standard` is *dbl* and the variable type of `island` is *fct*. Also make sure there are no missing values for either of these variables. (*Hint:* Use the `mutate()` and `factor()` functions to create a new column in the `penguins2` data set.)
+
+
+```r
+#install.packages("remotes")
+#remotes::install_github("allisonhorst/palmerpenguins") 
+library("palmerpenguins")
+library("tidyverse")
+penguins2 &lt;- penguins %&gt;% 
+             na.omit() %&gt;% ## this is a very useful function that will omit an entire row if any of the column values are missing (NA)
+             mutate(bill_length_standard =  (bill_length_mm-mean(bill_length_mm))/sd(bill_length_mm))  ## or bill_length_standard = scale(bill_length_mm)
+head(penguins2)
+```
+
+```
+## # A tibble: 6 x 9
+##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
+##   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt; &lt;fct&gt;
+## 1 Adelie  Torge…           39.1          18.7              181        3750 male 
+## 2 Adelie  Torge…           39.5          17.4              186        3800 fema…
+## 3 Adelie  Torge…           40.3          18                195        3250 fema…
+## 4 Adelie  Torge…           36.7          19.3              193        3450 fema…
+## 5 Adelie  Torge…           39.3          20.6              190        3650 male 
+## 6 Adelie  Torge…           38.9          17.8              181        3625 fema…
+## # … with 2 more variables: year &lt;int&gt;, bill_length_standard &lt;dbl&gt;
+```
+]
+
+
+---
+## ANOVA F-test
+### Calculations by hand
+
+R will automatically create the following ANOVA table for you. 
+
+| Source | Sums of Squares | DF | Mean Square | F-ratio | P-value | 
+|--------|------------------|---|-------------|---------|---------|
+| Treatment | `\(SS_{trt}= \sum_{j}(\bar{y}_{j}-\bar{\bar{y}})^2\)` | `\(K-1\)` | `\(MS_{trt} = \frac{SS_{trt}}{K-1}\)` | `\(\frac{MS_{trt}}{MSE}\)` | `\(Pr(F \geq \frac{MS_{trt}}{MSE})\)` | 
+| Error | `\(SSE=\sum_{i}\sum_{j}(y_{ij}-\bar{y}_{j})^2\)` | `\(n-K\)` | `\(MSE = \frac{SSE}{n-K}\)` |   |  | 
+| Total | `\(SS_{tot}=SS_{trt}+SSE\)`  | `\(n-1\)` |   |   |   |
+
+
+Behind the scenes, R calculates...
+
+`$$\text{Test Statistic} = F-statistic = \frac{MS_{trt}}{MSE},$$`
+and then computes the p-value. 
+
+The **p-value** is the probability that a **F-distributed RV** with numerator degrees of freedom `\(K-1\)` and denominator degrees of freedom `\(n-K\)` takes on the observed F-ratio or a larger number. 
+
+
+
+
+
+
+---
+## ANOVA F-test
+### Table calculations by hand for penguin data
+
+With your group, use R to help you fill in the elements of this [ANOVA table](https://docs.google.com/spreadsheets/d/11h69MB-laxreeEQLLQfPqm3gLQ29wOvZhFBdg0PdQXk/edit?usp=sharing) for the `penguins2` data set below. You may use the following code to get started.
+
+.scroll-output[
+
+```r
+penguins2 %&gt;% group_by(island) %&gt;% 
+              summarize(mean_bill = mean(bill_length_mm),
+              var_bill = var(bill_length_mm),
+              samp_size = length(bill_length_mm))
+```
+
+```
+## # A tibble: 3 x 4
+##   island    mean_bill var_bill samp_size
+##   &lt;fct&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;int&gt;
+## 1 Biscoe         45.2    23.3        163
+## 2 Dream          44.2    35.4        123
+## 3 Torgersen      39.0     9.17        47
+```
+]
+
+
+---
+## ANOVA F-test
+### Table calculations by hand for penguin data
+
+
+To calculate the SSE, fill in the question marks in the code below:
+
+```r
+n = length(penguins2$bill_length_mm)
+SSE = 0
+for(i in 1:n){
+  if(penguins2$island[i]=="?"){SSE = SSE + (penguins2$bill_length_mm[i] - ? )^2}
+  if(penguins2$island[i]=="?"){SSE = SSE + (penguins2$bill_length_mm[i] - ? )^2}
+  if(penguins2$island[i]=="?"){SSE = SSE + (penguins2$bill_length_mm[i] - ? )^2}
+}
+SSE
+```
+
+
+---
+## ANOVA F-test
+### Letting R do the calculations
+
+
+```r
+penguin_model &lt;- lm(bill_length_mm ~ island, penguins2)
+anova(penguin_model)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: bill_length_mm
+##            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## island      2 1417.2  708.59  27.472 9.209e-12 ***
+## Residuals 330 8511.7   25.79                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+
+---
+## ANOVA
+### Post-Hoc Analysis 
+
+Often when we conduct an ANOVA F-test for the difference in means, we don't want to end our investigation there. Typically, we are interested in answering the more specific question *which* of the group means differ? 
+
+If we apply an unpaired (independent groups) t-test for the difference in means for every pair of groups, we run into the multiple testing problem. There are many statistical methods for adjusting the p-value of these pairwise tests to address this issue including
+
+  - Bonferroni's correction;
+  
+  - Benjamini-Hochberg (BH) adjustment; and
+
+  - Tukey's honest significance difference (HSD).
+  
+---
+## ANOVA
+### Post-Hoc Analysis 
+
+
+```r
+#install.packages('mosaic')
+library('mosaic')
+TukeyHSD(penguin_model)
+```
+
+```
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = x)
+## 
+## $island
+##                       diff       lwr        upr     p adj
+## Dream-Biscoe     -1.026515 -2.454611  0.4015809 0.2096455
+## Torgersen-Biscoe -6.210168 -8.189815 -4.2305220 0.0000000
+## Torgersen-Dream  -5.183653 -7.234077 -3.1332293 0.0000000
+```
+
+
+---
+## More examples of ANOVA
+### Group work 
+
+**Instructions:** 
+
+- Go to: https://guides.tricolib.brynmawr.edu/
+
+- Enter in JSTOR in the search bar 
+
+- Log in to your Swarthmore account and click on "advanced search" 
+
+- Enter "one way anova" as the keyword and "1-way" as the secondary keywork and then select "articles" as the item type.  
+
+- Select a discipline/journal filter of interest to you. 
+
+
+With your group:
+
+1. Identify the response and predictor variables. 
+
+1. What are likely some causes of measurement error in the response variable? 
+
+1. Do the assumptions of independence seem likely to be met? 
+
+
+**Hand in:** Send me a message on Slack answering the above questions for at least one article. 
+
+---
+### Planning ahead for next week  
+
+- Next week  
+
+  * Simpson's paradox
+  
+  * Experimental design 
+  
+  * Simple linear regression 
+
+
+### Announcements 
+
+Tuesday, March 23, 4-5 pm
+In Person: Science Center Courtyard (outside the Math/Stat Lounge)
+On Zoom: https://swarthmore.zoom.us/j/88615356706
+
+Come visit in person with friends, professors, and dogs. Or join on zoom with your own pets. Relax with us and celebrate the start of spring break!!!
+
+RSVP here. Attendance may be limited due to social distancing restrictions.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

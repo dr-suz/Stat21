@@ -1,0 +1,265 @@
+---
+title: "Stat 21 Homework 7"
+author: ' Name '
+date: 'Due: Sunday, March 27th by midnight'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+Use this file as the template for your submission. Do not delete anything from this template unless you are prompted to do so (e.g. where to write your name above, where to write your solutions or code below). Make sure you have installed the following packages in your version of RStudio: `tidyverse`, `knitr` __before__ you attempt to knit this document.
+
+Your completed assignment should be submitted as a single __PDF__ using the link under Week 8 titled "Submit HW 7 to Gradescope".You must use R markdown to write up your solutions. For any homework problems that involve coding in R, you must provide __both__ the code and a written answer interpreting the output within the context of the problem. You are allowed to work with your classmates on this homework assignment but you are expected to write up your own solutions. Every answer must be supported by a written statement unless otherwise specified. *A good rule of thumb is to make sure your answer is understandable to someone who hasn't read the problem question (or code output associated with it).* 
+
+**Additionally**, make sure that when you upload your solutions to Gradescope, you select which pages go correspond with which questions. Also, check to make sure that your knitted homework document is not uploaded as an extra-long single page document. Failure to do these things will result in a penalty on your homework grade. Finally, I strongly recommend that you address and resolve any knitting or R coding issues before Saturday as solutions to any R-coding questions that are not knitted properly will not receive any credit. 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data) ## for the data 
+library(GGally)    ## for matrix of scatter plots 
+library(car)       ## for VIF function 
+```
+
+# Part I: Concept problems 
+
+For problems 1-2 consider this regression model was fit to a sample of breakfast cereals. The response variable $Y$ is calories per serving. The predictor variables are $X_1=$ grams of sugar per serving, and $X_2=$ grams of fiber per serving. The fitted regression model is
+$$\hat{Calories} = 109.3 + 1.0Sugar - 3.7Fiber.$$
+## Problem 1
+ 
+(a) How many calories would you predict for a breakfast cereal that had 1 gram of fiber and 11 grams of sugar per serving?
+
+(b) Frosted Flakes is a breakfast cereal that has 1 gram of fiber and 11 grams of sugar per serving. It also has 110 calories per serving. Compute the residual for Frosted Flakes and explain what this value means.
+
+**Solution:**
+
+(a) [Write your answer here]
+
+(b) [Write your answer here]
+
+## Problem 2 
+
+(a) Does the prediction equation for number of calories per serving suggest that the amount of sugar has a weaker relationship with the number of calories than the amount of fiber? Explain why or why not.
+
+(b) In the context of this setting, interpret $-3.7$ the coefficient of $X_2$. That is, describe how fiber is related to calories per serving, in the presence of the sugar variable.
+
+**Solution:**
+
+(a) [Write your answer here]
+
+(b) [Write your answer here]
+
+***
+
+For problems 3-5 read the article, “Scientists rise up against statistical significance” at
+https://www.nature.com/articles/d41586-019-00857-9.  
+
+## Problem 3 
+
+The article claims, “...researchers have been warned that a statistically non-significant result does not ‘prove’ the null hypothesis (the hypothesis that there is no difference between groups or no effect of a treatment on some measured outcome).” Explain why failing to reject the null hypothesis does not prove that there is no effect. What does failing to reject the null hypothesis really mean instead?  
+
+**Solution:** [Write your answer here]
+
+
+## Problem 4 
+
+(a) In the graphic “Beware false conclusions”, results are shown from two studies: one that found “significant” results, and another that found “non-significant” results. The article claims that it is “ludicrous” to say that the second study found “no association.” Briefly explain why this is the case.  
+
+(b) Regarding the same two studies in part (a), the article claims that it is “absurd” to say that the two studies are in conflict, even though one was “significant” and the other was “not significant”. Briefly explain why this is the case.  
+
+**Solution:**
+
+(a) [Write your answer here]
+
+(b) [Write your answer here]
+
+## Problem 5 
+
+In the section titled “Quit categorizing”, the article claims that, “Statistically significant estimates are biased... Consequently, any discussion that focuses on estimates chosen for their significance will be biased.” Briefly explain why this is the case.   
+
+**Solution:**   [Write your answer here]
+
+
+# Part II: R Problems 
+
+## Problem 6
+
+In 2016 Hillary Clinton won the Democratic nomination for president over Bernie Sanders. A paper was circulated that claimed to show evidence of election fraud based, among other things, on Clinton doing better in states that don’t have a paper trail for votes cast in a primary election than she did in states that have a paper trail. The file `ClintonSanders` has data from that paper for the 31 states that held primaries before June. 
+
+```{r}
+data(ClintonSanders)
+ClintonSanders %>% head
+```
+
+The variable `Delegates` gives the percentage of delegates won by Clinton for each state. The variable `AfAmPercent` gives the percentage of residents in the state who are African American. `PaperTrail` indicates whether or not the voting system in the state includes a paper trail.
+
+(a) Conduct a regression of `Delegates` on `PaperTrail`. What does this regression say about how Clinton did in states with and without a paper trail?
+
+(b) Conduct a regression of `Delegates` on `PaperTrail` and `AfAmPercent`. What does this regression say about how Clinton did in states with and without a paper trail? What is the effect of `AfAmPercent`?
+
+(c) Repeat parts (a) and (b) but in place of `Delegates` as the response variable, use `PopularVote`, which is the percentage of the popular vote that Clinton received. Do any important conclusions change when using `PopularVote` as the response varaible instead? 
+
+**Solution:** 
+
+```{r}
+## Use this space for your solution to part (a)
+```
+
+(a) [Write your solution to part (a) here.]
+
+```{r}
+## Use this space for your solution to part (b)
+```
+
+(b) [Write your solution to part (b) here.]
+
+```{r}
+## Use this space for your solution to part (c)
+```
+
+(c) [Write your solution to part (c) here.]
+
+***
+
+
+It seems reasonable to predict the number of calories (per serving) in breakfast cereals using the amount of sugar (grams per serving). The file `Cereal` also has a variable showing the amount of fiber (grams per serving) for each of the 36 cereals. Use this data below for problems 7-8.
+
+```{r}
+data(Cereal)
+Cereal %>% head
+```
+
+## Problem 7 
+
+Fit a multiple regression model to predict `Calories` based on both predictors: `Sugar` and `Fiber`. Examine each of the measures below and identify which (if any) of the cereals you might classify as possibly “unusual” in that measure. Include specific numerical values and justification for each case.
+
+(a) Standardized residuals
+
+(b) Studentized residuals
+
+**Solution:** 
+
+```{r}
+## Use this space for your solution to part (a)
+```
+
+(a) [Write your solution to part (a) here.]
+
+```{r}
+## Use this space for your solution to part (b)
+```
+
+(b) [Write your solution to part (b) here.]
+
+## Problem 8
+
+Fit a multiple regression model to predict `Calories` based on both predictors: `Sugar` and `Fiber`. Examine each of the measures below and identify which (if any) of the cereals you might classify as possibly “unusual” in that measure. Include specific numerical values and justification for each case.
+
+(a) Leverage 
+
+(b) Cook’s D
+
+**Solution:** 
+
+```{r}
+## Use this space for your solution to part (a)
+```
+
+(a) [Write your solution to part (a) here.]
+
+```{r}
+## Use this space for your solution to part (b)
+```
+
+(b) [Write your solution to part (b) here.]
+
+
+## Problem 9
+
+Two types of dementia are Dementia with Lewy Bodies and Alzheimer’s disease. Some people are afflicted with both of these. The file `LewyBody2Groups` includes the variable `Type`, which has two levels: “DLB/AD” for the 20 subjects with both types of dementia and “DLB” for the 19 subjects with only Lewy Body dementia. The variable `APC` gives annualized percentage change in brain gray matter. The variable `MMSE` measures change in functional performance on the Mini Mental State Examination.
+
+```{r}
+data("LewyBody2Groups")
+LewyBody2Groups %>% head
+```
+
+(a) Fit an interaction model that produces two regression lines for predicting `MMSE` from `APC`, one for each of the two levels of `Type`. Write down the fitted prediction equation for each level of `Type`.
+
+(b) Use a t-test to test the null hypothesis that the interaction term is not needed and parallel regression lines are adequate. Specify the null and alternative, the p-value and your chosen significance level in addition to the conclusion of the test. 
+
+(c) Use a nested F-test to test the null hypothesis that neither of the terms involving `Type` is needed and a common regression line for both levels of `Type` is adequate for modeling how `MMSE` depends on `APC`. Specify the null and alternative, the p-value and your chosen significance level in addition to the conclusion of the test. 
+
+**Solution:** 
+
+```{r}
+## Use this space for your solution to part (a)
+```
+
+(a) [Write your solution to part (a) here.]
+
+```{r}
+## Use this space for your solution to part (b)
+```
+
+(b) [Write your solution to part (b) here.]
+
+```{r}
+## Use this space for your solution to part (c)
+```
+
+(c) [Write your solution to part (c) here.]
+
+
+
+## Problem 10
+
+Consider the data introduced in Exercise 1.45 on the time (in minutes) it took to play a sample of Major League Baseball games. The datafile `BaseballTimes2017` contains four quantitative variables (`Runs`, `Margin`, `Pitchers`, and `Attendance`) that might be useful in predicting the game times (`Time`). 
+
+```{r}
+data("BaseballTimes2017")
+BaseballTimes2017 %>% head 
+```
+
+From among these four predictors choose a model for each of the goals below.
+
+(a) Maximize the adjusted coefficient of determination.
+
+(b) Minimize Mallows’s $C_p$.
+
+(c) After considering the models for parts (a) and (b), which model would you choose to predict baseball game times? Explain your choice.
+
+**Solution:** 
+
+```{r}
+# Use this space for part (a)
+```
+
+(a) [Write your solution to part (a) here]
+
+
+```{r}
+# Use this space for part (b)
+```
+
+(a) [Write your solution to part (b) here]
+
+(c) [Write your solution to part (c) here]

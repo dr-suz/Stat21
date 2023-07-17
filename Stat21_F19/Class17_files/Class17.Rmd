@@ -1,0 +1,127 @@
+---
+title: "Class 17"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/10/11 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+```{r, comic17, echo=FALSE, fig.align='center', out.height=500}
+knitr::include_graphics("Figs/grades.png")
+```
+
+---
+## Breif detour to some review material...
+### Chi square test for independence  
+
+As you may have seen in your previous stat classes, a chi squared test is useful when we are interested in determining if a relationship exists between two difference categorical variables. (Note that this is **different** from ANOVA methods because in ANOVA, we are interested in exploring a relationship between a categorical predictor variable and a numerical response variable!)
+
+
+--
+**Method of analysis:** Draw a table with the values of the first categorical variable representing rows and values of the other categorical variables representing columns. Thus each cell entry represents a number of counts and we want to compare the observed counts to the counts expected under the null hypothesis. 
+
+
+.center[ $H_0:$ The two categorical variables are independent/not related.
+
+
+$H_1:$ The two categorical variables are dependent.]
+
+
+--
+**Interpretation:** Under $H_0$ we wouldn't expect the amount of observations in a particular column to have any effect whatsoever on the amount of observations in a particular row. 
+
+
+---
+## Chi square test for independence  
+### Star Trek example
+
+
+In Star Trek, the crew members wear different colored uniforms to identify their respective work areas. Fans of the show are well aware that those who wear red shirts have the unfortunate reputation of dying more often that those who wear gold or blue shirts.
+
+
+Shirt color | Number of people | Fatalities
+------------|------------------|-----------
+Blue        | 136              | 7
+Gold        | 55               | 9   
+Red         | 239              | 24
+Total       | 430              | 40
+
+
+
+.footnote[This example brought to you by: https://statisticsbyjim.com/hypothesis-testing/chi-square-test-independence-example/] 
+
+
+---
+## Chi square test for independence  
+### Star Trek example
+.scroll-output[
+```{r starTrekEx}
+##Here I am creating our data set
+shirt_color <- c(rep("Blue", 136), rep("Gold", 55), rep("Red", 239))
+trekkies_live <- c(rep("yes",136-7), rep("no", 7), rep("yes", 55-9), rep("no", 9),
+          rep("yes", 239-24), rep("no",24))
+star_trek_data <- bind_cols(shirt_color = fct_infreq(shirt_color), alive = fct_infreq(trekkies_live))
+
+##Let's double check to make sure the data adds up to match the table on the previous slide
+star_trek_data %>% count(shirt_color, alive) 
+
+##Now let's conduct the chi squared test on the data above
+chisq.test(star_trek_data$shirt_color, star_trek_data$alive)
+``` 
+]
+

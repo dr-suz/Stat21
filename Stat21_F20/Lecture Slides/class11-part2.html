@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 11 - Part 2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class11-part2_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class11-part2_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 11 - Part 2
+## Checking the Assumptions for SLR
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, Oct 13, 2020 (updated: 2020-10-09)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## SLR
+### Assumptions 
+
+`$$Y\mid x = \beta_0 + \beta_1 x + \epsilon$$`
+
+
+**For estimation:**
+
+
+[1] `\(E[\epsilon]=0\)`;
+
+[2] `\(Var[\epsilon]=\sigma^2 &lt; \infty\)`;
+
+[3] Each instance of the random variable `\(\epsilon\)` is independent of any other instance. 
+
+
+**For inference:** 
+
+
+[4] The random variable `\(\epsilon\)` is normally distributed. 
+
+
+**Note:** Sometimes, we will combine all four assumptions into one statement by stating, for each `\(i=1,\dots, n\)`
+`$$\epsilon_{i} \stackrel{IID}{\sim} N(0,\sigma^2).$$`
+
+---
+## SLR Example
+### Restaurant Data 
+
+We are going to continue to use the restaurant data and model the percentage tipped as predicted by the overall cost of the bill. 
+
+.scroll-small[
+
+```r
+library("tidyverse")
+require(Lock5Data)  ## this is similar to the library() function but it attaches the names of the data sets contained in the package Lock5Data 
+data(RestaurantTips)
+head(RestaurantTips)
+```
+
+```
+##    Bill   Tip Credit Guests Day Server PctTip
+## 1 23.70 10.00      n      2   f      A   42.2
+## 2 36.11  7.00      n      3   f      B   19.4
+## 3 31.99  5.01      y      2   f      A   15.7
+## 4 17.39  3.61      y      2   f      B   20.8
+## 5 15.41  3.00      n      2   f      B   19.5
+## 6 18.62  2.50      n      2   f      A   13.4
+```
+
+```r
+SLR_tips = lm(PctTip ~ Bill, data = RestaurantTips)
+names(SLR_tips)
+```
+
+```
+##  [1] "coefficients"  "residuals"     "effects"       "rank"         
+##  [5] "fitted.values" "assign"        "qr"            "df.residual"  
+##  [9] "xlevels"       "call"          "terms"         "model"
+```
+]
+
+---
+## SLR
+### Assumptions 
+
+**Checking assumption 1: zero mean**
+
+`$$E[\varepsilon]=0$$`
+
+
+- This assumption is the easiest to meet. 
+
+- If you suspect that the mean of your `\(Y\)` measurement errors is non-zero, you can still ensure that this model assumption is met by **standardizing the data** before you fit a regression curve. 
+
+
+- When we get to MLR (multiple linear regression), it will become more important to standardize the data before fitting a regression line. 
+
+
+
+**Note:** The mean of the residuals, `\(\frac{1}{n}\sum_{i=1}^{n}e_{i}\)`, will always be zero! Why? 
+
+---
+## Problem set-up
+### Assumptions 
+
+**Checking assumption 2: .blue[constant] variance**
+
+`$$Var[\epsilon]=\sigma^2 &lt; \infty$$`
+
+&lt;a href="https://en.wikipedia.org/wiki/Heteroscedasticity"&gt;Heteroscedasticity&lt;/a&gt; often occurs when there is a large difference among the sizes of the response variable. What we are looking for here is: does our measurement error `\((\epsilon)\)` vary (increase or decrease) with each new observation `\((y_i, x_i)\)`?
+
+  - Cross sectional data 
+  - Time series data 
+  - Econometrics data 
+
+
+1. Example: Income versus money spent on meals.
+
+1. Example: Measuring changing distance of a rocket being launched. 
+
+.footnote[For more reading on heteroscedacity see [this article](http://www.statsmakemecry.com/smmctheblog/confusing-stats-terms-explained-heteroscedasticity-heteroske.html). (Note that they use the terms independent and dependent variables which is confusing, though common!)]
+
+---
+## Problem set-up
+### Assumptions 
+
+**Checking assumption 2: .blue[constant] variance**
+
+.scroll-output[
+The best way to check if this assumption is reasonable is to look at a scatter plot of the residuals vs the fitted values.
+
+We want to make sure that there is no "funneling" pattern to the spread of the residuals. That is, the amount the residuals vary about the horizontal line at zero should not have a discernible pattern such as plots (b)-(d): 
+
+&lt;img src="Figs/residual_plots.png" height="400" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+## SLR Example
+### Restaurant Data 
+
+.scroll-output[
+
+```r
+residual_plot_data &lt;- RestaurantTips %&gt;% 
+                      mutate(residuals = SLR_tips$residuals,
+                             fitted_vals = SLR_tips$fitted.values) 
+ggplot(residual_plot_data, aes(x=fitted_vals, y=residuals)) +
+  geom_point() + 
+  labs(title="Residual plot", subtitle="Restaurant Bill and Percentage Tipped",
+       x="Predicted Bill Total", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+
+&lt;img src="Figs/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+
+---
+## Problem set-up
+### Assumptions 
+
+**Checking assumption 3: independence**
+
+This assumption is difficult to check. Usually you have to think critically about what are potential sources of measurement error in your observations of the response variable `\(Y\)`.
+
+For temporal data we can check the autocorrelation of the residuals. 
+
+Otherwise, we can look for linear relationships in scatter plots of the residuals and the predictor variables. If we find evidence of this, we may need to re-consider what predictor variables we include in our model. 
+
+
+Note that the residuals `\(e_i\)` are NOT independent, rather we want to think about whether or not the measurement error (or noise) in our observations of `\(Y\)` are independent. 
+
+---
+## Problem set-up
+### Assumptions 
+
+**Checking assumption 4: normally distributed errors**
+
+To check this assumption we simply need to look at a normal probability plots for standardized residuals! 
+
+
+
+```r
+residual_plot_data &lt;- residual_plot_data %&gt;%
+                      mutate(std_residuals = (residuals-mean(residuals))/sd(residuals)) 
+ggplot(residual_plot_data, aes(sample=std_residuals)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal probability plot", subtitle="Standardized residuals for restaurant data") 
+```
+
+---
+## SLR Example
+### Restaurant Data 
+
+&lt;img src="Figs/unnamed-chunk-6-1.png" height="450" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

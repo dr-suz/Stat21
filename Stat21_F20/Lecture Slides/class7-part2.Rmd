@@ -1,0 +1,180 @@
+---
+title: "Class 7 - Part 2"
+subtitle: "Measuring Variability"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Sept 29, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## The most useful statistical summaries 
+### For quantitative variables 
+
+Measure of "location"
+  
+  - Mean 
+  
+  - Median
+  
+  - Mode
+  
+  - Plots! 
+  
+Measures of "spread" (or "scale") 
+  
+  - Standard deviation, variance 
+  
+  - Interquartile range
+  
+  - Minimum and maximum
+  
+  - Plots! 
+
+---
+
+## Variance and standard deviation 
+
+  - Standard deviation is a *standard* unit of measurement for Statisticians. Always specify, the standard deviation *of what?* The units of standard deviation match those of the original data.
+
+  - Variance is just a function of standard deviation.  
+
+
+Suppose we observe $n$ data points and, for each data point, we collect two measurements, one for variable $X$ (e.g. age) and another for variable $Y$ (e.g height). 
+
+<ol start="1">
+
+<li> Expectation</li></ol>
+
+$$E[X] \approx \frac{1}{n}\sum_{i=1}^{n} x_{i}$$
+
+---
+## Variance and standard deviation 
+
+Suppose we observe $n$ data points and, for each data point, we collect two measurements, one for variable $X$ (e.g. age) and another for variable $Y$ (e.g height). 
+
+<ol start="2">
+
+<li>Variance/Standard Deviation</li></ol>
+$$Var[X] = Cov[X, X] = E[(X-E[X])^2] = \dots = (E[X])^2 - E[X^2]$$ 
+$$\approx \frac{1}{n-1}\sum_{i=1}^{n}\left(x_{i}-\frac{1}{n}\sum_{i=1}^{n}x_{i}\right)^2$$
+$$SD[X] = \sqrt{Var[X]}$$
+
+---
+# A review of important statistical concepts
+## Variance and standard deviation 
+
+.scroll-output[Consider the body temperature data again. 
+
+**Q:** What are the units of measurement for the following summary statistics? 
+
+```{r bodyTempPlot, echo=FALSE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center'}
+body_temp_dat <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class3_files/F2019/normtemp_data.txt"))
+
+ggplot(data=body_temp_dat, aes(Temperature)) + 
+           geom_histogram(bins=15) +
+               #  xlim(80, 120) +
+                 #geom_density(aes(rnorm(130, 98, 0.7)), col="blue") +
+                 #geom_density(aes(rcauchy(130, 98, 0.7)), col="green") + 
+                 labs(title="Histogram of Body Temperatures") + 
+                 xlab("Temperature") + ylab("Frequency")
+```
+
+$\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i = \frac{1}{130}(96.3+96.7+96.9+ \cdots + 100.8) =$ `r round(mean(body_temp_dat$Temperature), 1)`
+
+$s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_{i}-\bar{x})^2 = \frac{1}{129}[(96.3-98.2)^2 + (96.7-98.2)^2 + (96.6-98.2)^2 + \cdots + (100.8-98.2)^2] =$ `r round(var(body_temp_dat$Temperature), 1)`
+
+$s = \sqrt{s^2} =$ `r round(sd(body_temp_dat$Temperature), 1)`
+]
+
+
+---
+## Variance and standard deviation 
+
+Suppose we observe $n$ data points and, for each data point, we collect two measurements, one for variable $X$ (e.g. age) and another for variable $Y$ (e.g height). 
+
+
+<ol start="3">
+
+<li>Covariance</li></ol>
+$$Cov[X, Y] = E[(X-E[X])(Y-E[Y])] = \dots = E[XY] - E[X]E[Y]$$ 
+$$\approx   \frac{1}{n-1}\sum_{i=1}^{n}\left(x_{i}-\frac{1}{n}\sum_{i=1}^{n}x_{i}\right)\left(y_{i}-\frac{1}{n}\sum_{i=1}^{n}y_{i}\right)$$
+
+
+
+---
+## A review of important statistical concepts
+
+Suppose we observe $n$ data points and, for each data point, we collect two measurements, one for variable $X$ (e.g. age) and another for variable $Y$ (e.g height). 
+
+<ol start="2">
+<li>Independence and Correlation</li></ol>
+
+Correlation is a standardized version of covariance: 
+
+$$\rho(X,Y) = Cor(X,Y) = \frac{Cov[X,Y]}{\sqrt{Var[X]Var[Y]}}.$$
+
+### Independence 
+
+If two RVs are independent, then they are uncorrelated. NOT vice versa! That is, if $X$ is independent of $Y$ then $E[XY] = E[X]E[Y]$ and thus $Cov[X, Y] = 0$ and subsequently $Cor[X,Y] = 0$. 
+
+Also, if $X$ is independent of $Y$ then $Var[X \pm Y] = Var[X] + Var[Y]$. Note that standard deviations do not share this same property! 
+

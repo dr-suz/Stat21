@@ -1,0 +1,389 @@
+---
+title: "Class 11"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Oct 13, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Math/Stat Speed Networking
+
+.center[**Tuesday, October 13**]
+.center[3:45 - 5:00pm, EDT]
+
+Come learn what the Math/Stat department has to offer! Join us for a virtual "speed-networking" event! Give advice/get advice! Hear from peers about:
+
+-Math and statistics majors and minors
+
+-Courses
+
+-Summer and extracurricular activities
+
+-Career paths
+
+-Personal experiences
+
+
+
+Please preregister [here](https://docs.google.com/forms/d/e/1FAIpQLSenyJVY5FL1-yFO1CvOmIRH1oYt9j67_gk-Bk4QIg7yNCbmoA/viewform) by 12:00pm on Friday, October 9. 
+
+---
+## Happy Tuesday
+### We're half-way through the semester!  
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - HW 4 due tonight by 6pm ET
+  
+  - EC Study guide - granted to 3 people who share study guide's in the study materials Slack channel
+  
+  - Make sure RStudio is working for you before Thursday!
+  
+- Test prep  
+
+- SLR with diamonds data 
+
+- Review material 
+]
+
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+```{r, echo=FALSE, fig.align='right', out.height=500}
+knitr::include_graphics("Figs/real-feel.png")
+```
+]
+
+---
+## Class checklists 
+
+.scroll-output[
+**Each week you need to complete the following** 
+
+- Submit your homework solutions to Gradescope 
+
+  - Submit any re-grade requests on Gradescope as well 
+  
+  - Please make sure to select which pages go with which problems
+
+- .blue[Respond to the Slack check-in prompt] 
+
+- .blue[Submit your group evaluation on Moodle]
+
+
+**Before every class you need to complete the following** 
+
+- View the lecture videos for the next class
+
+  - 2-3 videos for Tuesday classes 
+  
+  - 1-2 videos for Thursday classes
+
+- Complete the comprehension quiz for the next class 
+
+  - Available the day before class (by mid-day)
+  
+  - Can re-take after class if you don't get a perfect score at first 
+  
+  - Can submit free response question even if you don't have a perfect score
+
+
+**During class time you need to be prepared to**
+
+- Arrive to Zoom class meetings on-time 
+
+- Speak up in group discussions 
+
+- Complete your "role" in group discussions 
+]
+
+---
+## Preparing for Test 1 
+
+Test 1 will be released on Gradescope on Thursday, the 15th, at 8:30am (ET) and is due on Gradescope by noon (ET) of the 17th. The test will cover everything up to and including Class 11.
+      
+  - New Slack channel for `#study_materials`
+  
+  - Live OHs (in Zoom): 
+        
+    Friday from 11:00am-12:00pm https://swarthmore.zoom.us/j/89462104560
+    
+  - Online time (on Slack channel `#test1_questions` (will be created Thursday morning)
+      
+    Thursday 10:00am - 12:00pm 
+      
+    Friday from 1:00pm-2:00pm 
+  
+  - The test is open book, open internet, etc. The only thing you may not do is solicit help from another person directly. (E.g. no asking test questions on Stack Exchange or in private chats with group members.)
+          
+I will provide you with a R Markdown template for typing up your solutions [here](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Stat21.html). If you'd rather copy and paste typed solutions (from a Word document for example) with your R code and output you may do so but you must merge everything into a .red[single PDF document] to submit to Gradescope. You also must select which page contains your answers for each problem. Failure to do so will cost you .red[5 percentage points]. 
+
+.red[No late submissions will be accepted.] Make sure you start on the test early and try to finish it before Saturday. 
+
+---
+## Study tips 
+
+**Extra credit opportunity:** 
+
+If you make a study guide you can share it with the class! I will pick my top 3 favorites to get extra credit! (Guide must be shared before Wednesday morning next week.) Share in the **new slack channel** called: `study_materials`. (You can still submit stuff after Wednesday morning, it just won't be eligible for extra credit.)
+
+.blue[Note that I will be picking one study guide per person!]
+
+To prepare for the first test I recommend
+
+  - Going over the homework problems with others;  
+
+  - Reviewing the comprehension quizzes on your own;  
+
+  - Making an outline of the topics covered in each of the lesson slides and videos. 
+  
+---
+## SLR Diamond Data - continued 
+### Group work - 10 mins 
+
+.scroll-output[
+View this data set on the price of diamonds (in Singapore dollars) and their size (in carats). The rings are made with gold of 20 carats purity and are each mounted with a single diamond stone. 
+
+```{r echo=TRUE}
+library("tidyverse")
+diamonds <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/diamond_dat.txt"), skip=2, col_names=c("Carats", "Price"))
+head(diamonds)
+```
+
+
+Complete [this worksheet](https://docs.google.com/document/d/1anJmvd7XYsTOxLYP3ArHzIjxF6kjcXNCoIdkVH418Oo/edit?usp=sharing) with your group. 
+
+
+To get started with the plots, alter the code below to generate the plot you need: 
+```{r eval=FALSE}
+ggplot(diamonds, aes()) + 
+                       + 
+  labs(title="XXXXXX", x="XXXX", y="XXXX")
+```
+
+To select a variable within a data object in R, you can use the $ sign:
+```{r eval=FALSE}
+diamonds$Carats
+diamonds$Price
+```
+]
+
+
+```{r worksheet_solns, echo=FALSE, eval=FALSE}
+ggplot(diamonds, aes(x=Carats, y=Price)) + 
+  geom_point()  + 
+  labs(title="Scatterplot of diamond data", x="Carats", y="Price")
+
+diamonds_SLR <- lm(Price ~ Carats, diamonds)
+summary(diamonds_SLR)
+cor(diamonds$Carats, diamonds$Price)
+
+diamonds <- diamonds %>% mutate(residuals = diamonds_SLR$residuals,
+                                std_residuals = (diamonds_SLR$residuals - mean(diamonds_SLR$residuals))/sd(diamonds_SLR$residuals))
+
+ggplot(diamonds, aes(sample=std_residuals)) + 
+  stat_qq()  + 
+  stat_qq_line() + 
+  labs(title="Normal probability plot for diamond residuals")
+```
+
+---
+## SLR Diamond Data - continued
+### Group work - 10 mins
+
+**Discussion Question:**
+
+If we fit a SLR to this data, what is the interpretation of the slope and intercept? 
+
+***
+
+**Note-taker:** You will submit the completed worksheet to me over your group's Slack channel at the end of class. (Please make sure the settings allow me to access your document!) 
+
+**Presenter:** Be prepared to answer questions based on your worksheet when we discuss the worksheet after. 
+
+**Recorder:** Keep track of the time and alert your group when you have 5 mins remaining. At this time I want the questioner to start discussion on the question above.  
+
+**Questioner:** Make sure that your group discusses the question above. Think carefully about the answers and ask why! 
+
+
+ 
+
+
+---
+## Review material
+### Moodle questions
+
+
+**Determining independence**
+
+Does knowing the value of one observational unit give you any information at all on what the value of another observational unit may be? 
+
+
+- Suppose we have a data set consisting of the number of live births per 1000 people aged 15-45 in the US from 1965-1999. The predictor variable is the year and the response variable is the birth rate.
+
+
+- Every year, biologists count the number of moose on Isle Royale, a large island in Lake Superior. Moose live a long time, so if the number of moose in one year is high, the number in the next year will probably be pretty high, and if the number of moose is low one year, the number will probably be low the next year as well. Suppose the biologists want to fit a SLR model to estimate how the number of Moose on Isle Royale changes each year. 
+
+
+---
+## Review material
+### Understanding P-values and CIs 
+
+.scroll-output[
+**A p-value is:** 
+
+  - A probability that is calculated by assuming the null hypothesis is true; 
+
+  - The probability that some random variable with a particular distribution takes on a value equal to that of the observed test statistic or a value more extreme than this.
+  
+  - A way to statistically inform decision-making. 
+  
+  
+**A p-value is NOT:** 
+  
+  - The probability that the null hypothesis is true;
+  
+  - An estimated effect size.
+
+***
+
+**A confidence interval is:**
+
+  - A way to quantify our (un)certainty;
+  
+  - A statement about a hypothetical scenario;
+  
+  - Defined based on the concept of random sampling; 
+  
+  - An estimated effect size. 
+  
+  
+**A confidence interval does NOT tell you:**
+
+  - The probability that your interval contains the true parameter value;
+  
+  - How to make a decision. 
+]
+
+
+---
+## Review material
+### Group work - 10 mins
+
+
+Each group will be assigned to work on answering one of the questions on the next slide. These questions are based on feedback from the comprehension quiz for today's class. 
+
+The goal of this exercise is to discuss the questions with your group mates and then come together as a class to review your answers (and/or any additional questions that came up). 
+
+
+***
+
+**Note-taker:** Share your screen with your group mates and take notes on the screen based on your group's discussion. Submit a screen shot of these notes to me on your group's Slack channel at the end of class. 
+
+**Presenter:** Be prepared to summarize your group's discussion when we come together as a class to review these questions. 
+
+**Recorder:** Keep track of the time and alert your group when you have 5 mins remaining. 
+
+**Questioner:** Make sure that everyone in your group gets a chance to speak. If there is one person who answers the question right away, it's your job to challenge their answer and ask a question for your other group members to discuss. 
+
+
+
+---
+## Review material
+### Group work - 10 mins
+
+
+**1. SLR**
+$$Y \mid x = \beta_0 + \beta_1 x + \epsilon, \quad \text{where } E[\epsilon]=0 \text{ and } Var[\epsilon]=\sigma^2$$
+Why is the mean of residuals always zero?
+ 
+
+.blue[(Skipped this for now, we will discuss this after Test 1.)] 
+ 
+ 
+ 
+**2. Properties of quantitative variables**
+ 
+Why is it that covariance is a measure of the strength of a linear model, but variance is not?
+ 
+ 
+ 
+
+
+**3. ANOVA homogeneity of variance**
+
+How do we determine if the homogeneity of variance assumption is reasonable? With box plots? By calculating the sample variances over each level? Is this rule of thumb thing or is there a strict cutoff for the variances being "close enough"?
+
+

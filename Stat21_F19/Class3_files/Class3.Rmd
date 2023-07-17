@@ -1,0 +1,204 @@
+---
+title: "Class 3"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/9/6 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+  includes:
+    in header: STteachingMarkdown.sty    
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+#setwd("~/Dropbox/z MyStuff Dropbox/Swat docs/Stat 21/Class3_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.height=4, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("Figs/disaster_movie_xkcd.png")
+```
+
+.footnote[Source: https://xkcd.com/2029/]
+
+---
+
+# Topics covered in today's lecture
+
+  - Importing data into R 
+  - Data manipulation in R *tidyverse* 
+---
+# A new data set - body temperature
+
+```{r import_data, echo=TRUE, warning=FALSE}
+rm(list = ls())
+#install.packages("tidyverse") ##should also install the dependencies "ggplot2" (for visualizing data) and "margrittr" (for piping)
+library("tidyverse")
+#setwd("~/Dropbox/z MyStuff Dropbox/Swat docs/Stat 21/Class2_files")
+read_table2("normtemp_data.txt") 
+```
+
+---
+# Body temperature data
+
+```{r echo=FALSE, warning=FALSE}
+read_table2("normtemp_data.txt") 
+```
+
+
+All of the columns were imported as type "double". Is this what we want?
+
+
+.footnote[https://magazine.amstat.org/blog/2019/03/01/evolutionofvariables/]
+
+
+---
+# Body temperature data
+
+Now we can create a data "object" which we will call *body_temp_dat*.
+
+```{r import_data2, echo=TRUE, warning=FALSE}
+body_temp_dat <- read_table2("normtemp_data.txt", 
+                        col_types = list(col_double(),col_character(),col_double()))
+body_temp_dat %>% head() 
+```
+
+---
+# Useful ways to manipulate data<sup>1</sup>
+
+Commonly used data manipulation functions
+  - *select()*
+  - *filter()*
+  - *mutate()*
+  - *group_by()*
+  - *summarize()*
+  - *count()* 
+
+  
+.footnote[1 https://datacarpentry.org/R-ecology-lesson/03-dplyr.html#selecting_columns_and_filtering_rows]  
+
+---
+# Useful ways to manipulate data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}
+#To select specific columns:
+    body_temp_dat %>% select(Temperature, HeartRate)
+```
+
+---
+# Useful ways to manipulate data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}
+    #...or equivalently
+    body_temp_dat %>% select(-Handedness)
+```
+
+---
+# Useful ways to manipulate data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}    
+#To select specific rows:    
+    body_temp_dat %>% filter(Handedness==1)
+    ```
+
+---
+# Useful ways to manipulate data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}    
+
+#Combine types of selection
+    body_temp_dat %>% filter(Handedness==1) %>% 
+                      select(-Handedness)
+```
+
+---
+# Useful ways to manipulate data
+
+The *mutate()* function allows you to append a new column of data to your original data set. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% filter(Handedness==2) %>%
+                    mutate(CelciusTemp = ((Temperature-32)*5)/9)
+```
+
+---
+# Useful ways to manipulate data
+
+The *group_by()* function groups the data according to different "levels" of a categorical variable of your choice. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% group_by(Handedness) %>%
+                    summarize(mean_temp = mean(Temperature),
+                              standard_dev_temp = sd(Temperature))
+```
+
+
+---
+# Useful ways to manipulate data
+
+The *count()* function provides a table of the total number of individuals within each group of a categorical variable of your choice. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% count(Handedness)
+```
+
+
+---
+# Why are we using piping?
+
+It is very useful when you need to apply many different transformations to your data and don’t want to save the intermediate results or have many opening and closing function parentheses. It is also very useful for cleaning data.
+
+For example, suppose we want to compute the logarithm of the vector `x`, then find the differences between each element and it's subsequent element, then compute the exponential function value of these difference, and finally, round the result to one decimal point. 
+```{r echo=TRUE, warning=FALSE}
+x <- c(0.109, 0.359, 0.63, 0.996, 0.515, 0.142, 0.017, 0.829, 0.907)
+
+round(exp(diff(log(x))), 1)
+```
+
+---
+# Why are we using piping?
+
+Or you can do the same operations much neater using pipes:
+```{r echo=TRUE, warning=FALSE}
+x %>% log() %>%
+    diff() %>%
+    exp() %>%
+    round(1)
+```
+
+Which one is easier to read? Which one is easier for other people (the people who didn't write your code) to read? 
+
+
+

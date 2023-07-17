@@ -1,0 +1,182 @@
+---
+title: "Stat 21 Homework 10"
+author: 'Rubric and Solutions'
+output:
+  pdf_document: 
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data) ## for the data 
+library(car)       ## for VIF function 
+```
+
+# Part I: Concept problems 
+
+For Problems 1-3 consider the following setting.
+
+A researcher is interested in studying the size of hatchling Ornate Box Turtles based on the state in which they are found. He gathers a random sample of turtles in each of three different states: Nebraska, Oklahoma, and Texas, wondering if the size changes from North to South.
+
+
+## Problem 1
+
+(a) State the appropriate null hypothesis, both in symbols and in words.
+
+(b) What additional information do you need about these three samples in order to conduct ANOVA to determine if there is a statistically significant difference among these three means?
+
+(c) What additional information do you need in order to assess whether the conditions for ANOVA are satisfied?
+
+### Solution to Problem 1 
+
+(a) The null hypothesis is that the average size of turtles is the same in all three states. In symbols, $H_0: \alpha_1 = \alpha_2 = \alpha_3 = 0$ (or$H_0: \beta_2 = \beta_3 = 0$ or $H_0: \mu_1 = \mu_2 = \mu_3 = 0$)  where group 1 represents those in Nebraska, group 2 represents those in Oklahoma, and group 3 represents those in Texas.
+
+(b) We need to have the actual values of the size of the turtles for all turtles in each group in order to conduct the ANOVA.
+
+(c) We need to compute the residuals and examine the widths of boxplots for each group in order to assess whether the conditions are met for ANOVA.
+
+
+## Problem 2
+
+Suppose that the sample sizes are 15 for each of the three groups, and also suppose that the standard deviations of the turtle sizes are very similar in the three groups. Assume that all three populations do, in fact, have the same standard deviation. Suppose that the three sample means turn out to be $18.3$, $20.1$, and $22.4mm$.
+
+Without doing any ANOVA F-test calculations, state a value for the standard deviation that would lead you to reject. Explain your answer, as if to a peer who has not taken a statistics course, without resorting to formulas or calculations.
+
+
+### Solution to Problem 2
+
+Answers will vary. One possible answer is a common standard deviation of 0.2. With a standard deviation of this size, there will be very little overlap between observations in the three groups. This would suggest that the means are, in fact, different.
+
+
+
+## Problem 3
+
+Under the same assumptions as Problem 1, now repeat Problem 1, but state a value for the standard deviation that would lead you to fail to reject.
+
+### Solution to Problem 3
+
+Answers will vary. One possible answer is a common standard deviation of 8.0. Since the difference between the largest mean and the smallest mean is only 4.1, with a standard deviation of 8.0 in each group, there will be lots of overlap between observations in the three groups, which makes it harder to conclude that there is a true difference in the population means.
+
+ 
+# Part II: R Problems 
+
+Amyloid (Abeta) is a protein fragment that has been linked to Alzheimer’s disease. Autopsies from a sample of Catholic priests included measurements of Abeta (pmol/g tissue from the posterior cingulate cortex) from three groups: subjects who had exhibited no cognitive impairment before death, subjects who had exhibited mild cognitive impairment, and subjects who had mild to moderate Alzheimer’s disease. The data are in the file Amyloid.
+
+```{r}
+library(Stat2Data)
+data(Amyloid)
+Amyloid %>% head
+```
+
+
+## Problem 4
+
+(a) Report the sample sizes, sample means, and sample standard deviations for each group.
+
+(b) Make parallel boxplots of the data by group. What do these plots indicate about whether an analysis of variance model would be appropriate?
+
+
+### Solution to Problem 4
+
+```{r}
+Amyloid$Group %>% summary
+mAD_group = Amyloid %>% filter(Group=="mAD") 
+  mAD_group$Abeta %>% mean
+  mAD_group$Abeta %>% sd 
+MCI_group = Amyloid %>% filter(Group=="MCI") 
+  MCI_group$Abeta %>% mean
+  MCI_group$Abeta %>% sd 
+NCI_group = Amyloid %>% filter(Group=="NCI") 
+  NCI_group$Abeta %>% mean 
+  NCI_group$Abeta %>% sd
+  
+ggplot() + geom_boxplot(aes(x=Group, y=Abeta), Amyloid)
+```
+
+
+(a) | Variable | Group | N | Mean  | StDev  |
+    | ---      | ---   | --- | --- | ---    |
+    | ABeta-42 | mAD   | 17 | 761.3 | 426.7 |
+    |          | MCI   | 21 | 341.0 | 406.4 |
+    |          | NCI   | 19 | 336.3 | 435.6 |
+
+(b) Parallel boxplots show that the MCI and NCI groups have skewed distributions, so the normality condition for ANOVA is not met.
+
+
+## Problem 5
+
+(a) Transform the data by taking the square root of each observation. Report the sample means and sample standard deviations for each group in the transformed scale.
+
+(b) Make parallel boxplots of the transformed data by group. What do these plots indicate about the amount of Abeta levels in the three groups?
+
+(c) What do the parallel boxplots indicate about whether an analysis of variance model would be appropriate?
+
+(d) Conduct an ANOVA using the transformed data. Interpret the results. What do you conclude about Abeta and cognitive impairment?
+
+```{r}
+new_data <- Amyloid %>% mutate(trans_Abeta = sqrt(Abeta))
+new_data$Group %>% summary
+new_mAD_group = new_data %>% filter(Group=="mAD") 
+  new_mAD_group$Abeta %>% mean
+  new_mAD_group$Abeta %>% sd 
+new_MCI_group = new_data %>% filter(Group=="MCI") 
+  new_MCI_group$Abeta %>% mean
+  new_MCI_group$Abeta %>% sd 
+new_NCI_group = new_data %>% filter(Group=="NCI") 
+  new_NCI_group$Abeta %>% mean 
+  new_NCI_group$Abeta %>% sd
+
+ggplot() + geom_boxplot(aes(x=Group, y=trans_Abeta), new_data)
+
+trans_anova <- lm(trans_Abeta ~ Group, new_data)
+trans_anova %>% summary
+```
+
+### Solution to Problem 5
+
+(a) In square root scale, the sample means are 26.4, 14.7, and 14.2. The sample SDs are 8.2, 11.5, and 11.9.
+
+(b) The parallel boxplots show that Abeta levels tend to be higher in the mAD group than in the other two groups.
+
+(c) Parallel boxplots of the transformed data show reasonable symmetry for each of the groups. The normality condition for ANOVA is now met.
+
+(d) The ANOVA F-statistic is 7.36 and the P-value is 0.001. There is strong evidence for the alternative hypothesis that Abeta is related to group membership.
+
+
+## Problem 6 
+
+Recall the data from HW 9 on exams administered to firefighters hoping to qualify for promotion to either Lieutenant or Captain in the city fire department. A final score consisting of a 60\% weight for the written exam and a 40\% weight for the oral exam was computed for each person who took the exam. Those people receiving a total score of at least 70\% were deemed to be eligible for promotion. 
+
+In a situation where $t$ openings were available, the people with the top $t+2$ scores would be considered for those openings. A concern was raised, however, that the exams were discriminatory with respect to race and a lawsuit was filed. The data are given in the data file `Ricci`.
+
+```{r}
+library(Stat2Data)
+data(Ricci)
+Ricci %>% head
+```
+
+In HW 9, you discovered that there was at least one significant difference in mean combined score for the three different groups of firefighters who took the promotion exam. Now, use Fisher’s LSD to find the differences that are significant.
+
+### Solution to Problem 6 
+
+```{r}
+library(DescTools)
+regmod <- lm(Combine ~ Race, Ricci)
+
+ANOVA_mod <- regmod %>% aov 
+PostHocTest(ANOVA_mod, method="lsd")
+```
+
+The following output shows that, in fact, white people have a significantly higher mean score than people of either other group, but there is no significant difference between Black people and Hispanic people.

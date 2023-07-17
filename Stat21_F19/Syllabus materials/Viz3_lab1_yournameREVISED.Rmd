@@ -1,0 +1,291 @@
+---
+output:
+  pdf_document: default
+header-includes:
+  - \usepackage{color}
+  - \usepackage[dvipsnames]{xcolor}
+---
+----
+ Summer 2019: Introduction to Data Science
+---
+
+```{r, echo = F, results = 'hide', message=F, warning = F}
+library(foreign)      #Default package for almost all code, lets your read files into R
+library(ggplot2)      #plotting package
+library(colorspace)   #better colors for ggplot
+library(broom)        #a widely used, but relatively new, package for producing tidier data and tidier output; part of tidyverse
+library(tidyverse)    #a widely used, but relatively new, package for producing tidier data and tidier output
+library(stargazer)
+```
+#\textcolor{RoyalBlue}{Viz Lab 1: Introduction to ggplot and Anscombe's Quartet}
+####Author:_____(Insert your name here) _____
+
+#### \textcolor{Bittersweet}{Total Points for Lab 1: 20} 
+
+This lab is designed to introduce  you to ggplot and data visualization using Anscombe's Quartet. Anscombe's quartet is a manufactured dataset designed to cleanly and elegantly demonstrate the power of data visualization.
+
+## \textcolor{RoyalBlue}{Template for lab report}
+\textbf{Instructions:} This is the template you will use to type up your responses to the exercises. To produce a document that you can print out and turn in just click on Knit PDF above. All you need to do to complete the lab is to type up your BRIEF answers and the R code (when necessary) in the spaces provided below. If you want to find out more about the markdown language click on the MD icon.
+
+It is strongly recommended that you knit your document regularly (minimally after answering each exercise) for two reasons. 
+
+  1. Ensure that there are no errors in your code that would prevent the document from knitting.
+  2. View the instructions and your answers in a more legible, attractive format.
+
+
+## \textcolor{RoyalBlue}{Load Anscombe's Quartet:}
+
+As a note on naming conventions, the number after "Viz" in the file name denotes which assignment this is: the third assignment, Viz3, but the first R lab, lab1.
+
+Unlike previous assignments, Anscombe's quartet is a dataset that comes along with R as a default dataset. We just need to load it into the visible global environment. After launching RStudio, run the following command, either by 
+
+  1. placing your cursor on line 47 and hitting (PC) Ctrl+Enter OR (Mac) Cmd+Enter OR
+  2. clicking the rightward facing little green arrow.
+In general it is vastly quicker to use your keyboard than it is to use your mouse. The difference is a second or two, but those seconds add up very quickly.
+
+```{r}
+anscombe = read.csv("anscombeQuartet.csv", header = TRUE)
+```
+
+The dataset \textcolor{PineGreen}{anscombe} that shows up in your workspace is a \textit{data matrix}, with each row representing an \textit{observation} and each column representing a \textit{variable}. R calls this data format a \textit{data frame}, which is a term that will be used throughout the labs.
+
+## \textcolor{RoyalBlue}{Introduction to Anscombe}
+Anscombe's Quartet is an articially manufactured dataset designed to highlight a striking pattern in the statistical summaries of four relationships: x1 and y1, x2 and y2, x3 and y3, and x4 and y4. As you go through this assignment, consider the following three questions:
+
+1. What is the pattern that Anscombe manufactured in the statistical summaries of the data? 
+
+2. Why does this pattern clash with your visual interpretation of the four relationships? 
+
+3. Why does this highlight the value of visualizing your data?
+
+## \textcolor{RoyalBlue}{Plotting graphs}
+
+Let us plot the first x and y pair against each other, x1 against y1.
+
+```{r}
+ggplot(anscombe, aes(x=x1, y=y1))+
+  geom_point(data=anscombe, aes(x=x1,y=y1), size = 3)+
+  geom_smooth(method=lm) + theme_bw()
+```
+
+The next problem breaks down those commands, which should be reviewing what you learned in the data transformations section. Here, I am removing two components of the commands for the first graph: geom_smooth(method=lm) and theme_bw()
+```{r}
+ggplot(anscombe, aes(x=x1, y=y1))+
+  geom_point(data=anscombe, aes(x=x1,y=y1))
+```
+
+
+#### \textcolor{RoyalBlue}{Exercise 1: } What did the command geom_smooth(method=lm) do? What did the command theme_bw() do?
+
+```{r}
+##You may want to put two commands in this space: the first will create a graphic
+#that excludes geom_smooth() and the second excludes theme_bw().
+#This isn't necessary, but allows for partial credit if your written answer
+#isn't accurate.
+```
+
+#### \textcolor{RoyalBlue}{Answer 1: } (Write your answer in a few words in plain English here.)
+
+
+####\textcolor{Bittersweet}{Points for Exercise 1: /1} 
+
+#### \textcolor{RoyalBlue}{Exercise 2: } In the space below, \textbf{modify} the command so it plots the variables \textcolor{PineGreen}{x2} and \textcolor{PineGreen}{y2} against each other. 
+
+```{r}
+ggplot(anscombe, aes(x=x1, y=y1))+
+  geom_point(data=anscombe, aes(x=x1,y=y1))+
+  geom_smooth(method=lm) + theme_bw()
+
+```
+
+
+
+####\textcolor{Bittersweet}{Points for Exercise 2: /1}
+
+
+## \textcolor{RoyalBlue}{Understanding regression lines visually:}
+
+The line plotted in the graph is the regression line. The regression line plots the best fit linear line for the data. In practical terms, it does its level best to ensure that the line lands in the center of any vertical cross section of points. In the code below I've added syntax to add in a green box and and a red x. Not that the red x lands approximately at the center of the vertical and horizontal distance between the two points captured within the box. Of note, the regression line prioritizes maintaining the line along the \textit{vertical} center of the points within the graph. You'll discover the math required to ensure this result holds for as many of the data points as possible in the section on linear regressions in future weeks.
+
+
+```{r, echo=F}
+ggplot(anscombe, aes(x=x1, y=y1))+
+  geom_point(data=anscombe, aes(x=x1,y=y1))+geom_smooth(method=lm) + 
+  geom_segment(aes(x=5.5,y=4.5,xend = 5.5, yend = 8),  #geom_segment adds a line between two points  
+               colour = "green", size = 2) +          #(5.5,4.5) and (5.5,8) in color green, size 2  
+  geom_segment(aes(x=7.5,y=4.5,xend = 7.5, yend = 8), 
+               colour = "green", size = 2) + 
+  geom_segment(aes(x=5.5,y=4.5,xend = 7.5, yend = 4.5), 
+               colour = "green", size = 2) + 
+  geom_segment(aes(x=5.5,y=8,xend = 7.5, yend = 8), 
+               colour = "green", size = 2) + 
+  geom_point(aes(x=6.5, y=6.25), colour="red", shape = 4, size = 5 ) + 
+  theme_bw() 
+```
+
+### \textcolor{RoyalBlue}{Equations for the slope:}
+
+R provides a summary of the equation underlying the best fit line in the prior graph using the command tidy() applied to the linear model object created by the command lm(). The commands in the next chunk of code do the following:
+
+1. Create an object (shown in the "Global Environment" pane of the R Studio interface) called firstRegressionModel using the command lm(y1~x1, data = anscombe). We say that firstRegressionModel gets the value created by the command lm of y1 plotted against x1, using the data in anscombe. 
+
+2. Output the information from this model using the command tidy(firstRegressionModel).
+```{r}
+firstRegressionModel <- lm(y1~x1, data = anscombe)
+tidy(firstRegressionModel)
+
+```
+
+This output describes the linear equation for the best fit estimated regression line in the column labelled "estimate". Namely:
+
+      y1 = 0.5000909 * x1  + 3.0000909
+
+The following is LaTeX code that this .Rmd file will render into attractive math notation once it is rendered. We will generally provide all equations in both formats so that they are interpretable in both the .Rmd document and the knitted .pdf document. The equation itself is identical to the equation in the prior line.
+\begin{align*}
+y_1 = 0.5000909 x_1  + 3.0000909
+\end{align*}
+
+The estimate of the intercept for this regression line is 3.0000909, and is also the y-intercept value. The estimate for x1 is the slope of the line, which shows how much y1 increases for every one unit change in x1. That is, for every one unit change in x1, we expect y1 to change by 0.50000909 units. 
+
+### \textcolor{RoyalBlue}{Visually representing uncertainty of the best fit estimate for the line}
+The best fit line is an estimate, so there is uncertainty surrounding the line that statistics is able to quantify. The grey shaded area indicates the range within which the linear line could possibly fit based on statistical estimates of certainty. You will learn in more depth later on in this course. Namely, the best fit line shown in blue is not likely to be steeper than the green line, and not likely to be shallower than the orange line, with 95% confidence. Because both the shallowest and steepest lines are positive, we will say we are confident the true slope of the line is positive. I won't go into any detail on what "confidence" means here. Suffice it to say that it is a complicated definition, but one way to short-hand it is to say how much do we believe the slope of the line was accurately captured. 
+
+```{r, echo=F}
+ggplot(anscombe, aes(x=x1, y=y1))+
+  geom_point(data=anscombe, aes(x=x1,y=y1))+geom_smooth(method=lm) + 
+  geom_segment(aes(x=4,y=3.437969,xend = 14, yend = 11.56385), 
+               colour = "green", size = 2) + 
+  geom_segment(aes(x=4,y=6.56294,xend = 14, yend = 8.438878), 
+               colour = "orange", size = 2) + 
+  theme_bw() 
+```
+
+Another way to output this information is to use a package called stargazer. I am providing this code for reference and so you can see a typical regression output as formatted for publication purposes. You will not be expected to use this command in your homeworks or labs for this section of the class. Note that this the output is only attractive after it has been rendered in the knitted document, so look at the knitted document after running the next chunk (reminder! Keep a habit of knitting the document regularly to ensure it knits properly.)
+
+```{r mytextable, results="asis", echo = F}  
+#the command results = "asis" above ensures that the table created by stargazer is produced in a pretty format in the knitted document
+#the command echo = F above prevents the knitted document from showing the R code that created the table shown in the knitted document
+
+stargazer(firstRegressionModel,
+          column.labels="y1",  #labelling the first column
+          covariate.labels= c("x1"), #labelling the row with the estimate for the slope to be the slope on x1
+          star.cutoffs = c(0.05, 0.01, 0.001),  #altering the p value cutoffs, p<0.05, etc. 
+                                                #p<0.05 means we're 95% confident that value is positive
+          dep.var.labels.include = FALSE, 
+          keep.stat = c("n","rsq"),  #also showing n (the number of observations) and r squared (coefficient of determination)
+          table.layout ="-c-!t-s=n",dep.var.caption = "",model.numbers= FALSE )
+
+#you may see the text 
+#"length of NULL cannot be changedlength of NULL cannot be changed" repeated. Ignore it.
+
+```
+
+Note the stars in this table. They reflect the same information about the possible slopes of the estimated regression line as the grey area in the previous graphic. If all possible slopes in the 95% confidence interval are positive, then the table in the knitted document will have at least one star because, despite the uncertainty inherent in measuring data, we are 95% confident that the slope of that line is positive. The way I phrase it is "I believe that the best fit regression line is positive, and my best guess for the slope of the line is 0.50000909". There will also be stars if the slope of the line is negative with 95% confidence, and I'd say "I believe that the best fit regression line is negative", although that is not the case in this example.
+
+The table in the knitted document and the output provided by tidy show other numbers that we will not discuss here, but will be explained later. They generally capture the uncertainty surrounding the estimated values, which are summarized visually in the grey area of the scatterplot and the stars in the knitted output of the stargazer command. The important number for the moment is the slope (0.50000909) and intercept (3.0000909) of the estimated regression line. The concept of uncertainty is also important, but the calculations of uncertainty will be demonstrated in a future section of this course.
+
+
+## \textcolor{RoyalBlue}{Practicing creating plots and interpreting regression lines}
+
+#### \textcolor{RoyalBlue}{Exercise 3: } In the space below, write and run the commands for plotting the following FOUR graphics with best fit lines (geom_smooth()): (a) y1 against x1 (b) y2 against x2 (c) y3 against x3 (d) y4 against x4. Make sure the y variable is always on the vertical axis.
+
+```{r}
+
+```
+
+####\textcolor{Bittersweet}{Points for Exercise 3: /4}
+
+
+In the chunk below I create four linear models: firstRegressionModel, secondRegressionModel, thirdRegressionModel, and fourthRegressionModel. Each one stores the linear model of the relationship between one pair of x and y variables in Anscombe's quartet. The code then produces the output for all four models using stargazer. Knit the document and look at the table.
+
+```{r mytextable2, results="asis"}
+#create an object to store each of the four models
+firstRegressionModel <- lm(y1~x1, data = anscombe)
+secondRegressionModel <- lm(y2~x2, data = anscombe)
+thirdRegressionModel <- lm(y3~x3, data = anscombe)
+fourthRegressionModel <- lm(y4~x4, data = anscombe)
+
+#create a list of all regression models, stored in the object allRegressionModels
+allRegressionModels <- list(firstRegressionModel, secondRegressionModel, 
+                            thirdRegressionModel,fourthRegressionModel)
+
+#output the stargazer format for the results
+stargazer(allRegressionModels,column.labels=c("y1", "y2","y3","y4"),
+          covariate.labels= c("x1", "x2","x3","x4"),
+          dep.var.labels.include = FALSE, keep.stat = c("n","rsq"), star.cutoffs = c(0.05, 0.01, 0.001),
+          table.layout ="-c-!t-s=n",dep.var.caption = "",model.numbers= FALSE )
+
+#you may see the text 
+#"length of NULL cannot be changedlength of NULL cannot be changed" repeated. Ignore it.
+
+```
+
+#### \textcolor{RoyalBlue}{Exercise 4: } Based on the output in the stargazer command and the grey areas of the graphs you created, do we believe, with 95% confidence, that the estimated regression lines for all four models have a positive slope (1 point)? How do you know this based on the stargazer output (2 points)? Based on the scatterplots with the best fit line in blue and confidence interval in grey (2 points)?
+
+
+
+#### \textcolor{RoyalBlue}{Answer 4: } (Write your answer in a few sentences in plain English here. )
+
+
+####\textcolor{Bittersweet}{Points for Exercise 4: /5}
+
+#### \textcolor{RoyalBlue}{Exercise 5: }  In the four blank R chunks, write and run the commands to summarize the linear model equations for each of these four models: firstRegressionModel, secondRegressionModel, thirdRegressionModel, and fourthRegressionModel. You will use the command tidy(), where the regression model object is inside the parenthesis just as they were in the example of the command tidy in a previous chunk. Keep each command in its own chunk. You should observe a very strong pattern between the four regression models. No written answer is needed for this question.
+
+
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+
+####\textcolor{Bittersweet}{Points for Exercise 5: /4}
+
+
+#### \textcolor{RoyalBlue}{Exercise 6: } What is true about the estimated slope for every regression line in Anscombe's quartet? Are there any meaninful differences between any of the reported summary statistics (ignore everything after the first decimal place as not meaningful)?
+
+#### \textcolor{RoyalBlue}{Answer 6: } (Write your answer in a few words in plain English here.)
+
+
+####\textcolor{Bittersweet}{Points for Exercise 6: /1}
+
+
+#### \textcolor{RoyalBlue}{Exercise 7: } Why is it valuable to look at Anscombe's quartet visually in addition to looking at the statistical summaries produced by the tidy() command? 
+
+#### \textcolor{RoyalBlue}{Answer 7: 3} (Write your answer in a few sentences in plain English here.)
+
+
+####\textcolor{Bittersweet}{Points for Exercise 7: /1}
+
+#### \textcolor{RoyalBlue}{Exercise 8: } Which pair of variables would be better estimated by a curved, probably quadratic, line? 
+
+#### \textcolor{RoyalBlue}{Answer 8: } (Write your answer in a few words in plain English here.)
+
+
+####\textcolor{Bittersweet}{Points for Exercise 8: /1}
+
+A few concluding notes are in order.
+
+1. The only pair of variables that are meaningfully estimated by a linear equation is x1 paired with y1. Every other pair of variables in Anscombe's quartet violated at least one fundamental assumption of a linear model. When looking at the relationship between two variables, these violations can be easily diagnosed by looking at the data using scatterplots.
+
+2. Anscombe's quartet is classic because it succinctly shows the value of visualizing your data. Statistical summaries are merely that: summaries. They can be extremely valuable, but they only work so long as the assumptions behind the statistical model are valid. Graphics show many more facets of the data than the statistical summaries do, and allow the user to determine the validity of the validity of the statistical model used to summarize the data.
+
+3. Always visualize your data. It will show you important facts that statistical summaries may obscure.
+
+4. The validity of a statistical model is not guaranteed by visually inspecting the data. 
+  + Sometimes it may fail an assumption behind the statistical model because you cannot visualize the necessary relationships. For example, if you are trying to model the relationship between 5 variables you'd need to visualize their relationship in 5 dimensions. This is hard, nevermind trying to visualize data in more than 5 dimensions. 
+  + Sometimes the data may not be appropriate for the model for other reasons that you must consider from a critical perspective. For example, say I'm trying to model the relationship between how long a bowl of candy is on a table and how much impulse control a United States resident has, measured by how much candy they eat. If I only gather data on college students, the visualizations won't tell me that my model does not fit my data. Instead, I have to think about which population was measured and whether that population accurately reflects the behavior of the population I want to study. In this case, I can guarantee that college students do not behave the way that most US residents behave, and therefore my data does not fit what I am trying to model.
+

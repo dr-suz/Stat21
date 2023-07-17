@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 13</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class13_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class13_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 13
+## Agenda for in-class discussion
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, Oct 20, 2020 (updated: 2020-10-20)
+
+---
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## Happy Tuesday!
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - I plan to have Test 1 graded by this weekend 
+
+  - HW 5 is available on our class webpage (Due next Tuesday)
+  
+  - Videos for next class are available on Moodle (comprehension quiz will be posted by tomorrow afternoon)
+  
+  - Check Slack for weekly check-in prompt and HW questions and answers 
+  
+  - Submit your group evaluation for last week if you haven't already
+  
+  - Read along in the textbook available online free through [Swarthmore Tripod](https://tripod.swarthmore.edu/).
+
+  
+- Check-in   
+  
+- Test 1 discussion
+
+- SLR with transformation
+]
+
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+&lt;img src="Figs/real-feel.png" height="500" style="display: block; margin: auto 0 auto auto;" /&gt;
+]
+
+---
+## Comprehension quiz questions 
+
+**General questions** 
+
+- What is considered problematic data-points? Are we referring to outliers? If we get rid of these points how will that change the data and do we report that we changed the data?
+
+Problematic data points is a vague term. In this context I meant which data point did we see the most difference in their spread. In this context, these points are not considered outliers. 
+
+- Can we check the zero mean condition for SLR by just looking at how well our regression line approximates our scatter?
+
+This is the same thing as looking at the mean of the residuals! 
+
+
+---
+## Comprehension quiz questions 
+
+
+**Questions about Class 13 part 1** 
+
+- You mentioned that the .red[residuals] themselves are not independent of each other; however, one of the conditions .red[necessary for SLR] is that each instance of the .red[random measurement error] is independent of another instance. 
+
+Residuals are not technically observations of the random error! 
+
+
+- How does the normal probability plot on slide 13 of the lecture 1 slides not reflect a nonlinear relationship? It looked to me that it wasn't linear because of the tail behavior, so what objective standards can we use?
+
+Normal probability plots do not tell us about linearity! They tell us about whether or not these data could have come from a normal distribution. 
+
+---
+## Comprehension quiz questions 
+
+&lt;img src="Figs/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+### Test 1 Discussion (10 mins)
+
+- Problems 1 and 2 
+    - Homogeneity of variance and normally distributed 
+    - Interpreting the results of the post-hoc analysis
+- Problem 4
+    - Independence assumption for chi-square goodness of fit test
+
+ 
+
+
+### Google form for anonymous feedback 
+
+Please take some time to fill out the course feedback form [here](https://docs.google.com/forms/d/e/1FAIpQLSf7wFRX5Pw1g72nunxDUa7-W951pJu_JriSjrR7_yVqF_ruRQ/viewform?usp=sf_link). All responses are anonymous and this will help me make adjustments to the course as needed moving forward. I know you are all very busy, your time and thoughtfulness on this is very much appreciated!  
+
+
+---
+## SLR - Transforming data 
+### Group work - 20 mins (approx)
+
+We are going to practice transforming the data to fit a stronger linear model to the SAT score data from Problem 3 of Test 1. 
+
+**Step 1**
+
+1. Use the code on the next two slides to write out the estimated regression equation for the data and interpret the meaning of the slope. 
+2. What important features do you notice in the scatter plot of the data, the residual plot, and/or the normal probability plot for the standardized residuals?
+
+
+```r
+income_SAT2 &lt;- tibble(income = c(10000, 30000, 50000, 70000, 90000, 110000,
+                                 130000, 150000, 180000, 300000),
+                      median_SAT = c(1323, 1398, 1461, 1503, 1545, 1580, 1594,
+                                     1619, 1636, 1721))
+SLR_SAT &lt;- lm(median_SAT ~ income, income_SAT2)
+summary(SLR_SAT)
+```
+
+
+---
+## SLR - Transforming data 
+### Group work - 20 mins (approx)
+
+
+
+```r
+ggplot(income_SAT2, aes(x=income ,y=median_SAT)) +
+  geom_point() + 
+  labs(title="SAT data scatter plot", x="Household income", y="Median SAT Score")
+
+income_SAT2 &lt;- income_SAT2 %&gt;% mutate(resids = SLR_SAT$residuals,
+                                      fits = SLR_SAT$fitted.values)
+ggplot(income_SAT2, aes(sample=median_SAT)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal prob plot for residuals")
+
+ggplot(income_SAT2, aes(x=fits, y=resids)) +
+  geom_point() + 
+  labs(title="Residuals vs fitted values", x="Fitted values", y="Residuals") +
+  geom_hline(yintercept=0)
+```
+
+
+
+---
+## SLR - Transforming data 
+### Group work - 20 mins (approx)
+
+**Step 2**
+
+1. Use the `mutate` function to transform the predictor variable income by taking the logarithm and then fit a SLR model to the transformed data.  
+2. Produce a scatter plot of the data, a residual plot based on the SLR model, and a normal probability plot for the standardized residuals.
+3. Write out the estimated regression equation for the transformed data and then interpret the slope in the context of the original units. 
+
+
+**Step 3**
+
+1. Use the `mutate` function to transform the response variable `median_SAT` with a power function. (E.g. `\(x^{-1/2}\)`, `\(x^{1/2}\)`, `\(x^3\)` where `\(x\)` is the median SAT score.)
+3. Fit a regression equation to the data with both transformed income and transformed `median_SAT` score. 
+3. Produce a scatter plot of the data, a residual plot based on the SLR model, and a normal probability plot for the standardized residuals.
+4. Write out the estimated regression equation for the transformed data and then interpret the slope in the context of the original units.
+
+
+
+---
+## SLR - Transforming data 
+### Group work - 20 mins (approx)
+
+Here is a [worksheet]() to fill out as you complete the steps above. 
+
+**Note-taker:** You will submit the completed worksheet to me over your group's Slack channel at the end of class. (Please make sure the settings allow me to access your document!) 
+
+**Presenter:** Be prepared to answer questions based on your worksheet when we discuss the worksheet as a class. 
+
+**Recorder:** Keep track of the time and alert your group when you have 5 mins remaining. 
+
+**Questioner:** Be prepared to ask any questions that have come up within your group discussion when I stop by your breakout room.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

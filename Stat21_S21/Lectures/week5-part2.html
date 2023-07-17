@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 5 - Part 2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="week5-part2_files/remark-css/default.css" rel="stylesheet" />
+    <link href="week5-part2_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 5 - Part 2
+## Data Manipulation in the tidyverse
+### Suzanne Thornton
+### Swarthmore College
+### For class on Week 5 (updated: 2021-03-02)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## Data Import from URL 
+### Body temperature data
+
+Let's look at a data set on some peoples' body temperatures, heart rate, and which is their dominant hand (1=right and 0=left.) 
+
+
+```r
+body_temp_dat &lt;- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class3_files/F2019/normtemp_data.txt"))
+body_temp_dat %&gt;% head() 
+```
+
+```
+## # A tibble: 6 x 3
+##   Temperature Handedness HeartRate
+##         &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+## 1        96.3          1        70
+## 2        96.7          1        71
+## 3        96.9          1        74
+## 4        97            1        80
+## 5        97.1          1        73
+## 6        97.1          1        75
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Useful functions to manipulate data&lt;sup&gt;1&lt;/sup&gt;
+
+Commonly used data manipulation functions available in the `tidyverse` package are
+  - *select()*
+  - *filter()*
+  - *mutate()*
+  - *group_by()*
+  - *summarize()*
+  - *count()* 
+  
+  
+These functions are especially handy when you have categorical data because it easy to create tables of cell counts. 
+
+  
+.footnote[1 https://datacarpentry.org/R-ecology-lesson/03-dplyr.html#selecting_columns_and_filtering_rows]  
+
+---
+## Data Manipulation in the `tidyverse`
+### Why are we using piping?
+
+Before we look at how to use each of these functions in R, we're going to introduce another R operator function called the *pipe*.
+
+It is very useful when you need to apply many different transformations to your data and don’t want to save the intermediate results or have many opening and closing function parentheses. It is also very useful for cleaning data.
+
+For example, suppose we want to compute the logarithm of the vector `x`, then find the differences between each element and it's subsequent element, then compute the exponential function value of these difference, and finally, round the result to one decimal point. 
+
+```r
+x &lt;- c(0.109, 0.359, 0.63, 0.996, 0.515, 0.142, 0.017, 0.829, 0.907)
+round(exp(diff(log(x))), 1)
+```
+
+```
+## [1]  3.3  1.8  1.6  0.5  0.3  0.1 48.8  1.1
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Why are we using piping?
+
+Or you can do the same operations much neater using pipes:
+
+```r
+x %&gt;% log() %&gt;%
+    diff() %&gt;%
+    exp() %&gt;%
+    round(1)
+```
+
+```
+## [1]  3.3  1.8  1.6  0.5  0.3  0.1 48.8  1.1
+```
+
+Which one is easier to read? Which one is easier for other people (the people who didn't write your code) to read? 
+
+Pipes (`%&gt;%`), unlike assignment operators (`&lt;-`), are read from left to right. It's easy enough to keep track of this, just follow the direction of the carrots! 
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+
+```r
+#To select specific columns:
+    body_temp_dat %&gt;% select(Temperature, HeartRate)
+```
+
+```
+## # A tibble: 130 x 2
+##    Temperature HeartRate
+##          &lt;dbl&gt;     &lt;dbl&gt;
+##  1        96.3        70
+##  2        96.7        71
+##  3        96.9        74
+##  4        97          80
+##  5        97.1        73
+##  6        97.1        75
+##  7        97.1        82
+##  8        97.2        64
+##  9        97.3        69
+## 10        97.4        70
+## # … with 120 more rows
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+
+```r
+    #...or equivalently
+    body_temp_dat %&gt;% select(-Handedness)
+```
+
+```
+## # A tibble: 130 x 2
+##    Temperature HeartRate
+##          &lt;dbl&gt;     &lt;dbl&gt;
+##  1        96.3        70
+##  2        96.7        71
+##  3        96.9        74
+##  4        97          80
+##  5        97.1        73
+##  6        97.1        75
+##  7        97.1        82
+##  8        97.2        64
+##  9        97.3        69
+## 10        97.4        70
+## # … with 120 more rows
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+
+```r
+#To select specific rows:    
+    body_temp_dat %&gt;% filter(Handedness==1)
+```
+
+```
+## # A tibble: 65 x 3
+##    Temperature Handedness HeartRate
+##          &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+##  1        96.3          1        70
+##  2        96.7          1        71
+##  3        96.9          1        74
+##  4        97            1        80
+##  5        97.1          1        73
+##  6        97.1          1        75
+##  7        97.1          1        82
+##  8        97.2          1        64
+##  9        97.3          1        69
+## 10        97.4          1        70
+## # … with 55 more rows
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+
+```r
+#Combine types of selection
+    body_temp_dat %&gt;% filter(Handedness==1) %&gt;% 
+                      select(-Handedness)
+```
+
+```
+## # A tibble: 65 x 2
+##    Temperature HeartRate
+##          &lt;dbl&gt;     &lt;dbl&gt;
+##  1        96.3        70
+##  2        96.7        71
+##  3        96.9        74
+##  4        97          80
+##  5        97.1        73
+##  6        97.1        75
+##  7        97.1        82
+##  8        97.2        64
+##  9        97.3        69
+## 10        97.4        70
+## # … with 55 more rows
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+The *mutate()* function allows you to append a new column of data to your original data set. 
+
+
+```r
+  body_temp_dat %&gt;% filter(Handedness==2) %&gt;%
+                    mutate(CelciusTemp = ((Temperature-32)*5)/9)
+```
+
+```
+## # A tibble: 65 x 4
+##    Temperature Handedness HeartRate CelciusTemp
+##          &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+##  1        96.4          2        69        35.8
+##  2        96.7          2        62        35.9
+##  3        96.8          2        75        36  
+##  4        97.2          2        66        36.2
+##  5        97.2          2        68        36.2
+##  6        97.4          2        57        36.3
+##  7        97.6          2        61        36.4
+##  8        97.7          2        84        36.5
+##  9        97.7          2        61        36.5
+## 10        97.8          2        77        36.6
+## # … with 55 more rows
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+The *mutate()* function is allows us to append a new variable to the original data set and which can be helpful for making sure that any categorical variables are factors in R. 
+
+
+```r
+  body_temp_dat %&gt;% mutate(Handedness_fct = factor(Handedness))
+```
+
+```
+## # A tibble: 130 x 4
+##    Temperature Handedness HeartRate Handedness_fct
+##          &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;         
+##  1        96.3          1        70 1             
+##  2        96.7          1        71 1             
+##  3        96.9          1        74 1             
+##  4        97            1        80 1             
+##  5        97.1          1        73 1             
+##  6        97.1          1        75 1             
+##  7        97.1          1        82 1             
+##  8        97.2          1        64 1             
+##  9        97.3          1        69 1             
+## 10        97.4          1        70 1             
+## # … with 120 more rows
+```
+
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+The *group_by()* function groups the data according to different "levels" of a categorical variable of your choice. 
+
+
+```r
+  body_temp_dat %&gt;% group_by(Handedness) %&gt;%
+                    summarize(mean_temp = mean(Temperature),
+                              standard_dev_temp = sd(Temperature))
+```
+
+```
+## # A tibble: 2 x 3
+##   Handedness mean_temp standard_dev_temp
+##        &lt;dbl&gt;     &lt;dbl&gt;             &lt;dbl&gt;
+## 1          1      98.1             0.699
+## 2          2      98.4             0.743
+```
+
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+The *count()* function provides a table of the total number of individuals within each group of a categorical variable of your choice. 
+
+
+```r
+  body_temp_dat %&gt;% count(Handedness)
+```
+
+```
+## # A tibble: 2 x 2
+##   Handedness     n
+##        &lt;dbl&gt; &lt;int&gt;
+## 1          1    65
+## 2          2    65
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

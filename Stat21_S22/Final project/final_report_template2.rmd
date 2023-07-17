@@ -1,0 +1,39 @@
+---
+title: "Stat 21 Final Project"
+author: '[You and your group member names here]'
+date: '[Enter date here]'
+output:
+  html_document: 
+bibliography: my_references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE) 
+knitr::opts_chunk$set(echo=TRUE) 
+
+library(tidyverse)
+library(knitr)
+```
+
+
+# Section 1: Introduction
+
+
+
+
+# Section 2: Regression Analysis 
+
+  
+# Section 3: Discussion and Limitations 
+
+ 
+
+# Section 4: Conclusion 
+
+ 
+# Section 5: Additional Work 
+
+
+# References 
+

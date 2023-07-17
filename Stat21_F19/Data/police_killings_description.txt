@@ -1,0 +1,64 @@
+
+Note: this is an edited version of the dataset that's available in the fivethrityeight package. Some variables have been eliminated in this version for ease of presentation. 
+
+police_killings {fivethirtyeight}	R Documentation
+Where Police Have Killed Americans In 2015
+
+Description
+
+The raw data behind the story "Where Police Have Killed Americans In 2015" https://fivethirtyeight.com/features/where-police-have-killed-americans-in-2015.
+
+Usage
+
+police_killings
+Format
+
+A data frame with 467 rows representing People who died from interactions with police and 34 variables:
+
+age
+Age of deceased
+
+gender
+Gender of deceased
+
+raceethnicity
+Race/ethnicity of deceased
+
+year
+Year of incident
+
+state
+State where incident occurred
+
+cause
+Cause of death
+
+armed
+How/whether deceased was armed
+
+pop
+Tract population
+
+share_white
+Share of pop that is non-Hispanic white
+
+share_black
+Share of pop that is black (alone, not in combination)
+
+share_hispanic
+Share of pop that is Hispanic/Latino (any race)
+
+nat_bucket
+Household income, quintile nationally
+
+pov
+Tract-level poverty rate (official)
+
+urate
+Tract-level unemployment rate
+
+Source
+
+See https://github.com/fivethirtyeight/data/tree/master/police-killings
+
+[Package fivethirtyeight version 0.5.0 Index]

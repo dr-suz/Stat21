@@ -1,0 +1,90 @@
+---
+title: "Stat 21 Homework 5 - Solution"
+author:
+- "Your name here"
+- "Collaborators: [list any collaborators here]"
+date: "Due: Oct 27th, by noon ET"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+
+## Problem 4
+
+Let's consider the data set called *msleep* which is contained in the R package `ggplot2`. 
+
+```{r}
+library(ggplot2)
+head(msleep)
+```
+
+This data set looks at the amount of time spent sleeping for different mammals and records other factors such as brain and body weight of these animals. Suppose we are interested in the total amount of sleep an animal gets (variable name `sleep_total`) as predicted by the total body weight of the animal (variable name `bodywt`).
+
+
+a) There is a qualitative variable named *order* in this data set. Fit two separate linear regression models for the animals of *order* "Carnivora" and of *order* "Primates". Report the estimated regression equations and print the summary of the two linear models.
+
+
+b) What is the estimate of the variance of the random error for each of these two models? 
+
+
+c) Do you think we should combine the data and just fit a single linear regression model to both *orders* Carnivora and Primates? Justify your answer with 1-2 sentences and (possibly) a supporting plot.
+
+
+**Solution** 
+```{r}
+carnivora <- msleep %>% filter(order=="Carnivora") %>% select(sleep_total,bodywt)
+primates <- msleep %>% filter(order=="Primates") %>% select(sleep_total,bodywt)
+
+SLR_carn <- lm(sleep_total~bodywt, data = carnivora)
+  SLR_carn %>% summary
+SLR_prim <- lm(sleep_total~bodywt, data = primates)
+  SLR_prim %>% summary 
+```
+
+(a) For full credit the student must show their R code that they used to create two subset of the data (one for each order - primates or carnivora). They must also show the R output of the summaries for each of the two linear models. (It's ok if their code doesn't match mine exactly but the summary for their linear models should match the above output exactly.) It is important that they do not include an error term in the estimated regression equation and that they note that the model is for the average (or mean) time slept. 
+
+Estimated regression equation for order Carnivora: 
+$$\text{average time slept} = 9.91527 + 0.0167(\text{body weight})$$ 
+
+Estimated regression equation for order Primates: 
+$$\text{average time slept} = 11.11268 - 0.04414(\text{body weight})$$ 
+
+
+(b) Estimate for the error variance in the model for order Carnivora: $\hat{\sigma}^2 = 3.517^2$
+
+
+Estimate for the error variance in the model for order Primates: $\hat{\sigma}^2 = 2.094^2$`
+
+```{r fig.align='center'}
+msleep2 <- msleep %>% mutate(order_cat = factor(order)) %>%
+                      filter((order=="Carnivora")|(order=="Primates"))
+ggplot(msleep2, aes(x=order, y=sleep_total)) + 
+  geom_boxplot() + 
+  labs(title="Box plot of total sleep time for each order", x="Order", y="Total time slept (in hrs)")
+```
+(c) They do not need to include the box plot to get full credit. To get full credit they must note that the estimated variance of the errors is different in each of the two models above. In SLR, we need to assume that the variance of the errors is constant but that does not seem to be the case based on part (b) (and/or on the box plot above). Therefore, it would not be a good idea to fit a single SLR predicting the amount of time slept for both of these animal orders at the same time. 

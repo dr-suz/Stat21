@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 5 - Part 2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class5-part2_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class5-part2_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 5 - Part 2
+## Troubleshooting R and Categorical Variables
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, Sept 22, 2020 (updated: 2020-09-18)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## Troubleshooting 
+### R Script Files 
+
+These are the files that end in `.R`. We've only used these files once so far in class (for the CLT simulations). R script files are documents containing R code **only**. You run (or compile) the code in these documents by highlighting whichever line you wish to run and then clicking the *Run* button (or using the keyboard shortcut which is "command+return").
+
+We don't use R script files for your homework because the format is not as legible/pretty. (We'd have to write the problems and word solutions as comments within the code and that would be a nightmare to look at.)
+
+---
+## Troubleshooting 
+### R Script Files 
+
+1. Figure out which line exactly is causing the error. 
+
+2. Make sure you have (installed and) called any necessary packages into your working library. The package we will use the most is `tidyverse`. This mistake will typically produce an error message that says something like: *could not find function "XXXX"*. 
+
+3. Look for typos! Syntax errors are the most common. Look for a forgotten comma, and opened bracket that wasn't closed, a misspelled function name, etc. R is case sensitive so `my_vector` and `My_vector` are read as two different objects in R. 
+
+4. Copy and past your error message into your favorite search engine! Sometimes you just need some extra help decoding what the error message means. Although you probably won't find the exact same mistake/typo (there are so many unique ways to write illogical code), you can often find some useful insight as to what might be causing a particular error message to show up. 
+
+
+---
+## Troubleshooting 
+### R Markdown Documents 
+
+These are the files that end in `.Rmd`, so all of your homework files. 
+If you try to *knit* your document but it doesn't work and produces an unhelpful error message, here are some steps to follow to figure out where the mistake is. 
+
+1. Determine if it is an R code error. The easiest way to do this is to use the options available in the "Run" button. You can run all R code chunks at once to see if any error messages pop up from the R compiler.  
+
+.scroll-small[
+&lt;img src="Figs/class5_r_trouble.png" height="400" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Troubleshooting 
+### R Markdown Documents 
+
+These are the files that end in `.Rmd`, so all of your homework files. 
+If you try to *knit* your document but it doesn't work and produces an unhelpful error message, here are some steps to follow to figure out where the mistake is. 
+
+1. Determine if it is an R code error. The easiest way to do this is to use the options available in the "Run" button. You can run all R code chunks at once to see if any error messages pop up from the R compiler.  
+
+2. If the mistake is in the R code, then try to run each chunk of code one at a time to figure out where exactly the mistake is and follow the troubleshooting tips on the previous slide. 
+
+3. If the R code chunks all compile without any error messages, then there is a mistake somewhere in the text part of your R Markdown document (rather than in an R code chunk). 
+
+---
+## Troubleshooting 
+### R Markdown Documents 
+
+
+Since I am providing you with working R Markdown templates for every homework assignment, this type of error is least likely. It's most likely to occur for students who have experience with mathematical writing in LateX. If you are one such student, you should know that the `$` is a special character in R Markdown. If you want to write any mathematical expressions (like exponents or summation symbols), you must surround the math part with `$`'s and there can be no white space between the `$` and the mathematical text. 
+
+E.g. `$x^6$` or `$\sum_{i=1}^{n}$` will run but `$ x^6 $` will not. 
+
+**You are not expected to know how to write mathematical equations in LateX or in R Markdown.** If you ever need to write a mathematical equation as a solution to a test question or a homework question, you can write it by hand and upload an image of your handwritten solution instead.  
+
+
+---
+## Variable types 
+
+- Categorical 
+    
+  - Nominal - the levels of the categorical variable are arbitrary names or labels (e.g. color, state)
+    
+  - Ordinal - the levels of the categorical variable have an ordered meaning (e.g. low/medium/high, morning/afternoon/evening/night)
+  
+- Quantitative/numerical 
+  
+  - Discrete - there are a limited or countable number of different values (e.g. number of passengers in a car, the positive integers)
+    
+  - Continuous - there are an infinite number of possible values (e.g. the interval between zero and one)
+
+
+---
+## Categorical variables in R
+### Factors
+
+In R, the default variable type is numerical. This means that when we want to define a categorical variable we need to double check that R is interpreting it correctly. R calls categorical variables **factors**. 
+
+If you define a vector of categorical data, make sure you put all of the different levels inside quotation marks. This makes sure that R knows the elements are not numeric. You can then use the `factor()` function in R to create a categorical variable with different levels from this non-numeric vector. 
+
+.scroll-small[
+
+```r
+color_vector &lt;- c("Red", "Green", "Red", "Yellow", "Green")
+color_vector
+```
+
+```
+## [1] "Red"    "Green"  "Red"    "Yellow" "Green"
+```
+
+```r
+color_factor &lt;- factor(color_vector)
+color_factor
+```
+
+```
+## [1] Red    Green  Red    Yellow Green 
+## Levels: Green Red Yellow
+```
+]
+
+---
+## Categorical variables in R
+### Factors
+
+.scroll-output[
+**Troubleshooting tip:** Use the `class()` function to double check a variable type. 
+
+
+```r
+class(color_vector)
+```
+
+```
+## [1] "character"
+```
+
+```r
+class(color_factor) 
+```
+
+```
+## [1] "factor"
+```
+
+
+The **levels** of the categorical variable are an inherited trait from the `factor()` function. This makes it easy to create a table of our factored variable to determine the total counts within each level. 
+
+
+```r
+table(color_factor) 
+```
+
+```
+## color_factor
+##  Green    Red Yellow 
+##      2      2      1
+```
+]
+
+---
+## Categorical variables in R
+### Factors
+
+.scroll-output[
+**Note:** Anything within quotation marks is read by R as a character, that is as as a non-numeric object. 
+
+
+```r
+num_vec &lt;- c(1,2,2,6,2,3,5)
+class(num_vec)
+```
+
+```
+## [1] "numeric"
+```
+
+```r
+char_vec &lt;- c("1","2","2","6","2","3","5")
+class(char_vec)
+```
+
+```
+## [1] "character"
+```
+
+```r
+cat_vec &lt;- factor(char_vec)
+class(cat_vec)
+```
+
+```
+## [1] "factor"
+```
+
+**Recall:** R is case-sensitive! So the values `"Red"` and `"red"` will be considered different levels in R.  
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

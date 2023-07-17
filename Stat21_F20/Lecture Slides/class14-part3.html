@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 14 - Part 3</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class14-part3_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="class14-part3_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 14 - Part 3
+## SLR Example
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, Oct 22, 2020 (updated: 2020-10-21)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## The problem of .red[inference]
+### T-test
+
+This test helps us determine if the predictor variable, *x*, is statistically significant by conducting a t-test on it's estimated regression coefficient.
+
+--
+`$$H_0: \beta_1 = 0 \\ H_A: \beta_1 \neq 0$$`
+`$$\text{Under }H_0: T.S. = \frac{\hat{\beta}_1 - 0}{SE(\hat{\beta}_1)} \sim t_{(n-2)}$$` 
+
+--
+To find `\(SE(\hat{\beta}_1)\)`, we will use `\(SS_{res}\)`:
+`$$SE(\hat{\beta}_1) = \sqrt{\frac{SS_{res}}{\sum_{i=1}^n(x_i - \bar{x})^2}}.$$`
+
+---
+## The problem of .red[inference]
+### F-test
+
+This tests for the overall fit of the linear regression model. In general, the F-test for a linear regression model helps us determine if any of the predictor variables we included are statistically significant.
+
+`$$\text{Under }H_0: T.S. = \frac{\frac{SS_{reg}}{1}}{\frac{SS_{res}}{n-2}} \sim F_{(1,n-2)}$$`
+
+--
+In **SLR** the F-test and the t-test for `\(\hat{\beta}_1\)` are testing the same thing since there is only one predictor variable in the regression model. In **MLR** (multiple linear regression) we will have more than one predictor variable and so this equality does not hold. 
+`$$H_0: \beta_1 = 0 \\ H_A: \beta_1 \neq 0$$`
+`$$Y \mid x  = \beta_0 + \beta_1 x + \epsilon$$`
+
+---
+## Code to follow along
+
+
+```r
+hc_employer_2013 &lt;- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_data.txt")) 
+colnames(hc_employer_2013) &lt;- c("Location", "TotalHealthSpending", "TotalUninsured", 
+                                "TotalPop", "spending_capita", "prop_uninsured")
+
+SLR_hc &lt;- lm(prop_uninsured ~ spending_capita, hc_employer_2013)
+hc_resid_data &lt;- hc_employer_2013 %&gt;% 
+                        mutate(residuals = SLR_hc$residuals, 
+                               fitted_vals = SLR_hc$fitted.values) 
+```
+
+---
+## The problem of .red[inference]
+### Where to find this information in R? 
+
+.scroll-output[
+
+```
+## 
+## Call:
+## lm(formula = prop_uninsured ~ spending_capita, data = hc_employer_2013)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.086642 -0.016766  0.002575  0.013199  0.073975 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      2.642e-01  2.744e-02   9.627  7.0e-13 ***
+## spending_capita -1.759e-06  3.364e-07  -5.230  3.5e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.02946 on 49 degrees of freedom
+## Multiple R-squared:  0.3582,	Adjusted R-squared:  0.3451 
+## F-statistic: 27.35 on 1 and 49 DF,  p-value: 3.503e-06
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: prop_uninsured
+##                 Df   Sum Sq   Mean Sq F value    Pr(&gt;F)    
+## spending_capita  1 0.023730 0.0237300   27.35 3.503e-06 ***
+## Residuals       49 0.042514 0.0008676                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+]
+
+
+---
+## The problem of .red[inference]
+### Confidence intervals for model coefficients
+
+Often we are interested not just in a decision "is `\(x\)` significant or not?" but also in the question "what range of values are good guesses for the effect of `\(x\)` on the response? 
+
+
+To answer the latter question we can use the theory behind the t-test from before to also find a confidence interval for `\(\hat{\beta}_1\)`:
+`$$\hat{\beta}_{1} \pm t_{\alpha/2,n-2} \times SE(\hat{\beta}_1)$$` 
+
+
+
+---
+## The problem of .red[inference]
+### Confidence and prediction intervals for the response
+
+Suppose we are interested in an interval range of possible values for the response variable. There are two types of intervals we may want to consider: prediction intervals for a new observation or confidence intervals for the regression equation.  
+
+For confidence intervals of the regression equation, we are quantifying how confident we are in the possible values of the **average response**: 
+`$$\hat{y} \pm t_{\alpha/2, n-2}SE(\hat{y})$$`
+where `\(SE(\hat{y}) = \sum_{i=1}^{n}(y_i - \bar{y})(x_i - \bar{x})\sqrt{\frac{1}{n} + \frac{(x_{new}-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}\)`.
+
+For prediction intervals for a new observation, we are quantifying how confident we are in the value of a particular **predicted response**: 
+`$$\hat{y}_{new} \pm t_{\alpha/2, n-2}SE(\hat{y}_{new})$$`
+where `\(SE(\hat{y}_{new}) = \sum_{i=1}^{n}(y_i - \bar{y})(x_i - \bar{x})\sqrt{1 + \frac{1}{n} + \frac{(x_{new}-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}\)`.
+
+
+---
+## Confidence and prediction intervals 
+
+The prediction interval is designed to cover a “moving target”, the random future value of `\(y\)`, while the confidence interval is designed to cover the “fixed target”, the average (expected) value of `\(Y\)`, `\(E(Y)\)`.
+
+There is more uncertainty associated with new unobserved data points than there is with the average behavior of the data. So prediction intervals will never be more narrow than confidence intervals!
+
+
+&lt;a href="https://www.youtube.com/watch?feature=player_embedded&amp;v=qVCQi0KPR0s"&gt;This&lt;/a&gt; is a 10 minute video going through another example of the difference between confidence intervals and prediction intervals. For more on the distinction between prediction intervals and confidence intervals go &lt;a href="https://stats.stackexchange.com/questions/16493/difference-between-confidence-intervals-and-prediction-intervals"&gt;here&lt;/a&gt;.
+
+
+---
+## Confidence intervals and prediction intervals 
+### In R 
+
+Now let's go back to the health care data set. 
+
+
+```r
+new_hc_data = data.frame(spending_capita = 45000)
+```
+
+.scroll-small[
+
+```r
+predict(SLR_hc, new_hc_data, interval="confidence", level = 0.95) 
+```
+
+```
+##         fit       lwr       upr
+## 1 0.1850201 0.1595354 0.2105049
+```
+
+```r
+predict(SLR_hc, new_hc_data, interval="predict", level = 0.95) 
+```
+
+```
+##         fit       lwr       upr
+## 1 0.1850201 0.1205737 0.2494665
+```
+]
+
+
+
+---
+## Confidence intervals and prediction intervals 
+
+
+```r
+CI_bounds &lt;- as_tibble(predict(SLR_hc, hc_employer_2013, interval="confidence", level = 0.95)) 
+PI_bounds &lt;- as_tibble(predict(SLR_hc, hc_employer_2013, interval="predict", level = 0.95))
+
+
+new_hc_data &lt;- bind_cols(hc_employer_2013, CI_bounds, PI_bounds[,2:3]) %&gt;%     
+               as.tibble(.name_repair="universal")
+## note the prediction interval bounds at the one's with "1" appended to the name
+
+ggplot(new_hc_data, aes(x=spending_capita, y=prop_uninsured)) + 
+  geom_ribbon(aes(ymin=lwr...10, ymax=upr...11, fill='prediction'),alpha=0.3) +  
+  geom_smooth(method="lm", se=TRUE, aes(fill='confidence'), alpha=0.3) +
+  geom_point() +
+  labs(title="Scatterplot of the data and the regression line",
+       subtitle="Confidence and prediction intervals",
+       y='Proportion of people uninsured',
+       x='Per capita spending')
+```
+
+
+---
+## Confidence intervals and prediction intervals 
+&lt;img src="class14-part3_files/figure-html/pred_and_conf_ints_class14-1.png" height="500" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

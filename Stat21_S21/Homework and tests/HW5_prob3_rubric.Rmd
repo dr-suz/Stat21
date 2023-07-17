@@ -1,0 +1,61 @@
+---
+title: "Stat 21 Homework 5"
+subtitle: "Problem 3 Solution"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code 
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+
+
+## Problem 3
+
+Suppose we are interested in studying the effectiveness of the recycling/composting programs at Swarthmore. I.e. we are investigating the waste that is disposed in the trash/recycle/compost bins across campus. Use your imagination to come up with three different research questions related to this topic in the case where 
+
+  1. We have two numerical variables of interest; 
+  
+  1. We have one numerical variable of interest and one categorical variable of interest; 
+  
+  1. We have two categorical variables of interest. 
+  
+For each setting clearly state the variables of interest, the roles of the variables (predictor/response), and the statistical research question you wish to answer. Each research question you come up with should be answerable by one of: a simple linear regression, an ANOVA model, or a chi-squared test. 
+
+
+**Rubric**
+
+There are many possible valid solutions for this problem. For full credit, the student must provide for each setting 
+
+  - the variables and their roles (if applicable)
+  
+  - a statistical question answerable by the appropriate method. 
+  
+To analyze two numerical variables, we have covered SLR models where there is a response and a predictor variable. Alternatively, the student could instead state that we are interested in the correlation (or the strength of a linear relationship) between the two variables. 
+
+To analyze one numerical variable and one categorical variable, we have covered one-way ANOVA models that test for a difference in the mean value of the numerical variable over the different levels of the categorical variable. 
+
+To analyze two categorical variables we have covered two different chi-squared procedures, the test for homogeneity or the test for independence. If a student is using the test for homogeneity, then one of the categorical variables must be binary. 
+

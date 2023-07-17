@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 9</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="class9_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class9_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 9
+## Statistical Methods II (Stat 021)
+### Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, March 11, 2021 (updated: 2021-03-11)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 80%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 40%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- Topics from Moodle
+
+- Problems from homework
+
+- Reading data into R from external sources 
+
+- Housekeeping items and announcements (5 mins)
+
+---
+# Thursday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+&lt;img src="Figs/feelings_wheel.jpg" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Bonus Problem 
+### Homework 2
+
+Census data for a certain country shows that 19% of the adult residents are Latinx. Suppose 72 people are called for jury duty and only 9 of them are Latinx. We want to know if this apparent under-representation of Latinx jurors calls into question the fairness of the jury selection system.
+
+a) Clearly define the population we are studying.
+
+b) State the unknown parameter that we are interested in estimating. (Hint: It is a proportion.)
+
+c) What is the sample estimate for the parameter in part (b) based on the observed data? 
+
+d) State a null and alternative hypothesis test we can conduct to answer this question and provide the formula for the test statistic. 
+
+---
+## Bonus Problem 
+### Homework 2
+
+Census data for a certain country shows that 19% of the adult residents are Latinx. Suppose 72 people are called for jury duty and only 9 of them are Latinx. We want to know if this apparent under-representation of Latinx jurors calls into question the fairness of the jury selection system.
+
+e) If the null hypothesis is true, draw a Normal density curve representing the distribution of the sample proportion. Specify the mean and variance of this sampling distribution. Label the observed test statistic and shade the region that corresponds to the p-value for the test in part (d). 
+
+
+
+---
+## Bonus Problem 
+### Homework 3 
+
+American League baseball teams play their games with the designated hitter rule, meaning that pitchers do not bat. The league believes that replacing the pitcher, traditionally a weak hitter, with another player in the batting order produces more runs and generates more interest among fans. Below are the average numbers of runs score in American League and National League stadiums for the first half of the 2001 season. 
+
+**American:** 11.1, 10.8, 10.8, 10.3, 10.3, 10.1,10.0, 9.5, 9.4, 9.3, 9.2, 9.2, 9.0, 8.3
+
+**National:** 14.0, 11.6, 10.4, 10.3, 10.2, 9.5, 9.5, 9.5, 9.5, 9.1, 8.8, 8.4, 8.3, 8.2, 8.1, 7.9 
+
+
+a) Estimate the mean number of runs scored in American League games with a 95% CI. 
+
+b) How would you describe the population under study for part (a)?
+
+c) What is the sample variance of the number of runs scored in American League games? 
+
+
+```r
+american &lt;- c(11.1, 10.8, 10.8, 10.3, 10.3, 10.1,10.0, 9.5, 9.4, 9.3, 9.2, 9.2, 9.0, 8.3)
+```
+
+
+---
+## Bonus Problem 
+### Homework 3 
+
+
+d) Estimate the mean number of runs scored in National League games with a 95% CI. 
+
+e) How would you describe the population under study for part (c)?
+
+f) What is the sample variance of the number of runs scored in American League games? 
+
+
+```r
+national &lt;- c(14.0, 11.6, 10.4, 10.3, 10.2, 9.5, 9.5, 9.5, 9.5, 9.1, 8.8, 8.4, 8.3, 8.2, 8.1, 7.9)
+```
+
+---
+## Bonus Problem 
+### Homework 3 
+
+g) Using the procedure for inference about an un-paired difference in means, find a 95% CI for the mean difference in runs between the two leagues. 
+
+
+ 
+
+```r
+t.test(american, national, paired=FALSE)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  american and national
+## t = 0.50981, df = 23.146, p-value = 0.615
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.6903987  1.1421844
+## sample estimates:
+## mean of x mean of y 
+##  9.807143  9.581250
+```
+
+
+---
+## Bonus Problem 
+### Homework 3 
+
+
+h) How would you define the population under study for part (g)? 
+
+i) What is the sample variance of the difference in the number of runs scored between the American League games and the national league games? 
+
+---
+## Homework 3 
+### Problem 5
+
+
+After losing several times in a street performance game, you suspect that the die used by the performer may be unfair. To check, you roll the die `\(60\)` time, recording the number of times each face appears. Do these results case doubt on the die's fairness? If the die is fair, how many times would you expect each face to occur?
+
+| Face | Count |
+|------|-------|
+| 1 | 11 |
+| 2 | 8 |
+| 3 | 9 |
+| 4 | 15 |
+| 5 | 10 |
+| 6 | 7 |
+
+To answer this question, perform a chi-squared goodness-of-fit test. Clearly state the null and alternative hypotheses, check the necessary conditions, identify the degrees of freedom and report the p-value. 
+
+
+---
+## Homework 3 
+### Problem 5
+
+
+```
+## 
+## 	Chi-squared test for given probabilities
+## 
+## data:  counts
+## X-squared = 4, df = 5, p-value = 0.5494
+```
+
+
+---
+## Review example
+### Week 5: More Chi-square procedures
+
+
+A brokerage firm wants to see whether the type of account a customer has (Silver, Gold, or Platinum) affects the type of trades that customer makes (in person, by phone, or online). It collects a random sample of trades made for its customers over the past year and preforms a chi-square test for independence.
+
+
+
+```r
+data_table &lt;- matrix( c(52, 57, 220, 103, 124,104, 132, 24, 7), byrow=TRUE, ncol=3)
+
+chisq.test(data_table)
+```
+
+```
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  data_table
+## X-squared = 287.11, df = 4, p-value &lt; 2.2e-16
+```
+
+
+
+---
+## Reading data into R from external sources
+
+.scroll-output[
+
+```r
+library("tidyverse")
+
+body_temp_dat &lt;- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class3_files/F2019/normtemp_data.txt"))
+
+body_temp_dat %&gt;% head
+```
+
+```
+## # A tibble: 6 x 3
+##   Temperature Handedness HeartRate
+##         &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+## 1        96.3          1        70
+## 2        96.7          1        71
+## 3        96.9          1        74
+## 4        97            1        80
+## 5        97.1          1        73
+## 6        97.1          1        75
+```
+
+```r
+body_temp_dat %&gt;% summary
+```
+
+```
+##   Temperature       Handedness    HeartRate    
+##  Min.   : 96.30   Min.   :1.0   Min.   :57.00  
+##  1st Qu.: 97.80   1st Qu.:1.0   1st Qu.:69.00  
+##  Median : 98.30   Median :1.5   Median :74.00  
+##  Mean   : 98.25   Mean   :1.5   Mean   :73.76  
+##  3rd Qu.: 98.70   3rd Qu.:2.0   3rd Qu.:79.00  
+##  Max.   :100.80   Max.   :2.0   Max.   :89.00
+```
+]
+
+---
+## Announcements
+
+Test 1 will be available on Moodle at **2pm EST** today. 
+
+Note, office hours today are canceled. If you have any questions about Test 1, please use the `#test1-questions` channel in Slack. Do not ask questions like "is [this] the right answer?" This channel is only for questions that clarify the instructions or to check if something is a typo. I will check Slack tonight at 5pm EST and tomorrow at 2pm EST. 
+
+**Test 1 Extra Credit:** Annie Ping, Nancy Vu, and Katie Carlson 
+
+## Planning ahead for next week
+
+- Watch the videos for Week 6 before Tuesday's class.  
+
+- No homework due Monday, the 15th. 
+
+- Enjoy your weekend!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,229 @@
+---
+title: "Class 20"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/10/25 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+.center[Today's comic is worth reading and discussing...
+
+https://www.explainxkcd.com/wiki/index.php/882:_Significant]
+
+```{r, comic20, echo=FALSE, fig.align='center', out.height=400}
+knitr::include_graphics("Figs/green_jelly.png")
+```
+---
+## Adding more predictor variables 
+
+
+```{r SAT20_import}
+SAT_data <- read_table2("sat.dat.clean.txt", 
+                        col_names = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot"), cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+head(SAT_data)  ##note: please dont print out entire data sets in your HW solutions! 
+```
+
+
+---
+## SAT model with .blue[two] predictors
+.scroll-output[
+```{r}
+MLR_SAT2 <- lm(SAT_tot ~ PerPupilSpending + 
+                         StuTeachRatio, data = SAT_data)
+MLR_SAT2_sum <- summary(MLR_SAT2)
+MLR_SAT2_sum
+```
+]
+---
+## SAT model with .blue[two] predictors
+
+```{r echo=TRUE, eval=FALSE}
+residual_plot_data2 <- SAT_data %>% 
+                      mutate(residuals = MLR_SAT2_sum$residuals,fitted_vals = MLR_SAT2$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+
+ggplot(residual_plot_data2) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores", x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+---
+## SAT model with .blue[two] predictors
+
+```{r class20_model2, echo=FALSE}
+residual_plot_data2 <- SAT_data %>% 
+                      mutate(residuals = MLR_SAT2_sum$residuals,fitted_vals = MLR_SAT2$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+
+ggplot(residual_plot_data2) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores", x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+
+---
+## SAT model with .blue[three] predictors
+.scroll-output[
+```{r echo=TRUE}
+MLR_SAT3 <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary, data = SAT_data)
+MLR_SAT3_sum <- summary(MLR_SAT3)
+MLR_SAT3_sum
+```
+]
+---
+## SAT model with .blue[three] predictors
+
+```{r echo=TRUE, eval=FALSE}
+residual_plot_data3 <- SAT_data %>% 
+                      mutate(residuals = MLR_SAT3_sum$residuals, fitted_vals = MLR_SAT3$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+
+ggplot(residual_plot_data3) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores", x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+---
+## SAT model with .blue[three] predictors
+
+```{r class20_model3, echo=FALSE}
+residual_plot_data3 <- SAT_data %>% 
+                      mutate(residuals = MLR_SAT3_sum$residuals, fitted_vals = MLR_SAT3$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+
+ggplot(residual_plot_data3) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores", x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+---
+## SAT model with .blue[three] predictors
+### What did we notice? 
+
+- As we increase the number of predictor variables, the R-squared value increases;
+
+- Our estimate for $\sigma$ decreases; 
+
+- The shape of the residuals plot changes;
+
+- The significance of any given predictor variable can change;
+
+- The overall F test changes as well. 
+
+
+**Q:** Did anything stay the same? 
+  
+
+--
+**A:** Not really. Either model choice here is different, which means that these models are what statisticans call *non-robust*.
+
+
+---
+## SAT model with .blue[four] predictors
+
+.scroll-output[ 
+```{r echo=TRUE}
+MLR_SAT4 <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         PropnStu, data = SAT_data)
+MLR_SAT4_sum <- summary(MLR_SAT4)
+MLR_SAT4_sum
+```
+]
+---
+## SAT model with .blue[four] predictors
+
+```{r echo=TRUE, eval=FALSE}
+residual_plot_data4 <- SAT_data %>% 
+                      mutate(residuals = MLR_SAT4_sum$residuals, fitted_vals = MLR_SAT4$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+
+ggplot(residual_plot_data4) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores", x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+---
+## SAT model with .blue[four] predictors
+
+```{r class20_model4, echo=FALSE}
+residual_plot_data4 <- SAT_data %>% 
+                      mutate(residuals = MLR_SAT4_sum$residuals, fitted_vals = MLR_SAT4$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+
+ggplot(residual_plot_data4) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores", x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+
+---
+## SAT model with .blue[four] predictors
+### What did we notice? 
+
+Again we see the same patterns as before. But note that our interpretation of the individual effects of each variable changes as well! 
+
+

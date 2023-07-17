@@ -1,0 +1,267 @@
+---
+title: "MLR Comparing Models and Identifying Interesting Data Points"
+subtitle: "Stat 21" 
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+output:
+  xaringan::moon_reader:
+    css:   ["default","assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+library("Stat2Data")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)  #fig.path='Figs/',
+```
+
+```{css, echo=FALSE}
+pre{
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output{
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small{
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+    
+    
+## Why isn't this running????
+```
+# Decisions about predictors
+## Nested F test 
+
+Nested F-tests can test whether or not a group of predictor *terms* have zero coefficients in a multiple regression model. This is particularly useful when assessing whether or not to include a categorical predictor or higher order polynormial terms. Consider the `CrabShip` data which has a categorical predictor `Noise`.  
+
+```{r}
+data(CrabShip)
+CrabShip %>% head
+```
+
+---
+# Decisions about predictors
+## Nested F test
+
+If we want to test whether or not `Noise` is a significantly non-zero predictor for `Oxygen`, we can consider the model with and without this predictor. Note that the null hypothesis in the `anova` test below is that `\beta_j=0` for every `j=1,...,k-1` where `k=` the number of levels for the categorical predictor `Noise`.  
+
+
+```{r}
+full <- lm(Oxygen ~ Mass + Noise, CrabShip)
+red <- lm(Oxygen ~ Mass, CrabShip)
+anova(red, full)
+```
+
+
+---
+# Decisions about predictors
+## Compare adjusted coefficient of determination 
+
+We can also make decisions about whether or not to include certain predictor terms or variables by assessing the adjusted $R^2$ values for each model under consideration. Such comparison is a statistical estimation problem, not an inferential problem. 
+
+```{r}
+summary(full)$adj.r.squared
+summary(red)$adj.r.squared
+```
+
+---
+# Decisions about predictors
+## Mallow's Cp 
+
+Another useful summary statistic to compare models is Mallow's $C_p$. This is a comparative summary statistic when assessing a model with $m$ predictors compared to a larger model with $k$ predictors ($1<m<k$). **Just like** in the nested F-test, the models being compared **must** be nested. A smaller value of this summary statistic is preferable as it is a relative measure of terms involving the sum squares of the models' residuals.  
+
+
+```{r}
+library(olsrr)
+ols_mallows_cp(red, full)
+```
+
+
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+Added variable plots are useful when we want to understand relative effects of a particular predictor variable, given that all other predictors have been accounted for in the model. In particular, for MLR models this is a useful technique to identify potentially influential data points that are unusual only if we consider the values of another/other predictor variable(s). 
+
+```{r}
+data(HousesNY)
+HousesNY %>% head
+```
+
+
+
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+Suppose the predictor of interest is `Size`. The larger model includes `Beds`, `Lot`, and `Size`.
+
+.scroll-small[
+```{r}
+mod0 <- lm(Price ~ Beds + Lot + Size, HousesNY)
+mod0 %>% summary 
+```
+]
+
+
+
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+
+The smaller model includes only `Beds` and `Lot`.
+
+```{r}
+mod1 <- lm(Price ~ Beds + Lot, HousesNY)
+mod1 %>% summary 
+```
+
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+Added variable plots would consider the effect of the predictors from the smaller model `Beds` and `Lot` in relation to the predictor of interest, `Size`. 
+
+```{r}
+mod2 <- lm(Size ~ Beds + Lot, HousesNY)
+mod2 %>% summary 
+```
+
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+
+Let's collect the residuals from the smaller model and the residuals from the regression of the predictor of interest (`Size`) on the predictors of the smaller model in a new data object.  
+
+```{r}
+added_varb_plot_data <- tibble(res1 = mod1$residuals, res2 = mod2$residuals)
+added_varb_plot_data %>% head
+```
+
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+
+Now we'll create an added variable plot by plotting these two groups of residuals against one another. We want to look out for any strange data points to investigate them as potentially influential data points. 
+
+```{r eval=FALSE}
+ggplot(added_varb_plot_data, aes(x=res2, y=res1)) + 
+  geom_point() + 
+  geom_smooth(method=lm, se=FALSE) + 
+  geom_abline(intercept=0) + 
+  geom_text(label=rownames(added_varb_plot_data), nudge_y = -5) + 
+  labs(title="Added variable plot for housing data", x="Residuals for regressing Beds on Size",y="Residuals for regressing Price on Beds")
+```
+
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+```{r addedvarbplot, echo=FALSE, fig.height=5}
+ggplot(added_varb_plot_data, aes(x=res2, y=res1)) + 
+  geom_point() + 
+  geom_smooth(method=lm, se=FALSE) + 
+  geom_abline(intercept=0) + 
+  geom_text(label=rownames(added_varb_plot_data), nudge_y = -5) + 
+  labs(title="Added variable plot for housing data", x="Residuals for regressing Beds on Size",y="Residuals for regressing Price on Beds")
+```
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+
+Notice that the slope of the line of best fit for the added variable plot is actually the coefficient of the predictor `Size` in the larger model containing all three predictors. 
+
+```{r}
+resids_mod <- lm(res1 ~ res2, added_varb_plot_data)
+resids_mod %>% summary()
+```
+
+
+---
+# Identifying unsusal data points
+## Leverage
+
+
+$$Leverage_i = h_i = \frac{1}{n} + \frac{x_i - \bar{x}}{\sum (x_i - \bar{x})^2}$$
+
+In R, we use the function `hatvalues()` to calculate the leverage for each data point. For example, in `mod0` with the housing data:
+
+```{r}
+mod0 %>% hatvalues ## Note that the input is the model, not the data
+```
+
+---
+# Identifying unsusal data points
+## Leverage
+
+Leverage is actually used in the calulations of the standardized and studentized residuals. 
+
+* Standardized residuals: $\frac{y_i - \bar{y}}{\hat{\sigma}\sqrt{1 - h_i}}$
+
+We can calculate the standardized residuals using the `rstandard()` function in R. 
+
+* Studentized residuals: $\frac{y_i - \bar{y}}{\hat{\sigma}_{(i)}\sqrt{1 - h_i}}$, where $\hat{\sigma}_{(i)}$ is the estimate from the model that doesn't include the $i^{th}$ data point. 
+
+We can calculate the studentized residuals using the `rstudent()` function in R. 
+
+
+.footnote[Note, the input of these functions in R should be the *model* not the data.]
+
+---
+# Identifying unsusal data points
+## Leverage
+
+Other measures of influence include 
+
+* Cook's distance can be calulated using the function `cooks.distance()` in R (where again, the input is the model, not the data). 
+
+
+```{r}
+mod0 %>% cooks.distance 
+```

@@ -1,0 +1,26 @@
+
+NAME: Normal Body Temperature, Right or left handedness, and Heart Rate 
+TYPE: Random sample
+SIZE: 130 observations, 3 variables 
+
+DESCRIPTIVE ABSTRACT:
+This data set is adapted data found in a paper of the _Journal of the American
+Medical Association_ that examined whether the true mean body
+temperature is 98.6 degrees Fahrenheit. The original data studied "Gender" rather than "handedness" but treated it as a binary variable. For educational purposes I have changed the data to use a variable that actually is binary instead. Therefore, keep in mind that this is somewhat artificial data. 
+
+SOURCE:
+These data are derived from a dataset presented in Mackowiak, P. A.,
+Wasserman, S. S., and Levine, M. M.  (1992), "A Critical Appraisal of
+98.6 Degrees F, the Upper Limit of the Normal Body Temperature, and
+Other Legacies of Carl Reinhold August Wunderlich," _Journal of the
+American Medical Association_, 268, 1578-1580. 
+
+
+VARIABLE DESCRIPTIONS:
+Columns
+ 1 -  5  Body temperature (degrees Fahrenheit)
+ 9       Handedness (1 = right, 2 = left)
+14 - 15  Heart rate (beats per minute)
+
+Values are delimited by blanks.  There are no missing values.
+

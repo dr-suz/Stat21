@@ -1,0 +1,212 @@
+---
+title: "Randomization and Bootstrap Procedures"
+subtitle: "Stat 21"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+output:
+  html_document: 
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('Stat2Data')
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE) #fig.path='Figs/',
+```
+
+
+# Cross Validation
+
+## Example: SLR with house prices in NY 
+
+```{r}
+library(Stat2Data)
+data("HousesNY")
+HousesNY %>% dim
+```
+
+The SLR we are going to consider is 
+
+$$Price = \beta_0 + \beta_1 Size + \epsilon$$ 
+
+The sample size of this data set is $n=53$ so we're going to create a training sample of size $0.75\cdot 53\approx 39$ and put the remaining $14$ data points in the holdout sample. 
+
+## Step 1: Split the data 
+
+We can use the `sample.int()` function to randomly select $39$ indices from $1$ through $n$ (without replacement). The `set.seed()` function can be used to make sure that each time you run the code you're using the same random selection of numbers. 
+```{r}
+#set.seed(404)
+sample <- sample.int(n = nrow(HousesNY), size = 39, replace = FALSE)
+```
+
+Since we saved these randomly selected indices under the name `sample` we can use this to specifically select those rows for our training data set and to select all other data points for the holdout sample. 
+```{r}
+train <- HousesNY[sample,]
+holdout <- HousesNY[-sample,]
+```
+
+## Step 2: Fit the model using the training data
+```{r}
+modelTrain <- lm(Price ~ Size, data=train)
+modelTrain %>% summary 
+```
+
+## Step 3: Use the model to predict the prices from the holdout sample 
+
+Now we are going to look at the data in the holdout sample.
+```{r}
+holdout %>% head 
+```
+
+The `$` in the following lines of code add new columns with names `PriceHat` and `Residuals` to the data object called `holdout`. 
+```{r}
+#holdout_full <- holdout %>% mutate(PriceHat = predict(modelTrain, holdout))    ##these two lines are equivalent to the lines below
+#holdout <- holdout_full %>% mutate(Residuals = Price - PriceHat)
+holdout$PriceHat <- predict(modelTrain, holdout)       
+holdout$Residuals <- holdout$Price - holdout$PriceHat
+```
+
+Ideally, we would like to see that residuals for the holdout sample are about the same size as the residuals from the training sample. We can calculate their MSE using
+```{r}
+SSE <- sum(holdout$Residuals^2)
+MSEcv <- SSE/14 # we divide by 14 because there are 14 houses in the holdout sample
+MSEcv 
+```
+
+We compare this the MSE from the training model, found with: 
+```{r}
+summary(modelTrain)$sigma^2
+```
+
+## Step 4: Compute the cross-validation correlation and the shrinkage
+
+```{r}
+crossR <- cor(holdout$Price,holdout$PriceHat)
+crossRsq <- crossR^2
+shrinkage <- summary(modelTrain)$r.squared - crossRsq
+
+crossR; crossRsq; shrinkage
+```
+
+***
+
+# Randomization/Permutation Test
+
+## Example: SLR predicting GPA with SAT score
+```{r}
+data(SATGPA)
+SATGPA %>% head 
+```
+
+The SLR we are going to consider is 
+
+$$GPA = \beta_0 + \beta_1 VerbalSAT + \epsilon$$ 
+The sample correlation between the predictor and the response is calculated below.
+```{r}
+obs_cor <- cor(SATGPA$GPA,SATGPA$VerbalSAT)
+obs_cor
+```
+
+We want to use the randomization test to help us determine how likely is this sample correlation if there really is no association between the two variables. The `sample()` function shuffles/permutes the argument. So we can create new pairings of the response and the predictor by shuffling the `GPA` data vector and computing the sample correlation for this shuffled data.
+
+```{r}
+newGPA <- sample(SATGPA$GPA)  
+cor(SATGPA$VerbalSAT,newGPA)  
+```
+
+The randomization test repeats the above process many times which enables us to calculate the proportion of times where we observe a sample correlation as large as $0.244$ in magnitude. Here's some code to repeat this process $10,000$ times.
+```{r}
+N <- 10000  
+randomize_cor <- as.numeric(0) #create a place to store results
+
+for (i in 1:N){
+  newGPA <- sample(SATGPA$GPA)
+  randomize_cor[i] <- cor(SATGPA$VerbalSAT,newGPA)
+}
+```
+
+Now we can visualize these simulation results with a histogram, for example.
+
+```{r}
+ggplot(data=tibble(cors = randomize_cor)) + geom_histogram(aes(x=cors)) + labs(x="Sample correlation", y="frequency")
+```
+
+Next, we count only the cases in the upper tail (when the observed test statistic is positive, as it is here) and then double the
+result to get the approximate P-value for the randomization test of the significance of correlation.
+
+```{r}
+upper <- sum(randomize_cor>obs_cor)   #count those results > 0.2444543
+pvalue <- upper*2/N
+pvalue  
+```
+
+***
+
+# Bootstrap for Regression
+
+## Example: SLR predicting Accord prices from mileage 
+
+
+The SLR we are going to fit is 
+$$Price = \beta_0 +\beta_1 Mileage +\epsilon$$
+```{r}
+data(AccordPrice) 
+AccordPrice %>% dim
+n <-30
+```
+
+In the code above, we've stored the sample size as the object called `n`. Let's first look at the model fit to the observed data.
+
+```{r}
+originalmodel <- lm(Price~Mileage, data=AccordPrice)
+originalmodel %>% summary
+```
+
+Now, we're going to use the `sample` function again to randomly sample indices from $1$ through $n$, only this time we will draw these indices with replacement.
+```{r}
+bootsample <- sample(1:n,replace=TRUE)
+AccordPrice[bootsample,] %>% head
+```
+
+Compare the same linear model output based on this bootstrapped sample of data to the original model.
+```{r}
+bootmodel <- lm(Price~Mileage,data=AccordPrice[bootsample,])
+bootmodel %>% summary
+```
+
+The bootstrapping process will repeat the above steps many times to create many bootstrapped samples of data. We can then compare the models for these bootstrapped data to our original observed data and corresponding model to get a sense of how rare or unusual different features are. The code below repeats the process above $50,000$ times and extracts the slope of the predictor variable `Mileage` from each linear model.
+
+```{r}
+N_boot <- 50000
+bootbetas <- rep(0,N_boot) #set up a vector of all zeros to store our resulting bootstrapped beta coefficients in
+
+for (i in 1:N_boot) {  
+  bootsample <- sample(1:n,replace=TRUE)
+  bootmodel <- lm(Price~Mileage, data <- AccordPrice[bootsample,])
+  bootbetas[i] <- coef(bootmodel)[2]  ##the first coef is the intercept
+}
+```
+
+We can visualize the resulting bootstrapped slope coefficients with a histogram, for example. 
+
+```{r}
+ggplot(data=tibble(betas = bootbetas)) + geom_histogram(aes(x=betas)) + labs(x="bootstrapped beta_1_hat values", y="frequency")
+```
+
+Now we can construct a bootstrapped confidence interval for the slope parameter, $\beta_1$. To follow Method #2 from your textbook we'd extractd the SD of the bootstraped slopes as such:
+```{r}
+sd(bootbetas)
+```
+
+To follow Method #1 from your textbook, we'd calculate the sample quantiles of the bootstraped slopes:
+```{r}
+quantile(bootbetas,.025)
+quantile(bootbetas,.975)
+```

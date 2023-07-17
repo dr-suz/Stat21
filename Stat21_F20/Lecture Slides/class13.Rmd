@@ -1,0 +1,220 @@
+---
+title: "Class 13"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Oct 20, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Happy Tuesday!
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - I plan to have Test 1 graded by this weekend 
+
+  - HW 5 is available on our class webpage (Due next Tuesday)
+  
+  - Videos for next class are available on Moodle (comprehension quiz will be posted by tomorrow afternoon)
+  
+  - Check Slack for weekly check-in prompt and HW questions and answers 
+  
+  - Submit your group evaluation for last week if you haven't already
+  
+  - Read along in the textbook available online free through [Swarthmore Tripod](https://tripod.swarthmore.edu/).
+
+  
+- Check-in   
+  
+- Test 1 discussion
+
+- SLR with transformation
+]
+
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+```{r, echo=FALSE, fig.align='right', out.height=500}
+knitr::include_graphics("Figs/real-feel.png")
+```
+]
+
+---
+## Comprehension quiz questions 
+
+**General questions** 
+
+- What is considered problematic data-points? Are we referring to outliers? If we get rid of these points how will that change the data and do we report that we changed the data?
+
+Problematic data points is a vague term. In this context I meant which data point did we see the most difference in their spread. In this context, these points are not considered outliers. 
+
+- Can we check the zero mean condition for SLR by just looking at how well our regression line approximates our scatter?
+
+This is the same thing as looking at the mean of the residuals! 
+
+
+---
+## Comprehension quiz questions 
+
+
+**Questions about Class 13 part 1** 
+
+- You mentioned that the .red[residuals] themselves are not independent of each other; however, one of the conditions .red[necessary for SLR] is that each instance of the .red[random measurement error] is independent of another instance. 
+
+Residuals are not technically observations of the random error! 
+
+
+- How does the normal probability plot on slide 13 of the lecture 1 slides not reflect a nonlinear relationship? It looked to me that it wasn't linear because of the tail behavior, so what objective standards can we use?
+
+Normal probability plots do not tell us about linearity! They tell us about whether or not these data could have come from a normal distribution. 
+
+---
+## Comprehension quiz questions 
+
+```{r echo=FALSE, fig.align = 'center'}
+hc_employer_2013 <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_2013_cleaned.txt"))
+SLR_hc <- lm(prop_coverage ~ spending_capita, data = hc_employer_2013)
+hc_resid_data2 <-  hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc$residuals, 
+                               fitted_vals = SLR_hc$fitted.values) %>%
+                        mutate(std_residuals = (residuals-mean(residuals))/sd(residuals))
+
+ggplot(hc_resid_data2, aes(sample=std_residuals)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal probability plot of standardized residuals", subtitle="Cost of health care a predictor of proportion of people with coverage")
+```
+
+
+---
+### Test 1 Discussion (10 mins)
+
+- Problems 1 and 2 
+    - Homogeneity of variance and normally distributed 
+    - Interpreting the results of the post-hoc analysis
+- Problem 4
+    - Independence assumption for chi-square goodness of fit test
+
+ 
+
+
+### Google form for anonymous feedback 
+
+Please take some time to fill out the course feedback form [here](https://docs.google.com/forms/d/e/1FAIpQLSf7wFRX5Pw1g72nunxDUa7-W951pJu_JriSjrR7_yVqF_ruRQ/viewform?usp=sf_link). All responses are anonymous and this will help me make adjustments to the course as needed moving forward. I know you are all very busy, your time and thoughtfulness on this is very much appreciated!  
+
+
+---
+## SLR - Transforming data 
+### Group work - 20 mins (approx)
+
+We are going to practice transforming the data to fit a stronger linear model to the SAT score data from Problem 3 of Test 1. 
+
+**Step 1**
+
+1. Use the code on the next two slides to write out the estimated regression equation for the data and interpret the meaning of the slope. 
+2. What important features do you notice in the scatter plot of the data, the residual plot, and/or the normal probability plot for the standardized residuals?
+
+```{r eval=FALSE}
+income_SAT2 <- tibble(income = c(10000, 30000, 50000, 70000, 90000, 110000,
+                                 130000, 150000, 180000, 300000),
+                      median_SAT = c(1323, 1398, 1461, 1503, 1545, 1580, 1594,
+                                     1619, 1636, 1721))
+SLR_SAT <- lm(median_SAT ~ income, income_SAT2)
+summary(SLR_SAT)
+```
+
+
+---
+## SLR - Transforming data 
+### Group work - 20 mins (approx)
+
+
+```{r eval=FALSE}
+ggplot(income_SAT2, aes(x=income ,y=median_SAT)) +
+  geom_point() + 
+  labs(title="SAT data scatter plot", x="Household income", y="Median SAT Score")
+
+income_SAT2 <- income_SAT2 %>% mutate(resids = SLR_SAT$residuals,
+                                      fits = SLR_SAT$fitted.values)
+ggplot(income_SAT2, aes(sample=median_SAT)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal prob plot for residuals")
+
+ggplot(income_SAT2, aes(x=fits, y=resids)) +
+  geom_point() + 
+  labs(title="Residuals vs fitted values", x="Fitted values", y="Residuals") +
+  geom_hline(yintercept=0)
+```
+

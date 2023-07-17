@@ -1,0 +1,270 @@
+---
+title: "Class 17 - Part 1"
+subtitle: "Defining and Interpreting Interaction Terms"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Nov 5, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+library('scatterplot3d')
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+## Polynomial Regression Models 
+
+
+The $k$th-order polynomial model in one (predictor) variable is 
+$$Y|x = \beta_0 + \beta_1 x + \beta_2 x^2 + \cdots + \beta_k x^k + \epsilon$$
+
+We can also fit a polynomial regression model in two (or more) predictor variables, for example
+$$Y \mid x = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{11} x_1^2 + \beta_{22} x_2^2 + \beta_{12} x_1 x_2 + \epsilon$$ 
+
+Both of these models are still **linear** regression models because they are linear in terms of the coefficients. 
+
+
+### General Principles for Regression Model Complexity
+
+1. Order of the model should be kept as low as possible 
+2. Extrapolation 
+3. Hierarchical models 
+
+
+---
+## Polynomial Regression Models 
+### Shape of response surface  
+
+.scroll-output[
+```{r, echo=FALSE, fig.align='center', out.height=400}
+knitr::include_graphics("Figs/class17-1.png")
+knitr::include_graphics("Figs/class17-2.png")
+knitr::include_graphics("Figs/class17-3.png")
+```
+]
+
+---
+## Polynomial Regression Models 
+### Interpreting the coefficients (and enumerating them)
+
+Consider the second order polynomial regression model of two predictors with an interation term: 
+$$Y \mid x = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{11} x_1^2 + \beta_{22} x_2^2 + \beta_{12} x_1 x_2 + \epsilon.$$
+
+When we solve for the least-squares estimates of the model coefficients, how do we interpret
+
+  - $\hat{\beta}_{11}$ 
+  - $\hat{\beta}_{12}$ 
+
+
+---
+## Interaction terms
+
+It is possible that the values of any two of these predictor variables may have an affect on a third predictor variable. And, it's possible that the effect is not additive.<sup>[1]</sup>
+
+A consequence of interaction between variables is that it makes it more difficult to predict the consequences of changing the value of any individual variable.
+
+
+**Q:** Why would we want to include interaction terms in a MLR?
+
+
+--
+**A:** It allows our model to fit differently over different subsets of the data. 
+
+
+*** 
+
+--
+**In practice:**
+
+  - Predictor variables that have large main effects tend to also have large interactions with other predictor variables.<sup>[3]</sup> 
+
+  - When you include interaction terms in your model, it's a good idea to standardize your data before fitting the model. This helps with the interpretability of the model coefficients since interacting terms may not be measured in the same units.<sup>[3]</sup>
+
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+Recall the data set for the SAT scores of public schools across each state of the US. 
+
+.scroll-output[
+```{r}
+SAT_data <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/public_school_sat.txt"), col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+colnames(SAT_data) = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot")
+SAT_data <- SAT_data %>% mutate(prop_taking_SAT = PropnStu/100) %>% select(-PropnStu)
+head(SAT_data)
+names(SAT_data)
+```
+]
+
+---
+### Public School SAT data 
+
+Recall the MLR model with four predictor variables that we built to predict SAT scores of public schools. 
+
+.scroll-output[
+```{r echo=FALSE}
+MLR_SAT4 <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         prop_taking_SAT, data = SAT_data)
+summary(MLR_SAT4)
+```
+]
+
+---
+### Public School SAT data 
+
+Recall the MLR model with four predictor variables that we built to predict SAT scores of public schools. 
+
+.scroll-output[
+```{r, echo=FALSE, fig.align='center'}
+residual_plot_data4 <- SAT_data %>% 
+                      mutate(residuals = MLR_SAT4$residuals, fitted_vals = MLR_SAT4$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+
+ggplot(residual_plot_data4) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot for public school SAT scores", 
+       subtitle = "Predictors: Per pupil spending, Student-teacher ratio, Teacher salary, \n Proportion of students taking the SAT",
+       x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+]
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+Since we want to investigate possible interactions let's standardize all of the quantitative predictor variables in this data set to get rid of all units for each variable. 
+
+.scroll-small[
+```{r}
+SAT_data_standard <- SAT_data %>% 
+                     mutate_at(vars("PerPupilSpending", "StuTeachRatio", "Salary", "prop_taking_SAT"), funs(scale))  
+
+MLR_SAT_standard <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         prop_taking_SAT, data = SAT_data_standard)
+summary(MLR_SAT_standard)
+```
+]
+
+Now that we've made sure all of the predictor variables are unitless, it's clear that the variable with the largest estimated effect on SAT scores is the proportion of students taking the exam. 
+
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+Let's see if there are any interaction effects between the proportion of students taking the exam and the other variables. 
+
+.scroll-small[
+```{r}
+MLR_SAT_interaction <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         prop_taking_SAT + 
+                         prop_taking_SAT*PerPupilSpending +
+                         prop_taking_SAT*StuTeachRatio +
+                         prop_taking_SAT*Salary, data = SAT_data_standard)
+summary(MLR_SAT_interaction)
+```
+]
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+Although, based on the R output, it doesn't look like there's any interaction between the proportion of students and the other three variables, let's consider the mathematical form of the interaction model on the previous slide. 
+
+If $Y=$SAT score, $x_1=$per pupil spending, $x_2=$student teacher ratio, $x_3=$teacher salary, and $x_4=$ proportion of eligible students who took the SAT, then the model with the three interaction terms from before looks like: 
+$$Y \mid (x_1, x_2, x_3, x_4) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_4 + \beta_{14} (x_1 x_4) + \beta_{24} (x_2 x_4) + \beta_{34} (x_3 x_4) + \epsilon$$
+
+--
+which can be rearranged to look like
+$$Y \mid (x_1, x_2, x_3, x_4)  = \beta_0 + (\beta_1 + \beta_{14} x_4)x_1 +
+ (\beta_2 + \beta_{24} x_4)x_2 +
+  (\beta_3 + \beta_{34} x_4)x_3 +
+   \beta_4 x_4 +\epsilon.$$
+
+---
+## Interaction Terms Example
+### Public School SAT data 
+
+The interpretation of the interaction terms is that we expect the effect on SAT scores by changing $x_1$, for instance, depends also on the value of $x_4$. 
+
+In our specific model for example, if we consider the interaction between student teacher ratio and the proportion of students, that we expect the effect that the school's student teacher ratio has on SAT scores depends on whether the proportion of students taking the exam is low or high. 
+
+
+---
+## Reading along in your textbook 
+
+Chapter 3 Section 1, Chapter 7 Sections 1, 2, and 4
+
+***
+
+## References
+
+[1]  https://stats.stackexchange.com/questions/113733/what-is-the-difference-between-collinearity-and-interaction
+
+[2] https://datascienceplus.com/multicollinearity-in-r/
+
+[3] Data Analysis Using Regression and Multilevel/Hierarchical Models by Andrew Gelman and Jennifer Hill. Cambridge University Press. (2007)
+
+[4] Linear Statistical Models by James Stapleton. Wiley Series in Probability and Statistics. (2009)
+
+[5] Linear Regression Analysis by George Seber and Alan Lee. Wiley Series in Probability and Statistics. (2003)
+

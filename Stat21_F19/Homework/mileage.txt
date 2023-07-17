@@ -1,0 +1,9 @@
+This is a subset of data from Table B.3 in Intro to Linear Regression by Montgomery and Peck
+Gasoline Mileage Performance for 32 Automobiles 
+Reference questions: 2.4, 2.5, 3.5, 8.4, 8.5
+
+Column 1 - automobile 
+Column 2 - miles per gallon 
+Column 3 - Displacement in cubic inches 
+Column 4 - Weight in lbs 
+Column 5 - transmission type (M = manual, A = automatic)

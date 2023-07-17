@@ -1,0 +1,252 @@
+---
+title: "Class 18"
+subtitle: "Understanding BIPOC Strike Demands"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Nov 10, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+library('kableExtra')
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+
+## Class 18, Tuesday the 10th
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - Homework 6: New due-date is Thursday (the 12th) at noon
+
+  - Class 19: we will review the concept of independence and practice with an MLR examples. Your comprehension quiz will be available by noon tomorrow. It will cover MLR material in general so I know what kinds of things to focus on in class.  
+
+- Morning check-in (5 mins)
+
+- Discussion topic 1 (10 mins)
+
+- Discussion Topic 2 (10 mins)
+
+- Discussion Topic 3 (15 mins)
+
+- Class discussion (25 mins)
+
+- Concluding remarks and call to action (5 mins)
+
+]
+
+---
+## Morning check in  
+### 5 mins
+
+.pull-left[Use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. *This morning, self-reflect on any discomfort you may feel due to the subject nature of our class discussion.*]
+.push-right[
+```{r, echo=FALSE, fig.align='right', out.height=500}
+knitr::include_graphics("Figs/real-feel.png")
+```
+]
+
+
+---
+## Beginning our discussion today
+
+
+- Speak from your own perspective, use "I" statements and do not attempt to speak for anyone else. Trust that every one of us is the expert on ourselves. 
+- Understand that this is class is **not** an opportunity for debate, rather it is a place to try to understand and imagine.
+- Be mindful of taking up much more space than others. On the same note, empower yourself to speak up when others are dominating the conversation.
+- We will listen to each other and not talk at each other. We acknowledge differences amongst us in backgrounds, skills, interests, and values.  We realize that it is these very differences that will increase our awareness and understanding through this process.
+- We will not demean, devalue, or “put down” people for their experiences, lack of experiences, or difference in interpretation of those experiences.
+- Use the optional "break" breakout room if you need to check out for a bit. You can join and leave this room at your own leisure and you may disconnect your audio and/or video when in this room if you so choose.  
+
+
+Finally, **dream bigger** than you may be used to doing! This is a brainstorming/information gathering class period. No idea is too big or too unreasonable. Do not limit yourself to only imagining what you think are practical solutions.  
+
+
+---
+## Beginning our discussion today
+
+**The point of this strike:**  
+
+"BIPOC students are intentionally withholding their labor from an institution that continues to exploit their academic, intellectual, and emotional labors without having the adequate resources or competent administration in place to support their needs and demands."
+
+
+
+**The point of this discussion:**
+
+Critically analyse our own selves and institution to understand ways in which we may also be contributing to the exploitation of Black labor.  
+
+
+
+**To help you take notes and stay on-track** 
+
+You can make your own private copy of this [worksheet](https://docs.google.com/document/d/13FeaS6J5sVwYadSfpUXHRecmAdgp_fO5gdvMtnWorjU/edit?usp=sharing) to follow along with our discussion in class. You do not need to share this with me or with your group-mates. (You may share it with me if you'd like to though!)
+
+---
+## Discussion Prompt 1 
+
+"[Academic institutions] often speak of “diversity and inclusion”, though this initiative has been co-opted to make white allies feel comfortable while doing little to recognize and interrogate the ways in which Black students feel antagonized on campus. Diversity, inclusion, and anti-racism cannot stop at theory; they must become [praxis](https://en.wikipedia.org/wiki/Praxis_(process))."
+
+
+First, spend a minute familiarizing yourself with the definition of the word "praxis". Then, with your group, brainstorm some answers to the following question. 
+
+
+--
+**Q:** What are some examples of praxis within the context of a scholastic environment? 
+
+
+Some examples of praxis proposed in the demand letters include
+- Requiring all faculty to read chapters of Ruth Enid Zambrana’s *Toxic Ivory Towers, The Consequences of Work Stress on Underrepresented Minority Faculty*. 
+- Revise all course evaluations to include a question concerning the racial climate of the classroom. 
+
+---
+
+.center["We as Black students do not have the choice to pick and choose when we want to engage with racism, and instead our lives are a daily battle against white supremacy, racism, discrimination, etc."]
+
+---
+## Discussion Prompt 2 
+
+"In the statement of Honor Council often functions as a disciplinary and punitive body rather than the “restorative justice” role it is advertised as fulfilling. Honor Council recognizes dishonest academic actions as 'violations' of the Honor Code, but does not consider the privileges of academic background, private tutoring, or legacy status in the admissions process as violent and harmful cheating in itself."
+
+
+First, spend a minute thinking about what is gained and what may be lost when a student successfully cheats on an individual test in the classroom. Then with your group, brainstorm some possible answers to the following question. 
+
+
+--
+**Q:** How might various forms of privilege have a harmful effect on student success? 
+
+
+
+---
+
+
+.center["For the last few months we as Black people have had to contend with an avalanche of smothering events: the coronavirus pandemic disproportionately taking the lives of our mothers, fathers, sisters and brothers, and the violent execution of George Floyd, recorded and streamed for all to see. These, among numerous other events, have exacerbated the stress and torment we feel. The sorrow and anger that we feel are due to the myriad of Black people that have lost their lives at the hands of white supremacy and white privilege."]
+
+
+
+---
+## Discussion Prompt 3 
+
+
+For the last discussion topic, remember that we are operating under the assumption that we all share the desire to support the academic retention and success of BIPOC students at Swarthmore.
+
+
+First, spend a minute thinking about how we define what it means to be a "person of color." Then with your group, discuss your responses to the following question. 
+
+
+--
+**Q:** What are some ways in which students of color may be alienated from support within the Mathematics and Statistics department? Within Swarthmore as a college? 
+
+
+To help you get started, some examples proposed in the demand letters include:
+- The college does not employ enough Black faculty in the STEM departments. 
+- The college does not make an effort to help first-generation, low income students transition into college. 
+- Professors allowing students to play “devil's advocate” on racially charged topics to the detriment of black students’ well-being in the class. 
+- The way Black staff members are treated on campus as workers rather than people.
+
+---
+
+.center["With this awakening of our non-Black peers, once again we are expected to feel grateful or indebted for your coming to the most basic terms of human compassion, but this time we ask for action in place of our gratitude."]
+
+
+
+---
+### How to stay informed
+
+You can submit anonymous feedback to me about today's class [here](https://forms.gle/oQrY2F2QMwSDDxUa6).
+
+
+### Resources for staying up-to-date and informed
+
+https://swarthmorevoices.com/content-1/2020/11/4/general-strike-at-haverford-college
+
+https://www.instagram.com/hc_strike/ 
+
+https://twitter.com/disrupthc/status/1324197214453932032
+
+disrupt.haverford@gmail.com 
+
+Anyone who wishes to can financially support the strike at 
+  - Venmo: @hcstrikefund
+  - Link Tree: https://linktr.ee/hcstrike
+
+  
+---
+## Final food for thought
+
+.center["This is not the time to cower behind closed doors, and as accomplices, it is imperative that your anti-racist efforts be committed out loud. These institutions have the choice to join in the efforts led by Black people across the country to influence its community as stewards of justice and Quaker action."
+
+
+
+"Although the battle against white supremacy is systemic and cannot be won overnight, we cannot afford to settle for expressions of care."
+
+
+
+"When we only participate in the recognition of Black lives after death, we end up perpetuating the death of Blackness itself. Instead, we should be celebrating, upholding, protecting, and defending Black lives during life too. So, now, we ask you, if now is not the time, when will be the time for Black lives to matter?"]
+
+
+### Related concern happening now
+
+Ant Smith is a beloved community educator in Philly who was wrongfully imprisoned for using his First Amendment right at the BLM protest in Philadelphia on May 20th. Ant has always fought for the equitable treatment of the members of Philly's Black community. He was released on bail yesterday but is facing an up-hill legal battle as he and his lawyer Paul Hetxnecker prepare his defense for federal court. You can stay informed by following @FREEANTPHL on Instagram. 
+
+
+
+
+

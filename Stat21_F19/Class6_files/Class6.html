@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 6</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 6
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/9/11 (updated: 2019-09-13)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+&lt;img src="Figs/deserted_island.png" width="2400" style="display: block; margin: auto;" /&gt;
+
+
+---
+This is from a Causeweb Submit your own punchline contest.
+
+
+
+
+
+Winning submission: "Let’s just skip the survey and jump right to the census,” written by Jim Alloway from EMSQ Associates. 
+
+
+Honorable mention: “And how many other people are there in your household?” written by **Steve Wang from Swarthmore College**! 
+
+
+.footnote[Source: https://www.causeweb.org/cause/caption-contest/august/2019/results]
+
+---
+
+# Topics covered in today's lecture
+
+  - Determining normality with Quantile-Quantile (QQ) plots
+  - Simple linear regression
+  - Sample solutions to HW 1 will be posted this evening
+
+
+Also! There are a lot of interesting workshops at Swarthmore this fall: https://www.swarthmore.edu/social-sciences-quantitative-laboratory/fall-2019-workshops
+
+
+In particular, if you are condisering a "data sciece"-ish carreer in your future check out **Preparing for a Data Analysis Interview and Take Home Assignment, Part I: Data analysis**. It's beeing offered 3 times: 
+
+  - Tue, Sept 17 5:30-7:30pm
+  - Wed, Sept 18 12:30-2:30pm 
+  - Wed, Sept 18 5:30-7:30pm
+
+---
+# How to determine if the population from which you sampled is Gaussian? 
+
+
+```
+## # A tibble: 6 x 3
+##   Temperature Handedness HeartRate
+##         &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
+## 1        96.3 1                 70
+## 2        96.7 1                 71
+## 3        96.9 1                 74
+## 4        97   1                 80
+## 5        97.1 1                 73
+## 6        97.1 1                 75
+```
+We first try to visualize the data. Typically we plot our response variable as a histogram and/or fit a density curve. 
+
+---
+# How to determine if the population from which you sampled is Gaussian? 
+
+
+&lt;img src="Figs/bodyTempPlot-1.png" style="display: block; margin: auto;" /&gt;
+
+But, it can be difficult to visually recognize normality this way. In this figure, the blue curve is a normal density (with mean 98 and standard deviation 0.7) and the green curve is a Cauchy density function (with location parameter 98 and scale parameter 0.7). 
+
+
+
+
+---
+# Normal probability plots
+
+A visually, easier to detect comparison is to look at the &lt;a href="https://en.wikipedia.org/wiki/Quantile"&gt;quantiles&lt;/a&gt; of the observed data and compare them to some hypotheitical quantiles of a Gaussian&lt;sup&gt;[1]&lt;/sup&gt; distribution. To do this, we plot the *standardized and ordered* data (from smallest to largest), `$$(x^{(1)}, x^{(2)}, \dots, x^{(n)})$$`
+against `\(E[X^{(i)}],\)` the expected value of the order statistics from a *standard* (mean 0 and s.d. 1) Gaussian distribution. 
+
+
+
+Such **QQ plots (Quantile-quantile plots)** generalize to other distributions as well (e.g. Gamma, Beta, etc). These plots help us answer the question: "Is the distribution of the data similar to a Gaussian (or Gamma, etc) distribution?" 
+
+
+***
+.footnote[[1] Gaussian is just another name for the Normal distribution. (Sometimes it's used because we just the word "normal" so often in English that it can be confusing when talking about Statistics.)]
+
+
+---
+# What are &lt;a href="https://en.wikipedia.org/wiki/Quantile"&gt;quantiles&lt;/a&gt;?
+
+
+R can find the quantiles for any common distribution functions very easily:
+
+
+```r
+?qnorm
+normal_quantiles &lt;- qnorm(p=seq(0,1,0.1), mean=0, sd=1, lower.tail=TRUE)
+t_quantiles &lt;- qt(p=seq(0,1,0.1), df=129, lower.tail=TRUE)
+normal_quantiles; t_quantiles
+```
+
+```
+##  [1]       -Inf -1.2815516 -0.8416212 -0.5244005 -0.2533471  0.0000000
+##  [7]  0.2533471  0.5244005  0.8416212  1.2815516        Inf
+```
+
+```
+##  [1]       -Inf -1.2881487 -0.8444165 -0.5256988 -0.2538702  0.0000000
+##  [7]  0.2538702  0.5256988  0.8444165  1.2881487        Inf
+```
+
+.footnote[Here is a useful guide to all the base R density, distribution, quantile, and random generating functions: http://www.stat.umn.edu/geyer/old/5101/rlook.html]
+
+---
+# Example of finding a sample quantile
+
+Find the number in the following set of data where 20 percent of values fall below it, and 80 percent fall above:
+
+1 3 5 6 9 11 12 13 19 21 22 32 35 36 45 44 55 68 79 80 81 88 90 91 92 100 112 113 114 120 121 132 145 146 149 150 155 180 189 190
+***
+
+**Step 1:** Order the data from smallest to largest. The data in the question is already in ascending order.
+
+
+**Step 2:** Count how many observations you have in your data set. this particular data set has 40 items.
+
+
+**Step 3:** Convert any percentage to a decimal for “q”. We are looking for the number where 20 percent of the values fall below it, so convert that to .2.
+
+
+**Step 4:** Insert your values into the formula:
+
+ith observation `\(= q (n + 1)\)`
+
+ith observation `\(= .2 (40 + 1) = 8.2\)`
+
+
+
+---
+# Example of finding a sample quantile
+
+Find the number in the following set of data where 20 percent of values fall below it, and 80 percent fall above:
+
+1 3 5 6 9 11 12 13 19 21 22 32 35 36 45 44 55 68 79 80 81 88 90 91 92 100 112 113 114 120 121 132 145 146 149 150 155 180 189 190
+***
+
+Or, just use R! Because R can also very easily find sample quantiles. 
+
+
+```r
+?quantile
+my_samp &lt;- c(1, 3, 5, 6, 9, 11, 12, 13, 19, 21, 22, 32, 35, 36, 45, 44, 55, 68, 79, 80, 81, 88, 90, 91, 92, 100, 112, 113, 114, 120, 121, 132, 145, 146, 149, 150, 155, 180, 189, 190)
+quantile(my_samp, probs = 0.2)
+```
+
+```
+##  20% 
+## 17.8
+```
+
+
+.footnote[https://www.statisticshowto.datasciencecentral.com/quantile-definition-find-easy-steps/]
+
+
+---
+# Interpreting Normal probability plots 
+## (I.e. QQ plots for Normality)
+
+Interpretation: A linear relationship close to the diagonal line `\(x=y\)` indicates a close matching of your observed data with a Normal distribution. 
+
+
+For example, let's create a fake data set from a Normal distirbution and view a QQ plot for this data:
+
+
+```r
+set.seed(100)
+fake_dat &lt;- tibble(observedData = rnorm(n=50,mean=3,sd=1.2))  ##fake ddata that is reprodcible becase I set the random seed
+plot1 &lt;- ggplot(data = fake_dat) +
+         labs(title = "Normal probability plot", 
+              subtitle = "Fake data from a Normal distribution",
+              x = " ") #Here I greate the plot object (and give it a name) 
+
+plot1 + aes(sample=observedData) + stat_qq() + stat_qq_line()  ##this line calls the plot object into view and adds to it a QQ plot of the sample and line.
+```
+
+![](Figs/qqPlotFakeClass6-1.png)&lt;!-- --&gt;
+
+---
+# Interpreting Normal probability plots 
+## (I.e. QQ plots for Normality)
+
+Interpretation: A linear relationship close to the diagonal line `\(x=y\)` indicates a close matching of your observed data with a Normal distribution. 
+
+
+For example, let's create a fake data set from a Normal distirbution and view a QQ plot for this data:
+
+![](Figs/qqPlotFakeClass6_2-1.png)&lt;!-- --&gt;
+
+
+---
+# Interpreting Normal probability plots 
+##(I.e. QQ plots for Normality)
+
+Now lets investigate the body temperature data again. 
+
+
+```r
+plot1 &lt;- ggplot(body_temp_dat, aes(sample = Temperature))
+
+plot1 + stat_qq() + stat_qq_line() + labs(title = "Normal probability plot", subtitle = "Body temp data")
+```
+
+![](Figs/qqPlotTempClass6-1.png)&lt;!-- --&gt;
+
+
+---
+# Interpreting Normal probability plots 
+##(I.e. QQ plots for Normality)
+
+
+&lt;img src="Figs/qqPlotTempClass6_@-1.png" style="display: block; margin: auto;" /&gt;
+
+
+**Q:** What do the deviations in the tails mean? 
+
+
+--
+**A:** The lower quantiles of the sample are smaller than we expect and upper quantiles of the sample are higher than we expect. That means, our data has *heavier tails* than a Normal distribution. 
+
+
+---
+# QQ plot to test for t-distributed data
+
+Let's try a QQ-plot that instead compares the data to a t-distribution.
+
+
+```r
+deg_of_free = list(df = length(body_temp_dat$Temperature)-1)
+plot2 &lt;- ggplot(body_temp_dat, aes(sample = Temperature))
+plot2 + 
+  stat_qq(distribution = qt, dparams = deg_of_free) + #Note: the default option for distribution is "qnorm" and dparas is a list of "0" and "1"
+  stat_qq_line(distribution = qt, dparams = deg_of_free) + 
+  labs(title = "T-distribution probability plot", subtitle = "Body temp data")
+```
+
+&lt;img src="Figs/qqPlotTempClass6.2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+# Comment about statistical significance 
+
+
+  1. Statistical significance does not equal practical significance. (E.g. if we examine the relationship between height and salary for adults, finding that every additional inch of height has a predictive effect on salary of about &amp;#36;10 per inch, with a standard error of about &amp;#36;2) this isn't as practically useful as say, finding a predictive effect of &amp;#36;10,000 per inch with a standard error of &amp;#36;5000.)
+  
+  1. Changes in statistical significance are not themselves significant. (E.g. the actual difference between a p-value of 0.051 and 0.049 is very small, even though with an `\(\alpha\)` level of `\(0.05\)` they differ in statistical significance.)
+
+
+.footnote[Reading reference: pg 22 Gelman and Hill ]
+
+
+---
+# A simple statistical model 
+
+`\(Y = f(X) + \epsilon\)`
+
+- `\(f\)` is a smooth function
+  
+  - In linear regression, we consider functions with linear coefficients. These are our model parameters. 
+
+- `\(\epsilon\)` is some random measurement error 
+
+  - Note: against convention, even though this is a greek letter, `\(\epsilon\)` represents a random variable!
+
+  - In linear regression, we assume that the random variable `\(\epsilon\)` is normally distributed, centered around `\(0\)`, and has some finite variance `\(\sigma^2\)`. 
+
+`\(\text{I.e. }\epsilon \sim N(0,\sigma).\)`
+
+  
+  - The variance `\(\sigma^2\)` is also a model parameter! 
+  
+
+---
+# Simple linear regression
+
+In `\(Y = f(X) + \epsilon\)`, `\(f(X)\)` is just the equation for a line! 
+
+
+Statistical conventiaon represents this line with a intercept, `\(\beta_0\)`, and a slope `\(\beta_1\)` so that we have the following **simple linear regression model**:
+`$$Y = \beta_0 + \beta_1 X + \epsilon.$$`
+
+
+
+***
+
+Compare this to the the typical algebreic notation for the equation of a line: 
+`$$Y = aX + b.$$`
+
+
+---
+# Simple linear regression
+
+`$$Y = \beta_0 + \beta_1 X + \epsilon.$$`
+
+For now, we are only going to consider the case where `\(X\)` and `\(Y\)` both represent **quantitative, continuous** random variables.
+
+
+We will be generalizing this SLR (simple linear regression) model to cases where 
+
+  - X is a discrete and qualitative variable;
+
+  - X is a discrete and quantitative variable; 
+
+  - We have more than just one predictor variable; 
+
+  - Y is a binary variable.
+  
+  
+In this class we will always assume `\(\epsilon\)` is Normally distributed, other statistical models are abundant but this is a good first step towards understanding these other models.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

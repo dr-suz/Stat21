@@ -1,0 +1,247 @@
+---
+title: "Class 11 - Part 1"
+subtitle: "Simple Linear Regression (SLR)"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Oct 13, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Problem set-up
+### Simple linear regression (SLR)
+
+The **population** we are sampling from must have a continuous, quantitative variable that we are primarily interested in as a response variable. For SLR, we explore the relationship between another continuous, quantitative predictor variable and this response. 
+
+**Model** We assume the relationship between the predictor and response is a linear one $Y \mid x = \beta_0 + \beta_1 x + \epsilon$, where $\epsilon$ is a RV  with $E[\epsilon]=0$ and $Var[\epsilon]=\sigma^2$. 
+
+On average, this means $$E[Y \mid x] = \beta_0 + \beta_1 x.$$  
+
+**Sample** The sample must be representative of the population and consists of paired data points $(x_1, y_1), (x_2, y_2), \dots, (x_n, y_n)$. We visualize the data with a **scatter plot**. It can be useful to change up the limits of the x- and y-axes when plotting the data. 
+
+---
+## Problem set-up
+### Simple linear regression (SLR)
+
+**Estimates** for this model are based on the data, representing the "line of best fit". Sample-dependent estimates for the model parameters are found by minimizing the distance between the regression line and the y-values of the observed data set. 
+
+$$min_{\beta_0, \beta_1} \sum_{i=1}^{n}\left(y_i - [\beta_0 + \beta_1 x_i]\right)^2.$$
+
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_{1}\bar{x}$$
+
+---
+## Problem set-up
+### Simple linear regression (SLR)
+
+
+The **predicted/fitted values** $\hat{y}_{i}$ are the y-values that result from plugging the observed x-values in to the estimated regression equation
+$$\hat{y}_i = \hat{\beta}_{0} + \hat{\beta}_{1} x_i.$$
+
+The **residuals** are the difference between the observed y-values and the predicted y-values:
+$$e_i = \hat{y}_i - y_i.$$
+
+$$\hat{\sigma}^2 =\frac{\sum_{i-1}^{n}e_i^2}{n-2}$$
+
+
+---
+## SLR Example
+### Restaurant tips
+
+```{r echo=TRUE}
+#install.packages("Lock5Data")
+require(Lock5Data)  ## this is similar to the library() function but it attaches the names of the data sets contained in the package Lock5Data 
+data(RestaurantTips)
+head(RestaurantTips)
+```
+
+---
+## SLR Example
+### Restaurant tips
+
+```{r echo=FALSE, fig.align='center', out.height=450}
+p0 <- ggplot(RestaurantTips, aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     labs(title="Scatter plot of the restaurant data",
+                          x="Cost of the bill", y="Amount tipped")
+
+p1 <- ggplot(RestaurantTips, aes(x=Bill,y=PctTip)) + 
+                     geom_point() + 
+                     labs(title="Scatter plot of the restaurant data",
+                          x="Cost of the bill", y="Percentage tipped")
+library("gridExtra") 
+grid.arrange(grobs = list(p0, p1), ncol=2)
+```
+
+
+
+---
+## Problem set-up
+### Assumptions for estimation
+
+$$Y\mid x = \beta_0 + \beta_1 x + \epsilon$$
+
+1. $E[\epsilon]=0$;
+
+1. $Var[\epsilon]=\sigma^2 < \infty$;
+
+1. Each instance of the random variable $\epsilon$ is independent of any other instance. 
+
+
+
+--
+All of these assumptions have to do with the random variable $\epsilon$. We never actually observe any instances of $\epsilon$, the best thing we have are the observed residuals. (But note that these residuals treat our estimates of the model parameters (slope and intercept) as if they are definitely correct, in reality, this was just an informed guess.)
+
+If we wish to conduct inference, then we also need a **fourth assumption**: The random variable $\epsilon$ is normally distributed. 
+
+
+We will discuss how to check these assumptions in the next video. 
+
+---
+## Fitting the model 
+
+### In R 
+```{r}
+#SLR_model <- lm(Response ~ Predictor, data = DataObject)
+#summary(SLR_model)
+```
+
+### Interpretation 
+
+$\hat{\beta}_0$ may not have a meaningful interpretation in the context of the problem but in general it must always be included in a regression model anyway. The only time you would not include an intercept term is if you know for certain that the regression model must pass through the origin.
+
+$\hat{\beta}_1$ is the slope and as such means that for every unit increase in $x$, on average we expect a $\hat{\beta_1}$ unit increase in $Y$.
+
+$\hat{\sigma}^2$ is the estimated variance of the random error $\epsilon$ (it is therefore also the estimated variance of the random variable $Y$).
+
+
+---
+## Fitting the model 
+
+.scroll-output[
+### Interpretation 
+
+**Correlation:** For any two quantitative variables, we can measure the strength of their linear relationship by calculating their correlation. Recall correlation is the standardized (to lie between -1 and 1) version of the covariance:
+$$Cor(X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}.$$
+For a sample of data, we calculate the sample correlation with the formula:
+$$r_{x,y} = \frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i-\bar{x})^2}\sqrt{\sum_{i=1}^{n}(y_i-\bar{y})^2}}.$$
+In R, the function we can use instead is
+```{r eval=FALSE}
+cor(data_object$xvarb, data_object$yvarb)
+```
+
+
+**R-squared:** This is called the *coefficient of determination*. In SLR, where we only have one predictor variable, this is just the sample correlation squared. So whereas sample correlation contains direction information (can be positive or negative), R-squared is always between 0 and 1 and only indicates the strength of the linear relationship.]
+
+
+
+---
+## SLR Example
+### Restaurant tips
+
+.scroll-output[
+```{r}
+SLR_tips <- lm(Tip ~ Bill, data = RestaurantTips)
+summary(SLR_tips)
+```
+
+```{r}
+SLR_tips2 <- lm(PctTip ~ Bill, data = RestaurantTips)
+summary(SLR_tips2)
+(cor(RestaurantTips$PctTip, RestaurantTips$Bill))^2
+```
+]
+
+
+---
+## SLR Example
+### Restaurant tips
+
+
+```{r echo=TRUE, eval=FALSE}
+plot1 <- RestaurantTips %>% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatter plot of the data and the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+plot2 <- RestaurantTips %>% ggplot(aes(x=Bill,y=PctTip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatter plot of the data and the regression line",
+                          x="Cost of the bill", y="Percentage tipped")
+library("gridExtra") # This package allows you to combine multiple plots in a single picture
+grid.arrange(grobs = list(plot1, plot2), ncol=2)  ## I've given the plots names in the code above and now I am using the grid.arrange() function to list these two plots side-by-side (in two columns)
+```
+
+
+---
+## SLR Example
+### Restaurant tips
+
+```{r echo=FALSE, fig.align='center', out.height=450}
+plot1 <- RestaurantTips %>% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatter plot of the data and the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+plot2 <- RestaurantTips %>% ggplot(aes(x=Bill,y=PctTip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatter plot of the data and the regression line",
+                          x="Cost of the bill", y="Percentage tipped")
+grid.arrange(grobs = list(plot1, plot2), ncol=2)
+```

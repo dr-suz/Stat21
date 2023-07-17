@@ -1,0 +1,380 @@
+---
+title: "Class 14"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Oct 22, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+library('kableExtra')
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+## Class 14, Thursday the 22nd
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - HW 5 - .blue[Due date extended to Thursday, Oct 29!]
+  
+  - I plan to have Test 1 graded by this weekend and will post an outline of solutions for Test 1. 
+  
+  - Class 15 videos will be available by Saturday, comprehension quiz will be available by noon on Monday. 
+
+  - Please take some time to fill out the course feedback form [here](https://docs.google.com/forms/d/e/1FAIpQLSf7wFRX5Pw1g72nunxDUa7-W951pJu_JriSjrR7_yVqF_ruRQ/viewform?usp=sf_link). All responses are anonymous and this will help me make adjustments to the course as needed moving forward. I know you are all very busy, your time and thoughtfulness on this is very much appreciated!  
+  
+- Check-in   
+
+- Math/Stat Estimathon Info
+  
+- Regression big picture discussion
+
+- Moodle questions 
+
+- SLR with transformation
+]
+
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+```{r, echo=FALSE, fig.align='right', out.height=500}
+knitr::include_graphics("Figs/real-feel.png")
+```
+]
+
+
+---
+## Math/Stat Estimathon
+
+Please join the Swarthmore Math/Stat Department for an Estimathon this **Friday (the 24th) from 3:00 to 4:30 pm ET**. An estimathon is a contest that combines trivia with quantitative thinking. Your team will get 15 questions with numerical answers. You don't have to know the answers, but can you estimate them? The more accurately you estimate, the higher you score.
+
+For more information, and to sign up, please visit http://www.swarthmore.edu/NatSci/chsu2/estimathon.html You can sign up with a team or as an individual free agent.
+
+Members of the winning team will receive an Amazon gift card for an amount equal to the number of movie musicals that have won the Oscar for best picture.
+
+---
+### Test 1 Discussion 
+
+.scroll-output[
+- Problems 1 and 2 
+    - Homogeneity of variance and normally distributed 
+    - Interpreting the results of the post-hoc analysis
+- Problem 4
+    - .blue[Independence assumption for chi-square goodness of fit test]
+
+```{r prob5, echo=FALSE, eval=TRUE, fig.align='center', fig.height=500}
+household_income <- tibble(income_bracket = factor(c("<15,000", "15,000-24,999", "25,000-34,999",
+                                              "35,000-49,999", "50,000-74,999", "75,000-99,999",
+                                              "100,000-149,999", "150,000-199,999", ">=200,000")),
+                           households = c(11689.041, 10276.08, 10661.433, 15028.767, 21194.415, 
+                                          15799.473, 19909.905, 10661.433, 13230.453))
+colnames(household_income) <- c("Income Bracket", "Number of Households")
+kbl(household_income,  booktabs=TRUE)
+#formattable(household_income, align =c("c","c"), 
+#            list(income_bracket = formatter(
+#              "span", style = ~ style(color = "grey",font.weight = "bold")) ))
+```
+
+## Problem 4
+
+The data above was published by the US Census bureau Current Population Report in September 2020 on income and poverty in the United States.[^2] In this data, income is broken into 9 different categories and the number of households (in thousands) within each income bracket is recorded for the year 2019. (E.g. In the table above, there were $10276.08 \times 1000$ households who reported an annual income between \$15,000 and \$24,999 in the 2019 census.) If income inequality is not a real issue in the US, then we would expect to see the total number of households is uniformly distributed across these different income brackets.] 
+
+
+
+---
+## Regression - The Big Picture 
+
+```{r echo=FALSE, fig.align='center'}
+set.seed(1010)
+x <- c(sample(seq(20,50,0.1), 500, replace=TRUE), sample(1:22, 23, replace=TRUE), sample(45:60, 17, replace=TRUE)) 
+y <- 12.3*x + 4.1 + rnorm(540, 0, 65)
+mydat <- tibble(x, y)
+ggplot(mydat, aes(x=x, y=y)) + 
+  geom_point() + 
+  geom_smooth(method="lm", se=FALSE) + 
+  xlim(0,60) + ylim(0,1000) + 
+  labs(title="Plotting an entire population", x="Predictor", y="Response")
+```
+
+---
+## Comprehension quiz questions 
+
+
+### Questions from Comp quiz 14 
+
+- Question 1 explanation
+
+- Question 2 explanation 
+
+- Question 5, what's the difference between sum of squares and mean square?
+
+
+
+### General questions on SLR and ANOVA
+
+- Why do we use ANOVA for SLR?
+ 
+- What is the difference between a t-test and F-test? Does it give you the same thing for SLR?
+ 
+- I'm a little confused on the F test statistic. Specifically why we use SSreg and SSres there.
+
+
+
+---
+## SLR - Transforming data 
+### Group work - 35 mins (approx)
+
+Here is a [worksheet](https://docs.google.com/document/d/1BO_59xZriB8RJS43B6kOCMfHn3cOgn_lA5uBmuqg6os/edit?usp=sharing) to fill out as you complete the steps above. You may find it useful to review some properties of logarithms and exponents using this [reference](https://wou.edu/mathcenter/files/2015/09/Exponents-and-Logarithms.pdf). 
+
+**Note-taker:** You will submit the completed worksheet to me over your group's Slack channel at the end of class. (Please make sure the settings allow me to access your document!) 
+
+**Presenter:** Be prepared to answer questions based on your worksheet when we discuss the worksheet as a class. 
+
+**Recorder:** Keep track of the time and alert your group when you have 5 mins remaining. 
+
+**Questioner:** Be prepared to ask any questions that have come up within your group discussion when I stop by your breakout room. 
+
+
+---
+## SLR - Transforming data 
+### Group work - 10 mins 
+
+We are going to practice transforming the data to fit a stronger linear model to the SAT score data from Problem 3 of Test 1. 
+
+**Step 1**
+
+1. Use the code on the next two slides to write out the estimated regression equation for the data and interpret the meaning of the slope. 
+2. What important features do you notice in the scatter plot of the data, the residual plot, and/or the normal probability plot for the standardized residuals?
+
+```{r eval=FALSE}
+income_SAT2 <- tibble(income = c(10000, 30000, 50000, 70000, 90000, 110000,
+                                 130000, 150000, 180000, 300000),
+                      SAT_score = c(1323, 1398, 1461, 1503, 1545, 1580, 1594,
+                                     1619, 1636, 1721))
+SLR_SAT <- lm(SAT_score ~ income, income_SAT2)
+summary(SLR_SAT)
+```
+
+
+---
+## SLR - Transforming data 
+### Step 1 continued
+
+
+```{r eval=FALSE}
+ggplot(income_SAT2, aes(x=income ,y=SAT_score)) +
+  geom_point() + 
+  labs(title="SAT data scatter plot", x="Household income", y="SAT Score")
+
+income_SAT2 <- income_SAT2 %>% mutate(resids = SLR_SAT$residuals,
+                                      fits = SLR_SAT$fitted.values)
+ggplot(income_SAT2, aes(sample=SAT_score)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal prob plot for residuals")
+
+ggplot(income_SAT2, aes(x=fits, y=resids)) +
+  geom_point() + 
+  labs(title="Residuals vs fitted values", x="Fitted values", y="Residuals") +
+  geom_hline(yintercept=0)
+```
+
+
+
+---
+## SLR - Transforming data 
+### Group work - 15 mins 
+
+**Step 2**
+
+1. Use the `mutate` function to transform the response variable $Y$ by raising `SAT_score` to the 10th power. I.e. create a new response variable $Y_{transformed} = Y^{10}$. Then fit a SLR model using $x$ to predict $Y_{transformed}$.  
+2. Produce and interpret a scatter plot of the data, a residual plot, and a normal probability plot for the residuals.
+3. Write out the estimated regression equation for the transformed data and then interpret the slope of this model and in the context of the original units of $Y$. 
+
+
+```{r eval=FALSE}
+# Here is how to find a logarithm of base 10 in R
+a <- 22000
+b <- log(a, base=10)
+10^b  # Double check the properties of logarithms 
+```
+
+
+---
+## SLR - Transforming data 
+### Group work - 10 mins  
+
+**Step 3** (Reference the Class 14 Part 3 lecture notes for the code.) 
+
+1. Use the regression model from Step 2 to compute a confidence interval for the mean SAT score for a student from a household making $62,000 per year. Interpret this interval in the units of the un-transformed data.   
+2. Use the regression model from Step 2 to compute a prediction interval for the SAT score of a student from a household making $120,000 per year. Interpret this interval in the units of the un-transformed data.   
+
+
+```{r echo=FALSE, eval=FALSE}
+**Step 3**
+
+1. Use the `mutate` function to transform the predictor variable `income` by taking the logarithm. I.e. create a new predictor variable $x_{transformed} = log(x)$. Then fit a SLR model using $x_{transformed}$ to predict $Y$.   
+2. Produce and interpret a scatter plot of the data, a residual plot, and a normal probability plot for the standardized residuals.
+3. Write out the estimated regression equation for the transformed data and  interpret the slope. 
+
+
+For future classes/comprehension quizzes: In each of the following situations, determine which is more appropriate: a confidence interval for the mean response or a prediction interval for an unobserved response. 
+```
+
+
+
+```{r echo=FALSE, eval=FALSE}
+income_SAT3 <- income_SAT2 %>% mutate(log_income = log(income))
+SLR_SAT_log <- lm(median_SAT ~ log_income, income_SAT3)
+summary(SLR_SAT_log)
+
+
+income_SAT4 <- income_SAT2 %>% mutate(pwr_SAT = median_SAT^10)
+SLR_SAT_pwr <- lm(pwr_SAT ~ income, income_SAT4)
+summary(SLR_SAT_pwr)
+log(7.338e26, 10)
+```
+
+
+```{r echo=FALSE, eval=FALSE, fig.align='center'}
+ggplot(income_SAT2, aes(x=log_income ,y=median_SAT)) +
+  geom_point() + 
+  labs(title="SAT data scatter plot", x="Log of household income", y="Median SAT Score")
+```
+
+
+```{r echo=FALSE, eval=FALSE, fig.align='center'}
+income_SAT2 <- income_SAT2 %>% mutate(resids_log = SLR_SAT_log$residuals,
+                                      fits_log = SLR_SAT_log$fitted.values)
+ggplot(income_SAT2, aes(sample=median_SAT)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal prob plot for residuals")
+```
+
+```{r echo=FALSE, eval=FALSE, fig.align='center'}
+ggplot(income_SAT2, aes(x=fits_log, y=resids_log)) +
+  geom_point() + 
+  labs(title="Residuals vs fitted values", x="Fitted values", y="Residuals") +
+  geom_hline(yintercept=0)
+```
+
+
+
+```{r echo=FALSE, eval=FALSE}
+hc_employer_2013 <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_data.txt")) 
+  #read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_2013_cleaned.txt")) 
+colnames(hc_employer_2013) <- c("Location", "TotalHealthSpending", "TotalUninsured", 
+                                "TotalPop", "spending_capita", "prop_uninsured")
+
+
+hc_employer_2013_transformed <- hc_employer_2013 %>%
+                                      mutate(log_prop_uninsured = log(prop_uninsured),
+                                             sqrt_prop_uninsured = sqrt(prop_uninsured),
+                                             pwr_prop_uninsured = prop_uninsured^(-1/3))
+
+SLR_hc <- lm(prop_uninsured ~ spending_capita, hc_employer_2013_transformed)
+SLR1 <- lm(log_prop_uninsured ~ spending_capita, hc_employer_2013_transformed)
+SLR2 <- lm(sqrt_prop_uninsured ~ spending_capita, hc_employer_2013_transformed)
+SLR_hc_pwr <- lm(pwr_prop_uninsured ~ spending_capita, hc_employer_2013_transformed)
+
+hc_resid_data <- hc_employer_2013_transformed %>% 
+                        mutate(residuals = SLR_hc$residuals, 
+                               fitted_vals = SLR_hc$fitted.values,
+                               residuals_log = SLR1$residuals, 
+                               fitted_vals_log = SLR1$fitted.values,
+                               residuals_sqrt = SLR2$residuals, 
+                               fitted_vals_sqrt = SLR2$fitted.values,
+                               residuals_pwr = SLR_hc_pwr$residuals, 
+                               fitted_vals_pwr = SLR_hc_pwr$fitted.values) 
+ggplot(hc_resid_data, aes(x=fitted_vals, y=residuals)) +
+  geom_point() + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Fitted values (proportion covered)", y="Residuals") + 
+  geom_hline(yintercept=0) #+ ylim(-.3, .3)
+
+ggplot(hc_resid_data, aes(x=fitted_vals_log, y=residuals_log)) +
+  geom_point() + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Fitted values (proportion covered)", y="Residuals") + 
+  geom_hline(yintercept=0) #+ ylim(-.3, .3)
+
+ggplot(hc_resid_data, aes(x=fitted_vals_sqrt, y=residuals_sqrt)) +
+  geom_point() + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Fitted values (proportion covered)", y="Residuals") + 
+  geom_hline(yintercept=0) #+ ylim(-.3, .3)
+
+ggplot(hc_resid_data, aes(x=fitted_vals_pwr, y=residuals_pwr)) +
+  geom_point() + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Fitted values (proportion covered)", y="Residuals") + 
+  geom_hline(yintercept=0) # + ylim(-.3, .3)
+```

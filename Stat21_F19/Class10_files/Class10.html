@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 10</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class10_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class10_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 10
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/9/23 (updated: 2019-09-23)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 80%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+&lt;img src="Figs/null_hypothesis.png" height="600" style="display: block; margin: auto;" /&gt;
+
+.footnote[https://xkcd.com/1053/]
+
+--
+## Outline for today's class 
+
+
+  - .blue[Estimation] with simple linear regression models
+  
+
+  - Introduction to .blue[inference] with simple linear regression models
+
+    
+  
+---
+## Health care data 
+.scroll-output[
+
+```r
+hc_employer_2013 &lt;- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+head(hc_employer_2013)
+```
+
+```
+## # A tibble: 6 x 3
+##   Location   prop_coverage spending_capita
+##   &lt;chr&gt;              &lt;dbl&gt;           &lt;dbl&gt;
+## 1 Alabama            0.446           33788
+## 2 Alaska             0.520            7684
+## 3 Arizona            0.437           41481
+## 4 Arkansas           0.389           20500
+## 5 California         0.465          278168
+## 6 Colorado           0.538           34090
+```
+]
+
+
+
+---
+## SLR for health care data 
+
+.scroll-output[
+
+
+```r
+SLR_hc_employer_2013 &lt;- lm(prop_coverage~spending_capita, data=hc_employer_2013)
+summary(SLR_hc_employer_2013)
+```
+
+```
+## 
+## Call:
+## lm(formula = prop_coverage ~ spending_capita, data = hc_employer_2013)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.12870 -0.04341  0.00710  0.03711  0.09344 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      5.137e-01  1.027e-02  50.030   &lt;2e-16 ***
+## spending_capita -1.319e-07  1.446e-07  -0.912    0.366    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.05427 on 49 degrees of freedom
+## Multiple R-squared:  0.01669,	Adjusted R-squared:  -0.003373 
+## F-statistic: 0.8319 on 1 and 49 DF,  p-value: 0.3662
+```
+]
+
+---
+## Assumptions for estimation with SLR
+
+`$$Y = \beta_0 + \beta_1 x + \epsilon$$`
+
+1. `\(E[\epsilon]=0\)`;
+
+1. `\(Var[\epsilon]=\sigma^2 &lt; \infty\)`;
+
+1. Each instance of the random variable `\(\epsilon\)` is independent of any other instance. 
+
+
+--
+Assumption (our model): 
+`$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$`
+
+Observation (our model .blue[estimate]):
+`$$y_i = \hat{\beta}_0 + \hat{\beta}_1 x_i + e_i$$`
+Note that sometimes we will make use of the notation: `\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1x_i\)` to denote the **predicted** values of our response variable based on our estimated model. 
+
+
+.footnote[Resource for understanding how we derive the estimates for our model parameters: https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm]
+
+---
+##Checking assumption 1:  zero mean
+
+`$$E[\varepsilon]=0$$`
+
+
+The mean of the residuals will always be zero because they are calculated based on the regression line we fit. 
+
+
+```r
+SLR_hc_employer_2013 %&gt;% 
+  residuals %&gt;% 
+  mean 
+```
+
+```
+## [1] 6.453561e-19
+```
+
+
+
+---
+##Checking assumption 1: zero mean
+
+`$$E[\varepsilon]=0$$`
+
+
+The mean of the residuals will always be zero because they are calculated based on the regression line we fit. 
+
+&lt;img src="Figs/hcRegressionClass9_4-1.png" style="display: block; margin: auto;" /&gt;
+
+
+- If you suspect that the mean of your `\(Y\)` measurement errors is non-zero, you can still ensure that this model assumption is met by **standardizing the data** before you fit a regression curve. 
+
+
+- When we get to MLR (multiple linear regression), it will become more important to standardize the data before fitting a regression line. 
+
+---
+##Checking assumption 2: .red[constant] variance
+
+`$$Var[\epsilon]=\sigma^2 &lt; \infty$$`
+
+&lt;a href="https://en.wikipedia.org/wiki/Heteroscedasticity"&gt;Heteroscedasticity&lt;/a&gt; often occurs when there is a large difference among the sizes of the response variable. What we are looking for here is: does our measurement error `\((\epsilon)\)` vary (increase or decrease) with each new observation `\((y_i, x_i)\)`?
+
+
+  - cross section data 
+  
+  - time series data 
+
+  - econometrics data 
+
+
+1. Example: Income versus money spent on meals.
+
+1. Example: Measuring changing distance of a rocket being launched. 
+
+.footnote[For more reading on heteroscedasticity: http://www.statsmakemecry.com/smmctheblog/confusing-stats-terms-explained-heteroscedasticity-heteroske.html (note that they use the terms independent and dependent variables which is not great but common!)]
+---
+##Checking assumption 2: .red[constant] variance
+
+`$$Var[\epsilon]=\sigma^2 &lt; \infty$$`
+
+&lt;img src="Figs/hcRegressionHetero-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+##Checking assumption 2: .red[constant] variance
+
+So you have evidence of heteroscedasticity, what now? 
+
+
+--
+It **is OK** to play around with transforming the data `\((x_i, y_i)\)`! So try transforming the response and/or predictor variable to address this problem. 
+
+
+In general, for linear modeling, some heteroscedasticity is not a deal-breaker, there are more severe consequences however for non-linear models (e.g. logit or probit models).
+
+
+--
+**Q:** How do you think heteroscedasticity affects model estimation? 
+
+
+---
+##Checking assumption 3: independence
+
+This assumption is difficult to check. Usually you have to think critically about what are potential sources of error in your measurements of the response variable `\(Y\)`.
+
+
+For temporal data, you can check the &lt;a href=""&gt;autocorrelation&lt;/a&gt;.
+
+
+Otherwise, we can look for linear relationships in scatter plots of the residuals and the predictor variables. If we find evidence of this, we may need to re-consider what predictor variables we include in our model. 
+
+
+---
+## What does the rest of the R ouput mean? 
+
+
+
+```
+## 
+## Call:
+## lm(formula = prop_coverage ~ spending_capita, data = hc_employer_2013)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.12870 -0.04341  0.00710  0.03711  0.09344 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      5.137e-01  1.027e-02  50.030   &lt;2e-16 ***
+## spending_capita -1.319e-07  1.446e-07  -0.912    0.366    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.05427 on 49 degrees of freedom
+## Multiple R-squared:  0.01669,	Adjusted R-squared:  -0.003373 
+## F-statistic: 0.8319 on 1 and 49 DF,  p-value: 0.3662
+```
+
+
+---
+## What does the rest of the R ouput mean? 
+### The &lt;a href="https://en.wikipedia.org/wiki/Coefficient_of_determination"&gt;coefficient of determination&lt;/a&gt;
+
+
+```r
+?lm
+?summary
+?summary.lm
+```
+
+**Interpretation:** R squared is a *statistic* that represents a proportion. Specifically, it's the proportion of the variability/dispersion of our observations of `\(Y\)`, i.e. `\((y_1,\dots,y_n)\)`, that our linear model can account for.
+
+--
+**Note:** This is the same thing as the &lt;a href="https://en.wikipedia.org/wiki/Correlation_coefficient"&gt;correlation&lt;/a&gt; **.red[only in the case of SLR]**! 
+
+`$$\rho(X,Y) = Corr(X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}$$`
+
+
+.footnote[
+We will use the adjusted R squared value in multiple linear regression, where we'll have more than just one predictor variable. Also, as noted above, in multiple linear regression correlation is **not** the same that as `\(R^2\)`.]
+
+---
+## What does the rest of the R output mean? 
+### The &lt;a href="https://en.wikipedia.org/wiki/Coefficient_of_determination"&gt;coefficient of determination&lt;/a&gt;
+
+It is helpful to consider regression terms called the *sums of squares*.
+
+
+$$ \sum_{i=1}^{n}\left( y_i - \bar{y} \right)^2$$
+
+
+--
+$$ \sum_{i=1}^{n}\left( \hat{y}_i - \bar{y} \right)^2$$
+
+
+--
+$$ \sum_{i=1}^{n}\left( y_i - \hat{y}_i \right)^2$$
+
+
+---
+## What does the rest of the R output mean? 
+
+It is helpful to consider regression terms called the *sums of squares*.
+
+
+**Total sum of squares:** (SStot)
+
+`$$\sum_{i=1}^{n}\left( y_i - \bar{y} \right)^2$$`
+
+
+**Regression sum of squares:** (SSreg)
+
+`$$\sum_{i=1}^{n}\left( \hat{y}_i - \bar{y} \right)^2$$`
+
+
+
+**Residual sum of squares/sum square errors:** (SSres or SSE)
+
+
+
+`$$\sum_{i=1}^{n}\left( y_i - \hat{y}_i \right)^2 = \sum_{i=1}^n e_i^2$$`
+
+
+
+---
+## What does the rest of the R output mean? 
+### The &lt;a href="https://en.wikipedia.org/wiki/Coefficient_of_determination"&gt;coefficient of determination&lt;/a&gt;
+
+`$$R^2 = 1 - \frac{SSres}{SStot}$$`
+
+.footnote[This sum of squares notation will be really helpful later when we consider ANOVA models.]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

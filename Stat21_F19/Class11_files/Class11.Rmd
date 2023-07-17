@@ -1,0 +1,214 @@
+---
+title: "Class 11"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/9/25 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class9_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/', message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 80%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+```{r, echo=FALSE, fig.align='center', out.height=600}
+knitr::include_graphics("Figs/normal_distribution.png")
+#https://www.explainxkcd.com/wiki/index.php/Category:Statistics
+```
+
+.footnote[https://xkcd.com/2118/]
+
+---
+## Simple linear regression (SLR) for the health care data
+
+```{r echo=TRUE, warning=FALSE}
+hc_employer_2013 <- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+SLR_hc_employer_2013 <- lm(prop_coverage~spending_capita, data=hc_employer_2013)
+summary(SLR_hc_employer_2013)
+```
+
+
+
+
+---
+## Sums of squares - measurements of dispersion
+
+It is helpful to consider regression terms called the *sums of squares*.
+
+
+**Total sum of squares:** (SStot)
+
+$$\sum_{i=1}^{n}\left( y_i - \bar{y} \right)^2$$
+
+
+**Regression sum of squares:** (SSreg)
+
+$$\sum_{i=1}^{n}\left( \hat{y}_i - \bar{y} \right)^2$$
+
+
+
+**Residual sum of squares/sum square errors:** (SSres or SSE)
+
+
+
+$$\sum_{i=1}^{n}\left( y_i - \hat{y}_i \right)^2 = \sum_{i=1}^n e_i^2$$
+
+---
+## Sums of squares - measurements of dispersion
+
+```{r anovaClass11, echo=TRUE, warning=FALSE}
+anova(SLR_hc_employer_2013)
+```
+
+
+
+---
+## What does the rest of the R ouput mean? 
+### The <a href="https://en.wikipedia.org/wiki/Coefficient_of_determination">coefficient of determination</a>
+
+$$R^2 = 1 - \frac{SSres}{SStot}$$
+
+
+Using the fact that $SStot=SSreg+SSres$ we see that we could also write 
+$$R^2 = \frac{SSreg}{SStot}.$$
+
+
+
+.footnote[The sum of squares notation will be really helpful later when we consider ANOVA models.]
+
+
+
+
+---
+## What does the rest of the R ouput mean? 
+### Residual standard error and it's degrees of freedom
+
+Recall that $\sigma$ is also a model parameter that we don't know and must estimate. 
+
+
+$$\hat{\sigma} = \text{Residual standard error} =  \sqrt{\frac{SSres}{n-2}}$$
+
+--
+The *residual degrees of freedom* are $n-2$, where we are subtracting $2$ because *SSres* is computed after we have estimated two model parameters, $\beta_0$ and $\beta_1$. 
+
+
+```{r resDFClass11, echo=TRUE, warning=FALSE}
+df.residual(SLR_hc_employer_2013)
+dim(hc_employer_2013)
+```
+
+---
+## What does the rest of the R ouput mean? 
+### Residual standard error and it's degrees of freedom
+
+To extract this estimate for $\sigma$ from the model use: 
+```{r sigmaClass11, echo=TRUE, warning=FALSE}
+SLR_hc2013_summary <- SLR_hc_employer_2013 %>% summary
+SLR_hc2013_summary$sigma
+df.residual(SLR_hc_employer_2013)*(SLR_hc2013_summary$sigma)^2
+```
+
+
+
+---
+## What does the rest of the R ouput mean? 
+### Residual standard error and it's degrees of freedom
+
+To see that $\hat{\sigma} = \text{Residual standard error} =  \sqrt{\frac{SSres}{n-2}}$,
+look at the following output: 
+
+```{r SSresSigmaClass11, echo=TRUE, warning=FALSE}
+anova(SLR_hc_employer_2013)
+```
+
+
+.footnote[<a href="https://campus.datacamp.com/courses/correlation-and-regression/model-fit?ex=3">Here</a> is a useful R tutorial that helps to explain what *residual standard error* is.] 
+
+
+
+---
+## What does the rest of the R ouput mean? 
+### Residual standard error and it's degrees of freedom
+
+**Q:** If there is evidence of heteroskedasity, how will that affect the quality of our estimate, $\hat{\sigma}^2$? 
+
+
+```{r heteroskedHCClass11, results='hide'}
+hc_employer_2013_all <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc_employer_2013$residuals, fitted_vals = SLR_hc_employer_2013$fitted.values) 
+
+res_plot <- ggplot(hc_employer_2013_all) +
+         geom_point(aes(x=spending_capita, y=residuals)) + 
+         labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+         x="Per capita health care cost", y="Residuals") + 
+  geom_hline(yintercept=0)
+res_plot
+```
+
+
+---
+## What does the rest of the R ouput mean? 
+### Residual standard error and it's degrees of freedom
+
+**Q:** If there is evidence of heteroscedasticity, how will that affect the quality of our estimate, $\hat{\sigma}^2$? 
+
+
+```{r heteroskedHCClass11_2, echo=FALSE, warning=FALSE, fig.height = 4, fig.align = 'center'}
+hc_employer_2013_all <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc_employer_2013$residuals, fitted_vals = SLR_hc_employer_2013$fitted.values) 
+
+res_plot <- ggplot(hc_employer_2013_all) +
+         geom_point(aes(x=spending_capita, y=residuals)) + 
+         labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+         x="Per capita health care cost", y="Residuals") + 
+  geom_hline(yintercept=0)
+res_plot
+```
+
+A **really good** summary of what the R output of a linear model means can be found <a href="https://stats.stackexchange.com/a/5138/77371 ">here</a>. 

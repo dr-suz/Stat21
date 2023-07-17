@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 13</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <script src="class13_files/header-attrs/header-attrs.js"></script>
+    <link href="class13_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class13_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 13
+## Statistical Methods II (Stat 021)
+### Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, March 30, 2021 (updated: 2021-04-01)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- ANOVA application (15 mins)
+
+- Types of experimental designs for ANOVA models 
+
+- SLR concept overview (15 mins)
+
+- Housekeeping items and announcements (5 mins)
+
+---
+# Tuesday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+&lt;img src="Figs/feelings_wheel.jpg" width="683" height="500" style="display: block; margin: auto;" /&gt;
+
+
+
+
+---
+## More examples of ANOVA
+### Group work 
+
+.scroll-output[
+**Instructions:** 
+
+Read through the abstract of this [paper](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/S2021/one-way-anova-tukey-hsd.pdf) with your group. 
+
+
+With your group:
+
+1. Identify the response and predictor variables. 
+
+1. What are likely some causes of measurement error in the response variable? 
+
+1. Do the assumptions of independence seem likely to be met? 
+
+
+**Hand in:** Send me a message on Slack answering the above questions. ]
+
+---
+## Source for the next few slides 
+
+Experimental Design : From User Studies to Psychophysics, CRC Press LLC, 2011. ProQuest Ebook Central, http://ebookcentral.proquest.com/lib/swarthmore/detail.action?docID=830234.
+Created from swarthmore on 2021-03-30 07:08:54.
+
+
+This textbook is freely available to you through the TriCo library system. 
+
+---
+## ANOVA Models 
+
+
+We are limiting our discussion to one-way, fixed-effects ANOVA models. Such models may follow  
+
+- A randomized/between groups design or  
+
+- A repeated measures/within subjects design. 
+
+We have discussed the randomized design thus far. For this design we have two levels of independence we need to check. (This is analogous to the unpaired, two sample t-test.)
+
+A repeated measures design is similar to a dependent (or paired) two sample t-test. Here we no longer have independent samples within each group/level. 
+
+
+  &gt; Regardless of which method is used we must assume the different factor levels are independent.  This assumption should not be violated, as it forms the basis of the ANOVA derivation. It simply means that if two samples are in the same group, the deviation of the ﬁrst sample from the group mean should not be indicative of the deviation of the second sample. 
+
+
+
+---
+## ANOVA 
+### Randomized design 
+
+"The one-way analysis of variance explains the variance of observed data as a function of one factor having different levels. Equivalently, it tests the null hypothesis that all means across all levels of the factor are equal and thus no level has an inﬂuence on the observed data."
+
+
+"[T]he basic idea of the ANOVA is to determine the relation between the variance within factor levels and the variance across factor levels. The calculation of an ANOVA therefore starts with the calculation of the overall mean and the observed, overall variance of the data. 
+
+If one factor were responsible for the whole variance, then obviously all samples within each factor level would need to have the same value, with differences occurring only across groups. This so-called treatment variance (or between-group variance) is now also calculated by replacing all samples within a factor level by their mean value and recalculating the variance. 
+
+Finally, the so-called error variance (or within-group variance) is determined, which is given by the variance of the deviation of each sample from the group mean. Note that all of the error in our experimental design is concentrated in the within-group term - *if we had a repeated-measures design (also called “within-participant design”), we would be able to split this within-group variance further.*"
+
+
+
+---
+## ANOVA 
+### Repeated measures 
+
+The repeated measures one-way ANOVA is a straightforward extension of the one-way ANOVA to dependent samples. It should be used whenever the samples were repeated, when the same participants were tested in several different conditions with the same measure (that is, in a within-participant design), or when measures are highly related to each other (such as questions concerning the same topic on a questionnaire). 
+
+In all of these cases, the measurements were not taken independently of each other and hence need to be evaluated as dependent samples. 
+
+Like the independent one-way ANOVA, the repeated measures one-way ANOVA partitions the data in several sums-of-squares values that measure different variations in the data. As before, the variation in the experiment can be partitioned into the treatment, or between-group, variation `\(SS_{between}\)` , and into the within-group variation, `\(SS_{within}\)` . However, this time the within-group variation can be split further into the *participant variation* `\(SS_{part}\)` and the remaining error variation, `\(SS_{error}\)`.
+
+
+
+
+---
+## ANOVA Models 
+### Example 
+
+Suppose we have data drawn from a facial recognition experiment with four styles (groups). Ten participants were invited to interact with the avatar and the recognition performance was measured for each participant. 
+
+
+&lt;img src="Figs/avatar.png" width="669" height="300" style="display: block; margin: auto;" /&gt;
+
+
+**Response:** recognition accuracy (percentage)
+
+**Predictor:** style of avatar (realistic black and white, cartoon black and white, realistic color, cartoon color)
+
+
+
+
+
+---
+## ANOVA Models 
+### Example 
+
+How would this kind of experiment be conducted? 
+
+
+&lt;img src="Figs/class13_pic.png" width="712" height="300" style="display: block; margin: auto;" /&gt;
+
+What does the data look like? 
+
+---
+## ANOVA Models 
+### Example 
+
+
+
+Now, let's adjust this example to be a *repeated measures* ANOVA model. For this, let's measure the recognition performance of these ten participants at three different points in time (e.g. morning, afternoon, evening). 
+
+
+What does the data look like? 
+
+
+---
+## ANOVA in R 
+
+For more complicated ANOVA models such as
+
+  - repeated measures,
+
+  - two-way or more models, or
+  
+  - random or mixed effects models
+
+we would make use of the `aov()` function in R. This is similar to the `lm()` function that we used before but it allows us to specify the differences in the model.
+
+
+You will only be responsible for conducting a **one-way, fixed effects, between groups ANOVA model** for my class. 
+
+**Group exercise:** Create pseudo-code for this type of model. 
+
+---
+## Some additional resources 
+
+- For understanding which statistical model/procedure to use see [slide 2](https://www.ncl.ac.uk/fms/postgrad/skills/documents/WhichStatisticalTestaidforSPSSBeginnersMay2016.pdf) or this useful [table](https://stats.idre.ucla.edu/other/mult-pkg/whatstat/).
+
+
+- For more on the difference between repeated measures and between groups ANOVA models see this [slide presentation](https://sites.ualberta.ca/~lkgray/uploads/7/3/6/2/7362679/slides_-_anova_assumptions.pdf)
+
+
+- For more on assumptions of independence read through this [blog post](https://blog.minitab.com/en/quality-business/common-assumptions-about-data-part-1-random-samples-and-statistical-independence).
+
+
+- If you are interested in learning more about experimental design, here is a [free textbook](http://users.stat.umn.edu/~gary/book/fcdae.pdf) introducing the topic. 
+
+
+---
+## SLR 
+
+`$$Y\mid x = \beta_0 + \beta_1 x + \epsilon, \quad E(\epsilon)=0 \text{ and } Var(\epsilon)=\sigma^2$$` 
+
+**Data:** 
+
+
+
+**Parameters:** 
+
+
+
+**Estimates:** 
+
+
+
+**Variables:** Which are random and which are fixed? 
+
+
+
+---
+### Planning ahead for next class  
+
+.scroll-output[
+- Complete the comprehension quiz for week 8 by Thursday morning. (This will be available by tonight.)
+
+- Read over HW 5 and attempt at least two problems.  
+
+- Next class, we'll be exploring SLR properties 
+
+  * Correlation 
+  
+  * Inference for model parameters 
+  
+  * Checking assumptions 
+
+
+### Announcements 
+
+[Math/Stat Career Panel](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/S2021/CareerPanel.pdf)
+
+**What can you do with a math/stat degree?**
+
+
+Come meet Swarthmore math and statistics alumni. Hear about their career experiences and journeys. Ask questions and get valuable advice for your own career!
+
+**Part 1:  Thursday, April 1, 8-9pm**
+https://swarthmore.zoom.us/j/82679149704
+
+Panelists:
+Laura Wilcox, Research Assistant, Federal Reserve Board;
+Zara Williams-Nicholas, Teaching Fellow, Groton School;
+Yichuan Yan, Equity Research Associate, Evercore
+
+**Part 2: Thursday, April 8, 8-9pm**
+https://swarthmore.zoom.us/j/82679149704
+
+Panelists:
+David Chudzicki, Co-founder and CTO, Decision.ai;
+Andy Lee, Founder, BasisBoard;
+Jason Mendoza, Economist, Moody's Analytics;
+Emma Remy, Data Science Analyst, Pew Research Center;
+Anastasia White-Tourrellas, Derivatives Relative Value Trader, Two Sigma]
+
+---
+### Another Announcement 
+
+Philadelphia Regional Institute for STEM Educators (PRISE) is hosting a speaker and panel series titled: 
+
+[An Inside-Out Approach to Equity in STEM](http://prnp.org/spring-2021-speaker-series-an-inside-out-approach-to-equity-in-stem/) 
+
+We are taking a systems view of examining how individual identity and organizational culture contribute to activities and impacts which are grounded in producing equitable outcomes for STEM learners. We call this an Inside-Out approach because this ultimately is about Cultural Proficiency which, according to Randall Lindsey is “to be applied to both organizational practices and individual behavior” (Cultural Proficiency: A Manual for School Leaders 4th ed., 2019). Over the three sessions we have assembled an impressive line-up of contributors from the Philadelphia region that represent K-12, higher education, and organizations that support STEM education. During each session, one of the speakers will give an overview of the topic at hand and then will join a panel that will be moderated by Muriel Fox Alim from the National Math and Science Initiative.  The audience will have an opportunity to ask questions during a Q&amp;A period at the end. Although each session stands alone, it is recommended that you attend all three to experience the full impact of the series.  
+
+
+All sessions start at **5:00 pm EST** and end at 6:00 pm EST
+
+**Session Dates:** Tuesday, April 6, 2021; Tuesday, April 20, 2021; Tuesday, May 4, 2021
+
+
+Registration is required.  To register for any or all of the events, please go to HTTP://BIT.LY/PRISE_EQUITYSERIES
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

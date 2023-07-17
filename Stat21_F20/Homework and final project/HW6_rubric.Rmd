@@ -1,0 +1,97 @@
+---
+title: "Stat 21 Homework 6"
+author: "Solution for Problem 2"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+
+```{r echo=FALSE}
+mileage <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/mileage.txt"), skip=2, col_names = c("car", "mpg", "displacement", "weight", "transmission_type"), cols(transmission_type = col_factor())) %>% na.omit
+```
+
+## Problem 2 
+
+a) Build a linear regression model relating gasoline mileage, $y$, to vehicle weight $x_3$  and the type of transmission $x_2$ . Does the type of transmission significantly affect the mileage performance? Justify your answer. 
+
+b) Modify the model developed in part c to include an interaction between vehicle weight and the type of transmission. What is the average effect on gasoline mileage when the transmission is automatic? What is the average effect on gasoline mileage when the transmission is manual?  
+
+**Solution for a)**
+```{r}
+MLR_car2 <- lm(mpg ~ weight + transmission_type, 
+               data=mileage)
+summary(MLR_car2)
+```
+Note we have fit the following regression model:
+$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 \times weight) + (\hat{\beta}_2 \times type)$$
+where $type$ is a dummy variable with $type=0$ indicating an automatic and $type=1$ indicating a manual. 
+
+
+Let $\alpha=0.05$. Based on the individual t-test for the signifigance of the difference in average mileage between manual and automatic cars in this model, no transmission does not have a significant effect on mileage, given that weight is included in the model, since p-value$=0.071>\alpha$. 
+
+**Solution for b)**
+```{r}
+MLR_car2_interaction <- lm(mpg ~ weight + transmission_type +
+                             weight*transmission_type, data=mileage)
+summary(MLR_car2_interaction)
+```
+Note we have fit the following regression model:
+$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 \times weight) + (\hat{\beta}_2 \times type) + (\hat{\beta}_3 \times weight \times type)$$
+where $type$ is a dummy variable with $type=0$ indicating an automatic and $type=1$ indicating a manual. 
+
+There is a significant interaction between car weight and the type of transmission. For an automatic transmission type, the predicted mileage per gallon is $29.4530696- (0.0030367\times weight)$ which indicates that, *on average*, for every pound increase in weight miles per gallon decreases on average by $0.003$. For an manual transmission type, the predicted mileage per gallon is $(29.4530696 + 28.6553504) + ((-0.0030367-0.0094807)\times weight) = 58.10842 - (0.0125174 \times weight)$ which indicates that, *on average*, for every pound increase in weight, miles per gallon decreases on average by $0.013$.   
+
+***
+
+**Standardized mileage data solutions**
+
+
+**a)**
+```{r}
+MLR_car3 <- lm(scale(mpg) ~ weight + transmission_type, 
+               data=mileage)
+summary(MLR_car3)
+```
+Note we have fit the following regression model:
+$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 \times weight) + (\hat{\beta}_2 \times type)$$
+where $type$ is a dummy variable with $type=0$ indicating an automatic and $type=1$ indicating a manual. 
+
+
+Let $\alpha=0.05$. Based on the individual t-test for the signifigance of the difference in average mileage between manual and automatic cars in this model, no transmission does not have a significant effect on mileage, given that weight is included in the model, since p-value$=0.071>\alpha$. 
+
+**b)**
+```{r}
+MLR_car3_interaction <- lm(scale(mpg) ~ weight + transmission_type +
+                             weight*transmission_type, data=mileage)
+summary(MLR_car3_interaction)
+```
+Note we have fit the following regression model:
+$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 \times weight) + (\hat{\beta}_2 \times type) + (\hat{\beta}_3 \times weight \times type)$$
+where $type$ is a dummy variable with $type=0$ indicating an automatic and $type=1$ indicating a manual. 
+
+There is a significant interaction between vehicle weight and the type of transmission. For an automatic transmission type, the predicted (standardized) mileage is $1.461- (0.0004806\times weight)$ which indicates that, *on average*, for every pound increase in weight, standardized mileage decreases by $0.0005$. For an manual transmission type, the predicted mileage per gallon is $(1.4608297+4.5353022) + ((-0.0004806-0.0015005)\times weight) = 5.996132 - (0.0019811 \times weight)$ which indicates that, *on average*, for every pound increase in weight, standardized mileage decreases by $0.002$.   

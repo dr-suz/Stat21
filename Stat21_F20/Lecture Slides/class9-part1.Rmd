@@ -1,0 +1,177 @@
+---
+title: "Class 9 - Part 1"
+subtitle: "Analysis of Variance (ANOVA)"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Oct 6, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## ANOVA notation
+
+
+| Categorical varb | $n$ | Sample mean | Populaton mean | Sample variance | Population variance | 
+|-----------------|-----|------|-------|----|---|----|
+| Level 1 | $n_1$ | $\bar{y}_{1}$ | $\mu_{1}$ | $s_{1}^{2}$ | $\sigma_{1}^{2}$ |
+| Level 2 | $n_2$ | $\bar{y}_{2}$ | $\mu_{2}$ | $s_{2}^{2}$ | $\sigma_{2}^{2}$ |
+| $\vdots$ |  |   |   |    |   |   |
+| Level K | $n_K$ | $\bar{y}_{K}$ | $\mu_{K}$ | $s_{K}^{2}$ | $\sigma_{K}^{2}$ |
+
+Note that we assume $\sigma_{1}^{2} = \sigma_{2}^{2} = \cdots = \sigma_{K}^2 = \sigma^2$! 
+
+
+---
+## ANOVA notation
+
+The hypotheses for an ANOVA test are
+
+$$H_0: \mu_1 = \mu_2 = \dots = \mu_k \\ H_1: \text{ Not all }\mu_i \text{ are equal, for }i=1,\dots,k$$
+
+
+You can think of an ANOVA model as a generalization of the t-test for the difference in means. With ANOVA, we can test if **more than two** group means are the same. 
+
+
+--
+**Q:** Why not do a bunch of t-tests instead of one ANOVA test? 
+
+
+---
+## Answer to question
+
+
+If all our tests were independent, (this is not likely to be the case but it's the "best" of the worst case scenarios) then as the number of tests increases, so does our chance of randomly incorrectly rejecting the null hypothesis. 
+
+
+$$Pr( \text{making a type I error}) = \alpha \\
+Pr(\text{not making a type I error}) = 1- \alpha$$
+
+$$Pr(\text{not making a type I error in m independent hypothesis tests}) = (1-\alpha)^m\\
+Pr(\text{making at least one type I error our of m tests}) = 1 - (1-\alpha)^m$$
+
+---
+## Answer to question
+
+
+```{r sigLevelClass16}
+1 - (1 - 0.05)      ## a single test
+1 - (1 - 0.05)^3    ## three tests
+1 - (1 - 0.05)^10   ## 10 tests
+```
+
+.footnote[For more on the problem of multiple testing go <a href="https://www.stat.berkeley.edu/~mgoldman/Section0402.pdf">here</a>.
+
+For an alternative (Bayesian) approach to avoid dealing with multiple testing problem see <a href="http://www.stat.columbia.edu/~gelman/research/published/multiple2f.pdf">this</a> paper. NOT on future test, just FYI]
+
+---
+## One-way ANOVA 
+
+$$Y_{i,j}  = \mu_{i} + \epsilon_{i,j}$$ 
+
+Here $i = 1,\dots, k$ and $j = 1, \dots, n_{i}$.
+
+
+Assumptions (regarding the random error in our continuous, quantitative response):
+
+1. Homogeneity of variance (i.e. $Var(\epsilon)=\sigma^2$)
+
+1. Each $\epsilon$ is independent of any other random error. 
+
+1. The random errors, $\epsilon$ are Normally distributed. (Only necessary for inference.)
+
+
+
+--
+- Violations of the homogeneity of variance assumption are most problematic if the ANOVA is unbalanced (i.e. if the category sample sizes $n_1, \dots, n_k$ differ) or if there are systematic patterns to the changes in spread. 
+
+
+ - A helpful rule of thumb is to aim to have at least a dozen or so observations within each category (otherwise the homogeneity of variance is a difficult assumption to verify). 
+
+
+---
+## ANOVA F-test 
+### Calculations by hand
+
+R will automatically create the following ANOVA table for you. 
+
+| Source | Sums of Squares | DF | Mean Square | F-ratio | P-value | 
+|--------|------------------|---|-------------|---------|---------|
+| Treatment | $SS_{trt}= \sum \sum(\bar{y}_{j}-\bar{\bar{y}})^2$ | $K-1$ | $MS_{trt} = \frac{SS_{trt}}{K-1}$ | $\frac{MS_{trt}}{MSE}$ | $Pr(F \geq \frac{MS_{trt}}{MSE})$ | 
+| Error | $SSE=\sum\sum(y_{ij}-\bar{y}_{j})^2$ | $n-K$ | $MSE = \frac{SSE}{n-K}$ |   |  | 
+| Total | $SS_{tot}=SS_{trt}+SSE$  | $n-1$ |   |   |   |
+
+
+This test is called an ANOVA F-test. Behind the scenes, R calculates
+
+$$\text{Test Statistic} = F-statistic = \frac{MS_{trt}}{MSE},$$
+and then computes the p-value. 
+
+The **p-value** is the probability that a F-distributed RV with numerator degrees of freedom $K-1$ and denominator degrees of freedom $n-K$ takes on the observed F-ratio or a larger number. 
+
+---
+## Additional resources
+
+Here are some links to some additional resources for understanding ANOVA models. 
+
+<a href="http://www.biostathandbook.com/onewayanova.html">Here</a> is a helpful free resource summarizing ANOVA (and other general statistical) methods.
+
+<a href="https://statisticsbyjim.com/anova/f-tests-anova/">Here</a> is a link to a summary on what is an F-test in an ANOVA model. 
+

@@ -1,0 +1,278 @@
+---
+title: "Class 4"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Sept 17, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+# Class 4 - Two weeks down! 
+
+Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - HW 1 due Friday, the 18th by noon ET 
+  
+  - HW 2 is online, due Thursday, the 24th by noon ET
+
+  - Moodle - technical difficulties! 
+    
+    - Comprehension quiz 4 and 5 are both due by class on Tuesday, Sept 22nd 
+
+    - Material for Class 5 will be available tomorrow. 
+
+- Wrap up from last class 
+
+- Class 4 topics 
+
+  - Probability calculations 
+  
+  - Which test to use? 
+  
+
+---
+# Continuing from Class 3 
+## Practice Problem 2: Inference for the difference in proportions
+
+Two types of medication for hives are being tested to determine if there is a difference in the proportions of adult patient reactions. Twenty out of a random sample of 200 adults given medication A still had hives 30 minutes after taking the medication. Twelve out of another random sample of 200 adults given medication B still had hives 30 minutes after taking the medication. 
+
+
+**Q:**
+
+a) Conduct a hypothesis test at a 1% level of significance. Report the conclusion of the test. 
+
+b) Draw a picture of the p-value on a standard Normal density curve. 
+
+---
+# Continuing from Class 3 
+## Practice Problem 2: Inference for the difference in proportions
+
+**A:** 
+.scroll-small[
+```{r echo=TRUE}
+obs_success <- c(20, 12)
+samp_size <- c(200, 200)
+prop.test(obs_success, samp_size, alternative = "two.sided", conf.level = 0.99)
+```
+]
+
+
+
+---
+# R Lesson 
+## Using Packages in R
+
+Using packages in R is like using books in a library while doing your homework. You go to the library to do your homework because it's quiet and there's plenty of table space for you to spread out your work. 
+
+Similarly, you go to RStudio to solve a particular data analysis problem because RStudio has plenty of organized space to clean and investigate data. 
+
+- Installing packages in RStudio is analogous to a physical library stocking their shelves with a particular book.
+  
+  - You may or may not need to use every book that is stocked on the library's shelves, but you definitely can't use a book that is not stocked on the shelf! 
+    
+- Calling packages into your RStudio working library (with the `library()` function) is analogous to you picking up a particular book from the shelf and bringing it back to the table where you are working in the physical library. 
+
+  - You only get up to grab a book from the shelf if you really need to use it. 
+  
+  - Every time you go to the library to work, you have to go to pick up the book from its shelf.
+
+---
+# R Lesson 
+## Plotting in the `tidyverse`
+.scroll-output[
+The components for building a plot in the `tidyverse` pack are:
+
+  - the data object (typically a `tibble` or `data.frame`), 
+  
+  - the plot initialization page (where you reference the data object and orient the axes), and then 
+  
+  - the plot itself (histogram, density curve, box plot, etc). 
+
+
+```{r class4plot, echo=TRUE, fig.align='center'}
+## Data object (in this example we're looking at miles per hour and number of passengers)
+car_data <- tibble(mph = c(22, 35, 20, 25, 24, 20, 34, 31, 30, 32, 33, 25, 29, 24),
+                  passengers = c(1, 1, 3, 2, 5, 2, 1, 1, 2, 1, 3, 1, 1, 2)) 
+## Plot initialization (aes() stands for aesthetics)
+ggplot(car_data, aes(x=passengers, y=mph)) +
+## The actual plot (a scatterplot in this example)
+         geom_point()
+```
+]
+
+
+---
+# R Lesson 
+## Plotting in the `tidyverse`
+
+.scroll-output[
+
+### Adding labels and trimming the axes of a plot. 
+
+```{r class4plot2, echo=TRUE, fig.align='center'}
+## Data object (in this example we're looking at miles per hour and number of passengers)
+car_data <- tibble(mph = c(22, 35, 20, 25, 24, 20, 34, 31, 30, 32, 33, 25, 29, 24),
+                  passengers = c(1, 1, 3, 2, 5, 2, 1, 1, 2, 1, 3, 1, 1, 2)) 
+## Plot initialization (aes() stands for aesthetics)
+ggplot(car_data, aes(x=passengers, y=mph)) +
+## The actual plot (a scatterplot in this example)
+         geom_point() + 
+         ylim(10,40) + xlim(0,6) + 
+         labs(title="Scatterplot") + xlab("Number of passengers") + ylab("Miles per hour")
+  
+```
+]
+
+---
+# R Lesson 
+## Plotting in the `tidyverse`
+
+.scroll-output[
+
+### For a single quantitative variable, we visualize the values from our sample with a histogram. 
+
+```{r class4plot3, echo=TRUE, fig.align='center'}
+## Plot initialization - we only are interested in the quantitative variable, mhp for this plot 
+ggplot(car_data, aes(x=mph)) +
+## The actual plot - rather than use "geom_point()" we now use a function to create a histogram, we can also specify how many bins to break the histogram into 
+         geom_histogram(bins=5) +
+         labs(title="Histogram") + 
+         xlab("Miles per hour") + 
+         ylab("Count")
+```
+]
+
+---
+# R Lesson 
+## Plotting in the `tidyverse`
+
+
+.scroll-output[
+
+### For categorical data, we visualize the data with a bar chart, rather than a histogram. 
+
+Here we are going to treat the variable "number of passengers" as a categorical variable. 
+
+
+```{r class4plot4, echo=TRUE, fig.align='center'}
+ggplot(car_data, aes(x=passengers)) +
+         geom_bar() + 
+         labs(title="Bar chart") + 
+         xlab("Number of passengers") + 
+         ylab("Count")
+```
+]
+
+---
+## Today's topics
+
+1. Rules of probability 
+
+2. Paired and unpaired two sample t-tests/CIs 
+
+
+## Questions from Moodle...
+
+- In the Bob and TB scenario, why are we allowed to simply multiply P(Bob has TB)*P(test is positive) = P(Bob has TB and tested positive)? The fact that P(A intersect B) = P(A)P(B) only holds when A and B are independent, but Bob testing positive is NOT independent from Bob having TB. Bob is much more likely to test positive if they actually have TB, since the test is 99% effective.
+
+- Can you illustrate how to check whether two events are independent in a probability table? 
+
+- Can you explain what information we can get about p-values from confidence intervals and vice versa?
+
+---
+## Probability calculations 
+
+The table below summarizes all of the employees who work in a small business at three different levels based on their previous years experience when hired. 
+
+|      |<1 yr | at least 1 yr |
+|------|------|---------------|
+| Management | 6 | 7 |
+| Supervision | 12 | 8 |
+| Production | 72 | 45 |
+
+
+**Qs:**
+
+1. What is the probability that a worker selected at random is both a supervisor and has at least one year of prior experience? 
+
+2. What is the probability that a worker selected at random is a production worker, given that the worker has less than one year of previous experience? 
+
+3. Do the data in the table above suggest that whether a randomly chosen employee is in a supervisory position is independent of previous experience? 
+
+
+---
+## Which test to use? 
+
+Thus far we've discussed one and two sample tests/CIs for proportions and means, for paired and unpaired data. Part of the challenge in statistical analysis is figuring out which method(s) are appropriate for any given problem. 
+
+To help figure this out, at the beginning of every problem, make sure you understand the answers to these three questions: 
+
+1. What is the population being studied? What is the unknown population parameter of interest? 
+
+2. How was the sample collected? What distinguishes one observational unit from the next? 
+
+3. What information must been collected for each individual in your sample? What are the variables of interest? Are they categorical or quantitative? 
+
+### Connection between CIs and two-sided hypothesis tests

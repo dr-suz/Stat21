@@ -1,0 +1,87 @@
+---
+title: "Stat 21 Test 1"
+author:
+- "Your name here"
+date: "Due: Oct  17, 2020 by noon ET"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+knitr::opts_chunk$set(fig.align='center') # center aligns images 
+knitr::opts_chunk$set(out.height=400) # sets the side of plots
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(knitr)
+```
+
+
+## Solution to Problem 1:
+
+[Write your solution to Problem 1 here]
+
+```{r problem`, echo=TRUE, fig.align='center', out.height=400}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+
+## Solution to Problem 2: 
+
+[Write your solution to Problem 2 here]
+
+
+```{r problem2, echo=TRUE, fig.align='center', out.height=400}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+
+## Solution to Problem 3: 
+
+[Write your solution to Problem 3 here]
+
+
+```{r problem3, echo=TRUE, fig.align='center', out.height=400}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+
+## Solution to Problem 4: 
+
+[Write your solution to Problem 4 here]
+
+
+```{r problem4, echo=TRUE, fig.align='center', out.height=400}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+
+## Solution to Problem 5: 
+
+[Write your solution to Problem 5 here]
+
+
+```{r problem5, echo=TRUE, fig.align='center', out.height=400}
+## Uncomment this line and put any r-code you used for your solution here
+```
+

@@ -1,0 +1,291 @@
+---
+title: "Stat 21 Homework 7"
+author: 'Solutions'
+date: 'Due: Sunday, March 27th by midnight'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+Use this file as the template for your submission. Do not delete anything from this template unless you are prompted to do so (e.g. where to write your name above, where to write your solutions or code below). Make sure you have installed the following packages in your version of RStudio: `tidyverse`, `knitr` __before__ you attempt to knit this document.
+
+Your completed assignment should be submitted as a single __PDF__ using the link under Week 8 titled "Submit HW 7 to Gradescope".You must use R markdown to write up your solutions. For any homework problems that involve coding in R, you must provide __both__ the code and a written answer interpreting the output within the context of the problem. You are allowed to work with your classmates on this homework assignment but you are expected to write up your own solutions. Every answer must be supported by a written statement unless otherwise specified. *A good rule of thumb is to make sure your answer is understandable to someone who hasn't read the problem question (or code output associated with it).* 
+
+**Additionally**, make sure that when you upload your solutions to Gradescope, you select which pages go correspond with which questions. Also, check to make sure that your knitted homework document is not uploaded as an extra-long single page document. Failure to do these things will result in a penalty on your homework grade. Finally, I strongly recommend that you address and resolve any knitting or R coding issues before Saturday as solutions to any R-coding questions that are not knitted properly will not receive any credit. 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data) ## for the data 
+library(GGally)    ## for matrix of scatter plots 
+library(car)       ## for VIF function 
+```
+
+# Part I: Concept problems 
+
+For problems 1-2 consider this regression model was fit to a sample of breakfast cereals. The response variable $Y$ is calories per serving. The predictor variables are $X_1=$ grams of sugar per serving, and $X_2=$ grams of fiber per serving. The fitted regression model is
+$$\hat{Calories} = 109.3 + 1.0Sugar - 3.7Fiber.$$
+
+## Problem 1
+ 
+(a) How many calories would you predict for a breakfast cereal that had 1 gram of fiber and 11 grams of sugar per serving?
+
+(b) Frosted Flakes is a breakfast cereal that has 1 gram of fiber and 11 grams of sugar per serving. It also has 110 calories per serving. Compute the residual for Frosted Flakes and explain what this value means.
+
+**Solution:**
+
+(a) If a cereal has 1 gram of fiber and 11 grams of sugar per serving, the model predicts the number of calories to be $\hat{Y} = 109.3 + 1.0(11) - 3.7(1) = 116.6 calories$.
+
+(b) The residual for Frosted Flakes is $y - \hat{y} = 110 - 116.6 = -6.6$ calories. Frosted Flakes has 6.6 fewer calories than the model predicts based on the amount of fiber and sugar in each serving.
+
+## Problem 2 
+
+(a) Does the prediction equation for number of calories per serving suggest that the amount of sugar has a weaker relationship with the number of calories than the amount of fiber? Explain why or why not.
+
+(b) In the context of this setting, interpret $-3.7$ the coefficient of $X_2$. That is, describe how fiber is related to calories per serving, in the presence of the sugar variable.
+
+**Solution:**
+
+(a) The coefficient of sugar is smaller than the coefficient of fiber, but that does not indicate a weaker relationship. To determine which predictor has a weaker or stronger relationship with the response, we need to know what the standard errors are of each predictor, which depend in part on how much each predictor varies. It might be that the correlation between sugar and calories is larger than the correlation between fiber and calories.
+
+(b) As the number of grams of fiber per serving goes up by 1, after accounting for the amount of sugar, the average number of calories goes down by 3.7.
+
+***
+
+For problems 3-5 read the article, “Scientists rise up against statistical significance” at
+https://www.nature.com/articles/d41586-019-00857-9.  
+
+## Problem 3 
+
+The article claims, “...researchers have been warned that a statistically non-significant result does not ‘prove’ the null hypothesis (the hypothesis that there is no difference between groups or no effect of a treatment on some measured outcome).” Explain why failing to reject the null hypothesis does not prove that there is no effect. What does failing to reject the null hypothesis really mean instead?  
+
+**Solution:** 
+
+Answers may vary. Failing to reject the null means that there isn't enough statistical evidence in the data to refute the null. A false negative (incorrect failure to reject) is always a possibility, just as a false positive is always a possibility due to random chance. 
+
+
+## Problem 4 
+
+(a) In the graphic “Beware false conclusions”, results are shown from two studies: one that found “significant” results, and another that found “non-significant” results. The article claims that it is “ludicrous” to say that the second study found “no association.” Briefly explain why this is the case.  
+
+(b) Regarding the same two studies in part (a), the article claims that it is “absurd” to say that the two studies are in conflict, even though one was “significant” and the other was “not significant”. Briefly explain why this is the case.  
+
+**Solution:**
+
+(a) The study with "non-significant" results still contains a practically significant association. Both studies reveal practically significant results, even if only one of them results in "statistically significant" results.  
+
+(b) Both studies represented in the graphic are consistent with one another. They estimate the same effect but have differing standard errors for the effect. This could be due to a dramatic difference in sample size, for example, not underlying "truth". 
+
+## Problem 5 
+
+In the section titled “Quit categorizing”, the article claims that, “Statistically significant estimates are biased... Consequently, any discussion that focuses on estimates chosen for their significance will be biased.” Briefly explain why this is the case.   
+
+**Solution:** Answers may vary. Statistical analyses do not occur in a vacuum, they are applied as methods of communicating quantifiable information about a larger research question. To attempt to answer a larger research question based purely upon the false dichotomy of significant/non-significant results ignores the complexity of the systems being statistically modeled. More to the point, weaker signals (smaller estimates) are inherently more difficult to detect. This doesn't mean that in reality weaker signals are less important, or conversely that larger signals are always the most important. So focusing on one or the other (weak or strong signals, only significant signals, etc) can impose an artificial boundary upon a larger research question. 
+
+
+
+# Part II: R Problems 
+
+## Problem 6
+
+In 2016 Hillary Clinton won the Democratic nomination for president over Bernie Sanders. A paper was circulated that claimed to show evidence of election fraud based, among other things, on Clinton doing better in states that don’t have a paper trail for votes cast in a primary election than she did in states that have a paper trail. The file `ClintonSanders` has data from that paper for the 31 states that held primaries before June. 
+
+```{r}
+data(ClintonSanders)
+ClintonSanders %>% head
+```
+
+The variable `Delegates` gives the percentage of delegates won by Clinton for each state. The variable `AfAmPercent` gives the percentage of residents in the state who are African American. `PaperTrail` indicates whether or not the voting system in the state includes a paper trail.
+
+(a) Conduct a regression of `Delegates` on `PaperTrail`. What does this regression say about how Clinton did in states with and without a paper trail?
+
+(b) Conduct a regression of `Delegates` on `PaperTrail` and `AfAmPercent`. What does this regression say about how Clinton did in states with and without a paper trail? What is the effect of `AfAmPercent`?
+
+(c) Repeat parts (a) and (b) but in place of `Delegates` as the response variable, use `PopularVote`, which is the percentage of the popular vote that Clinton received. Do any important conclusions change when using `PopularVote` as the response variable instead? 
+
+**Solution:** 
+
+```{r}
+election_modA <- lm(Delegates ~ PaperTrail, ClintonSanders)
+election_modA %>% summary
+```
+
+(a) The output shows that the coefficient of `PaperTrail` is -16.6 and the P-value for the t-test is 0.003. In states with a paper trail Clinton did worse than in states without a paper trail. On average the difference was 16.6 delegates.
+
+```{r}
+election_modB <- lm(Delegates ~ PaperTrail+AfAmPercent, ClintonSanders)
+election_modB %>% summary
+```
+
+(b) The output shows that the coefficient of `PaperTrail` is -6.15 and the P -value for the t-test is 0.13. Controlling for the percentage of African Americans in each state, the effect of having a paper trail is negative but is not statistically significantly different from zero. The effect of `AfAmPercent` is highly significant: The higher the percentage of African Americans in a state, the higher the percentage of delegates won by Clinton.
+
+```{r}
+election_modC1 <- lm(PopularVote ~ PaperTrail, ClintonSanders)
+election_modC2 <- lm(PopularVote ~ PaperTrail+AfAmPercent, ClintonSanders)
+election_modC1 %>% summary
+election_modC2 %>% summary
+```
+
+(c) The first set of output shows that when `PaperTrail` is used as the only predictor it is highly significant; the P-value is 0.001 for the t-test of the null hypothesis that there is no linear relationship between `PopularVote` and `PaperTrail`. When both `PaperTrail` and `AfAmPercent` are used as predictors, `AfAmPercent` has a highly significant relationship with `PopularVote`, but the coefficient of `PaperTrail` has a t-test P-value of 0.053.
+
+***
+
+
+It seems reasonable to predict the number of calories (per serving) in breakfast cereals using the amount of sugar (grams per serving). The file `Cereal` also has a variable showing the amount of fiber (grams per serving) for each of the 36 cereals. Use this data below for problems 7-8.
+
+```{r}
+data(Cereal)
+Cereal %>% head
+```
+
+## Problem 7 
+
+Fit a multiple regression model to predict `Calories` based on both predictors: `Sugar` and `Fiber`. Examine each of the measures below and identify which (if any) of the cereals you might classify as possibly “unusual” in that measure. Include specific numerical values and justification for each case.
+
+(a) Standardized residuals
+
+(b) Studentized residuals
+
+**Solution:** 
+
+```{r}
+cereal_mod <- lm(Calories ~ Sugar + Fiber, Cereal)
+rstandard(cereal_mod)
+```
+
+(a) Kenmei Rice Bran (case 9) has a moderately large standardized residual of 2.59435, which is greater than 2. Mueslix Crispy Blend (case 27) has a very large standardized residual of 3.36805, which is greater than 3. All of the other standardized residuals are between -2 and 2.
+
+
+```{r}
+rstudent(cereal_mod)
+```
+
+(b)  The studentized residuals show two moderately large values, Just Right (case 4) 2.01951 and Kenmei Rice Bran (case 9) 2.86338, and one very large value, Mueslix Crispy Blend (case 27) 4.09414. All of the other studentized residuals are between -2 and 2.
+
+
+## Problem 8
+
+Fit a multiple regression model to predict `Calories` based on both predictors: `Sugar` and `Fiber`. Examine each of the measures below and identify which (if any) of the cereals you might classify as possibly “unusual” in that measure. Include specific numerical values and justification for each case.
+
+(a) Leverage 
+
+(b) Cook’s D
+
+**Solution:** 
+
+```{r}
+## Use this space for your solution to part (a)
+```
+
+(a) There is one very unusual leverage value beyond $3(2 + 1)/36 = 0.25$, $h_3 = 0.2667$ for All Bran Xtra Fiber (case 3). Moderately unusual leverage values are above $1/6 = 0.167$. The two moderately unusual leverages are 0.171868 for Puffed Rice (case 26) and 0.221865 for Fruit’n Oat Bran Crunch (case 34). 
+
+```{r}
+## Use this space for your solution to part (b)
+```
+
+(b) All values of Cook’s D are below 0.5, so none of the cereals are considered unusual with this measure.
+
+
+## Problem 9
+
+Two types of dementia are Dementia with Lewy Bodies and Alzheimer’s disease. Some people are afflicted with both of these. The file `LewyBody2Groups` includes the variable `Type`, which has two levels: “DLB/AD” for the 20 subjects with both types of dementia and “DLB” for the 19 subjects with only Lewy Body dementia. The variable `APC` gives annualized percentage change in brain gray matter. The variable `MMSE` measures change in functional performance on the Mini Mental State Examination.
+
+```{r}
+data("LewyBody2Groups")
+LewyBody2Groups %>% head
+```
+
+(a) Fit an interaction model that produces two regression lines for predicting `MMSE` from `APC`, one for each of the two levels of `Type`. Write down the fitted prediction equation for each level of `Type`.
+
+(b) Use a t-test to test the null hypothesis that the interaction term is not needed and parallel regression lines are adequate. Specify the null and alternative, the p-value and your chosen significance level in addition to the conclusion of the test. 
+
+(c) Use a nested F-test to test the null hypothesis that neither of the terms involving `Type` is needed and a common regression line for both levels of `Type` is adequate for modeling how `MMSE` depends on `APC`. Specify the null and alternative, the p-value and your chosen significance level in addition to the conclusion of the test. 
+
+**Solution:** 
+
+```{r}
+lewy_mod <- lm(MMSE ~ APC + Type + APC:Type, LewyBody2Groups)
+lewy_mod %>% summary
+```
+
+(a)  The output gives the fitted prediction model as $\hat{MMSE} = -0.59 + 2.32 APC - 1.85 TypeDLB/AD - 0.97APC \cdot TypeDLB/AD$. Thus when `Type` is `DLB`, the prediction model is $\hat{MMSE} = -0.59 + 2.32APC$, and when Type is DLB/AD, the prediction model is $\hat{MMSE} = -2.44 + 1.35APC$. 
+
+
+(b) From the output for part (a), the test statistic is t = -0.77 and the P-value is 0.449. The
+interaction term is not needed.
+
+```{r}
+lewy_mod_red <- lm(MMSE ~ APC, LewyBody2Groups)
+anova(lewy_mod_red, lewy_mod)
+```
+
+(c) The output above gives the nested F-statistic as 1.34 and the P-value as 0.27. We retain the null hypothesis and conclude that a common regression line is adequate.
+
+
+
+
+## Problem 10
+
+Consider the following data on the time (in minutes) it takes to play a sample of Major League Baseball games. The data file `BaseballTimes2017` contains four quantitative variables (`Runs`, `Margin`, `Pitchers`, and `Attendance`) that might be useful in predicting the game times (`Time`). 
+
+```{r}
+data("BaseballTimes2017")
+BaseballTimes2017 %>% head 
+```
+
+From among these four predictors choose a model for each of the goals below.
+
+(a) Maximize the adjusted coefficient of determination.
+
+(b) Minimize Mallows’s $C_p$.
+
+(c) After considering the models for parts (a) and (b), which model would you choose to predict baseball game times? Explain your choice.
+
+**Solution:** 
+
+```{r}
+library(leaps)
+all <- regsubsets(Time ~ Runs + Margin + Pitchers + Attendance, nbest = 2, data=BaseballTimes2017)
+all %>% summary
+
+all %>% summary %>% names
+
+summary(all)$which
+summary(all)$adjr2
+
+plot(all, scale = "adjr2")
+```
+
+(a) Based on the output, the model with the highest $R^2_{adj}$ $(R^2_{adj} = 0.538)$ is the first three-predictor model, which includes `Runs`, `Pitchers`, and `Attendance`. 
+
+
+```{r}
+summary(all)$which
+summary(all)$cp
+
+plot(all, scale = "Cp")
+```
+
+(b) Based on the output, the model with the lowest Cp (1.28) is the first single-predictor model, which includes only `Runs`.
+
+(c) The simple linear regression model identified in part (b) is preferred. This simple model has the lowest Cp, only one predictor variable, and has a value of adjusted $R^2$ only slightly lower than the maximum adjusted $R^2$. A quick check of the residuals reveals one potential influential point, but otherwise the conditions appear to be met.
+

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 1
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/9/2 (updated: 2019-09-12)
+
+---
+
+
+
+# Introduction to Stat 21  
+
+### Tell me about yourself
+
+1. Registration full name 
+1. Preferred name and pronouns if different from registration info
+1. What kinds of data are you interested in investigating? 
+1. Access to a laptop that they can bring in to class? 
+1. What is your programming experience (R or otherwise)? 
+1. Why are you taking this course? (If it’s because it is a major/minor requirement, why are you pursuing the major/minor?) 
+
+
+---
+#Directions for installing R and R Studio:
+
+1. Download R from http://cran.us.r-project.org/.
+
+  - Choose your operating system.
+  
+  - Select the latest release version of R to install. 
+
+1. After R is installed, download RStudio (the free version) from https://www.rstudio.com/products/rstudio/download/ 
+  
+  - Again, make sure you download the correct installer for your operating system. 
+
+
+
+---
+# Statistical methods overview
+
+What you are expected to already have familiarity with (left) and what you will learn in this class (right):
+
+.pull-left[
+1. Common probability distributions;
+
+1. Different types of random variables (discrete/continuous);
+
+1. How to conduct statistical inference (i.e. hypothesis tests and confidence intervals)
+
+]
+
+.pull-right[
+1. Using R to clean and examine data and to fit models;
+
+1. Using R Markdown to present your homework results;
+
+1. Fit and interpret regression models to quantitative and/or qualitative variables; 
+
+1. Develop your own R package to analyze data 
+
+]
+
+Book reference for today's lecture: Ch 2 Gelman and Hill 
+
+---
+# A (non-exhaustive) review of key statistical terms
+
+.pull-left[
+**Populations**
+
+1. Parameters
+
+1. Fixed&lt;sup&gt;*&lt;/sup&gt;
+]
+
+
+.pull-right[
+**Samples**
+
+1. Estimators
+
+1. Randomness
+
+1. Statistics 
+]
+
+&lt;span class="footnote"&gt; &amp;#42; I think my initial presentation of the distinctions between populations and samples was a little comfusing. In traditional (&lt;a href="https://en.wikipedia.org/wiki/Frequentist_inference"&gt;frequentist&lt;/a&gt;) statistical inference we are interested in population parameters which are fixed (**not** random). Sample estimators on the other hand, are random, because the sample is selected **at random**.&lt;/span&gt;
+
+---
+# Critical Questions for Every Statistical Analysis
+
+For every data set you analyze, make sure you can answer the following four questions before conducting **any** statistical analysis:
+1. What are the observational units?
+--
+
+
+  - **Observational units** are your data points. This could be individuals (e.g people, animals), samples of a chemical substance, or any other objects being studied (e.g. tires, plants). The group of observational units that we use for statistical analysis is referred to as the *sample*. Often I will shorten the phrase to **observations** rather than **observational units**.
+
+---
+# Critical Questions for Every Statistical Analysis
+
+&lt;ol start="2"&gt;
+
+&lt;li&gt;What are the variables in this study, what type of variables are they, and which roles do they each play?&lt;/li&gt;
+--
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;b&gt;Qualitative variables&lt;/b&gt; represent things that can be categorized (e.g. color of cars, zip codes, political party).&lt;/li&gt;
+  
+  &lt;li&gt;&lt;b&gt;Quantitative variables&lt;/b&gt; have a natural ordering (e.g. low/medium/high, age, disagree/sommewhat disagree/neighter agree nor disagree/somewhat agree/agree).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/ol&gt;
+
+
+---
+# Critical Questions for Every Statistical Analysis
+
+&lt;ol start="2"&gt;
+
+&lt;li&gt;What are the variables in this study, what type of variables are they, and which roles do they each play?&lt;/li&gt;
+
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;b&gt;Discrete variables&lt;/b&gt; take on a finite (or &lt;a href="https://en.wikipedia.org/wiki/Countable_set"&gt;countably infinite&lt;/a&gt;) number of different possible values.&lt;/li&gt;
+  
+  &lt;li&gt;&lt;b&gt;Continuous variables&lt;/b&gt; can take on an &lt;a href="https://en.wikipedia.org/wiki/Uncountable_set"&gt;uncountably infinite&lt;/a&gt; number of different possible values.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/ol&gt;
+
+--
+Find examples of the following:
+- A discrete, qualitative variable
+- A discrete, quantative variable
+- A continuous, quantative variable
+- A continuous, qualitative variable 
+
+---
+# Critical Questions for Every Statistical Analysis
+
+&lt;ol start="2"&gt;
+
+&lt;li&gt;What are the variables in this study, what type of variables are they, and which roles do they each play?&lt;/li&gt;
+
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;b&gt;Discrete variables&lt;/b&gt; take on a finite (or &lt;a href="https://en.wikipedia.org/wiki/Countable_set"&gt;countably infinite&lt;/a&gt;) number of different possible values.&lt;/li&gt;
+  
+  &lt;li&gt;&lt;b&gt;Continuous variables&lt;/b&gt; can take on an &lt;a href="https://en.wikipedia.org/wiki/Uncountable_set"&gt;uncountably&lt;/a&gt; infinite number of different possible values.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/ol&gt;
+
+Find examples of the following:
+- A discrete, qualitative variable
+- A discrete, quantative variable
+- A continuous, quantative variable
+- &lt;strike&gt;A continuous, qualitative variable&lt;/strike&gt; &lt;font color="red"&gt;Not possible!&lt;/font&gt;  
+
+
+---
+# Critical Questions for Every Statistical Analysis
+
+&lt;ol start="2"&gt;
+
+&lt;li&gt;What are the variables in this study, what type of variables are they, and which roles do they each play?&lt;/li&gt;
+
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;b&gt;Predictor variables&lt;/b&gt; variable(s) are sometimes called "independent variables".&lt;/li&gt;
+  
+  &lt;font color="red"&gt;&lt;b&gt;Don't do this!&lt;/b&gt;&lt;/font&gt; 
+  
+  
+  The word &lt;i&gt;independent&lt;/i&gt; has a &lt;a href="https://en.wikipedia.org/wiki/Independence_(probability_theory)"&gt;special definition&lt;/a&gt; in Statistics. 
+  
+  
+  &lt;li&gt;&lt;b&gt;Response variables&lt;/b&gt; variable(s) are sometimes called "dependent variables" but again, don't do this for the same reason as above. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/ol&gt;
+
+---
+# Critical Questions for Every Statistical Analysis
+
+&lt;ol start="3"&gt;
+&lt;li&gt;Is the study observational or is it an experiment?&lt;/li&gt;
+--
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;b&gt;Observational Studies&lt;/b&gt; are ones in which you merely observe the  observational units, i.e., you simply record the data you are interested in collecting (e.g. measure the height of growing children).&lt;/li&gt;
+
+  &lt;li&gt;&lt;b&gt;Experiments&lt;/b&gt; are studies in which you both act on and observe the observational units (e.g. measure the height of growing children while regularly feeding some of them vitamins and others no vitamins.) In an experiment you will have observational units that are randomly assigned a particular treatment, and those which are not assigned a treatment (called controls).&lt;/li&gt; 
+&lt;/ul&gt;
+&lt;/ol&gt;
+
+---
+# Critical Questions for Every Statistical Analysis
+
+&lt;ol start="4"&gt;
+
+&lt;li&gt;Does the study use random sampling, random assignment, both or neither?&lt;/li&gt;
+--
+&lt;ul&gt;
+  &lt;li&gt;&lt;b&gt;Random sampling&lt;/b&gt; a sample from a population where all individuals within the population have the same chance of being selected. If your sample is &lt;i&gt;truely&lt;/i&gt; random, then it is representative of the population.&lt;/li&gt;
+  &lt;b&gt;Note:&lt;/b&gt; It is very rare to have a truely random sample, but good statistical practice means (1) coming as close to truely random sample collection process as possible and (2) transparancy in your results when true randomness was not possilbe. 
+
+  &lt;li&gt;&lt;b&gt;Random assignment&lt;/b&gt; is used in experimental studies to assign observational units to a treatment or to a control group. In random assignment, each observational unit has equal chance of being selected for one (or more) treatment group(s) or the control group.&lt;/li&gt; 
+&lt;/ul&gt;
+&lt;/ol&gt;
+
+
+---
+# Critical Questions for Every Statistical Analysis
+
+&lt;ol start="4"&gt;
+
+&lt;li&gt;Does the study use random sampling, random assignment, both or neither?&lt;/li&gt;
+
+   &lt;ul&gt;&lt;li&gt;&lt;b&gt;Examples&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;
+   
+An Experimental Study of Collective Deliberation." J.K. Goeree and L. Yariv. &lt;i&gt;Econometrica&lt;/i&gt; (2011).&lt;/li&gt; 
+ 
+
+The goal is to study situations in which groups of people determine a collective outcome (e.g. elections, juries).The sample of people in this study totaled to 549 people. Each person was paid for their participation in the study. 
+
+
+Is this a random sample? 
+&lt;/ol&gt;
+
+---
+# Critical Questions for Every Statistical Analysis
+  
+&lt;ol start="4"&gt;
+
+&lt;li&gt;Does the study use random sampling, random assignment, both or neither?&lt;/li&gt;
+
+   &lt;ul&gt;&lt;li&gt;&lt;b&gt;Examples&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;
+   
+Here the observational units are broken into treatment and control groups based on whether or not their group will be allowed to deliberate. They also wanted to account for other factors as well such as controlling how common/conflicting individuals were within each group and how the decision was to be made (e.g. simple mjority, two-thrids majority) within each group. 
+
+
+FYI the conclusions were that the ability to participate in deliberation reduces the differences among outcomes for various decision-making processes.  
+&lt;/ol&gt;
+
+
+--
+To Netflix for an example of non-randomn sampling! 
+
+
+S2 E20 11:42 - 12:08 
+
+
+
+---
+# Looking ahead
+
+By the end of the semester you will be able to import and analyse real data such as the following: 
+
+
+This data set consists of a few variables that may influence the **demand for Beef** in the United States.&lt;sup&gt;[1]&lt;/sup&gt; We want to build a sensible economic and statistical regression model to describe how the demand changes with respect to other related variables.
+
+
+.footnote[
+[1] http://jse.amstat.org/v22n1/kopcso/BeefDemandDoc.txt ]
+
+---
+# US Beef Consumption Analysis from the 80s
+
+## A look at the data
+
+```
+## # A tibble: 6 x 10
+##    Year ChickPrice BeefPrice BeefConsump   CPI   DPI RealChickenPrice
+##   &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;            &lt;dbl&gt;
+## 1  1965       37.2      59.5        99.5  31.5  2505             118.
+## 2  1966       39.4      62.2       104.   32.4  2675             122.
+## 3  1967       36.4      60.7       106.   33.4  2828             109.
+## 4  1968       38.0      63.5       110.   34.8  3037             109.
+## 5  1969       40.3      70.4       111.   36.7  3239             110.
+## 6  1970       39.0      72.5       114.   38.8  3489             100.
+## # … with 3 more variables: RealBeefPrice &lt;dbl&gt;, RealDPI &lt;dbl&gt;,
+## #   RDPI_transformed &lt;dbl&gt;
+```
+
+**Note:** Data sets should always come with a description (e.g. Read Me) file. It is good practice to always look at both the raw data file and the data description file first. 
+
+---
+# US Beef Consumption Analysis from the 80s
+
+## A look at the data
+
+```
+## # A tibble: 6 x 10
+##    Year ChickPrice BeefPrice BeefConsump   CPI   DPI RealChickenPrice
+##   &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;            &lt;dbl&gt;
+## 1  1965       37.2      59.5        99.5  31.5  2505             118.
+## 2  1966       39.4      62.2       104.   32.4  2675             122.
+## 3  1967       36.4      60.7       106.   33.4  2828             109.
+## 4  1968       38.0      63.5       110.   34.8  3037             109.
+## 5  1969       40.3      70.4       111.   36.7  3239             110.
+## 6  1970       39.0      72.5       114.   38.8  3489             100.
+## # … with 3 more variables: RealBeefPrice &lt;dbl&gt;, RealDPI &lt;dbl&gt;,
+## #   RDPI_transformed &lt;dbl&gt;
+```
+
+**One more note:** Get into the habit of having each data observation in each row and each of the variables in a column. This is the way we will define all of our data sets in the class (and this is also common practice). 
+
+---
+# US Beef Consumption Analysis from the 80s
+
+## A regression model
+
+
+```
+## # A tibble: 5 x 5
+##   term             estimate std.error statistic p.value
+##   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)      -1.87e+3   1.63e+3     -1.15 0.261  
+## 2 Year              9.96e-1   8.23e-1      1.21 0.235  
+## 3 RealChickenPrice  5.17e-1   1.91e-1      2.70 0.0112 
+## 4 RealBeefPrice    -1.39e-1   4.93e-2     -2.83 0.00809
+## 5 RDPI_transformed -1.74e-7   1.40e-7     -1.24 0.223
+```
+
+**Note:** The model output contains *estimates* and *statistics*. What's the difference between the two? 
+
+---
+# US Beef Consumption Analysis from the 80s
+
+**Eventually** you will be able to produce and interpret plots such as this one. This is a residual plot that illustrates the magnitude of the difference between *observed* beef consumption each year and the *predicted* beef consumption from a multiple regression model. 
+
+## A residual plot
+&lt;img src="Figs/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

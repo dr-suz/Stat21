@@ -1,0 +1,315 @@
+---
+title: "Stat 21 Test 3"
+date: "Due: May  15, 2020 by 12:00pm EST"
+output:
+  pdf_document: 
+    toc: no
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+
+This test is due on to be submitted on Gradescope by __May 15__ at __12:00pm EST__. Please use the `#test3_questions` channel on Slack to post any clairfication questions. Do not ask questions like "Is [this] the right answer?" or "How can I get R to produce [this] plot?"
+
+
+You must submit your solutions as a single __PDF__ document uploaded to __Gradescope__. You may use R markdown to write up your solutions alone or you may use R markdown and hand-written solutions. __You must show all of your work__, including code input and output. Please make sure each problem is __clearly labeled__ and that any handwritten components (such as pictures or equations) are easily readable in the PDF document. You may want to use a service like CamScanner (https://www.camscanner.com/) to help you upload handwritten pages and Small PDF (https://smallpdf.com/merge-pdf) to merge multiple PDFs into a single document. 
+
+You are permitted to reference all class material and use the internet. You are not permitted however, to get assistance from any other person, online or otherwise.
+
+
++ Your file should contain the code to answer each question in its own code block. Your code should produce plots/output that will be automatically embedded in the output pdf file.
++ Each answer must be supported by written statements and relevant plots.
++ In order to knit this document, make sure you have installed the following packages in your version of RStudio: `ggplot2`, `tidyverse`, `gridExtra`, `knitr`.
++ If you are running into issues with the Swarthmore RStudio server, you may submit your soulutions to me as an RMarkdown document in Slack via DM. Name your file using the convention: `[SwatID]_stat21_test3.rmd`. You may use this online R compiler to double check the the R code chunks of your document: https://rdrr.io/snippets/. 
+
+You may write mathematical equations out with words like this: y_hat = beta0_hat + beta1_hat*x1 
+
+Or you can write a mathematical equation between dollar signs like this: $\hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1} x_{1}$. (Just make sure there is no white space space immediately after the first dollar sign or immediately before the second dollar sign!)
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+knitr::opts_chunk$set(fig.align='center') # center aligns images 
+knitr::opts_chunk$set(out.width=400) # sets the side of plots
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+#library(gcookbook)
+library(knitr)
+# the packages below are for formatting tables 
+library(kableExtra)
+```
+
+\pagebreak 
+
+# Problem 1
+
+## a) How does drinking alcohol affect average life expectancy? 
+
+**Solution:** For every additional drink (or units of drinks), the average lifespan decreases by 3.2656 years 
+
+## b) Suppose someone consumes about 2.5 alcoholic drinks per day and smokes regularly. Calculate (provide the formula for) the average life expectancy for this individual. 
+**Solution:** $93.6818-3.2656(2.5)-23.4392$ years
+
+```{r}
+## Put any R code you use for your calculations here
+```
+
+## c) What is the average difference in lifespan between smokers and non-smokers?  
+
+**Solution:** 23.4392 years 
+
+```{r}
+## Put any R code you use for your calculations here
+```
+
+## d) Supposing we fix the amount of alcohol consumption; is there a statistically significant relationship between life expectancy and smoking status? Justify your answer. 
+
+**Solution:** Yes because the t-test for the significance of the predictor smoking produces a p-value equal to zero. 
+
+## e) How much of the variation in lifespan can be explained by smoking status and alcohol consumption? 
+
+**Solution:** $70.69\%$
+
+## f) Which of the question(s) above are questions of statistical inference? 
+
+**Solution:** Only part (d)
+
+
+# Problem 2
+
+## a) Show all your work and find the estimated tooth growth based on the main effects for Guina pigs who: 
+
+    1) Have supplement type absorbic acid and dosage of 1.0 mg 
+    2) Have supplement type absorbic acid and dosage of 2.0 mg 
+    3) Have supplement type orange juice and dosage of 1.0 mg 
+    4) Have supplement type orange juice and dosage of 2.0 mg 
+    
+**Solution:** 
+
+1. $9.2725  - 3.7000$ 
+
+2. $9.2725  - 3.7000 + 9.7636$
+
+3. $9.2725$
+
+4. $9.2725 + 9.7636$
+
+## b) Write the down the interaction effects equations (in numbers) for predicting the average tooth growth for Guinea pics who: 
+
+    1) Have supplement type absorbic acid and dosage of 1.0 mg 
+    2) Have supplement type absorbic acid and dosage of 2.0 mg 
+    3) Have supplement type orange juice and dosage of 1.0 mg 
+    4) Have supplement type orange juice and dosage of 2.0 mg 
+
+**Solution:** 
+
+1. $11.550 -8.255$
+
+2. $11.550 -8.255 + 7.811 + 3.904$
+
+3. $11.550$
+
+4. $11.550 + 7.811$
+
+## c) Based on the R output above and the residual plots on the next page, which model do you think is a better choice, the one **with** interactions or the one **without** interactions? Justify your answer. 
+
+**Solution:** The interaction effects model bc it has a higher adjusted R-squared and looks like constant spread in the residuals plot. 
+
+## d) For whichever model you chose in part (c), explain the relationship between supplement type and tooth growth in language that can be understood by an average high school student. 
+
+**Solution:** The effect of the type of Vitamin C supplement on Guina pig tooth growth depends upon the dose of the supplement given. If the dose is 1mg the the effect is an average decrease of $-8.255$, if the does is 2mg however, the effect is an average decrease of $-8.255 + 3.904$. 
+
+
+# Problem 3
+
+```{r}
+biomass <- read_table2(url(
+  "http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/biomass_data.txt"), col_names = TRUE)
+```
+
+## a) What is the average (absolute) difference in biomass (in $gm^{-2}$) for moss found in Smith Island versus moss found in the Snows Marsh? Show your work. 
+
+**Solution:** $43.0122 -497.6490 + 414.9021*pH 1.0095*K - [43.0122 + 58.1814 + 414.9021*pH 1.0095*K] = -555.8304$ (absolute value is fine)
+
+
+## b) What is the average (absolute) difference in biomass (in $gm^{-2}$) if the potassium (variable *K*) in the soil increases by 500 ppm? Show your work. 
+
+**Solution:** $-[43.0122 -497.6490*SI + 58.1814*SM + 414.9021*pH] + [43.0122 -497.6490*SI + 58.1814*SM + 414.9021*pH + 1.0095*500] = 1.0095*500$ (absolute value not ok)
+
+
+## c) The code below considers the same predictor, fit by the same exact data only now the quantitative predictor variables have been standardized. (The residual plot and Normal probability plots for this model are also shown on the next page. Read the titles carefully!) Based on this version of the model, what is the average (absolute) difference in biomass (in $gm^{-2}$) if the potassium (variable *K*) in the soil increases by 500 ppm? Show your work. 
+
+$1147.29-497.65*SI + 58.18*SM + 517.38*pH_std - 300.43*K_std$ 
+
+**Solution:** $1147.29-497.65*SI + 58.18*SM + 517.38*ph_std - 300.43*((500-mean(K))/sd(K)) - [1147.29-497.65*SI + 58.18*SM + 517.38*pH_std - 300.43*((-mean(K))/sd(K))] = 1147.29-497.65*SI + 58.18*SM + 517.38*pH_std - 300.43*((500-797.6229)/297.6023) - [1147.29-497.65*SI + 58.18*SM + 517.38*pH_std - 300.43*(-797.6229/297.6023)] = -300.4508-1105.652=-1406.103$ 
+
+
+```{r}
+mean(biomass$K)
+sd(biomass$K)
+```
+
+## (d) Why might we want to consider the standardized model in part (c) rather than the original model? 
+
+**Solution:** To be able to compare the relative effects of pH and K with respect to the response. They are not in the same units. 
+ 
+
+# Problem 4 
+
+## a) Based on this model of the transformed response, what is the average difference in biomass when the potassium in the soil increases by 500 ppm? Show your work.
+
+**Solution:** $5.9125341 - 0.9320328*SI - 0.0394140 *SM +0.4380929*pH - 0.0011660*500 - [5.9125341 - 0.9320328*SI - 0.0394140 *SM +0.4380929*pH] = -0.583$ Now take $exp^{-0.583}=0.558$ to find the average effect in the original units. 
+
+```{r}
+## Put any R code you use for your calculations here
+```
+
+## c) Are the answers to part (a) of Problem 4 and part (b) of Problem 3 directly comparable? Why or why not? 
+
+**Solution:** Yes because they are in the same units. (Partial credit if they said no and did not back-transform in (c).)
+
+ 
+
+# Problem 5
+
+```{r}
+coasters <- read_table2(url(
+  "http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/roller_coasters.txt"),  col_types = "f?????f") %>%
+  filter(!is.na(Duration) & !is.na(Inversions)) 
+```
+
+(a) Create a scatter plot matrix showing only the quantitative variables (predictors and response) and create box plots for each of the categorical variables (with coaster speed on the vertical axis). Does there appear to be any evidence of multicollinearity among the quantitative predictors? 
+
+**Solution:** Strong multicollinearity among height, drop, moderate between length and duration. 
+
+```{r matrix_scaterplot}
+coasters %>% dplyr::select(-c(Track, Inversions)) %>% plot
+```
+
+```{r boxplots}
+ggplot(coasters, aes(x=Track, y=Speed)) +
+  geom_boxplot() +
+  labs(title = "Boxplot for different track types")
+
+ggplot(coasters, aes(x=Inversions, y=Speed)) +
+  geom_boxplot() +
+  labs(title = "Boxplot for coasters with and without inversions")
+```
+
+
+## (b) Fit the following four regression models to this data and write out the corresponding estimated regression equations as well as the adjusted coefficient of determination for each model. 
+
+Model 1: $E[Y | \text{length, height}] = \beta_0 + \beta_1 \text{length} + \beta_2 \text{height}  + \epsilon$
+
+Model 2: $E[Y | \text{length, height, track}] = \beta_0 + \beta_1 \text{length} + \beta_2 \text{height}  + \beta_3 w_{track}  + \epsilon$, where $w_{track} = \begin{cases} 1, \text{ if steel} \\ 0, \text{ otherwise}\end{cases}$
+
+Model 3: $E[Y | \text{duration, drop}] = \beta_0 + \beta_1 \text{duration}+ \beta_2 \text{drop} + \epsilon$
+
+Model 4:  $E[Y | \text{duration, drop, loop}] = \beta_0 + \beta_1 \text{duration} + \beta_2 \text{drop} + \beta_3 w_{loop} + \epsilon$, where $w_{loop} = \begin{cases} 1, \text{ if has inversion} \\ 0, \text{ otherwise}\end{cases}$
+
+**Solution:** 
+
+1. [Write the equation for model 1 here.]
+
+2. [Write the equation for model 2 here.]
+
+3. [Write the equation for model 3 here.]
+
+4. [Write the equation for model 4 here.]
+
+```{r}
+mod1 <- lm(Speed ~ Length + Height, coasters)
+mod1$coefficients 
+summary(mod1)$adj.r.squared
+
+mod2 <- lm(Speed ~ Length + Height + Track, coasters)
+mod2$coefficients 
+summary(mod2)$adj.r.squared
+
+mod3 <- lm(Speed ~ Duration + Drop, coasters)
+mod3$coefficients 
+summary(mod3)$adj.r.squared
+
+mod4 <- lm(Speed ~ Duration + Drop + Inversions, coasters)
+mod4$coefficients 
+summary(mod4)$adj.r.squared
+```
+
+
+## (c) Perform a thorough analysis of the studentized residuals for each of the four models you fit in part (b). Make sure every plot is clearly labeled and include at least a one sentence statement explaining the relevance of each plot.
+
+**Solution:** 
+
+```{r}
+library("MASS")
+mod1_dat <- coasters %>% mutate(stu_resids = studres(mod1),
+                                fit_vals = mod1$fitted.values)
+
+ggplot(mod1_dat, aes(x=fit_vals, y = stu_resids)) +
+  geom_point() + 
+  labs(title = "Residual plot for model 1", x="Fitted values", y="Studentized residuals")
+
+ggplot(mod1_dat, aes(sample = stu_resids)) + 
+  stat_qq() + stat_qq_line() + 
+  labs(title = "NPP for Model 1", x="Normal quantiles", y="Residual quantiles")
+```
+
+```{r}
+mod2_dat <- coasters %>% mutate(stu_resids = studres(mod2),
+                                fit_vals = mod2$fitted.values)
+
+ggplot(mod2_dat, aes(x=fit_vals, y = stu_resids)) +
+  geom_point() + 
+  labs(title = "Residual plot for model 2", x="Fitted values", y="Studentized residuals")
+
+ggplot(mod2_dat, aes(sample = stu_resids)) + 
+  stat_qq() + stat_qq_line() + 
+  labs(title = "NPP for Model 2", x="Normal quantiles", y="Residual quantiles")
+```
+
+```{r}
+mod3_dat <- coasters %>% mutate(stu_resids = studres(mod3),
+                                fit_vals = mod3$fitted.values)
+
+ggplot(mod3_dat, aes(x=fit_vals, y = stu_resids)) +
+  geom_point() + 
+  labs(title = "Residual plot for model 3", x="Fitted values", y="Studentized residuals")
+
+ggplot(mod3_dat, aes(sample = stu_resids)) + 
+  stat_qq() + stat_qq_line() + 
+  labs(title = "NPP for Model 3", x="Normal quantiles", y="Residual quantiles")
+```
+
+```{r}
+mod4_dat <- coasters %>% mutate(stu_resids = studres(mod4),
+                                fit_vals = mod4$fitted.values)
+
+ggplot(mod4_dat, aes(x=fit_vals, y = stu_resids)) +
+  geom_point() + 
+  labs(title = "Residual plot for model 1", x="Fitted values", y="Studentized residuals")
+
+ggplot(mod4_dat, aes(sample = stu_resids)) + 
+  stat_qq() + stat_qq_line() + 
+  labs(title = "NPP for Model 4", x="Normal quantiles", y="Residual quantiles")
+```
+
+
+
+## (d) Suppose your friend's favorite ride is the Wicked Twister and they want to know what is the estimated maximum speed this coaster reaches. This a steel roller coaster that reaches a height of 215 ft, has a drop of 206 ft, is 675 ft long, lasts for 40 seconds, and has no inversions. Based on your answers to parts (a)- (c),  which of the regression models are appropriate to use to answer your friend's question about the Wicked Twister and why? 
+
+**Solution:** Model 1 or 2
+
+## (e) Wikipedia lists the speed of the Wicked Twister as 72 mph. Suppose we want to determine if there is a statistically significant difference between the speed reported by Wikipedia and the estimated maximum speed based on one of our models. Explain how we could do this and state which models from part (b) (if any) are appropriate to use to answer this question. Explain your answer. 
+
+**Solution:** Either Model 1 or 2 equally or not at all. 

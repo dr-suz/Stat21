@@ -1,0 +1,481 @@
+---
+title: "Class 23"
+subtitle: "Statistical Methods II (Stat 021)"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, May 4, 2021 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- Test 2 Problem 5 (5 mins)
+
+- Interaction effects class review (10 mins)
+
+- Quick lecture: Building a MLR model (10 mins)
+
+- HW 8 and bonus problems open review time (30+ mins)
+
+- Housekeeping items and announcements (5 mins)
+
+---
+# Thursday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+```{r, echo=FALSE, fig.align='center', out.height=500}
+knitr::include_graphics("Figs/feelings_wheel.jpg")
+```
+
+
+---
+## Test 2 
+### Problem 5a  
+
+
+The following data were collected by a GPS watch worn by the runner of a four-mile course. Using heart rate measurements after each run, an analysis of the runner's post-exercise heart rate recovery provides an indication of cardiovascular fitness. We are interested in answering the question: is the speed of the run (in mph) related to the number of calories burned. 
+
+```{r runOutput, echo=TRUE, eval=FALSE}
+run_dat <- read_table2("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/Four-Mile-Run-data.txt")
+summary(lm(calories~aveSpeed, run_dat))
+```
+
+
+
+---
+## Test 2 
+### Problem 5a  
+
+```{r echo=FALSE}
+run_dat <- read_table2("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/Four-Mile-Run-data.txt")
+summary(lm(calories~aveSpeed, run_dat))
+```
+
+
+---
+## Test 2 
+### Problem 5a  
+
+a) What is the estimate for the standard deviation of the number of calories burned based on this linear model?
+
+**Solution:** $\hat{\sigma}=30.84$
+
+
+
+---
+## Test 2 
+### Problem 5d 
+
+
+d) What numbers in the R output above can help us determine if this model is a good fit for the data? Explain briefly. (There are at least two.)
+
+**Solution:** Any of the following options are valid: 
+
+  - R-squared; 
+
+  - p-value of the F-test for model fit; 
+
+  - p-value of the t-test for the significance of the predictor. 
+
+
+
+---
+## Interpreting effect sizes 
+### Review (10 mins)
+
+In the next few slides we will work through some questions from the edited version of the Class 22 worksheet which is available in the Week 12 material on Moodle.
+
+
+---
+## Interpreting effect sizes 
+
+```{r echo=FALSE}
+library("tidyverse")
+mileage <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/mileage.txt"), 
+                       skip=2, col_names = c("car", "mpg", "displacement", "weight", "transmission_type"), 
+                       cols(transmission_type = col_factor())) %>% na.omit
+```
+
+**Model 1:** Fit a main effects model with transmission type (A as the reference level) and displacement as the predictors and mileage as the response:
+
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 * \text{displacement} + \hat{\beta}_2 * \text{transmission\_typeM},$$
+
+where $displacement=$ the displacement of the engine and 
+$$\text{transmission\_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$
+
+
+```{r}
+mod1 <- lm(mpg ~ displacement + transmission_type, mileage)
+summary(mod1)$coefficients[,1]
+```
+
+
+
+5. What is the average effect of vehicle weight on gasoline mileage when we go from a car with an automatic transmission to a manual transmission?
+
+
+---
+## Interpreting effect sizes 
+
+**Model 2:** Fit a main effects model with transmission type (M as the reference level) and displacement as the predictors and mileage as the response:
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 * \text{displacement} + \hat{\beta}_2 * \text{transmission\_typeA},$$
+  where $displacement=$ the displacement of the engine and 
+$$\text{transmission\_typeA} = \begin{cases}1, \quad \text{if transmission type is automatic}\\ 0, \quad \text{otherwise} \end{cases}.$$
+
+
+```{r}
+mod2 <- lm(mpg ~ displacement + relevel(transmission_type, "M"), mileage)
+summary(mod2)$coefficients[,1]
+```
+
+
+5. What is the average effect of vehicle weight on gasoline mileage when we go from a car with an automatic transmission to a manual transmission?
+
+
+---
+## Interpreting effect sizes 
+
+**Model 3:** Fit an interaction effects model with transmission type (A as the reference level) and displacement as the predictors and mileage as the response:
+
+$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 * \text{displacement}) + (\hat{\beta}_2 * \text{transmission\_typeM}) + (\hat{\beta}_4 * \text{displacement} * \text{transmission\_typeM}),$$
+  where $displacement=$ the displacement of the engine and 
+$$\text{transmission\_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$
+
+```{r}
+mod3 <- lm(mpg ~ displacement + transmission_type + displacement*transmission_type, mileage)
+summary(mod3)$coefficients[,1]
+```
+
+.scroll-small[
+3. What is the average effect of engine displacement on gasoline mileage?   
+
+5. What is the average effect of vehicle weight on gasoline mileage when we go from a car with an automatic transmission to a manual transmission?
+]
+
+---
+## MLR
+### Building a model 
+
+How do we know which terms to include in a regression model? 
+
+Ultimately, it depends on what we want to do with the model. 
+
+---
+## Open review topics 
+
+
+- Homework 8 
+
+- Bonus problems 
+
+---
+## Homework 8 Bonus Problem 
+
+
+For $+5$ bonuse HW points, read the article, “Scientists rise up against statistical significance” at
+https://www.nature.com/articles/d41586-019-00857-9. Answer each part of this question with 2-4 sentences. 
+
+
+(a) The article claims, “...researchers have been warned that a statistically non-significant result does not ‘prove’ the null hypothesis (the hypothesis that there is no difference between groups or no effect of a treatment on some measured outcome).” Explain why failing to reject the null hypothesis does not prove that there is no effect. What does failing to reject the null hypothesis really mean instead?  
+
+(b) In the graphic “Beware false conclusions”, results are shown from two studies: one that found “significant” results, and another that found “non-significant” results. The article claims that it is “ludicrous” to say that the second study found “no association.” Briefly explain why this is the case.  
+
+(c) Regarding the same two studies in part (b), the article claims that it is “absurd” to say that the two studies are in conflict, even though one was “significant” and the other was “not significant”. Briefly explain why this is the case.  
+
+(d) In the section titled “Quit categorizing”, the article claims that, “Statistically significant estimates are biased... Consequently, any discussion that focuses on estimates chosen for their significance will be biased.” Briefly explain why this is the case.   
+
+
+---
+## Homework 7 Bonus Problem 
+
+
+Suppose we have two random variables $X$ and $Y$. Use the `rnorm()` function in R to create examples of the following instances: 
+
+(a) $x_{obs}$ and $y_{obs}$ are both samples of size 20 from Normal distributions but the samples are uncorrelated. Show the samples are uncorrelated by using the `cor()` function. 
+  
+(b) $x_{obs}$ and $y_{obs}$ are independent samples from the same Normal distribution. There is no method to verify this so make sure your code clearly demonstrates that each sample is independent of the other.  
+  
+(c) $x_{obs}$ and $y_{obs}$ both come from a Normal distribution with the same variance but with different means. Show that the samples have the same variance by using the `var()` function.  
+  
+(d) $x_{obs}$ and $y_{obs}$ are both draws from the same Normal distribution. Verify this by creating a QQ-plot comparing the quantiles of $x_{obs}$ to the quantiles of $y_{obs}$. (The pseudo-code for this plot is included below but it assumes that you have stored both $x_{obs}$ and $y_{obs}$ in a tibble called `data_part_d` with column names "xobs" and "yobs".)
+
+```{r echo=FALSE}
+## Code for part (a)
+
+
+x_obs <- rnorm(20, 0, 1)
+y_obs <- rnorm(20, 0, 1)
+cor(x_obs, y_obs)
+
+
+y_dep <- 6*x_obs + rnorm(10, 0, 1)
+
+## Code for part (b)
+
+
+## Code for part (c)
+
+
+## Code for part (d)
+#nq <- 31
+#p <- (1 : nq) / nq - 0.5 / nq
+#ggplot(data_part_d) + 
+#  geom_point(aes(x = quantile(xobs, p), y = quantile(yobs, p))) + 
+#  labs(title="QQ-plot for two samples", y='Y quantiles', x='X quantiles')
+```
+
+
+---
+## HW 6 Bonus Problem 
+
+
+In a survey of $988$ men aged $18–24$, the regression equation for predicting height from weight was: 
+$$height = 62.4 + (0.047)(weight),$$
+where height is measured in inches and weight is measured in lbs. Suppose the variance of our model errors is $\sigma^2=2$ and assume all regression model assumptions are met. 
+
+(a) What is the probability that a $180$-pound man is between $65-70$ inches tall?  
+
+(b) What is the lower $75$th quantile height for $180$-pound men? 
+
+
+
+---
+## HW 5 Bonus Problem 
+
+The following (real) data set contains information on what level of voter identification law was in place for each state in the 2016 US presidential election (no low, non-strict non-photo ID law, strict non-photo ID law, non-strict photo ID law, strict photo ID law) and what was the percentage of voter turnout for each state that year. 
+
+```{r echo=FALSE}
+voter_turnout <- tibble(law_type = c(rep("No law",18),
+                                 rep("Non-strict non-photo", 14),
+                                 rep("Strict non-photo",2),
+                                 rep("Non-strict photo",8),
+                                 rep("Strict photo",8)),
+                   turnout_rate = c(52.8,56.5,61.6,68.4,70.7,66.4,67.2,74.1,62.8,57.4,64.4,
+                                    54.5,56.8,64.5,66.2,63.6,63.7,59.5,50.2,64.7,56.8,
+                                    52.3,60.8,71.4,61.8,62.2,58.6,64.2,63.7,70,61,54.9,56.7,
+                                    62.9,51.4,58.6,59.1,64.7,60,59.2,42.3,64.5,
+                                    69.5,66.1,51.1,55.2,57.7,56.4,59.1,58.8))
+```
+
+
+(a) What is the predictor variable and what is the response variable for this statistical model? 
+
+(b) Without standardizing the response variable, what are the p-value for the ANOVA F-test and the MSE based on this ANOVA model?  
+
+(c) Without standardizing the response variable, display the Normal probability plot for states without any voter ID laws. 
+
+Now create a new data object called `voter_turnout2` that contains a third column called `turnout_rate_std` that corresponds to the standardized version of `turnout_rate`. 
+
+(d) Using `turnout_rate_std` as the response variable, what are the p-value for the ANOVA F-test and the MSE based on this ANOVA model?  
+
+
+---
+## HW 5 Bonus Problem 
+
+
+(e) Using `turnout_rate_std` as the response variable, display the Normal probability plot for states without any voter ID laws. 
+
+(f) Compare your answers from parts (b) and (c) to parts (d) and (e). Briefly explain any differences or similarities you see. 
+
+
+---
+## HW 3 Bonus Problem 
+
+
+American League baseball teams play their games with the designated hitter rule, meaning that pitchers do not bat. The league believes that replacing the pitcher, traditionally a weak hitter, with another player in the batting order produces more runs and generates more interest among fans. Below are the average numbers of runs score in American League and National League stadiums for the first half of the 2001 season. 
+
+**American:** 11.1, 10.8, 10.8, 10.3, 10.3, 10.1,10.0, 9.5, 9.4, 9.3, 9.2, 9.2, 9.0, 8.3
+
+**National:** 14.0, 11.6, 10.4, 10.3, 10.2, 9.5, 9.5, 9.5, 9.5, 9.1, 8.8, 8.4, 8.3, 8.2, 8.1, 7.9 
+
+
+a) Estimate the mean number of runs scored in American League games with a 95% CI. 
+
+b) How would you describe the population under study for part (a)?
+
+c) What is the sample variance of the number of runs scored in American League games? 
+
+d) Estimate the mean number of runs scored in National League games with a 95% CI. 
+
+e) How would you describe the population under study for part (c)?
+
+f) What is the sample variance of the number of runs scored in American League games? 
+
+
+---
+## HW 3 Bonus Problem 
+
+
+g) Using the procedure for inference about an un-paired difference in means, find a 95% CI for the mean difference in runs between the two leagues. 
+
+h) How would you define the population under study for part (e)? 
+
+i) What is the sample variance of the difference in the number of runs scored between the American League games and the national league games? 
+
+```{r echo=FALSE}
+american_runs <- c(11.1, 10.8, 10.8, 10.3, 10.3, 10.1,10.0, 9.5, 9.4, 9.3, 9.2, 9.2, 9.0, 8.3)
+national_runs <- c(14.0, 11.6, 10.4, 10.3, 10.2, 9.5, 9.5, 9.5, 9.5, 9.1, 8.8, 8.4, 8.3, 8.2, 8.1, 7.9 )
+baseball_dat <- tibble(runs=c(american_runs, national_runs), 
+                             league=c(rep("American", length(american_runs)),
+                                      rep("National", length(national_runs))))
+#ggplot(baseball_dat, aes(x=league, y=runs)) +
+#         geom_boxplot() 
+```
+
+---
+## HW 2 Bonus Problem 
+
+Census data for a certain country shows that 19% of the adult residents are Latinx. Suppose 72 people are called for jury duty and only 9 of them are Latinx. We want to know if this apparent under-representation of Latinx jurors calls into question the fairness of the jury selection system.
+
+a) Clearly define the population we are studying.
+
+b) State the unknown parameter that we are interested in estimating. (Hint: It is a proportion.)
+
+c) What is the sample estimate for the parameter in part (b) based on the observed data? 
+
+d) State a null and alternative hypothesis test we can conduct to answer this question and provide the formula for the test statistic. 
+
+e) If the null hypothesis is true, draw a Normal density curve representing the distribution of the sample proportion. Specify the mean and variance of this sampling distribution. Label the observed test statistic and shade the region that corresponds to the p-value for the test in part (d). 
+
+f) Alternatively, we could answer this question with a confidence interval for the parameter in part (b). Suppose you calculate a lower bound (LB) and upper bound (UB) for your confidence interval. Referencing the interval [LB, UB], how we you determine if there is statistical evidence of  under-representation of Latinx jurors? 
+
+
+---
+## HW 2 Bonus Problem 
+
+**Option a: Hypothesis test**
+```{r optional.a}
+obs_success <- 9 
+sample_size <- 72
+prop.test(obs_success, sample_size, 0.19, alternative="two.sided", conf.level=0.95)
+```
+
+At a significance level of $\alpha = 0.05$, a p-value of 0.21 for testing whether or not an observed jury with only 9 Latinx (out of 72 total) jurors contradicts the statement that the population is $19\%$ Latinx, means that this observation is not unusual, from a statistical perspective. Therefore this data does not provide us with any statistical evidence that there is  under-representation of Latinx people on this particular jury.    
+
+
+---
+## HW 2 Bonus Problem 
+
+**Option B: Confidence interval**
+```{r optional.b}
+obs_success <- 9 
+sample_size <- 72
+prop.test(obs_success, sample_size, conf.level=0.95)
+```
+
+At a $95\%$ confidence level, if the $72$ jurors were chosen randomly and independently we would expect to see anywhere from $6.2\%$ Latinx jurors to $23\%$ Latinx jurors. This confidence interval contains the value corresponding to the percent of the Latinx population, $19\%$, therefore this data does not provide us with any statistical evidence that there is  under-representation of Latinx people on this particular jury.   
+
+---
+### Announcements 
+
+- Slack
+  
+  * I will be checking Slack every day this week from 1-1:30 pm EST 
+  
+  * If you have coding problems, use the #r-q-and-a channel and include
+  
+    - The code that is causing the error 
+    
+    - The error message 
+  
+  * Final check-in posted
+
+- Office hours 
+
+  * Th May 6 from 2-3 pm EST
+  
+  * M May 10 from 7:30-8:30 pm 
+  
+  * If you cannot make these and need an additional appointment, let me know 24 hrs in advance and I'll do my best to accommodate you 
+
+---
+### Announcements 
+
+- Final Project 
+
+  * Part 3 is due May 11th
+
+  * Part 4 instructions will be posted this week 
+  
+- Test 3 
+
+  * Released at 8am on May 13 
+  
+  * Due to Gradescope by 12pm on May 15th 
+  
+  * Same format and policies as Test 1 and 2 but it will be a bit longer
+
+- Next class 
+
+  * Building a MLR model 
+  
+  * HW bonus problems group work 
+  
+  * HW 8 group work
+  
+

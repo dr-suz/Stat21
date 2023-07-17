@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 14</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class14_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class14_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 14
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/10/2 (updated: 2019-10-03)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+
+## Correction to Class 13 slides 
+
+```r
+hc_employer_2013 &lt;- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+CI_bounds &lt;- as_tibble(predict(SLR_hc_employer_2013, hc_employer_2013,
+                               interval="confidence", level = 0.95)) 
+PI_bounds &lt;- as_tibble(predict(SLR_hc_employer_2013, hc_employer_2013,
+                               interval="predict", level = 0.95))
+new_hc_data &lt;- bind_cols(hc_employer_2013,CI_bounds,PI_bounds[,2:3]) %&gt;%     
+               as.tibble(.name_repair="universal")
+## note the prediction interval bounds at the one's with "1" appended to the name
+
+ggplot(new_hc_data, aes(x=spending_capita,y=prop_coverage)) + 
+  ylim(0,1) + 
+  geom_ribbon(aes(ymin=lwr1, ymax=upr1, fill='prediction'),alpha=0.3) +  
+  geom_smooth(method="lm", se=TRUE, aes(fill='confidence'), alpha=0.3) +
+  geom_point() +
+  labs(title="Scatterplot of the data and the regression line",
+       subtitle="Confidence and prediction intervals",
+       y='Proportion of people covered',
+       x='Per capita spending')
+```
+
+
+---
+## Correction to Class 13 slides 
+&lt;img src="Figs/unnamedClass14_2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+## Revisiting the meaning of the sums of squares terms
+### In linear regression, what causes the response variable to vary?
+
+In fitting our model we break the sources of variability in `\(y\)` into two components:
+
+  1) The variation in `\(x\)` values. (deterministic) We measure this variation using the regression line by considering: `\((\hat{y}_i – \bar{y} )\)`.
+
+  2) Individual variation of `\(y\)` about a line. (random) We measure this variation using the residuals: `\(y_i – \hat{y}_i\)`.
+
+
+--
+Thus the overall variability in `\(Y\)` is the total of these two individual sources: 
+
+  .center[Total variation in Y = variation due to x + variation NOT due to x]
+
+
+Source    | Sums of sqs  | Deg of free. | Mean square | F-statistic
+--------- | ------------ | ------------ | ----------- | ----------- 
+Model     | `\(\sum_{i=1}^{n}(\hat{y}_i-\bar{y})^2\)` | `\(1\)`   | `\(MSReg=\frac{SS_{reg}}{1}\)` | `\(F=\frac{MSReg}{MSE}\)`
+Residuals | `\(\sum_{i=1}^{n}(\hat{y}_i - y_i)^2\)` | `\(n-2\)` | `\(MSE=\frac{SSE}{n-2}\)`   | 
+
+---
+## Checking model assumptions
+
+In SLR, we can plot residuals vs X or plot residuals vs predicted but it is better to get in the habit of plotting ** residuals vs predicted** because this is what we use in multiple linear regression.  
+
+
+What are we looking for these plots? 
+
+1. Any "trends" in the plot
+  - E.g. negative residuals at small values of `\(\hat{y}_i\)` and positive residuals at large values of `\(\hat{y}_i\)` indicates non-linearity in the data. 
+  - **Q:** What can we do to address non-linearity? 
+
+1. Non-constant spread of the residuals
+  - E.g. More clustered residuals for small `\(\hat{y}_i\)` values and more spread out residuals for large `\(\hat{y}_i\)`, looks like "funneling". 
+  
+
+**Q:** What can we do to address heteroscedasticity? 
+--
+The usual remedy is a transformation of the response.
+
+
+.footnote[&lt;a href="https://data.princeton.edu/wws509/notes/c2s9
+"&gt;Here&lt;/a&gt; is my source for the interpretations above. This is helpful to check out tor further reading on regression diagnostics (although we are not covering all the material that is mentioned here).]
+
+
+---
+## Checking for normality 
+
+Normal probability plots of the **residuals** help us check whether the combination of all the residuals is Normally distributed. 
+
+
+Guide to interpreting QQ plots: 
+
+  - If the data is curved, this indicates a skewed distribution
+
+      - Downward concavity corresponds to negative Skewness (long tail to the left) 
+
+      - Upward concavity indicating positive skewness. 
+
+  - An S-shape indicates heavy tails, or an excess of extreme values, relative to the Normal distribution.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

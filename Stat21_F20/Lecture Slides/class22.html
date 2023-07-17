@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 22</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class22_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class22_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 22
+## Agenda for in-class discussion
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, Dec 3, 2020 (updated: 2020-12-03)
+
+---
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## Class 22, Thursday the 3rd 
+
+.scroll-output[Here's the agenda for today's class: 
+  
+- Check-in 
+
+- Review topics
+
+  - Answering your qestions
+  
+  - Example(s) from textbook   
+
+- Wrap up
+
+- Course evaluations (reminder will be sent after Dec 14th)
+]
+
+---
+## Morning check in  
+### 5 mins
+
+.pull-left[**Instructions:** Use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+&lt;img src="Figs/real-feel.png" height="500" style="display: block; margin: auto 0 auto auto;" /&gt;
+]
+
+
+---
+## Upcoming Event 
+
+
+.center["Women in Statistics: We've Come so Far?"
+
+Leslie A. McClure, PhD
+
+Professor, Chair
+
+Department of Epidemiology and Biostatistics] 
+
+
+.center[**Wednesday**, December 9, 2020
+
+2:30 pm – 3:30 pm EDT]
+
+
+The term leaky pipeline has been used to describe the disappearance of women from STEM fields, and the field of statistics is no exception. In this talk, I will describe the leaky pipeline in statistics and biostatistics, discuss some of the reasons why women leave STEM fields, and discuss strategies for helping to plug the leaky pipeline.
+
+
+https://drexel.zoom.us/j/91374827254?pwd=Zk9nUmZ6VzdKQXFhY0ZvbmdRbWpyUT09
+
+
+**Meeting ID:** 913 7482 7254
+
+**Passcode:** 440601
+
+
+---
+## Mistaken statistical conclusions 
+### (Lack of) Evidence Proving Voter Fraud
+
+https://justthenews.com/sites/default/files/2020-11/Miller_DeclarationAndAnalyisPA_GOP_BallotRequestData_2020_Final.pdf
+
+
+https://williamsrecord.com/2020/11/professor-of-mathematics-steven-miller-issues-legal-statement-suggesting-ballot-irregularities-in-pa-conclusions-repudiated-by-statisticians-and-political-scientists/
+
+https://www.berkshireeagle.com/news/local/williams-prof-disavows-own-finding-of-mishandled-gop-ballots/article_9cfd4228-2e03-11eb-b2ac-bb9c8b2bfa7f.html
+
+https://williamsrecord.com/2020/11/a-rebuttal-to-steven-millers-report-on-pa-gop-mail-in-ballot-requests/
+
+
+
+---
+## Homework 6 
+### Problems 9 and 10
+
+
+
+```r
+airplanes &lt;- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/airplanes.txt"), col_names=TRUE, cols(IFR = col_factor(), DME = col_factor(), LORAN = col_factor(), ModeC = col_factor(), paint = col_factor()) ) %&gt;% na.omit
+airplanes &lt;- airplanes %&gt;% select(-c(IFR))
+
+
+airplanes &lt;- airplanes %&gt;% filter(year&gt;=1970)
+```
+
+
+```r
+airplanes %&gt;% select(c(year, TT)) %&gt;% 
+                       pairs(pch = 16)
+```
+
+![](Figs/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+## Homework 6 
+### Problems 9 and 10
+
+
+```r
+MLR_plane &lt;- lm(price ~ year + TT + DME + LORAN + paint, data = airplanes)
+summary(MLR_plane)
+```
+
+```
+## 
+## Call:
+## lm(formula = price ~ year + TT + DME + LORAN + paint, data = airplanes)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.6875 -1.5288  0.6122  2.1923  9.3623 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -5.596e+03  5.931e+02  -9.436 1.07e-07 ***
+## year         2.848e+00  2.993e-01   9.514 9.58e-08 ***
+## TT          -1.881e-03  6.550e-04  -2.871   0.0117 *  
+## DME0        -5.408e+00  2.607e+00  -2.075   0.0556 .  
+## LORAN1       1.231e+01  2.345e+00   5.250 9.80e-05 ***
+## paint1       5.229e+00  2.908e+00   1.798   0.0923 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.265 on 15 degrees of freedom
+## Multiple R-squared:  0.9038,	Adjusted R-squared:  0.8718 
+## F-statistic:  28.2 on 5 and 15 DF,  p-value: 4.013e-07
+```
+
+
+---
+## Homework 6 
+### Problems 9 and 10
+
+
+```r
+MLR_plane_sum &lt;- summary(MLR_plane)
+resid_plot_data &lt;- airplanes %&gt;%
+                   mutate(residuals = MLR_plane_sum$residuals,
+                          fitted_vals = MLR_plane$fitted.values)
+
+ggplot(resid_plot_data, aes(x=fitted_vals, y=residuals)) + 
+  geom_point() +
+  labs(title="Residual Plot", subtitle = "Airplane Model",
+       x="Predicted Values", y="Residuals") +
+  geom_hline(yintercept=0) 
+```
+
+![](Figs/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+## Homework 6 
+### Problems 9 and 10
+
+
+```r
+ggplot(resid_plot_data, aes(sample=scale(residuals))) + 
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title="Normal probability plot", subtitle = "Airplane Model",
+        y="Standardized Residuals") 
+```
+
+![](Figs/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+## Practice Problems 
+### From your textbook 
+
+Available on our shared RStudio folder: /shared/stat021f20
+
+
+  - Chapter 3 (3.5, 3.7, 3.13)  
+  - Chapter 4 (4.4, 4.22, 4.27)
+  - Chapter 5 (5.2, 5.6, 5.20) 
+  - Chapter 7 (7.2, 7.3) 
+  - Chapter 8 (8.3, 8.6, 8.17) 
+
+---
+## Course evaulations
+
+Are there any questions you would like me to ask about?
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

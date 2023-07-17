@@ -1,0 +1,2389 @@
+<!doctype html>
+<html>
+  <head>
+    <title>US Covid-19 deaths, explained in 8 charts and maps</title>
+    <meta name='description' content='The virus was unsparing.' />
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel='canonical' href='https://www.vox.com/22252693/who-has-died-from-covid-19-in-america' />
+    <meta property='author' content='Youyou Zhou' />
+        <meta property='article:published_time' content='2021-02-16T14:54:32+00:00' />
+        <meta property='article:modified_time' content='2021-02-16T15:41:55+00:00' />
+
+    <meta itemprop="description" content="The virus was unsparing.">
+    <meta itemprop="image" content="https://cdn.vox-cdn.com/thumbor/fTvwF3sCoPy6k2kn6yyWC5Fv-s4=/79x187:2801x1616/fit-in/2722x1429/cdn.vox-cdn.com/uploads/chorus_asset/file/22296278/us_covid19_mortality.jpg">
+
+    <meta name="apple-mobile-web-app-title" content="">
+    <meta property="article:publisher" content="https://www.facebook.com/Vox">
+    <meta property="og:description" content="We analyzed a full year of America’s Covid-19 death data. The findings surprised us.">
+
+    <meta property="og:image" content="https://cdn.vox-cdn.com/thumbor/pV8tkqb02ECAW8Z5P_vGe2afER0=/144x221:2736x1582/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/22296278/us_covid19_mortality.jpg">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:site_name" content="Vox ">
+    <meta property="og:title" content="America’s Covid-19 deaths, explained in 8 charts and maps">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.vox.com/22252693/who-has-died-from-covid-19-in-america">
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://www.vox.com/22252693/who-has-died-from-covid-19-in-america">
+    <meta name="twitter:title" content="America’s Covid-19 deaths, explained in 8 charts and maps">
+    <meta name="twitter:description" content="We analyzed a full year of America’s Covid-19 death data. The findings surprised us.">
+    <meta name="twitter:image:src" content="https://cdn.vox-cdn.com/thumbor/Att36VQgSFtGPB0H5hYYQNafmvM=/79x221:2801x1582/fit-in/1200x600/cdn.vox-cdn.com/uploads/chorus_asset/file/22296278/us_covid19_mortality.jpg">
+    <meta name="twitter:image:width" content="1200" />
+    <meta name="twitter:image:height" content="600" />
+    <meta name="twitter:site" content="voxdotcom">
+
+    <script type="application/ld+json">
+  {
+    "@context":"http://schema.org",
+    "@type":"NewsArticle",
+    "mainEntityOfPage": "https://www.vox.com/22252693/who-has-died-from-covid-19-in-america",
+    "url": "https://www.vox.com/22252693/who-has-died-from-covid-19-in-america",
+    "headline": "Who has died from Covid-19 in the US?",
+    "description": "The virus was unsparing.",
+    "speakable": {"@type":"SpeakableSpecification",
+      "xpath":["/html/head/title","/html/head/meta[@name='description']/@content"]},
+    "datePublished": "2021-02-16T14:54:32+00:00",
+    "dateModified": "2021-02-16T15:41:55+00:00",
+    "author":[{"@type":"Person","name":"Youyou Zhou"},{"@type":"Person","name":"Julia Belluz"}],
+    "publisher":{
+      "@type":"Organization",
+      "name":"Vox",
+      "logo":{
+        "@type":"ImageObject",
+        "url":"https://cdn.vox-cdn.com/uploads/chorus_asset/file/13668548/google_amp.0.png",
+        "width": 600,
+        "height": 60
+      }
+    },
+    "articleSection":"front-page",
+    "keywords": ["Front Page", "Coronavirus", "Coronavirus explainers", "Coronavirus: Identities", "Coronavirus: America's response", "Science & Health"],
+    "image":[
+      {
+        "@type":"ImageObject",
+        "url":"https://cdn.vox-cdn.com/thumbor/fTvwF3sCoPy6k2kn6yyWC5Fv-s4=/79x187:2801x1616/fit-in/2722x1429/cdn.vox-cdn.com/uploads/chorus_asset/file/22296278/us_covid19_mortality.jpg",
+        "width":"3000",
+        "height":"2000"
+      }
+    ],
+    "thumbnailUrl": "https://cdn.vox-cdn.com/thumbor/fTvwF3sCoPy6k2kn6yyWC5Fv-s4=/79x187:2801x1616/fit-in/2722x1429/cdn.vox-cdn.com/uploads/chorus_asset/file/22296278/us_covid19_mortality.jpg"
+  }
+</script>
+
+    <link rel="icon" type="image/png" href="https://cdn.vox-cdn.com/community_logos/52517/voxv.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://cdn.vox-cdn.com/uploads/hub/sbnu_logo_minimal/441/touch_icon_iphone_retina_1000_yellow.755.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="https://cdn.vox-cdn.com/uploads/hub/sbnu_logo_minimal/441/touch_icon_iphone_retina_1000_yellow.755.png" sizes="180x180">
+
+        <script id="parsely-cfg" src="//cdn.parsely.com/keys/vox.com/p.js" defer=""></script>
+            <meta name="parsely-title" content="Who has died from Covid-19 in the US?">
+            <meta name="parsely-link" content="https://www.vox.com/22252693/who-has-died-from-covid-19-in-america">
+            <meta name="parsely-type" content="post">
+            <meta name="parsely-image-url" content="https://cdn.vox-cdn.com/thumbor/fTvwF3sCoPy6k2kn6yyWC5Fv-s4=/79x187:2801x1616/fit-in/2722x1429/cdn.vox-cdn.com/uploads/chorus_asset/file/22296278/us_covid19_mortality.jpg">
+            <meta name="parsely-pub-date" content="2021-02-16T14:54:32+00:00">
+            <meta name="parsely-section" content="front-page">
+            <meta name="parsely-author" content="Youyou Zhou:Julia Belluz">
+            <meta name="parsely-tags" content="vox, vox, front-page, science-and-health, coronavirus-covid19, covid-19-coronavirus-us-response-trump, covid-19-coronavirus-explainers, covid-19-coronavirus-identities">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link href="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/stylesheets/site.css" rel="stylesheet" />
+    <script src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/javascripts/vendor.js"></script>
+    <script src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/javascripts/site.js"></script>
+    <script src='https://www.googletagservices.com/tag/js/gpt.js' async></script>
+    <script src='https://c.amazon-adsystem.com/aax2/apstag.js' async></script>
+    <script src='https://cdn.concert.io/lib/concert-ads/v2-latest/concert_ads.js'></script>
+    <script>dataLayer = [{"Network":"vox","Community":"vox","root_domain":"vox.com","GA Primary ID":"UA-48698701-1","GA CrossDomains":"vox.com","Content ID":"22016734","Story Word Count":1268,"Entry Groups":"front-page:science-and-health:coronavirus-covid19:covid-19-coronavirus-us-response-trump:covid-19-coronavirus-explainers:covid-19-coronavirus-identities","articleSecion":"Front Page","Author":"Youyou Zhou:Julia Belluz","Last Time Updated":"2021-02-16 18:59","Hour of Update":"18","Publish Date":"2021-02-16 09:54","Hour of Publish":"09","Evergreen URL":"evergreen","Demand Post":"no","All Chorus Categories":"vox:vox:front-page:science-and-health:coronavirus-covid19:covid-19-coronavirus-us-response-trump:covid-19-coronavirus-explainers:covid-19-coronavirus-identities","Content Type":"custom-story","chartbeat_domain":"vox.com","chartbeat_zone":"172968584/vox/vox.com","chartbeat_authors":"Youyou Zhou,Julia Belluz","Logged in Status":"Logged Out","auth0_id":"No Auth0 ID","enable_url_cleaning":true}]</script>
+
+  <!-- Google Tag Manager Container-->
+  <noscript>
+    <iframe src="//www.googletagmanager.com/ns.html?id=GTM-W8JKW6" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+        '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-W8JKW6');
+  </script>
+  <!-- End Google Tag Manager Container -->
+  </head>
+  <body>
+    <script>
+    let concertAds = new ConcertAds({
+      slug: '/172968584/vox/vox.com',
+      dfpVariables: {
+        entry_id: ['22016734'],
+        keywords: "Who has died from Covid-19 in America?"
+      }
+    });
+    concertAds.loadRemoteConfig('https://concertads-configs.vox-cdn.com/sbn/vox/config.json').then(() => {
+      concertAds.install();
+    });
+  </script>
+    <nav class="m-nav">
+      <section class="m-nav__logo-wrapper">
+        <a href="https://www.vox.com"><svg role="presentation" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242 121"><path fill="#f9f9f9" stroke="#f9f9f9" d="M110.674 3.528h3.474L114.564 2H71.63l-.418 1.528h6.253c5.418 0 9.726 3.75 9.726 11.255 0 4.168-1.8 9.587-4.72 16.118L54.82 92.32l-6.81-79.756c-.556-6.252 2.5-9.03 9.59-9.03h4.027L62.042 2H1.6l-.557 1.528h3.89c4.725 0 6.532 2.918 7.087 8.615l10.7 103.1h25.427l42.518-90.038c6.392-13.48 13.2-21.677 20.01-21.677zm-5.002 112.27c-3.89 0-6.253-1.25-6.253-7.642 0-8.06 2.91-23.76 6.11-38.072.41 6.67 5 13.2 11.81 13.2 1.67 0 3.06-.138 4.44-.417-6.26 27.236-8.76 32.932-16.12 32.932zm121.024-54.19c8.06 0 13.2-6.67 13.2-14.173 0-6.392-4.585-11.116-11.115-11.116-11.81 0-17.36 9.31-27.09 26.53-2.08-10.7-6.94-24.73-19.45-24.73-14.03 0-30.15 20.01-45.02 32.37-6.67 5.56-14.17 9.17-20.15 9.17-6.11 0-9.72-6.26-9.72-17.23 4.31-17.93 6.67-22.65 13.34-22.65 4.59 0 6.53 2.64 6.53 8.06 0 5.69-1.25 15.42-3.75 27.51 6.67-2.09 16.68-10.42 25.01-19.45-4.44-10.56-13.89-17.79-27.65-17.79-25.42 0-47.66 22.78-47.66 48.35 0 17.65 12.51 30.984 32.1 30.984 32.38 0 45.86-28.066 45.86-47.52 0-2.78-.14-4.86-.42-7.364C155.717 57.14 162.108 52 167.388 52c5.975 0 10.7 15.007 15.423 37.657-4.17 4.58-8.34 13.474-10.42 15.002-.836-8.06-6.115-13.06-13.2-13.06-7.92 0-13.48 7.5-13.48 13.893 0 7.226 5 11.95 11.53 11.95 13.76 0 17.65-13.062 26.265-24.595 2.64 12.363 8.754 24.59 19.313 24.59 12.506 0 24.178-10.7 30.15-18.34l-1.11-1.81c-3.89 3.753-7.642 6.254-11.95 6.254-7.78 0-13.34-16.81-17.645-37.1 2.5-3.47 6.53-12.225 9.31-15.28 1.95 3.612 5.978 10.42 15.15 10.42z"></path></svg></a>
+      </section>
+      <section class="m-nav__social">
+        <a href="https://twitter.com/share?text=America%E2%80%99s%20Covid-19%20deaths%2C%20explained%20in%208%20charts%20and%20maps&url=https%3A%2F%2Fwww.vox.com%2F22252693%2Fcovid-19-deaths-us-who-died" class="icon-twitter button" aria-label="Share on Twitter"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 44.71 36.327" enable-background="new 0 0 44.71 36.327" xml:space="preserve">
+<path d="M44.71,4.295c-1.656,0.724-3.415,1.242-5.278,1.449c1.914-1.139,3.363-2.95,4.036-5.071
+  c-1.759,1.035-3.726,1.811-5.796,2.225C35.965,1.138,33.584,0,30.945,0c-5.071,0-9.159,4.088-9.159,9.159
+  c0,0.725,0.051,1.449,0.207,2.122C14.386,10.867,7.658,7.4,3.105,1.863c-0.777,1.345-1.242,2.742-1.242,4.45
+  c0,3.157,1.604,5.951,4.088,7.607c-1.501-0.052-2.898-0.466-4.14-1.138v0.103c0,4.45,3.157,8.176,7.348,9.004
+  C8.383,22.096,7.555,22.2,6.727,22.2c-0.569,0-1.138-0.052-1.708-0.155c1.139,3.622,4.554,6.313,8.539,6.365
+  c-3.105,2.483-7.09,4.346-11.385,4.346c-0.724,0-1.449-0.051-2.173-0.155c4.036,2.588,8.9,3.726,14.075,3.726
+  c16.87,0,26.081-13.972,26.081-26.081v-1.19C41.916,7.762,43.468,6.158,44.71,4.295"></path>
+</svg></a>
+        <a class="icon-facebook button" href="https://www.facebook.com/sharer/sharer.php?text=America%E2%80%99s%20Covid-19%20deaths%2C%20explained%20in%208%20charts%20and%20maps&u=https%3A%2F%2Fwww.vox.com%2F22252693%2Fcovid-19-deaths-us-who-died" title="Share on Facebook" aria-label="Share on Facebook"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 21.406 43.754" enable-background="new 0 0 21.406 43.754" xml:space="preserve">
+<path d="M5.429,43.754V23.223H0v-7.392h5.429V9.517C5.429,4.556,8.636,0,16.025,0c2.991,0,5.204,0.286,5.204,0.286l-0.174,6.903
+  c0,0-2.257-0.022-4.719-0.022c-2.664,0-3.091,1.228-3.091,3.266v5.398h8.022l-0.35,7.392h-7.672v20.531H5.429z"></path>
+</svg>
+</a>
+
+      </section>
+    </nav>
+</nav>
+
+
+<main>
+                <section class='m-section slides leading'>
+                <div class='slides-graphic'>
+
+                    <figure class="cover-image graphic-slide graphic-1 image-container-1">
+                    <img src="https://cdn.vox-cdn.com/uploads/chorus_asset/file/22296275/cn_covid19_mortality.jpg"
+                    alt="This is a Covid-19 graphic."
+                    />
+                    <figcaption class="m-media-meta">
+                        <span class="m-media-meta__credit">
+                            STR / AFP
+                        </span>
+                    </figcaption>
+                
+                </figure>
+
+
+
+
+
+
+                    <figure class="cover-image graphic-slide graphic-2 image-container-2">
+                    <img src="https://cdn.vox-cdn.com/uploads/chorus_asset/file/22296278/us_covid19_mortality.jpg"
+                    alt="This is a Covid-19 graphic."
+                    />
+                    <figcaption class="m-media-meta">
+                        <span class="m-media-meta__credit">
+                            Jeffrey Basinger/Newsday via Getty Images
+                        </span>
+                    </figcaption>
+                
+                </figure>
+
+
+
+
+
+                </div>
+                <div class='slides-annotations'>
+
+
+
+
+
+
+                <div class="step slide-container index-1">
+                    <div class='text-container'>
+                        <p id="b8bSIg">When the coronavirus was discovered in Wuhan, China, it may have seemed like a distant threat. But very quickly, the tiny pathogen made its way around the world, bringing sickness and death wherever it went.</p>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="step slide-container index-2">
+                    <div class='text-container'>
+                        <p id="hJM2wZ">In America, the first known Covid-19 fatality occurred on February 6, 2020. From there, the wave of daily deaths started rising. </p>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="step slide-container index-3">
+                    <div class='text-container'>
+                        <p id="TMLG6Q">By the end of May 2020, the virus had taken 100,000 lives, mostly in the Northeast and major cities.</p>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="step slide-container index-4">
+                    <div class='text-container'>
+                        <p id="iKNudh">Four months later, the death toll surpassed 200,000.</p>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="step slide-container index-5">
+                    <div class='text-container'>
+                        <p id="XoRSai">Less than three months later, by mid-December, more than 300,000 people had died.</p>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="step slide-container index-6">
+                    <div class='text-container'>
+                        <p id="TSCOAO">With the virus spreading all over the US, it took only 36 more days to reach 400,000 deaths. January was the deadliest month so far. </p>
+                    </div>
+                </div>
+
+                </div> 
+                <!-- end of slides-annotations -->
+                </section> 
+
+
+
+    <section class="m-intro l-river m-section">
+        
+<h1 class="m-intro__hed">Who has died from Covid-19 in the US?</h1>
+<p class="m-intro__dek">The virus was unsparing.</p>
+<div class="m-intro__meta">
+  <span class="m-intro__meta__author">By 
+        
+        <a href="https://www.vox.com/authors/youyou-zhou">Youyou Zhou</a>
+        and
+        <a href="https://www.vox.com/authors/julia-belluz">Julia Belluz</a>
+  </span>
+  <span></span>
+  <br><br>
+  <span class='m-intro__meta__published'>Published: Feb 16, 2021,  9:54am EST </span>
+  <br>
+  <span class='m-intro__meta__published'>Updated: Feb 18, 2021, 10:06am EST </span>
+
+
+</div>
+
+    </section>
+
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+            <section class="m-section l-river">
+            <p id="TSCOAO">Across the country, more than 27 million people have contracted the coronavirus, and 485,000<strong> </strong>have died. That’s the highest Covid-19 toll of any country and more than the coronavirus deaths in Italy, Germany, Australia, Japan, the UK, Canada, and France combined. It exceeds the US death toll in World War II.</p><p id="0SLIof">It’s also <a href="https://www.vox.com/2020/10/21/21526304/real-death-toll-coronavirus-300000-cdc">an underestimate</a>, and doesn’t account for all the people impacted by loss. If every American who died has left nine people grieving, as <a href="https://www.pnas.org/content/117/30/17695">one study</a> suggested, there are now more than 4 million Americans who have lost a loved one to the pandemic.<strong> </strong></p><p id="0MlGgo">Death at this scale is difficult to comprehend, or visualize. To get a clearer sense of the shifting burden of Covid-19 deaths over time, Vox analyzed coronavirus mortality by age, region, and race from the past year, based on data from the Centers for Disease Control and Prevention and Johns Hopkins University. </p><p id="jmbM5q">We found that while Covid-19 spared no group, it impacted certain populations more than others. Throughout the pandemic, people of color have consistently been disproportionately sickened and killed by the virus.<strong> </strong>They also died young: Of Covid-19 deaths in people under the age of 45, more than 40 percent were Hispanic and about a quarter were Black.</p><p id="t3SKUw">But what started as a health emergency concentrated in travelers, urban minority communities, and other crowded places (such as nursing homes and prisons) fanned out into rural areas of the country, leading to a surge in deaths among white people, too. </p><p id="fpcdr3">In the deaths, we saw how an “infectious disease became a universal issue,” said Boston University School of Public Health dean Sandro Galea. The extraordinary loss of life was also preventable, said Virginia Commonwealth University’s Steven Woolf, and a grim marker of “how poorly the US handled the pandemic.”</p><p id="NxdDsH">By the winter of 2020, the virus was spreading broadly in every state, and largely by people younger than 50. Still, disparities in lives lost have persisted.</p>
+            </section>
+        
+
+                    <section class="m-section slides set-2">
+                    <div class='slides-graphic'>
+                                                
+
+                    </div>
+                    <div class='slides-annotations'>
+
+                <div class="step slide-container index-1">
+                    <div class='text-container'>
+                        <p id="K7cJxz">A trend at the start of the US outbreak has held: People of color have died of Covid-19 at much higher rates — double the rate of white people overall in 2020.</p>
+                    </div>
+                </div>
+
+
+        
+
+
+                <div class="step slide-container index-2">
+                    <div class='text-container'>
+                        <p id="nA10mA">But over the course of the year, the share of Covid-19 deaths among white people grew, while the share among Black and Hispanic people decreased.</p>
+                    </div>
+                </div>
+
+                    </div>
+                    </section> 
+
+        
+            <section class="m-section l-river">
+            <p id="EcNKw1">In absolute terms, the death rate among white people rose significantly, while the rate among people of color dropped slightly. This was a trend we found in communities across America as Covid-19 spread.</p><h3 id="S51vop">Deaths shifted from diverse counties to those with a higher share of white people</h3>
+            </section>
+        
+                <section class="m-section l-river">
+                    <figure class="m-photo heatmap">
+                        
+<!-- Generated by ai2html v0.101.0 - 2021-02-14 13:54 -->
+<!-- ai file: heatmap.ai -->
+<style media="screen,print">
+	#g-heatmap-box ,
+	#g-heatmap-box .g-artboard {
+		margin:0 auto;
+	}
+	#g-heatmap-box p {
+		margin:0;
+	}
+	#g-heatmap-box .g-aiAbs {
+		position:absolute;
+	}
+	#g-heatmap-box .g-aiImg {
+		position:absolute;
+		top:0;
+		display:block;
+		width:100% !important;
+	}
+	#g-heatmap-box .g-aiSymbol {
+		position: absolute;
+		box-sizing: border-box;
+	}
+	#g-heatmap-box .g-aiPointText p { white-space: nowrap; }
+	#g-heatmap-medium {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-heatmap-medium p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:400;
+		line-height:18px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:15px;
+		text-align:left;
+		color:rgb(249,249,249);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-heatmap-medium .g-pstyle0 {
+		line-height:26px;
+		height:26px;
+		font-size:16px;
+		text-align:right;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-medium .g-pstyle1 {
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		text-align:center;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-medium .g-pstyle2 {
+		font-weight:600;
+		line-height:26px;
+		height:26px;
+		font-size:16px;
+		text-align:right;
+		color:rgb(196,196,196);
+	}
+	#g-heatmap-medium .g-pstyle3 {
+		font-weight:600;
+		line-height:26px;
+		height:26px;
+		font-size:16px;
+		color:rgb(196,196,196);
+	}
+	#g-heatmap-medium .g-pstyle4 {
+		line-height:26px;
+		height:26px;
+		font-size:14px;
+		text-align:center;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-medium .g-pstyle5 {
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		text-align:right;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-medium .g-pstyle6 {
+		height:18px;
+	}
+	#g-heatmap-medium .g-pstyle7 {
+		line-height:17px;
+		height:17px;
+		letter-spacing:-0.03em;
+		font-size:14px;
+		text-align:right;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-small {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-heatmap-small p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:400;
+		line-height:18px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:15px;
+		text-align:left;
+		color:rgb(0,0,0);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-heatmap-small .g-pstyle0 {
+		line-height:26px;
+		height:26px;
+		font-size:14px;
+		text-align:right;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-small .g-pstyle1 {
+		line-height:26px;
+		height:26px;
+		font-size:13px;
+		text-align:center;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-small .g-pstyle2 {
+		font-weight:600;
+		line-height:26px;
+		height:26px;
+		font-size:14px;
+		color:rgb(196,196,196);
+	}
+	#g-heatmap-small .g-pstyle3 {
+		font-weight:600;
+		line-height:26px;
+		height:26px;
+		font-size:14px;
+		text-align:right;
+		color:rgb(196,196,196);
+	}
+	#g-heatmap-small .g-pstyle4 {
+		line-height:16px;
+		height:16px;
+		font-size:13px;
+		text-align:center;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-small .g-pstyle5 {
+		line-height:16px;
+		height:16px;
+		font-size:13px;
+		text-align:right;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-small .g-pstyle6 {
+		height:18px;
+	}
+	#g-heatmap-mobile {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-heatmap-mobile p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:400;
+		line-height:18px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:15px;
+		text-align:left;
+		color:rgb(0,0,0);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-heatmap-mobile .g-pstyle0 {
+		line-height:26px;
+		height:26px;
+		font-size:13px;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-mobile .g-pstyle1 {
+		line-height:26px;
+		height:26px;
+		font-size:13px;
+		text-align:center;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-mobile .g-pstyle2 {
+		font-weight:600;
+		line-height:26px;
+		height:26px;
+		font-size:14px;
+		color:rgb(196,196,196);
+	}
+	#g-heatmap-mobile .g-pstyle3 {
+		font-weight:600;
+		line-height:26px;
+		height:26px;
+		font-size:14px;
+		text-align:right;
+		color:rgb(196,196,196);
+	}
+	#g-heatmap-mobile .g-pstyle4 {
+		line-height:26px;
+		height:26px;
+		font-size:12px;
+		text-align:center;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-mobile .g-pstyle5 {
+		line-height:14px;
+		height:14px;
+		font-size:12px;
+		text-align:right;
+		color:rgb(153,153,153);
+	}
+	#g-heatmap-mobile .g-pstyle6 {
+		height:18px;
+	}
+	#g-heatmap-sol {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-heatmap-sol p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:600;
+		line-height:24px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:20px;
+		text-align:left;
+		color:rgb(249,249,249);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-heatmap-sol .g-pstyle0 {
+		height:24px;
+	}
+
+</style>
+
+<div id="g-heatmap-box" class="ai2html">
+
+	<!-- Artboard: medium -->
+	<div id="g-heatmap-medium" class="g-artboard" style="width:698px; height:854.547884399427px;" data-aspect-ratio="0.817" data-min-width="698">
+<div style=""></div>
+		<img id="g-heatmap-medium-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/heatmap_medium.jpg"/>
+		<div id="g-ai0-1" class="g-graphic g-aiAbs g-aiPointText" style="top:2.1616%;margin-top:-13.5px;right:57.1644%;width:235px;">
+			<p class="g-pstyle0">Deaths per 100,000 per week:</p>
+		</div>
+		<div id="g-ai0-2" class="g-graphic g-aiAbs g-aiPointText" style="top:4.2026%;margin-top:-8.9px;left:44.1826%;margin-left:-15.5px;width:31px;">
+			<p class="g-pstyle1">0</p>
+		</div>
+		<div id="g-ai0-3" class="g-graphic g-aiAbs g-aiPointText" style="top:4.2026%;margin-top:-8.9px;left:49.1737%;margin-left:-20px;width:40px;">
+			<p class="g-pstyle1">2.5</p>
+		</div>
+		<div id="g-ai0-4" class="g-graphic g-aiAbs g-aiPointText" style="top:4.2026%;margin-top:-8.9px;left:55.9914%;margin-left:-15px;width:30px;">
+			<p class="g-pstyle1">5</p>
+		</div>
+		<div id="g-ai0-5" class="g-graphic g-aiAbs g-aiPointText" style="top:4.2026%;margin-top:-8.9px;left:62.4659%;margin-left:-19.5px;width:39px;">
+			<p class="g-pstyle1">7.5</p>
+		</div>
+		<div id="g-ai0-6" class="g-graphic g-aiAbs g-aiPointText" style="top:4.2026%;margin-top:-8.9px;left:68.7161%;margin-left:-18.5px;width:37px;">
+			<p class="g-pstyle1">10</p>
+		</div>
+		<div id="g-ai0-7" class="g-graphic g-aiAbs g-aiPointText" style="top:7.6756%;margin-top:-13.6px;right:22.0302%;width:170px;">
+			<p class="g-pstyle2">Less white counties</p>
+		</div>
+		<div id="g-ai0-8" class="g-graphic g-aiAbs g-aiPointText" style="top:7.7926%;margin-top:-13.6px;left:16.1054%;width:174px;">
+			<p class="g-pstyle3">More white counties</p>
+		</div>
+		<div id="g-ai0-9" class="g-graphic g-aiAbs g-aiPointText" style="top:10.6972%;margin-top:-13.4px;left:46.5695%;margin-left:-89px;width:178px;">
+			<p class="g-pstyle4">Share of white population</p>
+		</div>
+		<div id="g-ai0-10" class="g-graphic g-aiAbs g-aiPointText" style="top:12.9791%;margin-top:-8.9px;left:18.4144%;margin-left:-26px;width:52px;">
+			<p class="g-pstyle1">95%</p>
+		</div>
+		<div id="g-ai0-11" class="g-graphic g-aiAbs g-aiPointText" style="top:12.9791%;margin-top:-8.9px;left:32.7229%;margin-left:-25px;width:50px;">
+			<p class="g-pstyle1">91%</p>
+		</div>
+		<div id="g-ai0-12" class="g-graphic g-aiAbs g-aiPointText" style="top:12.9791%;margin-top:-8.9px;left:46.3647%;margin-left:-26px;width:52px;">
+			<p class="g-pstyle1">84%</p>
+		</div>
+		<div id="g-ai0-13" class="g-graphic g-aiAbs g-aiPointText" style="top:12.9791%;margin-top:-8.9px;left:60.4233%;margin-left:-26.5px;width:53px;">
+			<p class="g-pstyle1">69%</p>
+		</div>
+		<div id="g-ai0-14" class="g-graphic g-aiAbs g-aiPointText" style="top:12.9791%;margin-top:-8.9px;left:74.466%;margin-left:-26px;width:52px;">
+			<p class="g-pstyle1">45%</p>
+		</div>
+		<div id="g-ai0-15" class="g-graphic g-aiAbs g-aiPointText" style="top:15.9046%;margin-top:-8.9px;right:89.2233%;width:90px;">
+			<p class="g-pstyle5">March &rsquo;20</p>
+		</div>
+		<div id="g-ai0-16" class="g-graphic g-aiAbs g-aiPointText" style="top:29.5411%;margin-top:-72.4px;left:83.5773%;width:130px;">
+			<p class="g-pstyle6">The first surge </p>
+			<p class="g-pstyle6">in deaths in the</p>
+			<p class="g-pstyle6">spring occurred</p>
+			<p class="g-pstyle6">mostly in places </p>
+			<p class="g-pstyle6">with a large </p>
+			<p class="g-pstyle6">share of </p>
+			<p class="g-pstyle6">nonwhite </p>
+			<p class="g-pstyle6">population.</p>
+		</div>
+		<div id="g-ai0-17" class="g-graphic g-aiAbs g-aiPointText" style="top:22.6919%;margin-top:-8.9px;right:89.2988%;width:53px;">
+			<p class="g-pstyle5">April</p>
+		</div>
+		<div id="g-ai0-18" class="g-graphic g-aiAbs g-aiPointText" style="top:31.4684%;margin-top:-8.9px;right:89.3103%;width:50px;">
+			<p class="g-pstyle5">May</p>
+		</div>
+		<div id="g-ai0-19" class="g-graphic g-aiAbs g-aiPointText" style="top:38.3726%;margin-top:-8.9px;right:89.233%;width:54px;">
+			<p class="g-pstyle5">June</p>
+		</div>
+		<div id="g-ai0-20" class="g-graphic g-aiAbs g-aiPointText" style="top:45.2769%;margin-top:-8.9px;right:89.2427%;width:48px;">
+			<p class="g-pstyle5">July</p>
+		</div>
+		<div id="g-ai0-21" class="g-graphic g-aiAbs g-aiPointText" style="top:54.0534%;margin-top:-8.9px;right:89.2783%;width:52px;">
+			<p class="g-pstyle5">Aug.</p>
+		</div>
+		<div id="g-ai0-22" class="g-graphic g-aiAbs g-aiPointText" style="top:60.8407%;margin-top:-8.9px;right:89.3404%;width:56px;">
+			<p class="g-pstyle7">Sept.</p>
+		</div>
+		<div id="g-ai0-23" class="g-graphic g-aiAbs g-aiPointText" style="top:69.6172%;margin-top:-8.9px;right:89.3523%;width:50px;">
+			<p class="g-pstyle5">Oct.</p>
+		</div>
+		<div id="g-ai0-24" class="g-graphic g-aiAbs g-aiPointText" style="top:76.5215%;margin-top:-8.9px;right:89.3314%;width:52px;">
+			<p class="g-pstyle5">Nov.</p>
+		</div>
+		<div id="g-ai0-25" class="g-graphic g-aiAbs g-aiPointText" style="top:84.4239%;margin-top:-54.4px;left:83.5773%;width:123px;">
+			<p class="g-pstyle6">The winter</p>
+			<p class="g-pstyle6">surge brought</p>
+			<p class="g-pstyle6">more deaths to</p>
+			<p class="g-pstyle6">places where</p>
+			<p class="g-pstyle6">more white </p>
+			<p class="g-pstyle6">Americans live.</p>
+		</div>
+		<div id="g-ai0-26" class="g-graphic g-aiAbs g-aiPointText" style="top:83.4257%;margin-top:-8.9px;right:89.2435%;width:53px;">
+			<p class="g-pstyle5">Dec.</p>
+		</div>
+		<div id="g-ai0-27" class="g-graphic g-aiAbs g-aiPointText" style="top:92.0853%;margin-top:-8.9px;right:89.3044%;width:70px;">
+			<p class="g-pstyle5">Jan. &rsquo;21</p>
+		</div>
+	</div>
+
+	<!-- Artboard: small -->
+	<div id="g-heatmap-small" class="g-artboard" style="width:378px; height:845.095860566447px;" data-aspect-ratio="0.447" data-min-width="378" data-max-width="697">
+<div style=""></div>
+		<img id="g-heatmap-small-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/heatmap_small.jpg"/>
+		<div id="g-ai1-1" class="g-graphic g-aiAbs g-aiPointText" style="top:2.1788%;margin-top:-13.4px;right:41.8927%;width:209px;">
+			<p class="g-pstyle0">Deaths per 100,000 per week:</p>
+		</div>
+		<div id="g-ai1-2" class="g-graphic g-aiAbs g-aiPointText" style="top:4.0686%;margin-top:-13.4px;left:60.66%;margin-left:-15px;width:30px;">
+			<p class="g-pstyle1">0</p>
+		</div>
+		<div id="g-ai1-3" class="g-graphic g-aiAbs g-aiPointText" style="top:4.0686%;margin-top:-13.4px;left:67.9047%;margin-left:-19.5px;width:39px;">
+			<p class="g-pstyle1">2.5</p>
+		</div>
+		<div id="g-ai1-4" class="g-graphic g-aiAbs g-aiPointText" style="top:4.0686%;margin-top:-13.4px;left:77.6096%;margin-left:-14.5px;width:29px;">
+			<p class="g-pstyle1">5</p>
+		</div>
+		<div id="g-ai1-5" class="g-graphic g-aiAbs g-aiPointText" style="top:4.0686%;margin-top:-13.4px;left:86.8572%;margin-left:-18.5px;width:37px;">
+			<p class="g-pstyle1">7.5</p>
+		</div>
+		<div id="g-ai1-6" class="g-graphic g-aiAbs g-aiPointText" style="top:4.0686%;margin-top:-13.4px;left:95.9395%;margin-left:-18px;width:36px;">
+			<p class="g-pstyle1">10</p>
+		</div>
+		<div id="g-ai1-7" class="g-graphic g-aiAbs g-aiPointText" style="top:7.871%;margin-top:-13.5px;left:15.7185%;width:155px;">
+			<p class="g-pstyle2">More white counties</p>
+		</div>
+		<div id="g-ai1-8" class="g-graphic g-aiAbs g-aiPointText" style="top:7.871%;margin-top:-13.5px;right:6.6866%;width:151px;">
+			<p class="g-pstyle3">Less white counties</p>
+		</div>
+		<div id="g-ai1-9" class="g-graphic g-aiAbs g-aiPointText" style="top:10.9317%;margin-top:-13.4px;left:54.5738%;margin-left:-85px;width:170px;">
+			<p class="g-pstyle1">Share of white population:</p>
+		</div>
+		<div id="g-ai1-10" class="g-graphic g-aiAbs g-aiPointText" style="top:13.18%;margin-top:-8.4px;left:21.3898%;margin-left:-25px;width:50px;">
+			<p class="g-pstyle4">95%</p>
+		</div>
+		<div id="g-ai1-11" class="g-graphic g-aiAbs g-aiPointText" style="top:13.18%;margin-top:-8.4px;left:38.3234%;margin-left:-24px;width:48px;">
+			<p class="g-pstyle4">91%</p>
+		</div>
+		<div id="g-ai1-12" class="g-graphic g-aiAbs g-aiPointText" style="top:13.18%;margin-top:-8.4px;left:55.0404%;margin-left:-25px;width:50px;">
+			<p class="g-pstyle4">84%</p>
+		</div>
+		<div id="g-ai1-13" class="g-graphic g-aiAbs g-aiPointText" style="top:13.18%;margin-top:-8.4px;left:72.2351%;margin-left:-25.5px;width:51px;">
+			<p class="g-pstyle4">69%</p>
+		</div>
+		<div id="g-ai1-14" class="g-graphic g-aiAbs g-aiPointText" style="top:13.18%;margin-top:-8.4px;left:89.3836%;margin-left:-25px;width:50px;">
+			<p class="g-pstyle4">45%</p>
+		</div>
+		<div id="g-ai1-15" class="g-graphic g-aiAbs g-aiPointText" style="top:16.5879%;margin-top:-16.2px;right:88.7956%;width:62px;">
+			<p class="g-pstyle5">March</p>
+			<p class="g-pstyle5">2020</p>
+		</div>
+		<div id="g-ai1-16" class="g-graphic g-aiAbs g-aiPointText" style="top:23.0013%;margin-top:-8.4px;right:88.8406%;width:51px;">
+			<p class="g-pstyle5">April</p>
+		</div>
+		<div id="g-ai1-17" class="g-graphic g-aiAbs g-aiPointText" style="top:31.8761%;margin-top:-8.4px;right:88.917%;width:48px;">
+			<p class="g-pstyle5">May</p>
+		</div>
+		<div id="g-ai1-18" class="g-graphic g-aiAbs g-aiPointText" style="top:42.4144%;margin-top:-54.4px;left:60.6456%;width:144px;">
+			<p class="g-pstyle6">The first surge </p>
+			<p class="g-pstyle6">in deaths in the</p>
+			<p class="g-pstyle6">spring occurred</p>
+			<p class="g-pstyle6">mostly in counties </p>
+			<p class="g-pstyle6">with a large share</p>
+			<p class="g-pstyle6">of minorities.</p>
+		</div>
+		<div id="g-ai1-19" class="g-graphic g-aiAbs g-aiPointText" style="top:38.8575%;margin-top:-8.4px;right:88.9734%;width:51px;">
+			<p class="g-pstyle5">June</p>
+		</div>
+		<div id="g-ai1-20" class="g-graphic g-aiAbs g-aiPointText" style="top:45.839%;margin-top:-8.4px;right:88.8388%;width:46px;">
+			<p class="g-pstyle5">July</p>
+		</div>
+		<div id="g-ai1-21" class="g-graphic g-aiAbs g-aiPointText" style="top:54.7137%;margin-top:-8.4px;right:88.8243%;width:50px;">
+			<p class="g-pstyle5">Aug.</p>
+		</div>
+		<div id="g-ai1-22" class="g-graphic g-aiAbs g-aiPointText" style="top:61.5768%;margin-top:-8.4px;right:88.7814%;width:56px;">
+			<p class="g-pstyle5">Sept.</p>
+		</div>
+		<div id="g-ai1-23" class="g-graphic g-aiAbs g-aiPointText" style="top:65.0154%;margin-top:-36.4px;left:17.2593%;width:127px;">
+			<p class="g-pstyle6">The winter</p>
+			<p class="g-pstyle6">surge brought</p>
+			<p class="g-pstyle6">more deaths to</p>
+			<p class="g-pstyle6">whiter counties.</p>
+		</div>
+		<div id="g-ai1-24" class="g-graphic g-aiAbs g-aiPointText" style="top:70.4516%;margin-top:-8.4px;right:88.9891%;width:48px;">
+			<p class="g-pstyle5">Oct.</p>
+		</div>
+		<div id="g-ai1-25" class="g-graphic g-aiAbs g-aiPointText" style="top:77.433%;margin-top:-8.4px;right:88.9155%;width:50px;">
+			<p class="g-pstyle5">Nov.</p>
+		</div>
+		<div id="g-ai1-26" class="g-graphic g-aiAbs g-aiPointText" style="top:84.4145%;margin-top:-8.4px;right:88.7458%;width:51px;">
+			<p class="g-pstyle5">Dec.</p>
+		</div>
+		<div id="g-ai1-27" class="g-graphic g-aiAbs g-aiPointText" style="top:94.0938%;margin-top:-16.2px;right:88.9214%;width:52px;">
+			<p class="g-pstyle5">Jan.</p>
+			<p class="g-pstyle5">2021</p>
+		</div>
+	</div>
+
+	<!-- Artboard: mobile -->
+	<div id="g-heatmap-mobile" class="g-artboard" style="width:286px; height:839.000000000003px;" data-aspect-ratio="0.341" data-min-width="286" data-max-width="377">
+<div style=""></div>
+		<img id="g-heatmap-mobile-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/heatmap_mobile.jpg"/>
+		<div id="g-ai2-1" class="g-graphic g-aiAbs g-aiPointText" style="top:1.8335%;margin-top:-13.4px;left:14.7625%;width:195px;">
+			<p class="g-pstyle0">Deaths per 100,000 per week:</p>
+		</div>
+		<div id="g-ai2-2" class="g-graphic g-aiAbs g-aiPointText" style="top:5.886%;margin-top:-13.4px;left:15.1381%;margin-left:-15px;width:30px;">
+			<p class="g-pstyle1">0</p>
+		</div>
+		<div id="g-ai2-3" class="g-graphic g-aiAbs g-aiPointText" style="top:5.886%;margin-top:-13.4px;left:24.7132%;margin-left:-19.5px;width:39px;">
+			<p class="g-pstyle1">2.5</p>
+		</div>
+		<div id="g-ai2-4" class="g-graphic g-aiAbs g-aiPointText" style="top:5.886%;margin-top:-13.4px;left:37.54%;margin-left:-14.5px;width:29px;">
+			<p class="g-pstyle1">5</p>
+		</div>
+		<div id="g-ai2-5" class="g-graphic g-aiAbs g-aiPointText" style="top:5.886%;margin-top:-13.4px;left:49.7623%;margin-left:-18.5px;width:37px;">
+			<p class="g-pstyle1">7.5</p>
+		</div>
+		<div id="g-ai2-6" class="g-graphic g-aiAbs g-aiPointText" style="top:5.886%;margin-top:-13.4px;left:61.7662%;margin-left:-18px;width:36px;">
+			<p class="g-pstyle1">10</p>
+		</div>
+		<div id="g-ai2-7" class="g-graphic g-aiAbs g-aiPointText" style="top:8.7625%;margin-top:-13.5px;left:20.7748%;width:96px;">
+			<p class="g-pstyle2">More white</p>
+		</div>
+		<div id="g-ai2-8" class="g-graphic g-aiAbs g-aiPointText" style="top:8.7625%;margin-top:-13.5px;right:8.6282%;width:120px;">
+			<p class="g-pstyle3">More nonwhite</p>
+		</div>
+		<div id="g-ai2-9" class="g-graphic g-aiAbs g-aiPointText" style="top:11.0076%;margin-top:-13.4px;left:55.4401%;margin-left:-78px;width:156px;">
+			<p class="g-pstyle4">Share of white population</p>
+		</div>
+		<div id="g-ai2-10" class="g-graphic g-aiAbs g-aiPointText" style="top:13.3914%;margin-top:-13.4px;left:23.4686%;margin-left:-22.5px;width:45px;">
+			<p class="g-pstyle4">95%</p>
+		</div>
+		<div id="g-ai2-11" class="g-graphic g-aiAbs g-aiPointText" style="top:13.3914%;margin-top:-13.4px;left:40.2392%;margin-left:-22px;width:44px;">
+			<p class="g-pstyle4">91%</p>
+		</div>
+		<div id="g-ai2-12" class="g-graphic g-aiAbs g-aiPointText" style="top:13.3914%;margin-top:-13.4px;left:56.503%;margin-left:-22.5px;width:45px;">
+			<p class="g-pstyle4">84%</p>
+		</div>
+		<div id="g-ai2-13" class="g-graphic g-aiAbs g-aiPointText" style="top:13.3914%;margin-top:-13.4px;left:73.3999%;margin-left:-23px;width:46px;">
+			<p class="g-pstyle4">69%</p>
+		</div>
+		<div id="g-ai2-14" class="g-graphic g-aiAbs g-aiPointText" style="top:13.3914%;margin-top:-13.4px;left:90.2405%;margin-left:-22.5px;width:45px;">
+			<p class="g-pstyle4">45%</p>
+		</div>
+		<div id="g-ai2-15" class="g-graphic g-aiAbs g-aiPointText" style="top:16.7525%;margin-top:-14.6px;right:86.3752%;width:59px;">
+			<p class="g-pstyle5">March</p>
+			<p class="g-pstyle5">2020</p>
+		</div>
+		<div id="g-ai2-16" class="g-graphic g-aiAbs g-aiPointText" style="top:23.1649%;margin-top:-7.4px;right:86.3766%;width:49px;">
+			<p class="g-pstyle5">April</p>
+		</div>
+		<div id="g-ai2-17" class="g-graphic g-aiAbs g-aiPointText" style="top:32.1042%;margin-top:-7.4px;right:86.5504%;width:46px;">
+			<p class="g-pstyle5">May</p>
+		</div>
+		<div id="g-ai2-18" class="g-graphic g-aiAbs g-aiPointText" style="top:42.961%;margin-top:-54.4px;left:48.43%;width:144px;">
+			<p class="g-pstyle6">The first surge </p>
+			<p class="g-pstyle6">in deaths in the</p>
+			<p class="g-pstyle6">spring occurred</p>
+			<p class="g-pstyle6">mostly in counties </p>
+			<p class="g-pstyle6">with a large share</p>
+			<p class="g-pstyle6">of minorities.</p>
+		</div>
+		<div id="g-ai2-19" class="g-graphic g-aiAbs g-aiPointText" style="top:39.1364%;margin-top:-7.4px;right:86.5385%;width:49px;">
+			<p class="g-pstyle5">June</p>
+		</div>
+		<div id="g-ai2-20" class="g-graphic g-aiAbs g-aiPointText" style="top:46.2877%;margin-top:-7.4px;right:86.5084%;width:44px;">
+			<p class="g-pstyle5">July</p>
+		</div>
+		<div id="g-ai2-21" class="g-graphic g-aiAbs g-aiPointText" style="top:55.1077%;margin-top:-7.4px;right:86.3831%;width:48px;">
+			<p class="g-pstyle5">Aug.</p>
+		</div>
+		<div id="g-ai2-22" class="g-graphic g-aiAbs g-aiPointText" style="top:62.0207%;margin-top:-7.4px;right:86.5193%;width:53px;">
+			<p class="g-pstyle5">Sept.</p>
+		</div>
+		<div id="g-ai2-23" class="g-graphic g-aiAbs g-aiPointText" style="top:65.7261%;margin-top:-36.4px;left:19.0594%;width:127px;">
+			<p class="g-pstyle6">The winter</p>
+			<p class="g-pstyle6">surge brought</p>
+			<p class="g-pstyle6">more deaths to</p>
+			<p class="g-pstyle6">whiter counties.</p>
+		</div>
+		<div id="g-ai2-24" class="g-graphic g-aiAbs g-aiPointText" style="top:70.96%;margin-top:-7.4px;right:86.6378%;width:46px;">
+			<p class="g-pstyle5">Oct.</p>
+		</div>
+		<div id="g-ai2-25" class="g-graphic g-aiAbs g-aiPointText" style="top:78.1113%;margin-top:-7.4px;right:86.4948%;width:48px;">
+			<p class="g-pstyle5">Nov.</p>
+		</div>
+		<div id="g-ai2-26" class="g-graphic g-aiAbs g-aiPointText" style="top:85.0243%;margin-top:-7.4px;right:86.6102%;width:48px;">
+			<p class="g-pstyle5">Dec.</p>
+		</div>
+		<div id="g-ai2-27" class="g-graphic g-aiAbs g-aiPointText" style="top:94.7025%;margin-top:-14.6px;right:86.448%;width:50px;">
+			<p class="g-pstyle5">Jan.</p>
+			<p class="g-pstyle5">2021</p>
+		</div>
+	</div>
+
+	<!-- Artboard: sol -->
+	<div id="g-heatmap-sol" class="g-artboard" style="max-width: 150px;max-height: 285px" data-aspect-ratio="0.526" data-min-width="0" data-max-width="285">
+<div style="padding: 0 0 190% 0;"></div>
+		<img id="g-heatmap-sol-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/heatmap_sol.png"/>
+		<div id="g-ai3-1" class="g-graphic g-aiAbs g-aiPointText" style="top:24.1193%;margin-top:-48.7px;left:11.3555%;width:137px;">
+			<p class="g-pstyle0">Your screen </p>
+			<p class="g-pstyle0">is too small </p>
+			<p class="g-pstyle0">to view </p>
+			<p class="g-pstyle0">this graphic</p>
+		</div>
+	</div>
+
+</div>
+
+<!-- End ai2html - 2021-02-14 13:54 -->
+
+                    </figure>
+                </section>
+                    
+        
+            <section class="m-section l-river">
+            <p id="nS1Tol">Experts attribute the change to the evolving geography of the virus — a result of the failure by states and the federal government to curtail transmission.</p><p id="w10H3P">At the start of the US outbreak, coronavirus cases — and deaths — were concentrated in a few cities, which have large numbers of people of color who are more likely to do essential work. “The impact of Covid-19 was limited to New York, and to a lesser extent Detroit and New Orleans,” said Dartmouth health economist Jonathan Skinner, “and in particular among people who had to commute by public transportation to service-sector jobs.”  </p><p id="GBNwVL">Many Black and Hispanic people soon contracted the virus and died at very high rates — an estimated 118,000 in 2020 overall.</p><p id="pAQgIV">By October, some of the most sparsely populated areas of the country — Wyoming, the Dakotas, Nebraska — were grappling with America’s worst outbreaks. The relative share of deaths among white people started rising. </p><p id="loNDJW">“The politics of 2020 led governors in [these] parts of the country to be less aggressive in dealing with the virus or actively discourage public health safeguards,” Woolf said. </p><p id="lYdIuW">At the same time, more states <a href="http://tinyurl.com/statepolicies">adopted face-mask orders</a> and other safety measures. Mask mandates helped <a href="https://www.vox.com/science-and-health/21546014/mask-mandates-coronavirus-covid-19">bring case numbers down</a>, and may have saved the lives of some essential workers.</p><p id="yryWLr">The result: In August, Black people died at <a href="https://covidtracking.com/race">2.5 times</a> the rate of white people. By November, the rate was 2.2. In early February, it was 1.5.</p><p id="EASI97">But minorities were disproportionately affected by the virus in every month of 2020. They were also much more likely to die young. </p>
+            </section>
+        
+
+                    <section class="m-section slides set-4">
+                    <div class='slides-graphic'>
+                                                    <div class="ai2html-insert">
+                                
+<!-- Generated by ai2html v0.101.0 - 2021-02-14 16:14 -->
+<!-- ai file: race-by-age.ai -->
+<style media="screen,print">
+	#g-race-by-age-box ,
+	#g-race-by-age-box .g-artboard {
+		margin:0 auto;
+	}
+	#g-race-by-age-box p {
+		margin:0;
+	}
+	#g-race-by-age-box .g-aiAbs {
+		position:absolute;
+	}
+	#g-race-by-age-box .g-aiImg {
+		position:absolute;
+		top:0;
+		display:block;
+		width:100% !important;
+	}
+	#g-race-by-age-box .g-aiSymbol {
+		position: absolute;
+		box-sizing: border-box;
+	}
+	#g-race-by-age-box .g-aiPointText p { white-space: nowrap; }
+	#g-race-by-age-medium {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-race-by-age-medium p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:400;
+		line-height:18px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:15px;
+		text-align:left;
+		color:rgb(196,196,196);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-race-by-age-medium .g-pstyle0 {
+		font-weight:600;
+		line-height:26px;
+		height:26px;
+		font-size:18px;
+	}
+	#g-race-by-age-medium .g-pstyle1 {
+		height:18px;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-medium .g-pstyle2 {
+		height:18px;
+	}
+	#g-race-by-age-medium .g-pstyle3 {
+		height:18px;
+		font-size:16px;
+		color:rgb(176,90,159);
+	}
+	#g-race-by-age-medium .g-pstyle4 {
+		font-weight:600;
+		height:18px;
+		color:rgb(176,90,159);
+	}
+	#g-race-by-age-medium .g-pstyle5 {
+		line-height:19px;
+		height:19px;
+		font-size:16px;
+		text-align:center;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-medium .g-pstyle6 {
+		font-weight:600;
+		line-height:19px;
+		height:19px;
+		font-size:16px;
+		text-align:center;
+		color:rgb(176,90,159);
+	}
+	#g-race-by-age-medium .g-pstyle7 {
+		font-weight:600;
+		height:18px;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-medium .g-pstyle8 {
+		font-weight:600;
+		line-height:19px;
+		height:19px;
+		font-size:16px;
+		text-align:center;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-medium .g-pstyle9 {
+		height:18px;
+		text-align:center;
+	}
+	#g-race-by-age-medium .g-pstyle10 {
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		color:rgb(153,153,153);
+	}
+	#g-race-by-age-small {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-race-by-age-small p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:400;
+		line-height:16px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:13px;
+		text-align:left;
+		color:rgb(150,150,150);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-race-by-age-small .g-pstyle0 {
+		line-height:18px;
+		height:18px;
+		font-size:14px;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-small .g-pstyle1 {
+		line-height:18px;
+		height:18px;
+		font-size:14px;
+		color:rgb(176,90,159);
+	}
+	#g-race-by-age-small .g-pstyle2 {
+		font-weight:600;
+		line-height:19px;
+		height:19px;
+		font-size:15px;
+		color:rgb(196,196,196);
+	}
+	#g-race-by-age-small .g-pstyle3 {
+		height:16px;
+	}
+	#g-race-by-age-small .g-pstyle4 {
+		font-weight:600;
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		color:rgb(176,90,159);
+	}
+	#g-race-by-age-small .g-pstyle5 {
+		line-height:19px;
+		height:19px;
+		font-size:16px;
+		text-align:center;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-small .g-pstyle6 {
+		font-weight:600;
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		text-align:center;
+		color:rgb(176,90,159);
+	}
+	#g-race-by-age-small .g-pstyle7 {
+		font-weight:600;
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		text-align:center;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-small .g-pstyle8 {
+		font-weight:600;
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-small .g-pstyle9 {
+		height:16px;
+		text-align:center;
+	}
+	#g-race-by-age-small .g-pstyle10 {
+		line-height:19px;
+		height:19px;
+		font-size:16px;
+		text-align:center;
+		color:rgb(240,240,240);
+	}
+	#g-race-by-age-small .g-pstyle11 {
+		line-height:14px;
+		height:14px;
+		font-size:12px;
+		color:rgb(153,153,153);
+	}
+	#g-race-by-age-mobile {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-race-by-age-mobile p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:600;
+		line-height:15px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:13px;
+		text-align:left;
+		color:rgb(176,90,159);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-race-by-age-mobile .g-pstyle0 {
+		font-weight:400;
+		line-height:18px;
+		height:18px;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-mobile .g-pstyle1 {
+		font-weight:400;
+		line-height:18px;
+		height:18px;
+	}
+	#g-race-by-age-mobile .g-pstyle2 {
+		height:15px;
+		font-size:14px;
+		color:rgb(196,196,196);
+	}
+	#g-race-by-age-mobile .g-pstyle3 {
+		font-weight:400;
+		line-height:14px;
+		height:14px;
+		font-size:12px;
+		color:rgb(150,150,150);
+	}
+	#g-race-by-age-mobile .g-pstyle4 {
+		height:15px;
+	}
+	#g-race-by-age-mobile .g-pstyle5 {
+		font-weight:400;
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		text-align:center;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-mobile .g-pstyle6 {
+		line-height:16px;
+		height:16px;
+		text-align:center;
+	}
+	#g-race-by-age-mobile .g-pstyle7 {
+		line-height:16px;
+		height:16px;
+		text-align:center;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-mobile .g-pstyle8 {
+		height:15px;
+		color:rgb(239,239,239);
+	}
+	#g-race-by-age-mobile .g-pstyle9 {
+		font-weight:400;
+		line-height:14px;
+		height:14px;
+		font-size:12px;
+		text-align:center;
+		color:rgb(150,150,150);
+	}
+	#g-race-by-age-mobile .g-pstyle10 {
+		font-weight:400;
+		line-height:14px;
+		height:14px;
+		font-size:12px;
+		color:rgb(153,153,153);
+	}
+	#g-race-by-age-sol {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-race-by-age-sol p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:600;
+		line-height:24px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:20px;
+		text-align:left;
+		color:rgb(156,156,156);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-race-by-age-sol .g-pstyle0 {
+		height:24px;
+	}
+
+</style>
+
+<div id="g-race-by-age-box" class="ai2html">
+
+	<!-- Artboard: medium -->
+	<div id="g-race-by-age-medium" class="g-artboard" style="width:587px; height:624.547884399427px;" data-aspect-ratio="0.94" data-min-width="587">
+<div style=""></div>
+		<img id="g-race-by-age-medium-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/race_by_age_medium.png"/>
+		<div id="g-ai0-1" class="g-graphic g-aiAbs g-aiPointText" style="top:2.6685%;margin-top:-13.7px;left:1.455%;width:95px;">
+			<p class="g-pstyle0">Hispanic</p>
+		</div>
+		<div id="g-ai0-2" class="g-graphic g-aiAbs g-aiPointText" style="top:2.6685%;margin-top:-13.7px;left:57.0698%;width:69px;">
+			<p class="g-pstyle0">Black</p>
+		</div>
+		<div id="g-ai0-3" class="g-graphic g-aiAbs g-aiPointText" style="top:3.4333%;margin-top:-9.4px;left:77.1125%;width:132px;">
+			<p class="g-pstyle1">Population share</p>
+		</div>
+		<div id="g-ai0-4" class="g-graphic g-aiAbs g-aiPointText" style="top:6.7957%;margin-top:-9.4px;left:1.455%;width:55px;">
+			<p class="g-pstyle2">80%</p>
+		</div>
+		<div id="g-ai0-5" class="g-graphic g-aiAbs g-aiPointText" style="top:7.2807%;margin-top:-9.5px;left:77.1125%;width:106px;">
+			<p class="g-pstyle3">Death share</p>
+		</div>
+		<div id="g-ai0-6" class="g-white-layer g-aiAbs g-aiPointText" style="top:12.0976%;margin-top:-18.6px;left:18.5109%;width:220px;">
+			<p class="g-pstyle4">46% of Americans age </p>
+			<p class="g-pstyle4">35-44 who died are Hispanic</p>
+		</div>
+		<div id="g-ai0-7" class="g-graphic g-aiAbs g-aiPointText" style="top:14.3211%;margin-top:-9.4px;left:1.455%;width:42px;">
+			<p class="g-pstyle2">60</p>
+		</div>
+		<div id="g-ai0-8" class="g-white-layer g-aiAbs g-aiPointText" style="top:17.7683%;margin-top:-10px;left:19.5729%;margin-left:-17px;width:34px;">
+			<p class="g-pstyle5">&darr;</p>
+		</div>
+		<div id="g-ai0-9" class="g-graphic g-aiAbs g-aiPointText" style="top:21.8466%;margin-top:-9.4px;left:1.455%;width:42px;">
+			<p class="g-pstyle2">40</p>
+		</div>
+		<div id="g-ai0-10" class="g-white-layer g-aiAbs g-aiPointText" style="top:25.4731%;margin-top:-10.1px;left:70.8702%;margin-left:-27px;width:54px;">
+			<p class="g-pstyle6">25%</p>
+		</div>
+		<div id="g-ai0-11" class="g-graphic g-aiAbs g-aiPointText" style="top:29.372%;margin-top:-9.4px;left:1.455%;width:41px;">
+			<p class="g-pstyle2">20</p>
+		</div>
+		<div id="g-ai0-12" class="g-white-layer g-aiAbs g-aiPointText" style="top:31.6984%;margin-top:-10px;left:19.5729%;margin-left:-17px;width:34px;">
+			<p class="g-pstyle5">&uarr;</p>
+		</div>
+		<div id="g-ai0-13" class="g-white-layer g-aiAbs g-aiPointText" style="top:35.9548%;margin-top:-18.6px;left:5.734%;width:182px;">
+			<p class="g-pstyle7">21% of Americans </p>
+			<p class="g-pstyle7">age 35-44 are Hispanic</p>
+		</div>
+		<div id="g-ai0-14" class="g-white-layer g-aiAbs g-aiPointText" style="top:34.5997%;margin-top:-10.1px;left:70.8865%;margin-left:-26.5px;width:53px;">
+			<p class="g-pstyle8">13%</p>
+		</div>
+		<div id="g-ai0-15" class="g-graphic g-aiAbs g-aiPointText" style="top:36.8975%;margin-top:-9.4px;left:2.6901%;width:32px;">
+			<p class="g-pstyle2">0</p>
+		</div>
+		<div id="g-ai0-16" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:42.8218%;margin-top:-9.4px;left:11.8673%;margin-left:-28px;width:56px;">
+			<p class="g-pstyle9">0-24</p>
+		</div>
+		<div id="g-ai0-17" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:16.1258%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">25-34</p>
+		</div>
+		<div id="g-ai0-18" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:20.2822%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">35-44</p>
+		</div>
+		<div id="g-ai0-19" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:24.5506%;margin-left:-32.5px;width:65px;">
+			<p class="g-pstyle9">45-54</p>
+		</div>
+		<div id="g-ai0-20" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.6223%;margin-top:-9.4px;left:28.7113%;margin-left:-32.5px;width:65px;">
+			<p class="g-pstyle9">55-64</p>
+		</div>
+		<div id="g-ai0-21" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:32.9321%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">65-74</p>
+		</div>
+		<div id="g-ai0-22" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:37.1604%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">75-84</p>
+		</div>
+		<div id="g-ai0-23" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:42.3414%;margin-top:-9.4px;left:41.3537%;margin-left:-25px;width:50px;">
+			<p class="g-pstyle9">85+</p>
+		</div>
+		<div id="g-ai0-24" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:42.8218%;margin-top:-9.4px;left:62.9746%;margin-left:-28px;width:56px;">
+			<p class="g-pstyle9">0-24</p>
+		</div>
+		<div id="g-ai0-25" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:67.2331%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">25-34</p>
+		</div>
+		<div id="g-ai0-26" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:71.3895%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">35-44</p>
+		</div>
+		<div id="g-ai0-27" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:75.658%;margin-left:-32.5px;width:65px;">
+			<p class="g-pstyle9">45-54</p>
+		</div>
+		<div id="g-ai0-28" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.6223%;margin-top:-9.4px;left:79.8186%;margin-left:-32.5px;width:65px;">
+			<p class="g-pstyle9">55-64</p>
+		</div>
+		<div id="g-ai0-29" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:84.0394%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">65-74</p>
+		</div>
+		<div id="g-ai0-30" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:43.4622%;margin-top:-9.4px;left:88.2678%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">75-84</p>
+		</div>
+		<div id="g-ai0-31" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:42.3414%;margin-top:-9.4px;left:92.461%;margin-left:-25px;width:50px;">
+			<p class="g-pstyle9">85+</p>
+		</div>
+		<div id="g-ai0-32" class="g-graphic g-aiAbs g-aiPointText" style="top:50.7032%;margin-top:-13.7px;left:1.455%;width:72px;">
+			<p class="g-pstyle0">White</p>
+		</div>
+		<div id="g-ai0-33" class="g-graphic g-aiAbs g-aiPointText" style="top:54.8304%;margin-top:-9.4px;left:1.455%;width:55px;">
+			<p class="g-pstyle2">80%</p>
+		</div>
+		<div id="g-ai0-34" class="g-black-layer g-aiAbs g-aiPointText" style="top:58.2109%;margin-top:-27.6px;left:7.8053%;width:151px;">
+			<p class="g-pstyle7">57% of Americans </p>
+			<p class="g-pstyle7">age 35-44 are</p>
+			<p class="g-pstyle7">white</p>
+		</div>
+		<div id="g-ai0-35" class="g-black-layer g-aiAbs g-aiPointText" style="top:61.4799%;margin-top:-10px;left:20.084%;margin-left:-17px;width:34px;">
+			<p class="g-pstyle5">&darr;</p>
+		</div>
+		<div id="g-ai0-36" class="g-graphic g-aiAbs g-aiPointText" style="top:62.3559%;margin-top:-9.4px;left:1.455%;width:42px;">
+			<p class="g-pstyle2">60</p>
+		</div>
+		<div id="g-ai0-37" class="g-graphic g-aiAbs g-aiPointText" style="top:69.8813%;margin-top:-9.4px;left:1.455%;width:42px;">
+			<p class="g-pstyle2">40</p>
+		</div>
+		<div id="g-ai0-38" class="g-graphic g-aiAbs g-aiPointText" style="top:77.4068%;margin-top:-9.4px;left:1.455%;width:41px;">
+			<p class="g-pstyle2">20</p>
+		</div>
+		<div id="g-ai0-39" class="g-black-layer g-aiAbs g-aiPointText" style="transform: matrix(0.7071,-0.7071,0.7071,0.7071,0,0);transform-origin: 50% 55.0142003721477%;-webkit-transform: matrix(0.7071,-0.7071,0.7071,0.7071,0,0);-webkit-transform-origin: 50% 55.0142003721477%;-ms-transform: matrix(0.7071,-0.7071,0.7071,0.7071,0,0);-ms-transform-origin: 50% 55.0142003721477%;top:78.7725%;margin-top:-10px;left:21.7741%;margin-left:-17px;width:34px;">
+			<p class="g-pstyle5">&uarr;</p>
+		</div>
+		<div id="g-ai0-40" class="g-black-layer g-aiAbs g-aiPointText" style="top:80.9474%;margin-top:-18.6px;left:23.3079%;width:199px;">
+			<p class="g-pstyle4">20% of Americans age </p>
+			<p class="g-pstyle4">35-44 who died are white</p>
+		</div>
+		<div id="g-ai0-41" class="g-graphic g-aiAbs g-aiPointText" style="top:84.9322%;margin-top:-9.4px;left:2.6901%;width:32px;">
+			<p class="g-pstyle2">0</p>
+		</div>
+		<div id="g-ai0-42" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:89.0952%;margin-top:-9.4px;left:11.8673%;margin-left:-28px;width:56px;">
+			<p class="g-pstyle9">0-24</p>
+		</div>
+		<div id="g-ai0-43" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:89.7357%;margin-top:-9.4px;left:16.1257%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">25-34</p>
+		</div>
+		<div id="g-ai0-44" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:89.7357%;margin-top:-9.4px;left:20.2821%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">35-44</p>
+		</div>
+		<div id="g-ai0-45" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:89.7357%;margin-top:-9.4px;left:24.5506%;margin-left:-32.5px;width:65px;">
+			<p class="g-pstyle9">45-54</p>
+		</div>
+		<div id="g-ai0-46" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:89.8958%;margin-top:-9.4px;left:28.7113%;margin-left:-32.5px;width:65px;">
+			<p class="g-pstyle9">55-64</p>
+		</div>
+		<div id="g-ai0-47" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:89.7357%;margin-top:-9.4px;left:32.932%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">65-74</p>
+		</div>
+		<div id="g-ai0-48" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:89.7357%;margin-top:-9.4px;left:37.1604%;margin-left:-32px;width:64px;">
+			<p class="g-pstyle9">75-84</p>
+		</div>
+		<div id="g-ai0-49" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.2952735546592%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.2952735546592%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.2952735546592%;top:88.6149%;margin-top:-9.4px;left:41.3537%;margin-left:-25px;width:50px;">
+			<p class="g-pstyle9">85+</p>
+		</div>
+		<div id="g-ai0-50" class="g-graphic g-aiAbs g-aiPointText" style="top:97.6567%;margin-top:-8.9px;left:1.4672%;width:316px;">
+			<p class="g-pstyle10">Black and white population data is non-Hispanic.</p>
+		</div>
+	</div>
+
+	<!-- Artboard: small -->
+	<div id="g-race-by-age-small" class="g-artboard" style="width:378px; height:499.095860566449px;" data-aspect-ratio="0.757" data-min-width="378" data-max-width="586">
+<div style=""></div>
+		<img id="g-race-by-age-small-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/race_by_age_small.png"/>
+		<div id="g-ai1-1" class="g-graphic g-aiAbs g-aiPointText" style="top:1.886%;margin-top:-9.4px;left:30.9953%;width:124px;">
+			<p class="g-pstyle0">Population share</p>
+		</div>
+		<div id="g-ai1-2" class="g-graphic g-aiAbs g-aiPointText" style="top:1.886%;margin-top:-9.4px;left:4.5402%;width:96px;">
+			<p class="g-pstyle1">Death share</p>
+		</div>
+		<div id="g-ai1-3" class="g-graphic g-aiAbs g-aiPointText" style="top:6.4226%;margin-top:-10.1px;left:0.4077%;width:83px;">
+			<p class="g-pstyle2">Hispanic</p>
+		</div>
+		<div id="g-ai1-4" class="g-graphic g-aiAbs g-aiPointText" style="top:6.4226%;margin-top:-10.1px;left:57.9401%;width:62px;">
+			<p class="g-pstyle2">Black</p>
+		</div>
+		<div id="g-ai1-5" class="g-graphic g-aiAbs g-aiPointText" style="top:10.8964%;margin-top:-8.4px;left:0.4077%;width:51px;">
+			<p class="g-pstyle3">80%</p>
+		</div>
+		<div id="g-ai1-6" class="g-white-layer g-aiAbs g-aiPointText" style="top:14.9105%;margin-top:-17.4px;left:11.9288%;width:207px;">
+			<p class="g-pstyle4">46% of Americans age </p>
+			<p class="g-pstyle4">35-44 who died are Hispanic</p>
+		</div>
+		<div id="g-ai1-7" class="g-graphic g-aiAbs g-aiPointText" style="top:17.909%;margin-top:-8.4px;left:0.4077%;width:39px;">
+			<p class="g-pstyle3">60</p>
+		</div>
+		<div id="g-ai1-8" class="g-white-layer g-aiAbs g-aiPointText" style="top:20.4313%;margin-top:-10px;left:21.4002%;margin-left:-17px;width:34px;">
+			<p class="g-pstyle5">&darr;</p>
+		</div>
+		<div id="g-ai1-9" class="g-graphic g-aiAbs g-aiPointText" style="top:24.9217%;margin-top:-8.4px;left:0.4077%;width:39px;">
+			<p class="g-pstyle3">40</p>
+		</div>
+		<div id="g-ai1-10" class="g-white-layer g-aiAbs g-aiPointText" style="top:28.0543%;margin-top:-9px;left:70.2252%;margin-left:-25px;width:50px;">
+			<p class="g-pstyle6">25%</p>
+		</div>
+		<div id="g-ai1-11" class="g-graphic g-aiAbs g-aiPointText" style="top:31.9344%;margin-top:-8.4px;left:0.4077%;width:39px;">
+			<p class="g-pstyle3">20</p>
+		</div>
+		<div id="g-ai1-12" class="g-white-layer g-aiAbs g-aiPointText" style="top:34.2563%;margin-top:-10px;left:21.4002%;margin-left:-17px;width:34px;">
+			<p class="g-pstyle5">&uarr;</p>
+		</div>
+		<div id="g-ai1-13" class="g-white-layer g-aiAbs g-aiPointText" style="top:37.271%;margin-top:-9px;left:70.2234%;margin-left:-24.5px;width:49px;">
+			<p class="g-pstyle7">13%</p>
+		</div>
+		<div id="g-ai1-14" class="g-white-layer g-aiAbs g-aiPointText" style="top:39.5551%;margin-top:-17.4px;left:6.5561%;width:171px;">
+			<p class="g-pstyle8">21% of Americans</p>
+			<p class="g-pstyle8">age 35-44 are Hispanic</p>
+		</div>
+		<div id="g-ai1-15" class="g-graphic g-aiAbs g-aiPointText" style="top:38.9471%;margin-top:-8.4px;left:1.8382%;width:31px;">
+			<p class="g-pstyle3">0</p>
+		</div>
+		<div id="g-ai1-16" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.1601%;margin-top:-8.4px;left:11.5152%;margin-left:-26px;width:52px;">
+			<p class="g-pstyle9">0-24</p>
+		</div>
+		<div id="g-ai1-17" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:16.3334%;margin-left:-29px;width:58px;">
+			<p class="g-pstyle9">25-34</p>
+		</div>
+		<div id="g-ai1-18" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:21.2705%;margin-left:-29.5px;width:59px;">
+			<p class="g-pstyle9">35-44</p>
+		</div>
+		<div id="g-ai1-19" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:26.1117%;margin-left:-29.5px;width:59px;">
+			<p class="g-pstyle9">45-54</p>
+		</div>
+		<div id="g-ai1-20" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.9616%;margin-top:-8.4px;left:30.9219%;margin-left:-29.5px;width:59px;">
+			<p class="g-pstyle9">55-64</p>
+		</div>
+		<div id="g-ai1-21" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:35.7959%;margin-left:-29px;width:58px;">
+			<p class="g-pstyle9">65-74</p>
+		</div>
+		<div id="g-ai1-22" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:40.6976%;margin-left:-29px;width:58px;">
+			<p class="g-pstyle9">75-84</p>
+		</div>
+		<div id="g-ai1-23" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:45.559%;margin-top:-8.4px;left:45.5693%;margin-left:-23px;width:46px;">
+			<p class="g-pstyle9">85+</p>
+		</div>
+		<div id="g-ai1-24" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.1601%;margin-top:-8.4px;left:60.9861%;margin-left:-26px;width:52px;">
+			<p class="g-pstyle9">0-24</p>
+		</div>
+		<div id="g-ai1-25" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:65.8043%;margin-left:-29px;width:58px;">
+			<p class="g-pstyle9">25-34</p>
+		</div>
+		<div id="g-ai1-26" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:70.7414%;margin-left:-29.5px;width:59px;">
+			<p class="g-pstyle9">35-44</p>
+		</div>
+		<div id="g-ai1-27" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:75.5826%;margin-left:-29.5px;width:59px;">
+			<p class="g-pstyle9">45-54</p>
+		</div>
+		<div id="g-ai1-28" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.9616%;margin-top:-8.4px;left:80.3928%;margin-left:-29.5px;width:59px;">
+			<p class="g-pstyle9">55-64</p>
+		</div>
+		<div id="g-ai1-29" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:85.2668%;margin-left:-29px;width:58px;">
+			<p class="g-pstyle9">65-74</p>
+		</div>
+		<div id="g-ai1-30" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:46.7612%;margin-top:-8.4px;left:90.1685%;margin-left:-29px;width:58px;">
+			<p class="g-pstyle9">75-84</p>
+		</div>
+		<div id="g-ai1-31" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:45.559%;margin-top:-8.4px;left:95.0402%;margin-left:-23px;width:46px;">
+			<p class="g-pstyle9">85+</p>
+		</div>
+		<div id="g-ai1-32" class="g-graphic g-aiAbs g-aiPointText" style="top:52.9067%;margin-top:-10.1px;left:0.4077%;width:64px;">
+			<p class="g-pstyle2">White</p>
+		</div>
+		<div id="g-ai1-33" class="g-black-layer g-aiAbs g-aiPointText" style="top:59.8718%;margin-top:-25.8px;left:8.0551%;width:142px;">
+			<p class="g-pstyle8">57% of Americans </p>
+			<p class="g-pstyle8">age 35-44 are </p>
+			<p class="g-pstyle8">white</p>
+		</div>
+		<div id="g-ai1-34" class="g-graphic g-aiAbs g-aiPointText" style="top:57.1801%;margin-top:-8.4px;left:0.4077%;width:51px;">
+			<p class="g-pstyle3">80%</p>
+		</div>
+		<div id="g-ai1-35" class="g-black-layer g-aiAbs g-aiPointText" style="top:63.1085%;margin-top:-10px;left:26.5527%;margin-left:-17px;width:34px;">
+			<p class="g-pstyle10">&darr;</p>
+		</div>
+		<div id="g-ai1-36" class="g-graphic g-aiAbs g-aiPointText" style="top:64.1927%;margin-top:-8.4px;left:0.4077%;width:39px;">
+			<p class="g-pstyle3">60</p>
+		</div>
+		<div id="g-ai1-37" class="g-graphic g-aiAbs g-aiPointText" style="top:71.2054%;margin-top:-8.4px;left:0.4077%;width:39px;">
+			<p class="g-pstyle3">40</p>
+		</div>
+		<div id="g-ai1-38" class="g-graphic g-aiAbs g-aiPointText" style="top:78.2181%;margin-top:-8.4px;left:0.4077%;width:39px;">
+			<p class="g-pstyle3">20</p>
+		</div>
+		<div id="g-ai1-39" class="g-black-layer g-aiAbs g-aiPointText" style="transform: matrix(0.7071,-0.7071,0.7071,0.7071,0,0);transform-origin: 50% 55.0142003721477%;-webkit-transform: matrix(0.7071,-0.7071,0.7071,0.7071,0,0);-webkit-transform-origin: 50% 55.0142003721477%;-ms-transform: matrix(0.7071,-0.7071,0.7071,0.7071,0,0);-ms-transform-origin: 50% 55.0142003721477%;top:79.9389%;margin-top:-10px;left:29.1773%;margin-left:-17px;width:34px;">
+			<p class="g-pstyle10">&uarr;</p>
+		</div>
+		<div id="g-ai1-40" class="g-black-layer g-aiAbs g-aiPointText" style="top:82.0317%;margin-top:-17.4px;left:31.3355%;width:187px;">
+			<p class="g-pstyle4">20% of Americans age </p>
+			<p class="g-pstyle4">35-44 who died are white</p>
+		</div>
+		<div id="g-ai1-41" class="g-graphic g-aiAbs g-aiPointText" style="top:85.2308%;margin-top:-8.4px;left:1.8382%;width:31px;">
+			<p class="g-pstyle3">0</p>
+		</div>
+		<div id="g-ai1-42" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9645852749301%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9645852749301%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9645852749301%;top:89.4383%;margin-top:-8.4px;left:17.1397%;margin-left:-26px;width:52px;">
+			<p class="g-pstyle9">0-24</p>
+		</div>
+		<div id="g-ai1-43" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:90.0395%;margin-top:-8.4px;left:21.9584%;margin-left:-29px;width:58px;">
+			<p class="g-pstyle9">25-34</p>
+		</div>
+		<div id="g-ai1-44" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9645852749301%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9645852749301%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9645852749301%;top:90.2397%;margin-top:-8.4px;left:26.8955%;margin-left:-29.5px;width:59px;">
+			<p class="g-pstyle9">35-44</p>
+		</div>
+		<div id="g-ai1-45" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:90.2398%;margin-top:-8.4px;left:31.7362%;margin-left:-29.5px;width:59px;">
+			<p class="g-pstyle9">45-54</p>
+		</div>
+		<div id="g-ai1-46" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9645852749301%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9645852749301%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9645852749301%;top:90.2397%;margin-top:-8.4px;left:36.5469%;margin-left:-29.5px;width:59px;">
+			<p class="g-pstyle9">55-64</p>
+		</div>
+		<div id="g-ai1-47" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:90.0395%;margin-top:-8.4px;left:41.4205%;margin-left:-29px;width:58px;">
+			<p class="g-pstyle9">65-74</p>
+		</div>
+		<div id="g-ai1-48" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9642378705807%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9642378705807%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9642378705807%;top:90.0395%;margin-top:-8.4px;left:46.3221%;margin-left:-29px;width:58px;">
+			<p class="g-pstyle9">75-84</p>
+		</div>
+		<div id="g-ai1-49" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 55.9645852749301%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 55.9645852749301%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 55.9645852749301%;top:88.8372%;margin-top:-8.4px;left:51.1944%;margin-left:-23px;width:46px;">
+			<p class="g-pstyle9">85+</p>
+		</div>
+		<div id="g-ai1-50" class="g-graphic g-aiAbs g-aiPointText" style="top:97.6474%;margin-top:-7.4px;left:0.4216%;width:305px;">
+			<p class="g-pstyle11">Note: Black and white population data is non-Hispanic.</p>
+		</div>
+	</div>
+
+	<!-- Artboard: mobile -->
+	<div id="g-race-by-age-mobile" class="g-artboard" style="width:286px; height:427.000000000008px;" data-aspect-ratio="0.67" data-min-width="286" data-max-width="377">
+<div style=""></div>
+		<img id="g-race-by-age-mobile-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/race_by_age_mobile.png"/>
+		<div id="g-ai2-1" class="g-graphic g-aiAbs g-aiPointText" style="top:3.1343%;margin-top:-9.4px;left:37.4693%;width:117px;">
+			<p class="g-pstyle0">Population share</p>
+		</div>
+		<div id="g-ai2-2" class="g-graphic g-aiAbs g-aiPointText" style="top:3.3685%;margin-top:-9.4px;left:6.0007%;width:91px;">
+			<p class="g-pstyle1">Death share</p>
+		</div>
+		<div id="g-ai2-3" class="g-graphic g-aiAbs g-aiPointText" style="top:9.3719%;margin-top:-8px;left:0.5388%;width:79px;">
+			<p class="g-pstyle2">Hispanic</p>
+		</div>
+		<div id="g-ai2-4" class="g-graphic g-aiAbs g-aiPointText" style="top:9.3719%;margin-top:-8px;left:57.9399%;width:59px;">
+			<p class="g-pstyle2">Black</p>
+		</div>
+		<div id="g-ai2-5" class="g-graphic g-aiAbs g-aiPointText" style="top:12.7292%;margin-top:-7.4px;left:0.5388%;width:49px;">
+			<p class="g-pstyle3">80%</p>
+		</div>
+		<div id="g-ai2-6" class="g-white-layer g-aiAbs g-aiPointText" style="top:18.0283%;margin-top:-23px;left:25.8799%;width:132px;">
+			<p class="g-pstyle4">46% of Americans</p>
+			<p class="g-pstyle4">age 35-44 who</p>
+			<p class="g-pstyle4">died are Hispanic</p>
+		</div>
+		<div id="g-ai2-7" class="g-graphic g-aiAbs g-aiPointText" style="top:19.0524%;margin-top:-7.4px;left:0.5388%;width:38px;">
+			<p class="g-pstyle3">60</p>
+		</div>
+		<div id="g-ai2-8" class="g-white-layer g-aiAbs g-aiPointText" style="transform: matrix(0.7071,0.7071,-0.7071,0.7071,0,0);transform-origin: 50% 55.6098830361301%;-webkit-transform: matrix(0.7071,0.7071,-0.7071,0.7071,0,0);-webkit-transform-origin: 50% 55.6098830361301%;-ms-transform: matrix(0.7071,0.7071,-0.7071,0.7071,0,0);-ms-transform-origin: 50% 55.6098830361301%;top:21.5253%;margin-top:-8.9px;left:22.7659%;margin-left:-16px;width:32px;">
+			<p class="g-pstyle5">&darr;</p>
+		</div>
+		<div id="g-ai2-9" class="g-graphic g-aiAbs g-aiPointText" style="top:25.3756%;margin-top:-7.4px;left:0.5388%;width:38px;">
+			<p class="g-pstyle3">40</p>
+		</div>
+		<div id="g-ai2-10" class="g-white-layer g-aiAbs g-aiPointText" style="top:28.2157%;margin-top:-8.5px;left:70.4293%;margin-left:-24px;width:48px;">
+			<p class="g-pstyle6">25%</p>
+		</div>
+		<div id="g-ai2-11" class="g-graphic g-aiAbs g-aiPointText" style="top:31.6988%;margin-top:-7.4px;left:0.5388%;width:37px;">
+			<p class="g-pstyle3">20</p>
+		</div>
+		<div id="g-ai2-12" class="g-white-layer g-aiAbs g-aiPointText" style="top:34.64%;margin-top:-8.9px;left:21.8757%;margin-left:-16px;width:32px;">
+			<p class="g-pstyle5">&uarr;</p>
+		</div>
+		<div id="g-ai2-13" class="g-white-layer g-aiAbs g-aiPointText" style="top:36.6466%;margin-top:-8.5px;left:70.4054%;margin-left:-23.5px;width:47px;">
+			<p class="g-pstyle7">13%</p>
+		</div>
+		<div id="g-ai2-14" class="g-white-layer g-aiAbs g-aiPointText" style="top:39.9253%;margin-top:-15.5px;left:5.7624%;width:161px;">
+			<p class="g-pstyle8">21% of Americans</p>
+			<p class="g-pstyle8">age 35-44 are Hispanic</p>
+		</div>
+		<div id="g-ai2-15" class="g-graphic g-aiAbs g-aiPointText" style="top:38.022%;margin-top:-7.4px;left:1.9921%;width:30px;">
+			<p class="g-pstyle3">0</p>
+		</div>
+		<div id="g-ai2-16" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:42.7059%;margin-top:-7.4px;left:60.6944%;margin-left:-24.5px;width:49px;">
+			<p class="g-pstyle9">0-24</p>
+		</div>
+		<div id="g-ai2-17" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:43.4084%;margin-top:-7.4px;left:65.6598%;margin-left:-27.5px;width:55px;">
+			<p class="g-pstyle9">25-34</p>
+		</div>
+		<div id="g-ai2-18" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:43.6426%;margin-top:-7.4px;left:70.7031%;margin-left:-28px;width:56px;">
+			<p class="g-pstyle9">35-44</p>
+		</div>
+		<div id="g-ai2-19" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:43.6426%;margin-top:-7.4px;left:75.6153%;margin-left:-28px;width:56px;">
+			<p class="g-pstyle9">45-54</p>
+		</div>
+		<div id="g-ai2-20" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:43.6426%;margin-top:-7.4px;left:80.4913%;margin-left:-28px;width:56px;">
+			<p class="g-pstyle9">55-64</p>
+		</div>
+		<div id="g-ai2-21" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:43.4084%;margin-top:-7.4px;left:85.4298%;margin-left:-27.5px;width:55px;">
+			<p class="g-pstyle9">65-74</p>
+		</div>
+		<div id="g-ai2-22" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:43.4084%;margin-top:-7.4px;left:90.416%;margin-left:-27.5px;width:55px;">
+			<p class="g-pstyle9">75-84</p>
+		</div>
+		<div id="g-ai2-23" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:42.2375%;margin-top:-7.4px;left:95.3794%;margin-left:-22px;width:44px;">
+			<p class="g-pstyle9">85+</p>
+		</div>
+		<div id="g-ai2-24" class="g-black-layer g-aiAbs g-aiPointText" style="top:55.9674%;margin-top:-23px;left:15.8907%;width:133px;">
+			<p class="g-pstyle8">57% of Americans </p>
+			<p class="g-pstyle8">age 35-44 are</p>
+			<p class="g-pstyle8">white</p>
+		</div>
+		<div id="g-ai2-25" class="g-graphic g-aiAbs g-aiPointText" style="top:53.8684%;margin-top:-8px;left:0.5388%;width:61px;">
+			<p class="g-pstyle2">White</p>
+		</div>
+		<div id="g-ai2-26" class="g-graphic g-aiAbs g-aiPointText" style="top:57.6941%;margin-top:-7.4px;left:0.5388%;width:49px;">
+			<p class="g-pstyle3">80%</p>
+		</div>
+		<div id="g-ai2-27" class="g-black-layer g-aiAbs g-aiPointText" style="top:62.9772%;margin-top:-8.9px;left:22.2421%;margin-left:-16px;width:32px;">
+			<p class="g-pstyle5">&darr;</p>
+		</div>
+		<div id="g-ai2-28" class="g-graphic g-aiAbs g-aiPointText" style="top:64.0173%;margin-top:-7.4px;left:0.5388%;width:38px;">
+			<p class="g-pstyle3">60</p>
+		</div>
+		<div id="g-ai2-29" class="g-graphic g-aiAbs g-aiPointText" style="top:70.3405%;margin-top:-7.4px;left:0.5388%;width:38px;">
+			<p class="g-pstyle3">40</p>
+		</div>
+		<div id="g-ai2-30" class="g-graphic g-aiAbs g-aiPointText" style="top:76.6637%;margin-top:-7.4px;left:0.5388%;width:37px;">
+			<p class="g-pstyle3">20</p>
+		</div>
+		<div id="g-ai2-31" class="g-black-layer g-aiAbs g-aiPointText" style="transform: matrix(0.7071,-0.7071,0.7071,0.7071,0,0);transform-origin: 50% 55.6100367062948%;-webkit-transform: matrix(0.7071,-0.7071,0.7071,0.7071,0,0);-webkit-transform-origin: 50% 55.6100367062948%;-ms-transform: matrix(0.7071,-0.7071,0.7071,0.7071,0,0);-ms-transform-origin: 50% 55.6100367062948%;top:78.9022%;margin-top:-8.9px;left:25.1704%;margin-left:-16px;width:32px;">
+			<p class="g-pstyle5">&uarr;</p>
+		</div>
+		<div id="g-ai2-32" class="g-black-layer g-aiAbs g-aiPointText" style="top:80.4404%;margin-top:-15.5px;left:28.1284%;width:175px;">
+			<p class="g-pstyle4">20% of Americans age </p>
+			<p class="g-pstyle4">35-44 who died are white</p>
+		</div>
+		<div id="g-ai2-33" class="g-graphic g-aiAbs g-aiPointText" style="top:82.9869%;margin-top:-7.4px;left:1.9921%;width:30px;">
+			<p class="g-pstyle3">0</p>
+		</div>
+		<div id="g-ai2-34" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7994687915007%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7994687915007%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7994687915007%;top:88.139%;margin-top:-7.4px;left:11.3937%;margin-left:-24.5px;width:49px;">
+			<p class="g-pstyle9">0-24</p>
+		</div>
+		<div id="g-ai2-35" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7985659274997%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7985659274997%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7985659274997%;top:88.8418%;margin-top:-7.4px;left:16.3591%;margin-left:-27.5px;width:55px;">
+			<p class="g-pstyle9">25-34</p>
+		</div>
+		<div id="g-ai2-36" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7994687915007%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7994687915007%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7994687915007%;top:89.0758%;margin-top:-7.4px;left:21.4024%;margin-left:-28px;width:56px;">
+			<p class="g-pstyle9">35-44</p>
+		</div>
+		<div id="g-ai2-37" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:89.0759%;margin-top:-7.4px;left:26.3146%;margin-left:-28px;width:56px;">
+			<p class="g-pstyle9">45-54</p>
+		</div>
+		<div id="g-ai2-38" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7994687915007%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7994687915007%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7994687915007%;top:89.0758%;margin-top:-7.4px;left:31.1906%;margin-left:-28px;width:56px;">
+			<p class="g-pstyle9">55-64</p>
+		</div>
+		<div id="g-ai2-39" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7990173295266%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7990173295266%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7990173295266%;top:88.8417%;margin-top:-7.4px;left:36.1291%;margin-left:-27.5px;width:55px;">
+			<p class="g-pstyle9">65-74</p>
+		</div>
+		<div id="g-ai2-40" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7994687915007%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7994687915007%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7994687915007%;top:88.8416%;margin-top:-7.4px;left:41.1153%;margin-left:-27.5px;width:55px;">
+			<p class="g-pstyle9">75-84</p>
+		</div>
+		<div id="g-ai2-41" class="g-graphic g-aiAbs g-aiPointText" style="transform: matrix(0,-1,1,0,0,0);transform-origin: 50% 56.7985659274997%;-webkit-transform: matrix(0,-1,1,0,0,0);-webkit-transform-origin: 50% 56.7985659274997%;-ms-transform: matrix(0,-1,1,0,0,0);-ms-transform-origin: 50% 56.7985659274997%;top:87.6708%;margin-top:-7.4px;left:46.0787%;margin-left:-22px;width:44px;">
+			<p class="g-pstyle9">85+</p>
+		</div>
+		<div id="g-ai2-42" class="g-graphic g-aiAbs g-aiPointText" style="top:96.8042%;margin-top:-7.4px;left:0.5532%;width:305px;">
+			<p class="g-pstyle10">Note: Black and white population data is non-Hispanic.</p>
+		</div>
+	</div>
+
+	<!-- Artboard: sol -->
+	<div id="g-race-by-age-sol" class="g-artboard" style="max-width: 150px;max-height: 285px" data-aspect-ratio="0.526" data-min-width="0" data-max-width="285">
+<div style="padding: 0 0 190% 0;"></div>
+		<img id="g-race-by-age-sol-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/race_by_age_sol.png"/>
+		<div id="g-ai3-1" class="g-background g-aiAbs g-aiPointText" style="top:24.1193%;margin-top:-48.7px;left:11.3555%;width:137px;">
+			<p class="g-pstyle0">Your screen </p>
+			<p class="g-pstyle0">is too small </p>
+			<p class="g-pstyle0">to view </p>
+			<p class="g-pstyle0">this graphic</p>
+		</div>
+	</div>
+
+</div>
+
+<!-- End ai2html - 2021-02-14 16:14 -->
+
+                            </div>
+
+                    </div>
+                    <div class='slides-annotations'>
+
+                <div class="step slide-container index-1">
+                    <div class='text-container'>
+                        <p id="sQ7qOp">Of people who died of Covid-19 between the ages of 35 and 44, nearly half were Hispanic and a quarter were Black. </p><p id="57EQN4">“We would have otherwise expected them to live decades,” said Julia Raifman, an assistant professor at Boston University School of Public Health. </p>
+                    </div>
+                </div>
+
+
+        
+
+
+                <div class="step slide-container index-2">
+                    <div class='text-container'>
+                        <p id="I8Flj1">Of people over age 85 who died of Covid-19, 80 percent were white. Of those who died between the ages of 35 and 44, only 20 percent were white.</p>
+                    </div>
+                </div>
+
+                    </div>
+                    </section> 
+
+        
+            <section class="m-section l-river">
+            <p id="eW3xIU">The data also reveals that regardless of race or geography, there is one group that has consistently experienced an extraordinarily high risk of death: the elderly. Age remains the greatest predictor overall of who lives after infection with the coronavirus and who dies.</p>
+            </section>
+        
+
+                    <section class="m-section slides set-3">
+                    <div class='slides-graphic'>
+                         
+                            <div class="ai2html-insert hidden">
+                            </div>
+
+                    </div>
+                    <div class='slides-annotations'>
+
+                <div class="step slide-container index-1">
+                    <div class='text-container'>
+                        <p id="fubcq2">Nearly half of all 2020 Covid-19 deaths were of people age 80 or older. If you include people age 60 or older, the share of deaths reaches almost 90 percent.</p>
+                    </div>
+                </div>
+
+
+        
+
+
+                <div class="step slide-container index-2">
+                    <div class='text-container'>
+                        <p id="sJCsae">With confirmed cases, the picture looks very different: Younger people, ages 20 to 59, are somewhat overrepresented.</p>
+                    </div>
+                </div>
+
+                    </div>
+                    </section> 
+
+        
+            <section class="m-section l-river">
+            <p id="KfQgoR">In March through May, people age 80 and older had the most confirmed cases per capita (although testing for much of this time was limited). By June, that <a href="https://www.cdc.gov/mmwr/volumes/69/wr/mm695152a8.htm?s_cid=mm695152a8_w">burden shifted to younger people</a>.</p><h3 id="pMHuhN">The summer case surge in young people was followed by a winter uptick in elderly deaths</h3>
+            </section>
+        
+                <section class="m-section l-river">
+                    <figure class="m-photo age-overtime">
+                        
+<!-- Generated by ai2html v0.101.0 - 2021-02-12 16:04 -->
+<!-- ai file: age-overtime.ai -->
+<style media="screen,print">
+	#g-age-overtime-box ,
+	#g-age-overtime-box .g-artboard {
+		margin:0 auto;
+	}
+	#g-age-overtime-box p {
+		margin:0;
+	}
+	#g-age-overtime-box .g-aiAbs {
+		position:absolute;
+	}
+	#g-age-overtime-box .g-aiImg {
+		position:absolute;
+		top:0;
+		display:block;
+		width:100% !important;
+	}
+	#g-age-overtime-box .g-aiSymbol {
+		position: absolute;
+		box-sizing: border-box;
+	}
+	#g-age-overtime-box .g-aiPointText p { white-space: nowrap; }
+	#g-age-overtime-medium {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-age-overtime-medium p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:400;
+		line-height:18px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:15px;
+		text-align:left;
+		color:rgb(249,249,249);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-age-overtime-medium .g-pstyle0 {
+		line-height:20px;
+		height:20px;
+		font-size:17px;
+	}
+	#g-age-overtime-medium .g-pstyle1 {
+		height:18px;
+	}
+	#g-age-overtime-medium .g-pstyle2 {
+		height:18px;
+		color:rgb(222,222,222);
+	}
+	#g-age-overtime-medium .g-pstyle3 {
+		font-weight:600;
+		line-height:15px;
+		height:15px;
+		font-size:12px;
+		color:rgb(208,182,214);
+	}
+	#g-age-overtime-medium .g-pstyle4 {
+		font-weight:600;
+		line-height:15px;
+		height:15px;
+		font-size:12px;
+		color:rgb(73,52,173);
+	}
+	#g-age-overtime-medium .g-pstyle5 {
+		font-weight:600;
+		line-height:15px;
+		height:15px;
+		font-size:12px;
+		color:rgb(232,214,237);
+	}
+	#g-age-overtime-medium .g-pstyle6 {
+		height:18px;
+		text-align:right;
+		color:rgb(222,222,222);
+	}
+	#g-age-overtime-medium .g-pstyle7 {
+		height:18px;
+		text-align:center;
+		color:rgb(222,222,222);
+	}
+	#g-age-overtime-medium .g-cstyle0 {
+		font-weight:600;
+	}
+	#g-age-overtime-small {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-age-overtime-small p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:400;
+		line-height:18px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:15px;
+		text-align:left;
+		color:rgb(249,249,249);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-age-overtime-small .g-pstyle0 {
+		line-height:16px;
+		height:16px;
+		font-size:13px;
+		text-align:right;
+		color:rgb(222,222,222);
+	}
+	#g-age-overtime-small .g-pstyle1 {
+		line-height:16px;
+		height:16px;
+		font-size:13px;
+		color:rgb(222,222,222);
+	}
+	#g-age-overtime-small .g-pstyle2 {
+		line-height:20px;
+		height:20px;
+		font-size:17px;
+	}
+	#g-age-overtime-small .g-pstyle3 {
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		color:rgb(222,222,222);
+	}
+	#g-age-overtime-small .g-pstyle4 {
+		font-weight:600;
+		line-height:14px;
+		height:14px;
+		font-size:12px;
+		color:rgb(208,182,214);
+	}
+	#g-age-overtime-small .g-pstyle5 {
+		font-weight:600;
+		line-height:14px;
+		height:14px;
+		font-size:12px;
+		color:rgb(232,214,237);
+	}
+	#g-age-overtime-small .g-pstyle6 {
+		font-weight:600;
+		line-height:14px;
+		height:14px;
+		font-size:12px;
+		color:rgb(78,52,173);
+	}
+	#g-age-overtime-small .g-pstyle7 {
+		height:18px;
+	}
+	#g-age-overtime-small .g-cstyle0 {
+		font-weight:600;
+	}
+	#g-age-overtime-mobile {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-age-overtime-mobile p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:400;
+		line-height:16px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:13px;
+		text-align:left;
+		color:rgb(222,222,222);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-age-overtime-mobile .g-pstyle0 {
+		height:16px;
+		text-align:right;
+	}
+	#g-age-overtime-mobile .g-pstyle1 {
+		height:16px;
+	}
+	#g-age-overtime-mobile .g-pstyle2 {
+		font-weight:600;
+		line-height:18px;
+		height:18px;
+		font-size:15px;
+		color:rgb(249,249,249);
+	}
+	#g-age-overtime-mobile .g-pstyle3 {
+		line-height:14px;
+		height:14px;
+		font-size:12px;
+		text-align:right;
+	}
+	#g-age-overtime-mobile .g-pstyle4 {
+		font-weight:600;
+		height:16px;
+		color:rgb(208,182,214);
+	}
+	#g-age-overtime-mobile .g-pstyle5 {
+		font-weight:600;
+		height:16px;
+		color:rgb(232,214,237);
+	}
+	#g-age-overtime-mobile .g-pstyle6 {
+		font-weight:600;
+		height:16px;
+		color:rgb(78,52,173);
+	}
+	#g-age-overtime-mobile .g-pstyle7 {
+		font-weight:600;
+		line-height:17px;
+		height:17px;
+		font-size:14px;
+		color:rgb(0,0,0);
+	}
+	#g-age-overtime-sol {
+		position:relative;
+		overflow:hidden;
+	}
+	#g-age-overtime-sol p {
+		font-family:Balto,arial,helvetica,sans-serif;
+		font-weight:600;
+		line-height:24px;
+		height:auto;
+		filter:alpha(opacity=100);
+		-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity:1;
+		letter-spacing:0em;
+		font-size:20px;
+		text-align:left;
+		color:rgb(249,249,249);
+		text-transform:none;
+		padding-bottom:0;
+		padding-top:0;
+		mix-blend-mode:normal;
+		font-style:normal;
+		position:static;
+	}
+	#g-age-overtime-sol .g-pstyle0 {
+		height:24px;
+	}
+
+</style>
+
+<div id="g-age-overtime-box" class="ai2html">
+
+	<!-- Artboard: medium -->
+	<div id="g-age-overtime-medium" class="g-artboard" style="width:600px; height:423.547884399427px;" data-aspect-ratio="1.417" data-min-width="600">
+<div style=""></div>
+		<img id="g-age-overtime-medium-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/age_overtime_medium.png"/>
+		<div id="g-ai0-1" class="g-graphic g-aiAbs g-aiPointText" style="top:6.5232%;margin-top:-10.6px;left:0.6131%;width:134px;">
+			<p class="g-pstyle0">Share of <span class="g-cstyle0">cases</span></p>
+		</div>
+		<div id="g-ai0-2" class="g-graphic g-aiAbs g-aiPointText" style="top:6.5232%;margin-top:-10.6px;left:53.0599%;width:142px;">
+			<p class="g-pstyle0">Share of <span class="g-cstyle0">deaths</span></p>
+		</div>
+		<div id="g-ai0-3" class="g-graphic g-aiAbs g-aiPointText" style="top:18.9925%;margin-top:-27.4px;left:27.1047%;width:161px;">
+			<p class="g-pstyle1">Cases surged among </p>
+			<p class="g-pstyle1">people in their 20s </p>
+			<p class="g-pstyle1">in the summer.</p>
+		</div>
+		<div id="g-ai0-4" class="g-graphic g-aiAbs g-aiPointText" style="top:23.4784%;margin-top:-36.4px;left:64.9737%;width:192px;">
+			<p class="g-pstyle1">Deaths among the elderly </p>
+			<p class="g-pstyle1">rose during the least </p>
+			<p class="g-pstyle1">controlled periods of </p>
+			<p class="g-pstyle1">the US outbreak.</p>
+		</div>
+		<div id="g-ai0-5" class="g-graphic g-aiAbs g-aiPointText" style="top:29.3809%;margin-top:-9.4px;left:0.6131%;width:43px;">
+			<p class="g-pstyle2">6%</p>
+		</div>
+		<div id="g-ai0-6" class="g-graphic g-aiAbs g-aiPointText" style="top:36.4046%;margin-top:-8.2px;left:36.775%;width:57px;">
+			<p class="g-pstyle3">20-29</p>
+		</div>
+		<div id="g-ai0-7" class="g-graphic g-aiAbs g-aiPointText" style="top:37.5851%;margin-top:-8.2px;left:79.9063%;width:45px;">
+			<p class="g-pstyle4">80+</p>
+		</div>
+		<div id="g-ai0-8" class="g-graphic g-aiAbs g-aiPointText" style="top:45.6719%;margin-top:-9.4px;left:0.6131%;width:42px;">
+			<p class="g-pstyle2">4%</p>
+		</div>
+		<div id="g-ai0-9" class="g-graphic g-aiAbs g-aiPointText" style="top:52.9317%;margin-top:-8.2px;left:36.775%;width:56px;">
+			<p class="g-pstyle5">10-19</p>
+		</div>
+		<div id="g-ai0-10" class="g-graphic g-aiAbs g-aiPointText" style="top:59.3064%;margin-top:-8.2px;left:13.8521%;width:45px;">
+			<p class="g-pstyle4">80+</p>
+		</div>
+		<div id="g-ai0-11" class="g-graphic g-aiAbs g-aiPointText" style="top:61.9629%;margin-top:-9.4px;left:0.6131%;width:42px;">
+			<p class="g-pstyle2">2%</p>
+		</div>
+		<div id="g-ai0-12" class="g-graphic g-aiAbs g-aiPointText" style="top:78.4899%;margin-top:-9.4px;left:0.6131%;width:44px;">
+			<p class="g-pstyle2">0%</p>
+		</div>
+		<div id="g-ai0-13" class="g-graphic g-aiAbs g-aiPointText" style="top:82.7397%;margin-top:-9.4px;left:4.6757%;width:63px;">
+			<p class="g-pstyle2">March</p>
+		</div>
+		<div id="g-ai0-14" class="g-graphic g-aiAbs g-aiPointText" style="top:82.7397%;margin-top:-9.4px;right:50.1634%;width:91px;">
+			<p class="g-pstyle6">December</p>
+		</div>
+		<div id="g-ai0-15" class="g-graphic g-aiAbs g-aiPointText" style="top:82.7397%;margin-top:-9.4px;left:53.8198%;width:63px;">
+			<p class="g-pstyle2">March</p>
+		</div>
+		<div id="g-ai0-16" class="g-graphic g-aiAbs g-aiPointText" style="top:82.7397%;margin-top:-9.4px;right:0.7284%;width:91px;">
+			<p class="g-pstyle6">December</p>
+		</div>
+		<div id="g-ai0-17" class="g-graphic g-aiAbs g-aiPointText" style="top:91.2394%;margin-top:-9.4px;right:72.0845%;width:54px;">
+			<p class="g-pstyle6">Age: </p>
+		</div>
+		<div id="g-ai0-18" class="g-graphic g-aiAbs g-aiPointText" style="top:91.2394%;margin-top:-9.4px;left:30.5672%;margin-left:-23px;width:46px;">
+			<p class="g-pstyle7">0-9</p>
+		</div>
+		<div id="g-ai0-19" class="g-graphic g-aiAbs g-aiPointText" style="top:91.2394%;margin-top:-9.4px;left:40.5047%;margin-left:-30.5px;width:61px;">
+			<p class="g-pstyle7">20-29</p>
+		</div>
+		<div id="g-ai0-20" class="g-graphic g-aiAbs g-aiPointText" style="top:91.2394%;margin-top:-9.4px;left:50.3372%;margin-left:-31px;width:62px;">
+			<p class="g-pstyle7">40-49</p>
+		</div>
+		<div id="g-ai0-21" class="g-graphic g-aiAbs g-aiPointText" style="top:91.2394%;margin-top:-9.4px;left:60.0417%;margin-left:-31.5px;width:63px;">
+			<p class="g-pstyle7">60-69</p>
+		</div>
+		<div id="g-ai0-22" class="g-graphic g-aiAbs g-aiPointText" style="top:91.2394%;margin-top:-9.4px;left:70.0926%;margin-left:-24px;width:48px;">
+			<p class="g-pstyle7">80+</p>
+		</div>
+	</div>
+
+	<!-- Artboard: small -->
+	<div id="g-age-overtime-small" class="g-artboard" style="width:378px; height:575.095860566449px;" data-aspect-ratio="0.657" data-min-width="378" data-max-width="599">
+<div style=""></div>
+		<img id="g-age-overtime-small-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/age_overtime_small.png"/>
+		<div id="g-ai1-1" class="g-graphic g-aiAbs g-aiPointText" style="top:2.3271%;margin-top:-8.4px;right:85.2702%;width:70px;">
+			<p class="g-pstyle0">Age: 0-9</p>
+		</div>
+		<div id="g-ai1-2" class="g-graphic g-aiAbs g-aiPointText" style="top:2.3271%;margin-top:-8.4px;left:42.2792%;width:45px;">
+			<p class="g-pstyle1">80+</p>
+		</div>
+		<div id="g-ai1-3" class="g-graphic g-aiAbs g-aiPointText" style="top:7.9341%;margin-top:-10.6px;left:2.0314%;width:134px;">
+			<p class="g-pstyle2">Share of <span class="g-cstyle0">cases</span></p>
+		</div>
+		<div id="g-ai1-4" class="g-graphic g-aiAbs g-aiPointText" style="top:11.8785%;margin-top:-17.3px;left:49.1232%;width:197px;">
+			<p class="g-pstyle3">Cases surged among people </p>
+			<p class="g-pstyle3">in their 20s in the summer.</p>
+		</div>
+		<div id="g-ai1-5" class="g-graphic g-aiAbs g-aiPointText" style="top:14.1513%;margin-top:-8.4px;right:93.0385%;width:40px;">
+			<p class="g-pstyle0">6%</p>
+		</div>
+		<div id="g-ai1-6" class="g-graphic g-aiAbs g-aiPointText" style="top:18.5089%;margin-top:-7.4px;left:66.7127%;width:56px;">
+			<p class="g-pstyle4">20-29</p>
+		</div>
+		<div id="g-ai1-7" class="g-graphic g-aiAbs g-aiPointText" style="top:24.5843%;margin-top:-8.4px;right:92.8977%;width:40px;">
+			<p class="g-pstyle0">4%</p>
+		</div>
+		<div id="g-ai1-8" class="g-graphic g-aiAbs g-aiPointText" style="top:29.2897%;margin-top:-7.4px;left:66.7127%;width:54px;">
+			<p class="g-pstyle5">10-19</p>
+		</div>
+		<div id="g-ai1-9" class="g-graphic g-aiAbs g-aiPointText" style="top:33.4629%;margin-top:-7.4px;left:25.0178%;width:44px;">
+			<p class="g-pstyle6">80+</p>
+		</div>
+		<div id="g-ai1-10" class="g-graphic g-aiAbs g-aiPointText" style="top:35.1912%;margin-top:-8.4px;right:93.1139%;width:39px;">
+			<p class="g-pstyle0">2%</p>
+		</div>
+		<div id="g-ai1-11" class="g-graphic g-aiAbs g-aiPointText" style="top:45.7982%;margin-top:-8.4px;right:92.9837%;width:41px;">
+			<p class="g-pstyle0">0%</p>
+		</div>
+		<div id="g-ai1-12" class="g-graphic g-aiAbs g-aiPointText" style="top:47.537%;margin-top:-8.4px;left:8.3269%;width:58px;">
+			<p class="g-pstyle1">March</p>
+		</div>
+		<div id="g-ai1-13" class="g-graphic g-aiAbs g-aiPointText" style="top:47.537%;margin-top:-8.4px;right:9.4579%;width:82px;">
+			<p class="g-pstyle0">December</p>
+		</div>
+		<div id="g-ai1-14" class="g-graphic g-aiAbs g-aiPointText" style="top:55.5784%;margin-top:-10.6px;left:2.476%;width:142px;">
+			<p class="g-pstyle2">Share of <span class="g-cstyle0">deaths</span></p>
+		</div>
+		<div id="g-ai1-15" class="g-graphic g-aiAbs g-aiPointText" style="top:63.1968%;margin-top:-27.4px;left:27.6432%;width:224px;">
+			<p class="g-pstyle7">Deaths among the elderly rose </p>
+			<p class="g-pstyle7">during the least controlled </p>
+			<p class="g-pstyle7">periods of the US outbreak.</p>
+		</div>
+		<div id="g-ai1-16" class="g-graphic g-aiAbs g-aiPointText" style="top:64.4038%;margin-top:-8.4px;right:93.0385%;width:40px;">
+			<p class="g-pstyle0">6%</p>
+		</div>
+		<div id="g-ai1-17" class="g-graphic g-aiAbs g-aiPointText" style="top:69.6308%;margin-top:-7.4px;left:55.6695%;width:44px;">
+			<p class="g-pstyle6">80+</p>
+		</div>
+		<div id="g-ai1-18" class="g-graphic g-aiAbs g-aiPointText" style="top:74.8368%;margin-top:-8.4px;right:92.8977%;width:40px;">
+			<p class="g-pstyle0">4%</p>
+		</div>
+		<div id="g-ai1-19" class="g-graphic g-aiAbs g-aiPointText" style="top:85.2698%;margin-top:-8.4px;right:93.1139%;width:39px;">
+			<p class="g-pstyle0">2%</p>
+		</div>
+		<div id="g-ai1-20" class="g-graphic g-aiAbs g-aiPointText" style="top:96.0506%;margin-top:-8.4px;right:92.9837%;width:41px;">
+			<p class="g-pstyle0">0%</p>
+		</div>
+		<div id="g-ai1-21" class="g-graphic g-aiAbs g-aiPointText" style="top:97.7895%;margin-top:-8.4px;left:8.2204%;width:58px;">
+			<p class="g-pstyle1">March</p>
+		</div>
+		<div id="g-ai1-22" class="g-graphic g-aiAbs g-aiPointText" style="top:97.7895%;margin-top:-8.4px;right:9.0353%;width:82px;">
+			<p class="g-pstyle0">December</p>
+		</div>
+	</div>
+
+	<!-- Artboard: mobile -->
+	<div id="g-age-overtime-mobile" class="g-artboard" style="width:286px; height:572.000000000008px;" data-aspect-ratio="0.5" data-min-width="286" data-max-width="377">
+<div style=""></div>
+		<img id="g-age-overtime-mobile-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/age_overtime_mobile.png"/>
+		<div id="g-ai2-1" class="g-graphic g-aiAbs g-aiPointText" style="top:2.3397%;margin-top:-8.4px;right:80.5319%;width:70px;">
+			<p class="g-pstyle0">Age: 0-9</p>
+		</div>
+		<div id="g-ai2-2" class="g-graphic g-aiAbs g-aiPointText" style="top:2.3397%;margin-top:-8.4px;left:55.8795%;width:45px;">
+			<p class="g-pstyle1">80+</p>
+		</div>
+		<div id="g-ai2-3" class="g-graphic g-aiAbs g-aiPointText" style="top:7.4397%;margin-top:-9.6px;left:1.2863%;width:124px;">
+			<p class="g-pstyle2">Share of cases</p>
+		</div>
+		<div id="g-ai2-4" class="g-graphic g-aiAbs g-aiPointText" style="top:12.6195%;margin-top:-16.2px;left:0.939%;width:263px;">
+			<p class="g-pstyle1">Cases surged among people in their 20s in </p>
+			<p class="g-pstyle1">the summer.</p>
+		</div>
+		<div id="g-ai2-5" class="g-graphic g-aiAbs g-aiPointText" style="top:17.3695%;margin-top:-7.4px;right:92.6659%;width:39px;">
+			<p class="g-pstyle3">6%</p>
+		</div>
+		<div id="g-ai2-6" class="g-graphic g-aiAbs g-aiPointText" style="top:21.5876%;margin-top:-8.5px;left:69.4493%;width:59px;">
+			<p class="g-pstyle4">20-29</p>
+		</div>
+		<div id="g-ai2-7" class="g-graphic g-aiAbs g-aiPointText" style="top:27.3346%;margin-top:-7.4px;right:92.8434%;width:38px;">
+			<p class="g-pstyle3">4%</p>
+		</div>
+		<div id="g-ai2-8" class="g-graphic g-aiAbs g-aiPointText" style="top:31.3778%;margin-top:-8.5px;left:69.4493%;width:57px;">
+			<p class="g-pstyle5">10-19</p>
+		</div>
+		<div id="g-ai2-9" class="g-graphic g-aiAbs g-aiPointText" style="top:34.3498%;margin-top:-8.5px;left:8.5337%;width:46px;">
+			<p class="g-pstyle6">80+</p>
+		</div>
+		<div id="g-ai2-10" class="g-graphic g-aiAbs g-aiPointText" style="top:37.1248%;margin-top:-7.4px;right:92.7847%;width:38px;">
+			<p class="g-pstyle3">2%</p>
+		</div>
+		<div id="g-ai2-11" class="g-graphic g-aiAbs g-aiPointText" style="top:47.0898%;margin-top:-7.4px;right:92.9216%;width:39px;">
+			<p class="g-pstyle3">0%</p>
+		</div>
+		<div id="g-ai2-12" class="g-graphic g-aiAbs g-aiPointText" style="top:48.4936%;margin-top:-8.4px;left:8.6293%;width:58px;">
+			<p class="g-pstyle1">March</p>
+		</div>
+		<div id="g-ai2-13" class="g-graphic g-aiAbs g-aiPointText" style="top:48.4936%;margin-top:-8.4px;right:5.7289%;width:82px;">
+			<p class="g-pstyle0">December</p>
+		</div>
+		<div id="g-ai2-14" class="g-graphic g-aiAbs g-aiPointText" style="top:54.8982%;margin-top:-9px;left:1.4765%;width:124px;">
+			<p class="g-pstyle7">Share of deaths</p>
+		</div>
+		<div id="g-ai2-15" class="g-graphic g-aiAbs g-aiPointText" style="top:55.6914%;margin-top:-9.6px;left:1.2863%;width:132px;">
+			<p class="g-pstyle2">Share of deaths</p>
+		</div>
+		<div id="g-ai2-16" class="g-graphic g-aiAbs g-aiPointText" style="top:60.6964%;margin-top:-16.2px;left:1.2207%;width:288px;">
+			<p class="g-pstyle1">Deaths among the elderly rose during the least </p>
+			<p class="g-pstyle1">controlled periods of the US outbreak.</p>
+		</div>
+		<div id="g-ai2-17" class="g-graphic g-aiAbs g-aiPointText" style="top:65.7962%;margin-top:-7.4px;right:92.6659%;width:39px;">
+			<p class="g-pstyle3">6%</p>
+		</div>
+		<div id="g-ai2-18" class="g-graphic g-aiAbs g-aiPointText" style="top:70.5386%;margin-top:-8.5px;left:57.9457%;width:46px;">
+			<p class="g-pstyle6">80+</p>
+		</div>
+		<div id="g-ai2-19" class="g-graphic g-aiAbs g-aiPointText" style="top:75.5864%;margin-top:-7.4px;right:92.8434%;width:38px;">
+			<p class="g-pstyle3">4%</p>
+		</div>
+		<div id="g-ai2-20" class="g-graphic g-aiAbs g-aiPointText" style="top:85.3766%;margin-top:-7.4px;right:92.7847%;width:38px;">
+			<p class="g-pstyle3">2%</p>
+		</div>
+		<div id="g-ai2-21" class="g-graphic g-aiAbs g-aiPointText" style="top:95.3416%;margin-top:-7.4px;right:92.9216%;width:39px;">
+			<p class="g-pstyle3">0%</p>
+		</div>
+		<div id="g-ai2-22" class="g-graphic g-aiAbs g-aiPointText" style="top:97.2698%;margin-top:-8.4px;left:8.5179%;width:58px;">
+			<p class="g-pstyle1">March</p>
+		</div>
+		<div id="g-ai2-23" class="g-graphic g-aiAbs g-aiPointText" style="top:97.2698%;margin-top:-8.4px;right:5.2888%;width:82px;">
+			<p class="g-pstyle0">December</p>
+		</div>
+	</div>
+
+	<!-- Artboard: sol -->
+	<div id="g-age-overtime-sol" class="g-artboard" style="max-width: 150px;max-height: 285px" data-aspect-ratio="0.526" data-min-width="0" data-max-width="285">
+<div style="padding: 0 0 190% 0;"></div>
+		<img id="g-age-overtime-sol-img" class="g-aiImg" alt="" src="https://cdn.vox-cdn.com/csk/705f9d8b-5120-47c2-a12b-bd03dfb92d22/e70696f0-0a8a-44fb-aa4f-9efac6af3e4a/images/age_overtime_sol.png"/>
+		<div id="g-ai3-1" class="g-graphic g-aiAbs g-aiPointText" style="top:24.1193%;margin-top:-48.7px;left:11.3555%;width:137px;">
+			<p class="g-pstyle0">Your screen </p>
+			<p class="g-pstyle0">is too small </p>
+			<p class="g-pstyle0">to view </p>
+			<p class="g-pstyle0">this graphic</p>
+		</div>
+	</div>
+
+</div>
+
+<!-- End ai2html - 2021-02-12 16:04 -->
+
+                    </figure>
+                </section>
+                    
+        
+            <section class="m-section l-river">
+            <p id="2kQaJG">So the people least likely to die from the virus, maybe unknowingly or maybe because of carelessness, very often passed it on to those at the greatest risk of death. </p><div id="GNHyRs"><div class="section-divider">
+</div> 
+
+</div><p id="IYzzRT">That seems to be the pattern of the pandemic, how SARS-CoV-2 went from being a distant threat in China to a global tragedy: People who thought they wouldn’t be impacted, or who couldn’t protect themselves, passed the virus on, and on, and on. </p><p id="ZiwM3T">They were enabled by a White House that <a href="https://www.nytimes.com/2021/01/17/us/covid-deaths-2020.html">denied science</a> and <a href="https://www.forbes.com/sites/tommybeer/2020/09/10/all-the-times-trump-compared-covid-19-to-the-flu-even-after-he-knew-covid-19-was-far-more-deadly/">downplayed the severity</a> of the disease — and states that acted too slowly, <a href="https://www.newyorker.com/magazine/2021/02/15/inside-the-worst-hit-county-in-the-worst-hit-state-in-the-worst-hit-country">politicizing public health</a> instead of protecting it. </p><p id="F2VcdX">The pandemic isn’t over. </p><p id="3QBtsE"></p><p id="LIYRXl">It’s not far-fetched to suggest the American death toll could rise to 750,000 or <a href="https://www.newyorker.com/magazine/2021/02/15/inside-the-worst-hit-county-in-the-worst-hit-state-in-the-worst-hit-country">1 million</a> this year.</p><p id="7HgoXi">To prevent more needless suffering, we need to heed the lesson of the Covid-19 deaths in 2020: “The health haves cannot keep ignoring the health have-nots,” Sandro Galea said. “Because everyone is susceptible to Covid, the fact [that] higher-risk groups exist makes everybody vulnerable.”</p><p id="oMf09R"></p><p id="E7b7tb"></p><p id="f855fb"><em>Special thanks to the health experts who shared feedback on this story: Alyssa Bilinski, Sandro Galea, Julia Raifman, Jonathan Skinner, Daniel Weinberger, and Steven Woolf.  </em></p><p id="W6xVMm"><em>Correction, February 16: The color legend on the deaths by county graphic was reversed in an earlier version. </em></p>
+            </section>
+        
+        
+            <section class="m-section ender">
+                <figure class="m-photo">
+                    <img src="https://cdn.vox-cdn.com/uploads/chorus_asset/file/22297656/covid_19_mortality_ender.jpg"
+                    alt="Maricela Arreguin Mejia (L) and her brother Nestor Arreguin mourn the death of their father Gilberto Arreguin Camacho, 58, due to Covid-19 during his burial at a cemetery on New Year’s Eve, December 31, 2020 in Whittier, California."
+                    />
+
+                </figure>
+            </section>
+
+
+                <!-- just adding one ad here -->
+
+
+
+        
+    
+</main>
+
+
+
+
+<footer role="contentinfo">
+  <section class='method'>
+    <h3>Methodology</h3>
+    <p>Vox calculated the age-adjusted share of coronavirus deaths by racial and ethnic groups using the case surveillance data reported to the Centers for Disease Control and Prevention from February through December in 2020. We then standardized the death counts across age groups for each racial and ethnic group using 2019 population estimates from the US census.</p>
+    <p>White people are overrepresented in the older population, who the virus affects the most. The age-adjusted shares are a better representation of the risk of deaths for the overall population of various racial and ethnic groups; without adjustment, the relative shares of deaths show less disparity among these groups. Our calculations are based on data from deaths with specified race and ethnicity information, which are 77 percent of the total deaths in the case surveillance data. </p>
+    <p>Because of the incomplete race and ethnic information reported by jurisdictions, it is not yet possible to compute accurate death counts and death rates for demographic groups on the national level over time. This analysis does not solve the problem. Instead, we investigated the relative share of deaths across groups.</p>
+    <p>For the deaths by county analysis, Vox took county mortality data from Johns Hopkins University and county racial and ethnic composition data from American Community Survey 2014-2018. We then sorted the counties by their share of nonwhite population into 10 groups of equal counts and computed the deaths per capita for each county group over time.</p>
+    <p>The deaths by race and age groups analysis is based on data from the National Center of Health Statistics at the CDC between February 2020 and January 2021. The age analysis is based on case surveillance data and the 2019 population estimates from the US census.</p>
+</section>
+<section class='photos'>
+    <h3>Photography</h3>
+    <p>Medical staff aid a Covid-19 patient at a hospital in Wuhan, China, on March 6, 2020. (AFP/Getty Images)</p>
+
+    <p>Nurses wrap the body of a patient who died of Covid-19 in Oceanside, New York, on April 15, 2020. (Jeffrey Basinger/Newsday/Getty Images)</p>
+    <p>Maricela Arreguin Mejia hugs her brother Nestor Arreguin as they mourn the death of their father, Gilberto Arreguin Camacho, 58, from Covid-19 in Whittier, California, on December 31, 2020. (Patrick T. Fallon/AFP/Getty Images)</p>
+
+  </section>
+  
+  <section class='credits'>
+    <h3>Credits</h3>
+    <h4>Editor</h4>
+    <div class='name'><a href='https://www.vox.com/authors/eliza-barclay' target="blank">Eliza Barclay</a></div>
+    <h4>Visuals Editor</h4>
+    <div class='name'><a href='https://www.vox.com/authors/kainaz-amaria' target="blank">Kainaz Amaria</a></div>
+    <h4>Design</h4>
+    <div class='name'><a href='https://www.vox.com/authors/amanda-northrop' target="blank">Amanda Northrop</a></div>
+    <h4>Copy Editors</h4>
+    <div class='name'><a href='https://www.vox.com/authors/tim-ryan-williams' target="blank">Tim Williams</a>, <a href='https://www.vox.com/authors/elizabeth-crane' target="blank">Elizabeth Crane</a></div>
+    <h4>Engagement strategy</h4>
+    <div class='name'><a href='https://www.vox.com/authors/lauren-katz' target="blank">Lauren Katz</a></div>
+    <div class='extra'>This project was supported by the Pulitzer Center.</div>
+
+  </section>
+  <section class='corp'>
+    <a href="https://www.voxmedia.com">
+      <svg width="225" height="40" viewBox="0 0 225 40" role="img" aria-label="Vox Media logo"><g><path d="M6.4 16.7L11 30.2l3-8.9c.5-1.6 1-3.1 1.4-4.4h6.2L15.4 32c-1 2.5-1.6 3.9-2.1 5.6l-4.6.3-6.2-15c-.7-1.8-1.7-4.2-2.5-6l6.4-.2zm18 11c0-6.5 4.3-11.3 10.8-11.3 6.2 0 10.2 4.5 10.2 10.3C45.4 33.2 41 38 34.6 38c-6.1 0-10.2-4.6-10.2-10.3zm15.3-.4c0-3.9-2-6.3-4.8-6.3-3 0-4.9 2.8-4.9 6.1 0 3.9 2 6.3 4.8 6.3 3 0 4.9-2.8 4.9-6.1zm9 10.2L55.8 27 53 22.9 49 17l6.5-.2 4.2 6.6 1.4-2.5 2.5-4H70l-6.8 10.2 2.5 3.7c1.2 1.8 3.2 4.8 4.5 6.7l-6.5.2-4.3-7-1.4 2.2c-.6 1.1-2 3.3-2.8 4.6h-6.5zm36.9-7.1l.9-6.5c.3-1.9.7-5.6.8-7.1l4.5-.2c.5 1.1 1.3 2.8 1.9 4.2l3.8 8.5 3.7-8.6c.6-1.3 1.2-2.8 1.7-4h4.3c.2 1.7.7 5.4.9 7.3l.9 6.5c.3 1.9.8 5.5 1.2 7.1l-5.8.2c-.1-.8-.3-3.3-.5-4.5l-.8-6.5c-1.4 3.6-4 10-4.4 11l-3 .1L91.3 27l-.7 6.3c-.1 1.1-.4 3.4-.4 4.2h-5.8c.4-1.6.9-5.2 1.2-7.1zm44.7 7.2c-1.9-.1-4.3-.1-6.6-.1-2.6 0-5.3 0-7.5.1.1-1.4.2-5.3.2-7.2v-6.5c0-1.9-.1-5.8-.2-7.2 2.1.1 4.5.1 7.1.1 2.4 0 4.7-.1 6.6-.1-.1 1.5-.2 2.9-.2 4.7-1.5 0-3-.1-4.8-.1h-2.7c-.1.4-.1 1-.1 1.3v2.3h6.4c-.1 1.2-.1 2.6-.1 4.1h-6.3v2.6c0 .3 0 .9.1 1.3h2.7c2.1 0 3.8 0 5.6-.1-.2 1.6-.2 3-.2 4.8zm13.9-.1h-7.7c.1-1.4.2-5.2.2-7.1v-6.5c0-1.9-.1-5.6-.2-7 1.1 0 3.7-.2 6.9-.2 7.8 0 12.1 3.7 12.1 10 0 6.6-4.4 10.8-11.3 10.8zm-.1-16.3c-.6 0-1 0-1.5.1v11.6c.5.1.8.1 1.5.1 3.9 0 5.6-2.6 5.6-6 0-3.7-2.1-5.8-5.6-5.8zm17.3 16.3c.1-1.4.2-5.2.2-7.1v-6.5c0-1.9-.1-5.7-.2-7.1 1.1 0 5.3 0 6.2-.1-.1.8-.1 3.2-.1 4.3v12.2c0 1.1 0 3.4.1 4.2h-6.2zm17.7-15c1-2.4 1.7-4 2.3-5.6l4.7-.3 6.4 14.9 2.7 6-6.2.2-1.6-3.9h-7.2c-.4 1-1.2 3.3-1.4 3.7h-6.1l6.4-15zm2.3 7.6h4.7l-2.4-6.4-2.3 6.4z"></path><path d="M224.9 1v15.7L211 8.9z"></path><path d="M197 1v15.7l14-7.8z"></path><path d="M211 8.9v15.7l13.9-7.9z"></path><path d="M211 8.9v15.7l-14-7.9z"></path></g></svg>
+    </a>
+    <p><a href="https://www.voxmedia.com/terms-of-use">Terms of Use</a> / <a href="https://www.voxmedia.com/privacy-policy">Privacy Policy</a> / &copy; 2021 <a href="https://www.voxmedia.com/">Vox Media</a>, Inc. All Rights Reserved</p>
+  </section>
+</footer>
+
+
+
+  </body>
+</html>

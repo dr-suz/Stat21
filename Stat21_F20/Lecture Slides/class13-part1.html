@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 13 - Part 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class13-part1_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="class13-part1_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 13 - Part 1
+## SLR Example
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, Oct 20, 2020 (updated: 2020-10-19)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## Simple linear regression
+
+In SLR, the data we observe are pairs `\((x_{1},y_{1}), \dots, (x_{n},y_{n})\)`, of two continuous, quantitative variables. 
+
+The model `\(Y \mid x = \beta_0 + \beta_1 x + \epsilon\)` means that we are assuming 
+`$$y_{i} = \beta_0 + \beta_1 x_{i} + \epsilon_{i},$$`
+for each data point we observe where `\(\epsilon_{i}\)` represents an (unobserved) measurement error associated with our response variable. 
+
+
+**Assumptions**
+
+- For estimation: The measurement error has mean `\(E[\epsilon]=0\)` and (unknown) variance `\(Var[\epsilon]=\sigma^2\)` and all measurement errors are independent of each other.
+
+- For inference: If we wish to conduct statistical inference, we must also assume that the measurement error, `\(\epsilon\)`, is Normally distributed.
+
+---
+## Health care data
+### SLR Example 
+
+.scroll-output[
+
+```r
+hc_employer_2013 &lt;- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_2013_cleaned.txt"))
+names(hc_employer_2013)
+```
+
+```
+## [1] "Location"        "prop_coverage"   "spending_capita"
+```
+
+
+```r
+SLR_hc &lt;- lm(prop_coverage ~ spending_capita, data = hc_employer_2013)
+summary(SLR_hc)
+```
+
+```
+## 
+## Call:
+## lm(formula = prop_coverage ~ spending_capita, data = hc_employer_2013)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.12870 -0.04341  0.00710  0.03711  0.09344 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      5.137e-01  1.027e-02  50.030   &lt;2e-16 ***
+## spending_capita -1.319e-07  1.446e-07  -0.912    0.366    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.05427 on 49 degrees of freedom
+## Multiple R-squared:  0.01669,	Adjusted R-squared:  -0.003373 
+## F-statistic: 0.8319 on 1 and 49 DF,  p-value: 0.3662
+```
+**Data Source:** Kuo, Pei-Lun and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2019, February 14). opencasestudies/ocs-healthexpenditure: Exploring Health Expenditure using State-level data in the United States (Version v1.0.0). Zenodo. http://doi.org/10.5281/zenodo.2565307
+]
+
+---
+## Assumptions for .blue[estimation] with SLR
+
+`$$Y \mid x = \beta_0 + \beta_1 x + \epsilon$$`
+
+1. `\(E[\epsilon]=0\)`;
+
+1. `\(Var[\epsilon]=\sigma^2 &lt; \infty\)`;
+
+1. Each instance of the random variable `\(\epsilon\)` is independent of any other instance. 
+
+
+--
+Assumption (our model): 
+`$$Y \mid x = \beta_0 + \beta_1 x + \epsilon, \quad \text{and }E[\epsilon]=0, \text{ }Var[\epsilon]=\sigma^2$$`
+
+Observation (our model .blue[estimate]):
+`$$\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$$`
+
+`$$\hat{\sigma} = \frac{\sum_{i=1}^{n}e_i^2}{n-2}$$`
+
+.footnote[Resource for understanding how we derive the estimates for our model parameters: https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm]
+
+---
+## Checking assumption 1:  zero mean
+
+`$$E[\varepsilon]=0$$`
+
+
+The mean of the residuals will always be zero because they are calculated based on the regression line we fit. 
+
+
+`$$\frac{1}{n}\sum_{i=1}^{n}e_{i} = \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)\\
+= \frac{1}{n}\sum_{i=1}^{n}(y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))\\
+= \frac{1}{n}\sum_{i=1}^{n}(y_i - (\bar{y} - \hat{\beta}_1 \bar{x}) - \hat{\beta}_1 x_i)\\
+=\frac{1}{n}\sum_{i=1}^{n}y_i - \frac{1}{n}\sum_{i=1}^{n}\bar{y} + \frac{1}{n}\sum_{i=1}^{n}\hat{\beta}_1\bar{x} - \frac{1}{n}\sum_{i=1}^{n}\hat{\beta}_1 x_i\\
+=\bar{y} - \frac{n}{n}\bar{y} + \frac{n}{n}\hat{\beta}_1\bar{x} - \hat{\beta}_{1}\bar{x}$$`
+
+---
+## Health care data
+### Checking assumption 1: zero mean
+
+```r
+summary(SLR_hc)
+```
+
+```
+## 
+## Call:
+## lm(formula = prop_coverage ~ spending_capita, data = hc_employer_2013)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.12870 -0.04341  0.00710  0.03711  0.09344 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      5.137e-01  1.027e-02  50.030   &lt;2e-16 ***
+## spending_capita -1.319e-07  1.446e-07  -0.912    0.366    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.05427 on 49 degrees of freedom
+## Multiple R-squared:  0.01669,	Adjusted R-squared:  -0.003373 
+## F-statistic: 0.8319 on 1 and 49 DF,  p-value: 0.3662
+```
+
+
+
+---
+## Checking assumption 2: .red[constant] variance
+
+`$$Var[\epsilon]=\sigma^2 &lt; \infty$$`
+
+It **is OK** to play around with transforming the data `\((x_i, y_i)\)`! So try transforming the response and/or predictor variable to address this problem. 
+
+**Q:** What can we do to address heteroscedasticity? 
+--
+The usual remedy is a transformation of the response variable.
+
+
+Some common *variance stabalizing* transformations are 
+
+- `\(\sqrt{y_{obs}}\)` (can only be used if `\(Y\)` is never negative)
+- `\(log(y_{obs})\)` 
+- [Box-Cox transformation](https://sixsigmastudyguide.com/box-cox-transformation/)
+
+
+
+---
+## Checking assumption 2: .red[constant] variance
+
+Residual plots are a key component in fitting an appropriate regression model. These plots examine the **residuals vs predicted** values in a scatter plot. 
+
+What are we looking for these plots? 
+
+1. Any "trends" in the plot
+  - E.g. negative residuals at small values of `\(\hat{y}_i\)` and positive residuals at large values of `\(\hat{y}_i\)` indicates non-linearity in the data. 
+  - **Q:** What can we do to address non-linearity? 
+
+1. Non-constant spread of the residuals
+  - E.g. More clustered residuals for small `\(\hat{y}_i\)` values and more spread out residuals for large `\(\hat{y}_i\)`, looks like "funneling". 
+  
+
+
+.footnote[&lt;a href="https://data.princeton.edu/wws509/notes/c2s9
+"&gt;Here&lt;/a&gt; is my source for the interpretations above. You may find this source helpful for further reading on regression diagnostics (although you are not responsible for knowing all the material that is mentioned here).]
+
+---
+## Health care data
+### Checking assumption 2: .red[constant] variance
+
+.scroll-output[
+
+```r
+hc_resid_data &lt;- hc_employer_2013 %&gt;% 
+                        mutate(residuals = SLR_hc$residuals, 
+                               fitted_vals = SLR_hc$fitted.values) 
+
+ggplot(hc_resid_data, aes(x=fitted_vals, y=residuals)) +
+  geom_point() + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Fitted values (proportion covered)", y="Residuals") + 
+  geom_hline(yintercept=0) 
+```
+
+&lt;img src="class13-part1_files/figure-html/class13-0-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+## Health care data
+### Checking assumption 2: .red[constant] variance
+
+.scroll-output[
+
+```r
+hc_resid_data &lt;- hc_employer_2013 %&gt;% 
+                        mutate(residuals = SLR_hc$residuals, 
+                               fitted_vals = SLR_hc$fitted.values) 
+
+ggplot(hc_resid_data, aes(x=fitted_vals, y=residuals, label = Location)) +
+  geom_point() + 
+  geom_text() + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Fitted values (proportion covered)", y="Residuals") + 
+  geom_hline(yintercept=0) 
+```
+
+&lt;img src="class13-part1_files/figure-html/class13-1-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Checking assumption 3: independence
+
+This assumption is difficult to check. Usually you have to think critically about what are potential sources of error or patterns in your measurements of the response variable `\(Y\)`.
+
+**Ask:** Is the value for `\(X\)` and `\(Y\)` I observe for one individual by itself able to give me any information on what the value of `\(X\)` and `\(Y\)` are for any other individual? 
+
+
+--
+## Health care data
+### Checking assumption 3: independence
+
+
+
+---
+## Assumptions for .blue[inference] with SLR
+
+`$$Y \mid x = \beta_0 + \beta_1 x + \epsilon$$`
+
+1. `\(E[\epsilon]=0\)`;
+
+1. `\(Var[\epsilon]=\sigma^2 &lt; \infty\)`;
+
+1. Each instance of the random variable `\(\epsilon\)` is independent of any other instance. 
+
+1. The random error, `\(\epsilon\)` is normally distributed.  
+
+
+Normal probability plots of the **standardized residuals** help us check Assumption 4. 
+
+
+Guide to interpreting QQ plots: 
+
+  - If the data is curved, this indicates a skewed distribution
+
+      - Downward concavity corresponds to negative Skewness (long tail to the left) 
+
+      - Upward concavity indicating positive skewness. 
+
+  - An S-shape indicates heavy tails, or an excess of extreme values, relative to the Normal distribution.
+
+
+---
+## Health care data
+### Checking assumption 4: normal residuals
+
+.scroll-output[
+
+```r
+hc_resid_data2 &lt;- hc_resid_data %&gt;% 
+                        mutate(std_residuals = (residuals-mean(residuals))/sd(residuals))
+
+ggplot(hc_resid_data2, aes(sample=std_residuals)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal probability plot of standardized residuals", subtitle="Cost of health care a predictor of proportion of people with coverage")
+```
+
+&lt;img src="class13-part1_files/figure-html/class13-2-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+
+
+
+
+---
+## For further reading 
+
+Introduction to Linear Regression Analysis, Fifth Edition by Montgomery, Peck, and Vining 
+
+
+- Chapter 1
+- Chapter 2, sections 1, 2, 5, 6
+- Chapter 5, section 2
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

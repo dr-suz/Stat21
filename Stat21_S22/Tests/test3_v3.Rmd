@@ -1,0 +1,327 @@
+---
+title: "Test 3"
+subtitle: "STAT 021"
+author: "Swarthmore College"
+output:  
+  pdf_document:
+    latex_engine: xelatex
+fontsize: 12pt
+geometry: margin=1in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, message=F, warning=F)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(kableExtra)
+library(knitr)
+library(tidyverse)
+library(png)
+library('broom')
+library('cowplot')
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Data")
+options(htmltools.dir.version = FALSE)
+#options(knitr.kable.NA = '')
+
+#vg_data <- read_csv("~/Google Drive/Swat docs/Stat11_S20/Midterm1/vgsalesGlobale.csv")
+#vg_subset <- vg_data %>% filter((Publisher=="Nintendo")|
+#                                (Publisher=="Namco Bandai Games")|(Publisher=="Electronic Arts")) %>% 
+#                         filter(Global_Sales <= 4)
+theme_set(theme_bw())
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+\hspace{1in} **Do not flip this page until instructed to do so.** 
+
+\vspace{.2in}
+
+**Test organization:** There are $12$ questions in total on this test and they are organized into three subsections: the first $4$ questions are matching or True/False with explanation questions, the next $5$ questions are free response short answer and should not require more than a sentence or two to answer. The last section contains $3$ long answer free response questions that require more than a couple of sentences to answer fully. There are a total of $60$ points possible on this test. The last section explains an extra credit opportunity. If you need additional scratch paper you may come to the front of the class and pick some up. 
+
+**Instructions:** Answer each question to the best of your ability and raise your hand if you are confused by any of the wording in the questions or suspect a typo. For the short and long answer questions show all your work and provide enough justification and/or explanation in order to get full credit or to be considered for partial credit. You do not need a calculator to evaluate any expressions. For any calculation problems, simply writing out the formula to find the answer will suffice. 
+
+
+\vspace{.2in}
+
+**First and Last Name:** _____________________________
+
+\vspace{.2in}
+
+**Swarthmore Username:** ______________________________
+
+\vspace{0.5cm}
+
+
+**Take a deep breath.** 
+
+You have prepared for this test and with a clear and well-rested mind, you are ready to show me what you have learned this semester. The purpose of this test is to measure your understanding of the material we have covered this semester. This is nothing more than a metric for me to evaluate your preparedness to think statistically at this particular moment in time and in this particular setting. This is not a perfect measure of your knowledge and does not predict your future statistical skills. 
+
+
+```{r echo=FALSE}
+
+mydata <- read_csv("~/Downloads/cereals.csv")
+#mydata %>% names
+
+cereal_dat <- mydata %>%  filter(mfr!='A')  %>% 
+                         mutate(Shelf = factor(shelf), Manufacturer = factor(mfr))
+
+#cereal_dat$Manufacturer %>% summary
+#Y = calories 
+# numeric = protein g 
+# sugars g 
+#categorical = Manufacturer (N, Q, K, G, R)
+```
+
+\pagebreak
+
+
+## Section 1: Matching and True/False problems  
+
+**1.** (5 points)
+
+Suppose we are modeling the weight of birds (in $kg$) as a linear function of a categorical predictor variable for bird type (with levels pigeon, sparrow, and finch) and a numeric predictor for bird age. Given a "full" model 
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3  + \epsilon,$$
+where $x_1 = \begin{cases}1, \text{ if sparrow}\\ 0, \text{ otherwise} \end{cases}$, $x_2 = \begin{cases}1, \text{ if finch}\\ 0, \text{ otherwise} \end{cases}$ and $x_3$ is the age of the bird (in months), match the questions below to their corresponding null hypotheses.   
+
+
+a) For newly hatched birds (of age zero months), is there a statistically discernible difference in the weights of these three different bird types?
+
+b) Does the effect of age on a bird's weight depend on what type of bird it is? 
+
+c) Given we are only comparing birds of the same age, is there a statistically significant difference in the mean weight of sparrows and pigeons? 
+
+d) Given we are only comparing pigeons, is the effect of age on a bird's weight statistically significant?
+
+e) Is there statistically discernible evidence of a linear relationship between bird age and type and bird weight?
+
+
+1.\underline{\hspace{1.0 in}} $H_0: \beta_1 = 0$
+
+2.\underline{\hspace{1.0 in}} $H_0: \beta_1 = \beta_2 = 0$ 
+
+3.\underline{\hspace{1.0 in}} $H_0: \beta_3 = 0$  
+
+4.\underline{\hspace{1.0 in}}  $H_0: \beta_4 = \beta_5 = 0$  
+
+5.\underline{\hspace{1.0 in}} $H_0: \beta_1 = \beta_2 = \beta_3 = \beta_4 = \beta_5 = 0$  
+
+\vspace{2cm} 
+
+
+**2.** (5 points)
+
+Determine which of the following statements about MLR models are true and false. For each statement that is false, provide a brief explanation as to why it is false.
+
+(a) If predictors are collinear, then removing one variable will have no influence on the point estimate of
+another variable’s coefficient.
+\vspace{1cm}
+
+(b) If a regression model’s first variable has a coefficient of $\hat{\beta}_1 = 5.7$, then if we are able to influence the
+data so that an observation will have a value of $x_1$ be one unit larger than it was before, the value of $y_1$ for this
+observation would increase by $5.7$ units.
+\vspace{1cm}
+
+(c) As the total sample size increases, the degrees of freedom for the residuals increases as well.
+\vspace{1cm}
+
+
+**3.** (5 points) 
+
+Determine which of the following statements about ANOVA models are true and false. For each statement that is false, provide a brief explanation as to why it is false.
+
+If the null hypothesis that the means of four groups are all the same is rejected from an ANOVA model and overall F-test at a $5\%$
+significance level, then ...
+
+(a) We can then conclude that all the means are different from one another.
+\vspace{1cm}
+
+(b) The standardized variability among the group averages is higher than the estimate of the variability of the data within each group.
+\vspace{1cm}
+
+(c) A post-hoc pairwise analysis will identify if there is at least one pair of means that are significantly different.
+\vspace{1cm}
+
+
+
+**4.** (5 points)
+
+Determine if the following statements about statistical modeling are true or false, and explain your reasoning. If false, state how it could be corrected. 
+
+(a) Decreasing the significance level ($\alpha$) will increase the probability of making a Type 1 Error.
+\vspace{1cm}
+
+(b) With large sample sizes, even small differences between the null value and the observed point estimate will be identified as statistically significant.
+\vspace{1cm}
+
+(c) Correlation is a measure of the association between any two variables.
+\vspace{2cm}
+
+
+
+## Section 2: Short answer questions 
+
+
+**5.** (4 points)
+
+Briefly describe a benefit of analyzing the studentized residuals of a regression model rather than just analyzing the observed residuals.
+\vspace{3cm}
+
+
+**6.** (3 points)
+
+If you could only use one measure (among the studentized residuals, leverage values, and Cook's distance values) to identify potentially influential data points, which would you choose and why? 
+\vspace{3cm}
+
+\pagebreak 
+
+For questions 7-9 consider the following random single-serving samples of $n=76$ breakfast cereals. We are going to model the average calories per serving (in g)  (`calories`) as a linear function of the cereal manufacturer (a categorical variable with levels: G=General Mills, K=Kelloggs, N=Nabisco, P=Post, Q=Quaker Oats, R=Ralston Purina). Below is the R summary output for this one-way ANOVA model.
+
+```{r echo=FALSE}
+cereal_mod <- lm(calories~Manufacturer, data= cereal_dat)
+cereal_mod %>% summary
+```
+
+\pagebreak 
+
+**7.** (3 points)
+
+(a) What are the error degrees of freedom based on this model? 
+
+(b) What is the reference level? 
+\vspace{3cm}
+
+
+**8.** (6 points)
+
+Suppose the average amount of calories for all these samples is `r round(mean(cereal_dat$calories),2)` over all $76$ data points. What is the estimated group effect for Quaker Oats cereal brand? 
+\vspace{3cm}
+
+
+**9.** (4 points)
+
+Consider two additional numeric predictors: `sugars` (in g) and `protein` (in g). If we were to fit a regression model including each of the three predictor variables (including manufacturer) and an interaction between the two numeric variables, explain the meaning of the coefficient for the interaction term within the context of this data. (You should be able to answer this in no more than two sentences.) 
+
+\pagebreak 
+
+
+## Section 3: Long answer questions
+
+**10.** (9 points)
+
+Suppose you have access to a data set on a random sample of undergraduate-only institutions in the US. The variables included in this data set are 
+a numeric variable for the average cost of tuition each semester, 
+a binary categorical variable distinguishing private institutions from public ones, 
+a numeric variable for the percentage of full-time instructional staff employed at the institution, and a categorical variable indicating whether the school is a liberal arts college, a community college, a technical/vocational school, or if they are institutionally affiliated with certain groups (e.g. historically Black, women's only, tribal, etc). 
+
+State a research question that can be answered with the overall F-test for each of the following models, based on this data. (You do not need to use every variable, but you can.) Also provide a mathematical representation of the model and state the null hypothesis based on the notation you define for each model. 
+
+(a) a simple linear regression model;
+
+(b) an ANOVA model;  
+
+(c) a multiple linear regression model (not SLR or ANOVA).  
+
+\pagebreak 
+
+
+**11.** (8 points)
+
+Consider the ANOVA model for the cereal data you used in questions 7-8. Reference the R output on pg 5 and the plots on pg 10 to answer the following questions about this model.
+
+(a) Check the conditions necessary for conducting a test to determine if the average calories (per serving) is significantly different for these six different cereal manufacturers.  (You do not need to check the zero mean or linearity conditions but you do need to describe what it means for the group effects to be constant in this context.)
+
+(b) Write out in words and in symbols the hypotheses that would be tested in part (a). (Clearly define your notation.)
+
+(c) What can you conclude about the test in part (b)? Write a paragraph discussing your conclusions and reference any relevant statistics and/or plots as part of your discussion.
+
+
+
+\pagebreak
+
+
+**12.** (8 points)
+
+Suppose two people are studying the historic data set about the amount of arsenic (Arsenic) in local wells. This data contains $n=70$ observations from a random selection of well water samples from across the state. In addition to the levels of arsenic, the data also records the year the data was collected (Year) and the distance from the well to the nearest mining site (Miles).  
+
+**Person A** fits the following MLR model to the data:
+$$Arsenic = \beta_0 + \beta_1 Year  +\beta_2 Miles  + \epsilon$$
+and computes an adjusted $R^2$ value of $0.26$.
+
+**Person B** considers the following correlations:
+$$Cor(Arsenic, Year) = \rho_1; \quad Cor(Arsenic, Miles)= \rho_2$$
+and estimates each with their sample correlations $r_1 = 0.77$ and $r_2 = -0.34$. Are the two people's conclusions contradictory? Explain your answer. 
+
+
+\vspace{4in}
+
+
+
+
+
+## Section 4: Extra credit opportunity
+
+If the response rate to my end of the semester evaluation form (on Moodle under Week 13 and 14) is at least $85\%$ of our class size (over both sections), two percentage points will be added to everyone's Test 3 grade (up to $100$ total possible points). **Hint:** You may not know how to or want to contact everyone in my class but you do know your group mates pretty well.  
+
+
+\pagebreak 
+
+## Cereal ANOVA Model 
+
+```{r echo=FALSE}
+k <- 5
+n <- 76
+influential_pts_data <- cereal_dat %>% mutate(studresids = rstudent(cereal_mod),
+                                            fits = cereal_mod$fitted.values,
+                                            leverage = hatvalues(cereal_mod),
+                                            cooksd = cooks.distance(cereal_mod),
+                                            e_as_h1 = abs(sqrt(((1/leverage)-1)*(0.5*(k+1)))),
+                                            e_as_h2 = abs(sqrt(((1/leverage)-1)*(1*(k+1)))))
+                                            # fits = mod_mobility$fitted.values,
+## plot lines where cooksd = 0.5 and 1 
+## d = (stures^2/(k+1))*(h/(1-h))
+## plot lines where studresids = 2 and 3 
+## plot lines where leverage = 4/n and 6/n 
+
+
+#ggplot(data=influential_pts_data) + 
+#  geom_point(aes(x=leverage, y=studresids),size=1.5) + ylim(-6,6) + xlim(min(influential_pts_data$leverage), max(influential_pts_data$leverage)) +
+#  geom_hline(yintercept=2, col="green", lty=3, size=1)+geom_hline(yintercept=-2, col="green", lty=3, size=1) +
+#  geom_hline(yintercept=3, col="green", lty=2, size=1)+geom_hline(yintercept=-3, col="green", lty=2, size=1) +
+#  geom_vline(xintercept=4/n, col="blue", lty=3, size=1)+geom_vline(xintercept=6/n, col="blue", lty=2, size=1) +
+#  geom_smooth(aes(x=leverage, y=e_as_h2), lty=2, col="purple", se=FALSE)+
+#    geom_smooth(aes(x=leverage, y=-e_as_h2), lty=2, col="purple", se=FALSE) +
+#  labs(title="ANOVA Model: Studentized Residuals and Leverage")
+```
+
+```{r echo=FALSE, fig.align='center',fig.height=4}
+
+resid_data <- data.frame(resids = influential_pts_data$studresids, type = as.character(influential_pts_data$Manufacturer))
+ggplot(resid_data) +
+  geom_boxplot(aes(x=type, y=resids)) +
+  labs(title="Residual plot for ANOVA model", 
+       x="Manufacturer", y="Studentized residuals")
+  
+  
+#ggplot(influential_pts_data, aes(x=fits, y=studresids)) +
+#  geom_point() + 
+#  geom_text(label=rownames(influential_pts_data), nudge_y = -.5) + 
+#  labs(title="Residual plot for ANOVA model", 
+#       x="Fitted values", y="Studentized residuals")
+
+```
+
+```{r echo=FALSE, fig.align='center',fig.height=4}
+ggplot(influential_pts_data, aes(sample=studresids)) +
+  stat_qq() + stat_qq_line() + 
+#  geom_stat() + geom_stat_qq() +  
+  labs(title="Normal quantile plot for ANOVA model", 
+       x="Theoretical quantiles", y="Observed quantiles (student residuals)")
+```

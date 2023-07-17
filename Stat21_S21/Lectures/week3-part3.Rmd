@@ -1,0 +1,159 @@
+---
+title: "Week 3 - Part 3"
+subtitle: "Statistical Inference for the Difference in Population Means Continued"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Week 3 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+
+## Difference in means  
+### Problem Set-up
+
+Just as we were able to determine if there is a statistically significant difference between two population proportions, we are now going to do the same for two populations with quantitative variables of interest. The question that we are interested in now is: "Is there a statistically significant difference between the mean values of these two RVs?" 
+
+
+.pull-left[**Option 1:** Un-paired samples
+
+In this setting, we have two independent simple random samples from two populations (e.g. comparing the SAT scores of public versus private high schools). The two samples may or may not have the same sample size.] 
+.push-right[**Option 2:** Paired sample 
+
+In this setting, we have two samples but they are from the same population (e.g. we may be studying genetic traits across twins or test scores of the same people before and after attending a workshop on test-taking strategies). The samples will always be the same size in this setting.]
+
+&nbsp;
+&nbsp;
+--
+
+.center[The key to understanding the differences between these settings is to think about the variation between the two samples. If the samples are from different populations, then the values that the quantitative variables take on probably varies a lot more than if they were samples from the sample population.]   
+
+---
+## Option 2 - Paired two-sample t-test/CI
+### Problem Set-up
+
+**Population:** 
+
+If we have two dependent samples, we can model the difference between them as a single continuous RV, $\Delta$. The *population parameter* we are interested in is $\mu$: the mean of the RV $\Delta$,
+
+$$\mu = E[\Delta] = \sum_{d \in S} dPr(\Delta=d),$$
+where $S$ is the sample spacers of all possible values the difference, $D$, might take.
+
+**Sample:** We have one random subset of observations from the population, but we have two different instances of observations: 
+
+$$x_{obs_1} = \{x_{1,1}, x_{1,2}, x_{1,3}, \dots, x_{1,n}\} \quad \text{ and }\quad x_{obs_2} = \{x_{2,1}, x_{2,2}, \dots, x_{2,n}\}.$$
+
+The data we are really interested in is the difference between these observations:
+
+$$d_{obs} = \{d_1, d_2, d_3, \dots, d_n \} = \{(x_{1,1} - x_{2,1}), (x_{1,2}-x_{2,2}), (x_{1,3}-x_{2,3}), \dots, (x_{1,n}-x_{2,n})\}.$$ 
+
+The sample size is therefore just the number of **dependent** pairs, $n$.  
+
+---
+## Option 2 - Paired two-sample t-test/CI
+### Problem Set-up
+
+Now we are in the exact same setting we've handled before where all we need to do is a one-sample t-test or confidence interval! (See Week 3 Part 1)
+
+
+### Assumptions 
+The assumptions are the same as they were for one-sample inference for a population mean, however, we now need to make sure the assumptions hold for the *differences* of the paired observations, rather than for the observations themselves.
+
+1. The values the quantitative variable $\Delta$ can take on, follow roughly a symmetric and uni-modal distribution. For larger sample sizes (i.e. more matched pairs), we can relax this assumption.
+
+2. The differenced data, $d_{obs}$, are independent of one another, or in other words, the differenced data represent a simple random sample (SRS) from a larger population of differenced RVs. The only dependency in the data should be between the pairs. 
+
+---
+## Option 2 - Paired two-sample t-test/CI
+### Problem Set-up
+
+**In observational studies:** think about the larger population of the RV $\Delta$ and verify that $n$ is less than $10\%$ the size of the entire population of differences. In this setting, we refer to paired data as *matched* data. 
+
+
+**In experiments:** think about possible sources of bias in assignment of treatments. Randomization, or, the random assignment of individuals to a treatment or a control group is the best way to avoid bias. In this setting, we say the data is *blocked* according to whatever defines one pair from the next. 
+
+
+--
+**Note:** We cannot choose which method to use, paired or unpaired t-tests or CIs. We must think about how the data was collected to determine which method is appropriate. 
+
+- Paired data will always have the sample number of observations in each group. However, just because two groups have the same number of observations .red[does not] mean that the data is paired. 
+
+- Paired data is inherently *dependent*, each set of observations represents different values of the same observational unit (e.g. before/after, twins). Un-paired data must be from groups that are *independent* of one another. 
+
+
+---
+## Option 2 - Paired two-sample t-test/CI
+## In R 
+
+Since everything about paired, two-sample tests and CIs is exactly the same as it was for a single sample test and CI, we will instead go over the data processing steps here. 
+
+The only processing step needed here is to compute the difference between the two dependent observations. 
+
+.scroll-small[
+```{r echo=TRUE}
+#Define the observed data and then calculate the difference between the pairs 
+x1_obs <- c(160, 200, 205, 181, 190, 187, 172, 193, 182, 192)
+x2_obs <- c(155, 195, 200, 173, 192, 184, 171, 196, 179, 188)
+diff_obs <- x1_obs - x2_obs
+#Then use the t.test() function on the differenced data
+t.test(diff_obs, conf.level=0.95)
+```
+]
+
+
+
+

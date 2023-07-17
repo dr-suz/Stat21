@@ -1,0 +1,221 @@
+---
+title: "Class 2 - Part 3"
+subtitle: "Single Population Proportion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Sept 8, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+
+## Population Proportion 
+### Problem Set-up
+
+Collect a survey with a yes/no question. 
+
+**Population:** Adults over the age of 18 who live in NYC
+
+If we treat the yes/no survey question as a Bernoulli RV, $X$, then the *population parameter* we are interested in is $p$: the probability that any randomly chosen individual from the population answers "yes" to the question. 
+
+$$p = Pr(X= yes)$$
+
+**Sample:** A random subset of the population 
+
+\begin{align}
+x_{obs} &=& \{x_1, x_2, x_3, \dots, x_n\} \\
+ &=& \{yes, yes, no, \dots, yes\} \\
+ &=& \{1, 1, 0, \dots, 1\}
+\end{align}
+
+**Sample size:** $n=$ the number of people who responded to the survey. 
+
+---
+## Population Proportion 
+### Problem Set-up
+
+After we have surveyed our entire sample of $n$ individuals, we now have an **estimate** for the population parameter: 
+$$\hat{p} = \frac{1}{n}\sum_{i=1}^{n}x_i = \frac{\text{the total number of yes's}}{n}.$$
+
+Although it's easy enough for us to compute $\hat{p}$, the question remains: 
+
+.blue[How close is this sample estimate,] $\hat{p}$.blue[, to the (unknown) population parameter value,] $p$.blue[?] 
+
+
+--
+To answer this question we can use CIs or a hypothesis test. Before doing so, we must make sure the following **assumptions** are reasonable! 
+
+1. The sample size is large enough for the CLT to work. (Roughly speaking we'll need at least 10 failures and 10 successes in our observations, in other words $(n\hat{p} \geq 10) \text{ and }(n(1-\hat{p}) \geq 10)$
+
+2. The data is a simple random sample (SRS) from the population of interest. (Are there any dependencies among the data? Does the sample comprise less than $10\%$ of the population? Was the sample collected without bias?)
+
+---
+## Confidence Intervals 
+
+A $(1-\alpha)\times100 \%$ confidence interval for parameter $p$ can is: 
+$$\hat{p}_{obs} \pm \left(z^*_{\alpha/2} \times \sqrt{\frac{\hat{p}_{obs}(1-\hat{p}_{obs})}{n}}\right).$$
+
+In the above, $z^*_{\alpha/2}$ is the **critical value**. Since the CLT (under the appropriate conditions) tells us that the sampling distribution of $\hat{p}$ is Normal, I'm using $z$ here to clarify that this critical value is actually the upper $(1-\frac{\alpha}{2})\%$ **quantile** of a Standard Normal RV. 
+
+The significance level is $\alpha = 1 - \text{confidence level},$ where, typically, the confidence level is set to $90\%$, $95\%$, or $99\%$.  
+
+
+
+--
+**Q1:** What's the margin of error? 
+
+
+
+---
+## Confidence Intervals 
+
+
+A $(1-\alpha)\times100 \%$ confidence interval for parameter $p$ can is: 
+$$\hat{p}_{obs} \pm \left(z^*_{\alpha/2} \times \sqrt{\frac{\hat{p}_{obs}(1-\hat{p}_{obs})}{n}}\right).$$
+
+In the above, $z^*_{\alpha/2}$ is the **critical value**. Since the CLT (under the appropriate conditions) tells us that the sampling distribution of $\hat{p}$ is Normal, I'm using $z$ here to clarify that this critical value is actually the upper $(1-\frac{\alpha}{2})\%$ **quantile** of a Standard Normal RV. 
+
+The significance level is $\alpha = 1 - \text{confidence level}$ where, typically, the confidence level is set to $90\%$, $95\%$, or $99\%$.  
+
+
+
+
+**Q2:** What's stopping us from getting a $100\%$ confidence interval?
+
+
+---
+## Confidence Intervals 
+
+### Interpretation 
+
+If we were to collect more size $n$ simple random samples (SRS) from the same population, we would get slightly different confidence intervals. But, in the long run, $(1-\alpha)\times 100\%$ of those confidence intervals will contain the true population proportion, $p$. 
+
+
+
+### In R
+.scroll-small[
+```{r}
+#Define the observed successes 
+obs_success <- 7
+#Then use the prop.test() function 
+prop.test(obs_success, n=10, conf.level=0.90)
+#To get R to only show the CI we can extract it with the $conf.int appended at the end
+prop.test(obs_success, n=10, conf.level=0.90)$conf.int
+```
+]
+
+
+---
+## Hypothesis Tests 
+
+We first must identify the null and alternative hypotheses:
+\begin{align}
+H_0: p = p_0 \quad\text{and}\quad &H_A: p > p_0 \\
+      \text{ or }&H_A: p < p_0\\
+      \text{ or }&H_A: p \neq p_0.
+\end{align}
+
+Then we calculate the test statistic
+$$\text{Test Statistic} = \text{Z-score} = \frac{\hat{p} - p_{0}}{\sqrt{\frac{p_0(1-p_0)}{n}}}.$$
+
+Compare the equation above to the equation for a confidence interval. 
+
+
+--
+**Q:** Why are we using $p_0$ in the denominator? 
+
+
+---
+## Hypothesis Tests 
+
+### Interpretation 
+
+[draw picture of p-value] 
+
+Compute a p-value for the observed test statistic under the null hypothesis and compare it to the significance level $\alpha$. 
+
+- If the data supports/is consistent with the null hypothesis, we *fail to reject the null* and conclude that the null hypothesis seems reasonable according to the data. 
+
+- If it does not support the null hypothesis, we say that we *reject the null* hypothesis because the data provides evidence in favor of the alternative. 
+
+
+For the conclusion of a hypothesis test to be reliable, one must specify $\alpha$ before collecting the data (and must not change it after seeing the data calculations)!
+
+
+---
+## Hypothesis Tests 
+
+### In R
+
+.scroll-output[
+```{r}
+#Define the observed successes and the value of p in the null hypothesis
+obs_success <- 7
+p0 <- 0.5 
+#Determine the direction of the alternative hypothesis, the confidence level, and the sample size n
+prop.test(obs_success, n=10, p=p0, alternative="greater", conf.level=0.90)
+
+#For more information on the function (like the possible directions for the alternative hypothesis), run the following line of code:
+help(prop.test)
+```
+]
+
+

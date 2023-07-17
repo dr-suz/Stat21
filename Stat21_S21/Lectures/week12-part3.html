@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 12 - Part 3</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <script src="week12-part3_files/header-attrs-2.7/header-attrs.js"></script>
+    <link href="week12-part3_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="week12-part3_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 12 - Part 3
+## Residual Analysis
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class in Week 12 (updated: 2021-04-26)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## Multiple linear regression
+### Assumptions 
+
+- Relationship between the response and the set of predictor variables (the regressors) is approximately linear 
+
+- The error term, `\(\epsilon\)`, has zero mean 
+
+- The error term has constant variance `\(\sigma^2\)` 
+
+- The errors are uncorrelated 
+
+- The errors are Normally distributed 
+
+---
+## Multiple linear regression
+### Assumptions 
+
+- Relationship between the response and the set of predictor variables (the regressors) is approximately linear `\(\leftarrow\)` .red[Use residual plots!] 
+
+- ~~The error term, `\(\epsilon\)`, has zero mean~~
+
+- The error term has constant variance `\(\sigma^2\)` `\(\leftarrow\)` .red[Use residual plots!] 
+
+- The errors are uncorrelated 
+
+- The errors are Normally distributed `\(\leftarrow\)` .red[Use Normal probability plots of the residuals!]
+
+---
+## Multiple linear regression
+### (Studentized) Residuals
+
+Residuals measure the deviation between the observed data, `\(y_{obs}\)`, and the fitted response, `\(\hat{y}\)`. Some properties of residuals are 
+
+1. The mean of the residuals is always zero. 
+
+2. The variance of the residuals is, on average, equal to the `\(MSE = \frac{SSE}{n-p}\)`. 
+
+3. The residuals are correlated. (This is mainly a problem when the number of parameters `\(p\)` is close to - or larger than - your sample size, `\(n\)`.) 
+
+  - This is one reason we want to use studentized residuals.
+  
+  - This is also why we plot the residuals, `\(e_i\)`, vs the fitted values, `\(\hat{y}_i\)`, (rather than the observed `\(y\)` values)           
+
+
+--
+From now on, we are going to use only use plots of the *studentized residuals* 
+
+
+```r
+library("MASS")
+studres(mod)  ## this is the function to calculate the studentized residuals of "mod" 
+```
+
+---
+## Normal probability plots 
+
+&lt;img src="Figs/week12-resid-qq.png" width="1185" height="500" style="display: block; margin: auto;" /&gt;
+
+---
+## Residual plots 
+### Residuals vs fitted values 
+
+.push-left[
+- Outliers
+
+- Non-constant variance
+
+- Non-linearity
+]
+.pull-right[
+&lt;img src="Figs/week12-resid-funnel.png" width="1156" /&gt;
+]
+
+
+
+---
+## Residual plots 
+### Residuals vs regressors 
+
+
+- Transformations of predictors (non-linear relationships) 
+
+- Extrapolation 
+
+- Potentially useful additional predictors 
+
+
+--
+### Reading along in your textbook 
+
+Chapter 4 Sections 1 and 2
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

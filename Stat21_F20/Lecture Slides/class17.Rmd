@@ -1,0 +1,240 @@
+---
+title: "Class 17"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Nov 5, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+library('kableExtra')
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+## Class 17, Thursday the 5th
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - HW 6 is due on Tuesday, Nov 10th. Typos in problems 6 and 7 have been corrected online.
+  
+  - Will still hold office hours regularly before the final. Please continue to use the hw-qand-a channel to go over problems with your classmates. 
+  
+  - Final project: Answer poll in slack channel about whether you want to do your final with a randomly assigned group of 3-4 people or if you want to do your final project by yourself. 
+  
+  - Final project instructions will be released after Test 2.   
+  
+- Check-in   
+
+- Simulation experiment for understanding confidence and prediction intervals 
+
+- MLR Exercise with `msleep` data set 
+
+- Comprehension quiz review
+
+- Homework 6 Problem 1 
+
+- Next week: no new material, review the concept of independence and practice MLR examples 
+]
+
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+```{r, echo=FALSE, fig.align='right', out.height=500}
+knitr::include_graphics("Figs/real-feel.png")
+```
+]
+
+
+---
+## Simulation Study
+### Prediction intervals and confidence intervals for the slope 
+
+This is Problem 2.23 in our textbook.
+
+Consider the simple linear regression model 
+$$y = 50 + 10x + \epsilon, \quad \text{where } \epsilon \sim N(0,16).$$
+Generate 500 samples of 20 observations drawing one observation for each level of $x=1,1.5,, \dots,10$ for each sample. 
+
+(a) For each sample compute the least-squares estimates of the slope and intercept. Construct histograms of the sample values of $\hat{\beta}_0$ and $\hat{\beta}_1$. Discuss the shape of these histograms. 
+
+(b) For each sample, compute an estimate of $E[Y \mid x=5]$. Construct a histogram of the estimates you obtained. Discuss the shape of the histogram 
+
+(c) For each sample, compute a $95\%$ CI on the slope. How many of these intervals contain the true value $\beta_1=10$? Is this what you would expect?
+
+(d) For each estimate of $E[Y \mid x=5]$ in part (b), compute the $95\%$ CI. How many of these intervals contain the true value of $E[Y \mid x=5]=100$? Is this what you would expect? 
+
+
+---
+## Simulation Study
+### Group Work (15 minutes)
+
+Download the R script file called `class16_simulations.R`, available [here](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class16_files/class16_simulation.R). 
+
+**Note-taker:** You will submit the completed R script file to me over your group's Slack channel at the end of class. You will need to upload this file as an attachment in a Slack message. 
+
+**Presenter:** Be prepared to answer the discussion questions when we discuss the prompts as a class and/or be prepared to mention any questions that arose during your groups discussion. 
+
+**Recorder:** Keep track of the time and alert your group when you have 5 mins remaining. 
+
+**Questioner:** Make sure that everyone understands the general purpose of each coding section for parts (a) - (d) by asking clarifying questions. Also, be prepared to ask any questions that have come up within your group discussion when I stop by your breakout room. 
+
+---
+## MLR Example 
+### Mammal sleep data set - an interaction effects model
+
+
+$$Y=\text{ Total time slept} \quad x=\text{ Brain weight}\\
+w_1 = \begin{cases} 1, \text{ if lc}\\ 0, \text{ otherwise} \end{cases} \quad
+w_2 = \begin{cases} 1, \text{ if hc}\\ 0, \text{ otherwise} \end{cases}$$
+ 
+$$Y\mid (x,w) = \beta_0 + \beta_1 x + \beta_{w_{1}} w_1 + \beta_{w_{2}} w_2 + \beta_{w_{1}x} x w_1 + \beta_{w_{2}x} x w_2 + \epsilon$$ 
+
+Quantitative predictor: brain weight (in kg)
+
+Categorical predictor: Conservation status. This is one of three levels domesticated, least concern (lc), higher concern (hc). The category hc includes endangered (en), vunerable (vu), near threatened (nt), and critically endangered (cd)
+
+Quantitative response: total time slept each day (in hours)
+
+
+---
+## MLR Example 
+
+.scroll-output[
+```{r}
+library("tidyverse")
+data(msleep)
+msleep2 <- msleep %>% 
+           na.omit %>%
+           mutate(conservation_cat = 
+                    conservation %>% factor %>% fct_collapse("hc" = c("vu","en","nt"))) 
+head(msleep2)
+msleep2 %>% count(conservation_cat)
+```
+
+Create a copy of the msleep2 data set called msleep3. In msleep3 make sure the reference category for the predictor conservation_cat is the level domesticated. Then fit an interaction MLR model using the following code.
+
+```{r}
+#msleep3 <- msleep2 %>% mutate(conservation_cat2 = relevel(conservation_cat, ref="domesticated"))
+#MLR_mammals <- lm(sleep_total ~ brainwt + conservation_cat2 + brainwt*conservation_cat2, msleep3)
+#summary(MLR_mammals)
+```
+]
+
+
+---
+## MLR Example 
+### Group work (20 minutes)
+
+
+In the [worksheet](https://docs.google.com/document/d/1p2fcgB-VT6AHhA6KZVtrQLZi3G41LqOtfocnk6R_ByY/edit?usp=sharing) write out the estimated MLR equation by filling in the estimated coefficients of the model
+$$E[Y \mid (x,w)] = \hat{\beta}_0 + \hat{\beta}_1 x + \hat{\beta}_{w_{1}} w_1 + \hat{\beta}_{w_{2}} w_2 + \hat{\beta}_{w_{1}x} x w_1 + \hat{\beta}_{w_{2}x} x w_2.$$
+
+As a group, answer the questions in the worksheet. Make sure you write out the estimated equations for each question before you give your final answer. 
+
+.scroll-small[**Note-taker:** You will submit the completed worksheet e to me over your group's Slack channel at the end of class. Make sure you give me access to view the document. 
+
+**Presenter:** Be prepared to answer the discussion questions when we discuss the prompts as a class and/or be prepared to mention any questions that arose during your groups discussion. 
+
+**Recorder:** Keep track of the time and alert your group when you have 5 mins remaining. 
+
+**Questioner:** Make sure that everyone understands the steps involved in answering each worksheet question. Also, be prepared to ask any questions that have come up within your group discussion when I stop by your breakout room. 
+]
+
+---
+## Moodle questions
+### Comprehension quiz questions
+
+
+Q4: why isn't there enough evidence to indicate that the true effect of x_2 on the response variable is different from zero?
+
+Q6, Q7
+ 
+Q8: How can we tell its one over the other?
+ 
+Q10: Why would we not include 0.4918 in the effect size? (I think I understand, but I think I need to see the mathematical formula)
+ 
+ 
+ 
+---
+## Moodle questions
+### Homework question
+ 
+### Problem 1
+
+a) Build a linear regression model relating gasoline mileage (as the response) to engine displacement and the type of transmission. (Note that transmission type is a binary categorical variable.) Does the type of transmission significantly affect the mileage performance? Justify your answer.   
+
+
+b) Modify the model developed in part (a) to include an interaction between engine displacement and the type of transmission (A=automatic, M=manual). What is the average effect on gasoline mileage when the engine is automatic? What is the average effect on gasoline mileage when the engine is manual? 
+
+
+
+
+
+

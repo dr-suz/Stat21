@@ -1,0 +1,200 @@
+---
+title: "Stat 21 Week 5 Worksheet"
+author: " Person 1, Person 2, Person 3, etc. "
+date: "Monday, Feb 14, 2022"
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+This worksheet is to be completed in class as a group. Take a minute to have everyone introduce themselves and then choose who will play the role of **recorder** and **reporter**. The recorder is responsible for completing this worksheet and emailing the .Rmd file to your professor with the subject **"Stat 21: Week 5 Worksheet"**. Make sure everyone's name is included at the top of this document! The reporter is responsible for taking note of your answers and any questions that come up to share them with Prof. Suzy or the Muse when they stop by to check in on your group. Other groups members are responsible for keeping the discussion on-task and providing possible solutions or sharing questions with the group. 
+
+For this assignment, I suggest that you choose the recorder to be whoever last ate cereal for breakfast and choose the reporter to be whoever hasn't had cereal for breakfast in the longest time (or ever). 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)       
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data)
+```
+
+
+# Step 1: Choose 
+
+Create a data frame for PalmBeach.
+```{r}
+data("PalmBeach")
+names(PalmBeach)
+```
+
+# Step 2: Fit
+
+Fit a model to predict Buchanan votes using Bush votes.
+```{r}
+regall <- lm(Buchanan~Bush, data=PalmBeach)
+regall %>% summary
+```
+
+Plot all data for the 2000 presidential election totals in Florida counties
+```{r}
+ggplot(PalmBeach, aes(x=Bush, y=Buchanan)) + 
+  geom_point() + 
+  labs(title="Election totals in FL counties", x="Bush", y="Buchanan") 
+```
+
+
+# Step 3: Assess 
+
+Create a residual plot for butterfly ballot data
+
+## Residuals plot 
+
+```{r}
+#PalmBeach_all <- PalmBeach %>% mutate(resids = regall$residuals,
+#                                        fits = regall$fitted.values)
+```
+
+```{r}
+#ggplot(PalmBeach_all, aes(x=?, y=?)) + 
+#  geom_point() + 
+#  labs(title="Residual plot", subtitle="Bucahanan votes predicted with Bush votes", x="Fitted values", y="Residuals") + 
+#  geom_hline(yintercept=0)
+```
+
+Now label each data point with the row number to make it easier to identify particular points. 
+
+```{r}
+#ggplot(PalmBeach_all, aes(x=fits, y=resids)) + 
+#    geom_point() + 
+#    labs(title="Residual plot", subtitle="Bucahanan votes predicted with Bush votes", x="Fitted values", y="Residuals") + 
+#    geom_hline(yintercept=0) #+
+#    geom_text(label=rownames(PalmBeach_all)) 
+```
+
+## Standardized and studentized residuals 
+
+
+Palm Beach County is observation 50, so we can find the standardized residual value for this data point as follows.
+```{r}
+#sresids <- regall %>% rstandard 
+#sresids
+#sresids[50]
+```
+
+Use the `geom_histogram` function and the `ggplot` function to create a histogram of the standardized residuals. 
+
+```{r}
+#PalmBeach_all2 <- PalmBeach_all %>% mutate(sresids = sresids)
+# Use this space to make a histogram of the standardized residuals 
+```
+
+Let's find the value of the studentized residual and compare it to the standardized residual for observation 50. 
+```{r}
+#studresids <- regall %>% rstudent
+#studresids
+#studresids[50]
+```
+
+And compare a histogram of the studentized residuals as well. 
+
+```{r}
+#PalmBeach_all3 <- PalmBeach_all2 %>% mutate(studresids = studresids)
+# Use this space to make a histogram of the studentized residuals 
+```
+
+
+Let's assess the regression model if we exclude the Palm Beach data point using the `filter` function. See how the dimensions of the data sets differ. 
+```{r}
+#NoPalmBeach <- PalmBeach %>% filter(County!="PALM BEACH")
+#PalmBeach %>% dim 
+#NoPalmBeach %>% dim
+```
+
+Fit the regression to the model without Palm Beach.
+```{r}
+#regnoPB <- lm(Buchanan~Bush,data=NoPalmBeach)
+#regnoPB %>% summary 
+```
+
+Let's compare the regression lines with and without Palm Beach
+```{r}
+#regall %>% names
+#regall$coefficients
+```
+
+Which line in the plot below represents the fitted regression model without using the Palm Beach data point? 
+
+```{r}
+#ggplot(PalmBeach, aes(x=Bush, y=Buchanan)) + 
+#  geom_point() + 
+#  labs(title="Election totals in FL counties", subtitle="SLR with an without influential point", x="Bush", y="Buchanan") + 
+#  geom_abline(intercept = regall$coefficients[1], slope = regall$coefficients[2], lwd=2, col="darkblue") +
+#  geom_abline(intercept = regnoPB$coefficients[1], slope = regnoPB$coefficients[2], lty =2, lwd=2, col="darkblue")
+```
+
+
+## Normal quantile plot 
+
+```{r}
+## Use this space to create a Normal quantile plot for the residuals 
+```
+
+# Step 4: Use 
+
+## Confidence interval for the slope of the predictor 
+
+Compute a confidence interval for the slope
+```{r}
+#regall %>% confint
+```
+
+## Prediction
+
+Use our model to predict the averagenumber of Buchanan votes for an observation of 103000 votes for Bush. 
+```{r}
+#PalmBeach %>% names
+#new_x <- data.frame(Bush=103000)
+#fit <- regall %>% predict(newdata = new_x)
+#fit
+```
+
+## Confidence interval for the mean response 
+
+Find a 95% confidence interval for *the average number* of Buchanan votes for an observation of 103000 votes for Bush. 
+```{r}
+#regall %>% predict.lm(new_x, interval='confidence')
+```
+
+
+## Prediction interval for an unobserved value of the response 
+
+Find a 95% prediction interval for *the number* of Buchanan votes for an observation of 103000 votes for Bush. 
+```{r}
+#regall %>% predict.lm(new_x, interval='prediction')
+```
+
+## Visualizing CIs and PIs for the response 
+
+Edit the code below to create a plot with the CI for the mean response and regression line by changing the `se` parameter to `TRUE`.  
+```{r}
+#ggplot(data=PalmBeach, aes(x=Bush, y=Buchanan)) + 
+#  geom_point() + 
+#  geom_smooth(method=lm, se=FALSE)   
+```
+
+Prediction intervals are a bit more involved. We need to create a new data fram that contains the original data and the upper and lower bounds of PIs for an unobserved response for a range of different predictor values. I'll show you some code for this next class. 

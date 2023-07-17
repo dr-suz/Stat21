@@ -1,0 +1,86 @@
+ ---
+title: "Plotting CIs and PIs in SLR"
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)       
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+```
+
+        
+# Consider a SLR model that uses the total bill to predict the amount tipped.        
+```{r}
+require(Lock5Data)
+data(RestaurantTips)
+names(RestaurantTips)
+SLR_tips = lm(Tip ~ Bill, data = RestaurantTips)
+```
+
+**Q1:** What is the estimated regression model? 
+
+[Write your answer here]
+
+
+We can visualize the estimated regression model and the data with the following code:
+
+```{r}
+RestaurantTips %>% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatterplot of the data and the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+```
+
+
+We can add to this plot a shaded region corresponding to the 95\% confidence interval for the mean response, at all observed values of `Bill` using the `geom_smooth()` function. 
+
+```{r}
+
+RestaurantTips %>% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", level=0.95)+
+                     labs(title="Scatterplot of the data and the regression line",
+                          subtitle="Superimposed 95% CI bounds on the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+```
+
+**Q2:** Edit the code above to plot a 90\% confidence interval for the mean response instead of a 95\% confidence interval. How did the plot change? 
+
+[Write your answer here.]
+
+
+```{r}
+RestaurantTipsv2 = tibble(cbind(RestaurantTips, predict(SLR_tips,RestaurantTips, interval="prediction")))
+names(RestaurantTipsv2)
+RestaurantTipsv2 %>% ggplot() +
+   geom_point(aes(x=Bill, y=Tip)) +
+   geom_smooth(aes(x=Bill, y=Tip),method="lm",se=TRUE) +
+   geom_ribbon(aes(x=Bill, ymin=lwr, ymax=upr), fill="green",alpha=0.15 ) +
+   labs(title="Scatterplot of the data and the regression line",
+        subtitle="Superimposed 95% prediction bounds on the regression line",
+        x="Cost of the bill", y="Amount tipped")
+```
+
+**Q3:** Edit (and then run) the code above to again 90\% confidence and prediction intervals rather than 95\% intervals. What about these plots stayed the same? What changed? 
+
+[Write your answer here. ]
+
+**Q4:** Change the value of `alpha` in the code above to 0.5 and then to 0.9. What do you think this `alpha` parameter represents? 
+
+[Write your answer here. ]

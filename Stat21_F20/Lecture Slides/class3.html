@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 3</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class3_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class3_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 3
+## Agenda for in-class discussion
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, Sept 15, 2020 (updated: 2020-09-15)
+
+---
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Happy Tuesday!  
+
+Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - HW 1 due Friday, the 18th by noon ET 
+  
+  - HW 2 is online, due Thursday, the 24th by noon ET
+
+  - Moodle questions
+
+- Practice problems 1 and 2
+
+  - Use Zoom whiteboard
+  
+  - Submit screenshot to me via group Slack channel
+
+- R lesson
+
+  - Packages and libraries
+
+  - Making plots in R's `tidyverse` 
+
+
+---
+# Moodle questions
+
+- Why we use `\(p_0\)` in the formula for the Z-score test statistic? 
+`$$Z.score = \frac{\hat{p}-p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}$$`
+
+- Could you go over the difference between Binomial and Bernoulli distributions?
+
+- Why is it that we reject the null hypothesis when the P-value is larger than the significance level?
+
+- Can we review the assumptions for finding a CI for a population mean?
+
+- Can we review the central limit theorem again? 
+
+- Can you talk a bit about why we use `\(\mu\)` for the t-distribution hypothesis tests and not `\(p\)`?
+
+---
+# Practice Problem 1
+## Inference for a proportion
+
+In New York City on October 23rd, 2014, a doctor who had recently been treating Ebola patients in Guinea went to the hospital with a slight fever and was subsequently diagnosed with Ebola. Soon after, a survey conducted by the Marist Poll, an organization with a carefully designed methodology for drawing random samples from identified populations, found that, out of a sample of size `\(1042\)`, `\(82\%\)` of New Yorkers favored a "mandatory 21-day quarantine for anyone who has come in contact with an Ebola patient."
+
+
+**To do:** 
+
+a) Verify that the sampling distribution of `\(\hat{p}\)` is nearly normal.
+
+b) Construct a `\(95\%\)` confidence interval for `\(p\)`, the proportion of New York adults who supported a quarantine for anyone who has come into contact with an Ebola patient. Specifically state the values of `\(\hat{p}_{obs}\)`, `\(z_{\alpha/2}^*\)`, and `\(SE(\hat{p})\)`.  
+
+
+**Hand in via your group's Slack channel:** 
+Screenshot of your group's Zoom whiteboard with your answers to the questions above. 
+
+---
+# Practice Problem 2 
+## Inference for the difference in proportions
+
+Two types of medication for hives are being tested to determine if there is a difference in the proportions of adult patient reactions. Twenty out of a random sample of 200 adults given medication A still had hives 30 minutes after taking the medication. Twelve out of another random sample of 200 adults given medication B still had hives 30 minutes after taking the medication. 
+
+
+**To do:**
+a) Conduct a hypothesis test at a 1% level of significance. Report the conclusion of the test. 
+
+b) Draw a picture of the p-value on a standard Normal density curve. 
+
+
+**Hand in via your group's Slack channel:** 
+Screenshot of your group's Zoom whiteboard with your answers to the questions above. 
+
+
+---
+# R Lesson 
+## Using Packages in R
+
+Using packages in R is like using books in a library while doing your homework. You go to the library to do your homework because it's quiet and there's plenty of table space for you to spread out your work. 
+
+Similarly, you go to RStudio to solve a particular data analysis problem because RStudio has plenty of organized space to clean and investigate data. 
+
+- Installing packages in RStudio is analogous to a physical library stocking their shelves with a particular book.
+  
+  - You may or may not need to use every book that is stocked on the library's shelves, but you definitely can't use a book that is not stocked on the shelf! 
+    
+- Calling packages into your RStudio working library (with the `library()` function) is analogous to you picking up a particular book from the shelf and bringing it back to the table where you are working in the physical library. 
+
+  - You only get up to grab a book from the shelf if you really need to use it. 
+  
+  - Every time you go to the library to work, you have to go to pick up the book from its shelf.
+
+---
+# R Lesson 
+## Plotting in the `tidyverse`
+.scroll-output[
+The components for building a plot in the `tidyverse` pack are:
+
+  - the data object (typically a `tibble` or `data.frame`), 
+  
+  - the plot initialization page (where you reference the data object and orient the axes), and then 
+  
+  - the plot itself (histogram, density curve, box plot, etc). 
+
+
+
+```r
+## Data object (in this example we're looking at miles per hour and number of passengers)
+car_data &lt;- tibble(mph = c(22, 35, 20, 25, 24, 20, 34, 31, 30, 32, 33, 25, 29, 24),
+                  passengers = c(1, 1, 3, 2, 5, 2, 1, 1, 2, 1, 3, 1, 1, 2)) 
+## Plot initialization (aes() stands for aesthetics)
+ggplot(car_data, aes(x=passengers, y=mph)) +
+## The actual plot (a scatterplot in this example)
+         geom_point()
+```
+
+&lt;img src="Figs/class3plot-1.png" style="display: block; margin: auto;" /&gt;
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

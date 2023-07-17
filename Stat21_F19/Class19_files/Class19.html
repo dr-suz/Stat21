@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 19</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class19_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class19_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 19
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/10/23 (updated: 2020-10-22)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+&lt;img src="Figs/nice_to_emeet_you.png" height="450" style="display: block; margin: auto;" /&gt;
+
+.footnote[Soure: https://www.xkcd.com/2196/]
+
+---
+## The multiple linear regression (MLR) model
+
+Linear regression assumes the following model: 
+
+`$$Y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon_i$$` 
+
+
+Our fitted model is therefore: 
+
+`$$\hat{y}_{i} = E[Y_i | x_{i1}, x_{i2}, \dots, x_{ip}] = \hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_2 x_{i2} + \dots + \hat{\beta}_p x_{ip}$$`
+
+
+Now we have 
+  
+  - an intercept
+  
+  - `\(p\)` different slopes for `\(p\)` predictor variables 
+  
+  - `\(i=1, \dots, n\)` is our sample size/number of observational units
+  
+
+
+**For today's class:** we are only going to set up a MLR model where are variables of interest are numerical. 
+
+
+
+--
+**Note:** When statisticians talk about "big data", we're talking about situations where the number of parameters of interest, `\(p\)`, is much larger than the number of observations, `\(n\)`. Think about fitbit data for example, so many variables for just one individual. 
+
+
+---
+## MLR with only numerical predictor variables 
+### Public school data
+
+.scroll-output[
+
+```r
+SAT_data &lt;- read_table2("sat.dat.clean.txt", 
+                        col_names = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot"), cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+head(SAT_data)  ##note: please dont print out entire data sets in your HW solutions! 
+```
+
+```
+## # A tibble: 6 x 8
+##   State PerPupilSpending StuTeachRatio Salary PropnStu SAT_verbal SAT_math
+##   &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Alab…             4.40          17.2   31.1        8        491      538
+## 2 Alas…             8.96          17.6   48.0       47        445      489
+## 3 Ariz…             4.78          19.3   32.2       27        448      496
+## 4 Arka…             4.46          17.1   28.9        6        482      523
+## 5 Cali…             4.99          24     41.1       45        417      485
+## 6 Colo…             5.44          18.4   34.6       29        462      518
+## # … with 1 more variable: SAT_tot &lt;dbl&gt;
+```
+]
+
+---
+## MLR with only numerical predictor variables 
+### Public school data
+
+**Step 1: View the data/variables and view pairwise scatterplots of the data**
+
+Basically, we don't know what we expect to see in any particular plot, but we are looking for "clues" that might indicate some sort of relationship (linear or otherwise). This also helps us get a feel for multidimensional extrapolation which can be difficult to visualize without viewing actual plots. 
+
+
+In SLR we only looked at a scatter plot of the single numerical predictor and the single numerical response. Now however, we want to look at the relationships
+
+  - between each of the numerical predictor variables with the numerical response and 
+
+  - among the numerical predictor variables themselves. 
+
+
+
+.footnote[For MLR plots: &lt;a href="https://cran.r-project.org/web/packages/ggiraphExtra/vignettes/ggPredict.html"&gt;ggPredict()&lt;/a&gt; and &lt;a href="https://plot.ly/r/getting-started/"&gt; plotly&lt;/a&gt;.]
+
+
+---
+## Public school data
+### Step 1 
+
+.scroll-output[
+
+```r
+SAT_data %&gt;% select(-State) %&gt;% pairs(pch=16) 
+```
+
+![](Figs/SAT19_scatter-1.png)&lt;!-- --&gt;
+]
+
+
+---
+## Public school data
+### Step 1 
+
+.scroll-output[
+
+```r
+SAT_data %&gt;% select(-c(State, SAT_verbal, SAT_math)) %&gt;% pairs(pch=16) 
+```
+
+![](Figs/SAT19_scatter2-1.png)&lt;!-- --&gt;
+]
+
+---
+## MLR with only numerical predictor variables 
+### Public school data
+
+**Step 2: Fit a linear model and plot the residuals by the predicted response** 
+
+.scroll-small[
+
+```r
+MLR_SAT1 &lt;- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio, data = SAT_data)
+summary(MLR_SAT1)
+```
+
+```
+## 
+## Call:
+## lm(formula = SAT_tot ~ PerPupilSpending + StuTeachRatio, data = SAT_data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -147.694  -51.816    6.258   37.756  127.742 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      1136.336    107.803  10.541 5.69e-14 ***
+## PerPupilSpending  -22.308      7.956  -2.804  0.00731 ** 
+## StuTeachRatio      -2.295      4.784  -0.480  0.63370    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 70.48 on 47 degrees of freedom
+## Multiple R-squared:  0.149,	Adjusted R-squared:  0.1128 
+## F-statistic: 4.114 on 2 and 47 DF,  p-value: 0.02258
+```
+]
+
+---
+## Public school data
+### Step 2 
+
+
+```r
+MLR_SAT1_sum &lt;- summary(MLR_SAT1)
+names(MLR_SAT1); names(MLR_SAT1_sum)
+```
+
+```
+##  [1] "coefficients"  "residuals"     "effects"       "rank"         
+##  [5] "fitted.values" "assign"        "qr"            "df.residual"  
+##  [9] "xlevels"       "call"          "terms"         "model"
+```
+
+```
+##  [1] "call"          "terms"         "residuals"     "coefficients" 
+##  [5] "aliased"       "sigma"         "df"            "r.squared"    
+##  [9] "adj.r.squared" "fstatistic"    "cov.unscaled"
+```
+
+---
+## Public school data
+### Step 2 
+
+.scroll-output[
+
+```r
+residual_plot_data &lt;- SAT_data %&gt;% 
+                      mutate(residuals = MLR_SAT1_sum$residuals,
+                             fitted_vals = MLR_SAT1$fitted.values) %&gt;%
+                      select(-c(State, SAT_verbal, SAT_math))
+
+ggplot(residual_plot_data) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores",
+       x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+
+![](Figs/SAT19_residual1-1.png)&lt;!-- --&gt;
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

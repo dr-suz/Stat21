@@ -1,0 +1,54 @@
+---
+title: "Stat 21 Homework 1"
+subtitle: "Problem 7 Solution and Rubric"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+
+## Problem 7 
+
+Census data for a certain country shows that 19% of the adult residents are Latinx. Suppose 72 people are called for jury duty and only 9 of them are Latinx. Does this apparent under-representation of Latinx jurors call into question the fairness of the jury selection system. Explain your answer with statistical reasoning. 
+
+
+**Solution:** 
+
+There are two methods the student could use to answer this question: a hypothesis test or a confidence interval. Note that the student gets to choose what confidence level they want to use. In the case that they choose something different from $95\%$, their code should match mine except the conf.level parameter will be different and they will get slightly different answers for either option A or B. As long as they make sense and follow the correct logic you should give them full credit. 
+
+For full credit with either option the student must provide: 
+
+- Their significance level or confidence level; 
+
+- The R code and output showing the calculations; 
+
+- A written solution interpreting the results of the R code.
+
+If they didn't mention anything about the necessary assumptions here that is OK. (I will start to take off for that later on in the semester but not for this homework assignment.)
+
+
+
+**Option A: Hypothesis test**
+
+```{r optional.a}
+obs_success <- 9 
+sample_size <- 72
+prop.test(obs_success, sample_size, 0.19, alternative="two.sided", conf.level=0.95)
+```
+
+At a significance level of $\alpha = 0.05$, a p-value of 0.21 for testing whether or not an observed jury with only 9 Latinx (out of 72 total) jurors contradicts the statement that the population is $19\%$ Latinx, means that this observation is not unusual, from a statistical perspective. Therefore this data does not provide us with any statistical evidence that there is  under-representation of Latinx people on this particular jury.    
+
+
+**Option B: Confidence interval**
+```{r optional.b}
+obs_success <- 9 
+sample_size <- 72
+prop.test(obs_success, sample_size, conf.level=0.95)
+```
+
+At a $95\%$ confidence level, if the $72$ jurors were chosen randomly and independently we would expect to see anywhere from $6.2\%$ Latinx jurors to $23\%$ Latinx jurors. This confidence interval contains the value corresponding to the percent of the Latinx population, $19\%$, therefore this data does not provide us with any statistical evidence that there is  under-representation of Latinx people on this particular jury.   

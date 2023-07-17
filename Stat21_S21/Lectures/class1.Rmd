@@ -1,0 +1,247 @@
+---
+title: "Class 1"
+subtitle: "Welcome and Introduction to "
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Feb 11, 2021 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+# Welcome back to (virtual) class! 
+
+Here's the agenda for today's class: 
+
+- What this class will look like this semester
+
+- My goals and expectations
+
+- Meet your group!
+
+- Intro to RStudio (time permitting)
+
+- Getting ready for next week and an announcement
+
+---
+# Daily check-ins 
+
+At the beginning of every class, we will take 5 minutes to check in with one another. 
+
+
+# Recording 
+
+Class meetings will be recorded but these recordings will only be made available to other registered students. Note, breakout room time can't be recorded on Zoom. 
+
+---
+# Daily check-ins 
+
+```{r, echo=FALSE, fig.align='center', out.height=500}
+knitr::include_graphics("feelings_wheel.jpg")
+```
+
+---
+# Class format and components 
+
+Let's take a look at the syllabus on Moodle...
+
+--
+Poll questions! 
+
+---
+# My goals for this class
+
+- No fear of statistics! 
+
+
+--
+- It's never objective! 
+
+
+--
+- Stats is useful *everywhere* 
+
+
+---
+# Sensitive topics in class
+
+In this class we will study real data sets across a variety of topics. Some of the topics will be sensitive and will likely evoke some sort of emotional response. I try to be intentional with the examples we consider in class, especially on the tests. I write tests that I want you to learn something from and that I want you to feel curious about finding a solution for. 
+
+Although statistics is widely acknowledged as a powerful tool especially in the applied sciences and in finance, I really want you to see the many ways in which statistics and data science can be useful in social justice related contexts as well. 
+
+If there is a topic we cover that is particularly sensitive to you, please feel free to bring this up in the free-response section of the comprehension quiz for send me a DM on Slack. I will do my best to accommodate your needs and address any concerns you may have in class. 
+
+---
+# My goals for this class
+
+- No fear of statistics! 
+
+- It's never objective! 
+
+- Stats is useful *everywhere* 
+
+- Develop a critical eye 
+
+--
+- Some coding literacy and familiarity with fundamental statistical tests and models
+
+---
+# Expectations
+
+What I expect of you as a student in my class is the following
+
+- That you will be respectful of one another and me; 
+
+- That you will arrive to class on-time and ready to participate; 
+
+- That you will engage with one another in asking and answering questions (I expect lots of questions! More than I can answer by myself!);
+
+- That you will complete the comprehension quizzes before every regular Thursday morning class;
+
+- That you will watch the week's videos before every Tuesday class; 
+
+- That you will communicate with me if something about the class structure isn't working for you or if you are struggling or falling behind; 
+
+- That you will update your Zoom profile to include an image of your face and to display your preferred name (and pronouns if you wish). 
+
+I **do not** expect everyone to have their video on all the time in Zoom. However, I do really appreciate it if you can keep your video on. It keeps me from feeling like I'm talking to myself! 
+
+
+--
+**Q:** What do you expect of me? 
+
+
+---
+# Meet your group! 
+
+**Group roles** Each class, make sure someone is prepared to take on one of the following roles:
+
+  - The Recorder - This is the person who will be screen-sharing in Zoom, keeping track of the time, and submitting any materials I request from each group (via Slack). 
+  
+  - The Reporter - This is the person who will be reporting back to me and the rest of the class after group discussion time concludes. 
+  
+  - The Good Trouble Maker/Questioner - This is personally my favorite role. This person is responsible for making sure that questions are being asked especially if the group comes to consensus too quickly. In this role, you are encouraged to ask whatever questions pop into your head about the material, regardless of whether or not you think it's a "good" question.
+
+---
+# Meet your group! 
+
+**Introductions** Over the next 20 minutes, get to know your group members. I suggest you start by introducing yourselves with you name, pronouns, location, major, and year in school. Then, try to complete each of the following tasks. (The first two are the most important right now.)
+
+  - **Task 1:** Find something you all have in common! 
+
+  - **Task 2:** On a Zoom whiteboard (the recorder should be sharing the whiteboard), create a list of expectations for working together as a group *and* for me as your professor. The reporter should take a screenshot of these lists and send it to me as a DM on Slack. 
+
+  - **Task 3:** Create a rotation schedule for the group roles. Everyone should get to be in each roll at least 3 times throughout the semester. 
+
+  - **Task 4:** Create a group DM with one another on Slack. 
+
+
+
+---
+# Introduction to R Studio  
+
+- Uploading/downloading files to the Swarthmore server 
+
+- Overview of: file types, different windows, installing and calling packages 
+
+- Compiling HW files 
+
+- Downloading an offline version (optional) 
+  
+
+---
+# Resources for learning to program in R 
+
+- R package *swirl()* for tutorials (part of HW 1)
+- Google is your friend! (and Stack Exchange, etc.)
+- R for Data Science (free online textbook) https://r4ds.had.co.nz/
+
+
+# Introduction to R packages
+
+- Installing vs calling packages: the library analogy
+- The R package *tidyverse* is an "umbrella-package"" that installs several other packages that are useful for data analysis, e.g. tidyr, dplyr, ggplot2, tibble.
+- The functions and data that loads whenever you open R is called "Base R"
+
+---
+# Looking ahead 
+
+For next week, prepare for the following: 
+
+- Look over HW 1 and try to knit a PDF document of the HW 1 template.
+
+- Make sure you have access to the Moodle page and to our Slack group 
+
+- The videos for next week will be released by Saturday morning (EST). Plan time to watch them before class on Tuesday. 
+
+- Take the comprehension quiz for Week 2 before Thursday morning (EST). 
+
+- Visit me in office hours if you can! (Monday evening or Thursday afternoon EST)
+
+- Find the textbook online through Tripod library service. 
+
+- HW 1 will either be due on Friday, the 19th (by midnight EST) or Monday the 22nd (by 8am EST). 
+
+---
+# An announcement! 
+
+The Department of Mathematics and Statistics is excited to announce the beginning of what will become an annual tradition: a town hall/listening session, where students can share their thoughts, suggestions, and concerns with us.  
+
+
+This year's town hall will be focused on the theme of fostering a more inclusive community, and will take place over Zoom (https://swarthmore.zoom.us/j/86416487465) **TODAY** from 8:30 - 9:45 pm (EST). 
+
+
+ We will start with a very brief presentation by Professor Suzanne Thornton that outlines some of the initiatives and resources our department has put in place over the years.  After this summary, we will move to breakout rooms for small group discussion around the theme of what we can do to make the upcoming semester a success.  Finally, we will then close with breakout rooms reporting out.

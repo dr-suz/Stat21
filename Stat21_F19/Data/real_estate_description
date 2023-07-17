@@ -1,0 +1,8 @@
+Source: DASL (https://dasl.datadescription.com/datafile/real-estate/?_sf_s=real+estate&_sfm_methods=Multiple+Regression&_sfm_cases=4+59943)
+
+Description:
+As a class project, students in a large Statistics class collected publicly available information on recent home sales in their hometowns. There are 894 properties. These are not a random sample, but they may be representative of home sales during a short period of time, nationwide. Among the variables available is an indication of whether the home was in an urban, suburban, or rural setting.
+
+Data was collected in January of 08 and 09 
+
+location type u (urban), s (suburban), r (rural)

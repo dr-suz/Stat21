@@ -1,0 +1,143 @@
+---
+title: "Stat 21"
+date: "Class 14 Worksheet Solutions"
+output:
+  pdf_document: 
+    toc: no
+  header-includes:
+    - \usepackage{booktabs}
+    - \usepackage{longtable}
+    - \usepackage{array}
+    - \usepackage{multirow}
+    - \usepackage{wrapfig}
+    - \usepackage{float}
+    - \usepackage{colortbl}
+    - \usepackage{pdflscape}
+    - \usepackage{tabu}
+    - \usepackage{threeparttable}
+    - \usepackage{threeparttablex}
+    - \usepackage[normalem]{ulem}
+    - \usepackage{makecell}
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+knitr::opts_chunk$set(fig.align='center') # center aligns images 
+#knitr::opts_chunk$set(out.height=400) # sets the side of plots
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+#library(gcookbook)
+library(knitr)
+# the packages below are for formatting tables 
+library(kableExtra)
+```
+
+
+
+```{r}
+income_SAT2 <- tibble(income = c(10000, 30000, 50000, 70000, 90000, 110000,
+                                 130000, 150000, 180000, 300000),
+                      SAT_score = c(1323, 1398, 1461, 1503, 1545, 1580, 1594,
+                                     1619, 1636, 1721))
+SLR_SAT <- lm(SAT_score ~ income, income_SAT2)
+summary(SLR_SAT)
+```
+
+```{r}
+ggplot(income_SAT2, aes(x=income ,y=SAT_score)) +
+  geom_point() + 
+  labs(title="SAT data scatter plot", x="Household income", y="SAT Score")
+```
+
+```{r}
+income_SAT2 <- income_SAT2 %>% mutate(resids = SLR_SAT$residuals,
+                                      fits = SLR_SAT$fitted.values)
+ggplot(income_SAT2, aes(sample=SAT_score)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal prob plot for residuals")
+```
+
+```{r}
+ggplot(income_SAT2, aes(x=fits, y=resids)) +
+  geom_point() + 
+  labs(title="Residuals vs fitted values", x="Fitted values", y="Residuals") +
+  geom_hline(yintercept=0)
+```
+
+### Step 1
+
+**Regression equation:**  
+
+$$\text{Average SAT Score} = 1392 + 0.001302 (\text{Household Income})$$
+
+
+**Interpretation of slope:**
+
+For every dollar increase in household income, the average SAT score increases by 0.0013 points. In other words, for every \$10,000 increase in income, we expect SAT scores to increase by 13 points, on average. 
+
+**Comments on plots:** 
+
+There is a strong, non-linear relationship evident in the residual plot. This indicates that the relationship between the predictor and response is **not linear**. Furthermore, it is difficult to determine if the constant variance assumption is met because of this pattern. 
+
+\pagebreak 
+
+### Step 2
+
+```{r}
+income_SAT_trans <- income_SAT2 %>% mutate(SAT_score_trans = SAT_score^10)
+SLR_SAT_trans <- lm(SAT_score_trans ~ income, data = income_SAT_trans)
+summary(SLR_SAT_trans)
+```
+
+**Regression equation for transformed data:**
+
+$$\text{Average } \text{(SAT Score)}^{10} = 9.557\times10^{30} + (7.338\times10^{26})(\text{Household Income})$$
+
+
+**Interpretation of the slope:** 
+
+For every dollar increase in household income, we expect the SAT score raised to the 10th power to increase by $7.338\times 10^{26}$ points, on average. 
+
+In the units of the original response variable, this means that for every increase in the logarithm of household income (base 10) (i.e. for each increase in log-dollars), we expect the SAT score to increase by $log_{10}(7.338\times 10^{26})=$ `r round(log(7.338e26, base=10), 2)` points. 
+
+
+**Residual Plot** 
+```{r}
+income_SAT_trans2 <- income_SAT_trans %>% mutate(resids = SLR_SAT_trans$residuals,
+                                                  fits = SLR_SAT_trans$fitted.values)
+ggplot(income_SAT_trans2, aes(x=fits, y=resids)) +
+  geom_point() + 
+  labs(title="Residuals vs fitted values", x="Fitted values", y="Residuals") +
+  geom_hline(yintercept=0)
+```
+
+
+**Normal Probability Plot** 
+```{r}
+ggplot(income_SAT_trans2, aes(sample=SAT_score)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal prob plot for residuals")
+```
+
+
+**Comments on plots:** 
+
+The residuals plot looks much better in terms of not showing any particular pattern (as we want). There doesn't seem to be any strong change in the spread of the residuals about the line at $e=0$ for different values of $\hat{y}$ so the constant variance assumption seems reasonable. The sample quantiles of the residuals match pretty well with the theoretical quantiles of a normal distribution so it also looks like the assumption that the errors are normally distributed is reasonable as well. 
+
+
+\pagebreak 
+
+### Step 3

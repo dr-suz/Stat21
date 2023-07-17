@@ -1,0 +1,317 @@
+---
+title: "MLR Interpreting Effect Sizes"
+subtitle: "Stat 21"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE) #fig.path='Figs/',
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## MLR Interpretation
+### Example 
+
+Suppose we are interested in predicting the amount of time required by a driver to service soft drink vending machines in particular area. This service activity includes stocking the machine with beverage products and minor maintenance or house-keeping. 
+ 
+We suspect that the two most important variables affecting the delivery time $(Y)$ are the number of cases of product being stocked $(x_1)$ and the distance the driver must walk to the machine $(x_2)$. 
+ 
+
+
+---
+## MLR Interpretation
+### Example 
+
+**Case 1:** All predictors are numerical. 
+
+$$Y \mid (x_1, x_2) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \epsilon$$ 
+
+
+**Q1:** What is the interpretation of $\beta_3$? 
+
+
+
+--
+**Q2:** What if we transform the response? 
+
+
+
+--
+**Q3:**What if we transform a predictor? 
+
+
+--
+The *interpretation* of all $\beta$ coefficients involves assuming the values of the other predictor terms are not changing, or, that they are held at the same, constant value/level. 
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+Another relationship we may want to capture would allow for an interaction between two or more of the predictor variables.  
+
+
+**Examples**
+
+- As automobiles age, the annual cost-per-mile-driven of keeping them in working order increases, i.e., the effect of mileage on maintenance cost depends on the age of a car. 
+
+- As workers become more experienced, their level of education becomes less of a factor in determining job performance, i.e., the effect of years-of-education on productivity depends on a worker’s experience. 
+
+- Advertising an upcoming sporting event has a more beneficial impact if the visiting team is one of the league leaders, i.e., the effect of advertising on ticket sales depends on the visitor’s league standing. 
+
+- Purchasers of condominiums in a high-rise will pay a premium to be on a lower floor if the condominium has a beach view, and will pay extra to be on an upper floor if the unit has an inland view, i.e., the effect of “floor number” on the market value of a condominium depends on the view from the unit.
+
+
+.footnote[Source: https://www.kellogg.northwestern.edu/faculty/weber/emp/_session_2/interactions.htm]
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+Another relationship we may want to capture would allow for an interaction between two or more of the predictor variables.  
+
+
+
+**Note** For two predictors to have an interacting effect on a response is not the same thing as one predictor variable being dependent on another predictor. E.g. If cars are selected at random (and not, say, just selected from a sample say of city employees only) then age and annual mileage will vary independently in the cars being studied, but the interaction between age and mileage would still be present.
+
+
+.footnote[Source: https://www.kellogg.northwestern.edu/faculty/weber/emp/_session_2/interactions.htm]
+
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+**Case 1:** All predictors are numerical. 
+
+$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_2 + \epsilon$$ 
+This type of model suggests that the effect of one of the predictors on $Y$ depends on the size of another predictor! 
+
+
+**Q:** What is the average effect on $Y$ if $x_1$ increases by one unit?
+
+
+--
+The answer depends on the value of $x_2$! 
+
+
+
+To see this, plug in $x_1=0$ and simplify the regression model and then plug in $x_1=1$ and simplify the regression model. Then look at the difference in these two equations.
+
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \epsilon$$ 
+
+**Case 2:** Some predictors are categorical and some are numerical. 
+
+Suppose $x_1$ and $x_2$ are indicator variables for a categorical predictor with three levels (A, B, C). Let $x_1 = \begin{cases}1, \text{if Level A} \\ 0, \text{otherwise} \end{cases}$ and $x_2 = \begin{cases}1, \text{if Level B} \\ 0, \text{otherwise} \end{cases}$. 
+
+A model with an interaction between these two predictor variables (the numerical $x_3$ and the categorical predictor with three levels) looks like 
+
+$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3 + \epsilon.$$
+
+This type of model suggests that the effect of $x_3$ on $Y$ depends on the level of the categorical variable. 
+
+
+--
+Now the interpretation of holding other predictor terms at a constant value/level isn't necessarily possible!  
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+**Case 2:** Some predictors are categorical and some are numerical. 
+
+Suppose $x_1$ and $x_2$ are indicator variables for a categorical predictor with three levels (A, B, C). Let $x_1 = \begin{cases}1, \text{if Level A} \\ 0, \text{otherwise} \end{cases}$ and $x_2 = \begin{cases}1, \text{if Level B} \\ 0, \text{otherwise} \end{cases}$. 
+
+A model with an interaction between these two predictor variables (the numerical $x_3$ and the categorical predictor with three levels) looks like 
+
+$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3 + \epsilon.$$
+
+
+**Q:** What is the average effect on $Y$ if $x_3$ increases by one unit?
+
+
+--
+The answer depends on the values of $x_1$ and $x_2$! 
+
+
+
+To see this, plug in $x_3=0$ and simplify the regression model and then plug in $x_3=1$ and simplify the regression model. Then look at the difference in these two equations.
+
+
+
+
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+**Case 2:** Some predictors are categorical and some are numerical. 
+
+Suppose $x_1$ and $x_2$ are indicator variables for a categorical predictor with three levels (A, B, C). Let $x_1 = \begin{cases}1, \text{if Level A} \\ 0, \text{otherwise} \end{cases}$ and $x_2 = \begin{cases}1, \text{if Level B} \\ 0, \text{otherwise} \end{cases}$. 
+
+A model with an interaction between these two predictor variables (the numerical $x_3$ and the categorical predictor with three levels) looks like 
+
+$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3 + \epsilon.$$
+
+
+**Q:** What is the average effect on $Y$ changing from Level C to Level A?
+
+
+--
+The answer depends on the value of $x_3$! 
+
+
+Again, to see this, write out the regression model for an individual from Level C and then write out the regression model for an individual from Level A. Then look at the difference in these two equations.
+
+
+
+
+---
+## MLR Interpretation
+### Group worksheet
+
+```{r eval=TRUE}
+library("tidyverse")
+mileage_dat <- read_table("mileage.txt", 
+                       skip=2, 
+                       col_names = c("car", "mpg", "displacement", "weight", "transmission_type"), 
+                       cols(transmission_type = col_factor()))  %>% na.omit
+## Note that transmission_type is already a factor! 
+head(mileage_dat)
+```
+
+---
+## MLR Interpretation
+### Group worksheet
+
+
+**Model 1:** Fit a main effects model with transmission type (A as the reference level) and weight as the predictors and mileage as the response:
+
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 * \text{weight} + \hat{\beta}_2 * \text{transmission_typeM},$$
+
+where $weight=$ the weight of the vehicle and 
+$$\text{transmission_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$
+
+
+```{r}
+mod1 <- lm(mpg ~ weight + transmission_type, mileage_dat)
+summary(mod1)$coefficients[,1]
+```
+
+
+
+---
+## MLR Interpretation
+### Group worksheet
+
+**Model 2:** Fit a main effects model with transmission type (M as the reference level) and weight as the predictors and mileage as the response:
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 * \text{weight} + \hat{\beta}_2 * \text{transmission_typeA},$$
+  where $weight=$ the weight of the vehicle and 
+$$\text{transmission_typeA} = \begin{cases}1, \quad \text{if transmission type is automatic}\\ 0, \quad \text{otherwise} \end{cases}.$$
+
+
+```{r}
+mod2 <- lm(mpg ~ weight + relevel(transmission_type, "M"), mileage_dat)
+summary(mod2)$coefficients[,1]
+```
+
+
+---
+## MLR Interpretation
+### Group worksheet
+
+**Model 3:** Fit an interaction effects model with transmission type (A as the reference level) and weight as the predictors and mileage as the response:
+
+$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 * \text{weight}) + (\hat{\beta}_2 * \text{transmission_typeM}) + (\hat{\beta}_4 * \text{weight} * \text{transmission_typeM}),$$
+  where 
+$$\text{transmission_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$
+
+```{r}
+mod3 <- lm(mpg ~ weight + transmission_type + weight:transmission_type, mileage_dat)
+summary(mod3)$coefficients[,1]
+```
+
+
+
+
+---
+## MLR Interpretation
+### Group worksheet
+
+**Model 3:** Fit an interaction effects model with transmission type (A as the reference level) and weight as the predictors and mileage as the response:
+
+$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 * \text{weight}) + (\hat{\beta}_2 * \text{transmission_typeM}) + (\hat{\beta}_4 * \text{weight} * \text{transmission_typeM}),$$
+$$\text{transmission_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$
+
+```{r}
+mod3 <- lm(mpg ~ weight + transmission_type + weight:transmission_type, mileage_dat)
+summary(mod3)$coefficients[,1]
+```
+
+
+
+

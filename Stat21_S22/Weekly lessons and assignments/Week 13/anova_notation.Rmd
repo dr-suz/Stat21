@@ -1,0 +1,42 @@
+---
+title: "Different forms of One-Way ANOVA Models"
+output:
+  pdf_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE) 
+
+library(tidyverse)
+library(knitr)
+```
+
+The three equations below are all valid forms of a one-way ANOVA model. Here, the index $j=1,\dots,k$ represents the group (or treatment level) of the single categorical predictor variable that has $k$ different levels. 
+
+## Group effects form
+
+In this form of the ANOVA model, we can compare the effect of each of the groups/levels on $Y$, relative to the overall behavior of $Y$ summarized in the grand mean of $Y$, $\mu$. 
+
+$$Y = \mu + \alpha_j + \epsilon$$
+
+## Group means form
+
+In this equivalent form of the ANOVA model, the group effects are hidden inside the means of $Y$ for each level. 
+
+$$Y = \mu_j + \epsilon, \text{ where } \mu_j = \mu + \alpha_j$$ 
+
+## MLR form 
+
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_{k-1} x_{k-1} + \epsilon, \text{ where } x_{j}=\begin{cases}1, \text{ if observation is in group }j\\ 0, \text{ otherwise} \end{cases}$$
+
+
+The tricky thing about the MLR form is that it is not so easy to read off the different group effects and/or group means from the model output. If we consider each of the coefficients in terms of the notation above we have that
+$$\beta_0 = \mu_k = (\mu + \alpha_k)$$ 
+which is easy enough to interpret, but 
+$$\beta_1 = \mu_k - \mu_1 = (\mu + \alpha_k) - (\mu + \alpha_1) = \alpha_k - \alpha_1$$ 
+and so on for all other coefficients, 
+$$\beta_{k-1} = \mu_{k} - \mu_{k-1} = (\mu + \alpha_{k}) - (\mu + \alpha_{k-1}) = \alpha_k - \alpha_{k-1}.$$ 
+This means that based on the MLR form of the ANOVA model, if we wanted to find the group mean for group $k-1$ we would need to compute 
+$$\mu_{k-1} = \mu_{k} - \beta_{k-1} = \beta_0 - \beta_{k-1},$$
+
+and, if we want to find the group effect for any of the $1,\dots, k$ groups, we need to first find $\mu$, the overall mean of $Y$. 

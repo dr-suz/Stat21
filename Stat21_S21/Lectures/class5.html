@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 5</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="class5_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class5_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 5
+## Statistical Methods II (Stat 021)
+### Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, Feb 25, 2021 (updated: 2021-02-25)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- Tests and intervals (50 mins)
+
+- Importing and visualizing quantitative data (5 mins)
+
+- Housekeeping items and announcements (5 mins)
+
+---
+
+# Thursday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+
+&lt;img src="Figs/feelings_wheel.jpg" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Tests and intervals 
+## Overview 
+
+**Proportions**
+
+Population parameter(s): `\(p\)` or `\(p_1 - p_2\)` 
+
+Sample estimate(s): `\(\hat{p}\)` or `\(\hat{p}_1 - \hat{p}_2\)`
+
+
+**For a single proportion:**
+
+By the CLT, the sampling distribution of `\(\hat{p}\)` is `\(N\left(p, p(1-p)/n \right)\)` (under appropriate conditions and by the properties of linear combinations of NRVs, 
+`$$\frac{\hat{p} - p}{\sqrt{p(1-p)/n}} \sim N\left(0, 1 \right).$$`
+
+---
+# Tests and intervals 
+## Overview 
+
+**Proportions**
+
+Population parameter(s): `\(p\)` or `\(p_1 - p_2\)` 
+
+Sample estimate(s): `\(\hat{p}\)` or `\(\hat{p}_1 - \hat{p}_2\)`
+
+
+**For the difference between two proportions:** 
+`$$\frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\frac{\hat{p}_{pool}(1-\hat{p}_{pool})}{n_1} + \frac{\hat{p}_{pool}(1-\hat{p}_{pool})}{n_2}}} \sim N\left(0, 1 \right).$$`
+
+---
+# Tests and intervals 
+## Overview 
+
+**Means**
+
+Population parameter(s): `\(\mu\)` or `\(\mu_1 - \mu_2\)` 
+
+Sample estimate(s): `\(\bar{x}\)` or `\(\bar{x}_1 - \bar{x}_2\)`
+
+**For a single mean:**
+
+By the CLT, the sampling distribution of `\(\bar{X}\)` is `\(N\left(\mu, \sigma^2/n \right)\)` (under appropriate conditions and by the properties of linear combinations of NRVs, `\(\frac{\bar{X}- \mu}{\sqrt{\sigma^2/n}} \sim N\left(0, 1 \right)\)` and... 
+
+By properties of the t-distribution, 
+`$$\frac{\bar{X}- \mu}{\sqrt{s^2/n}} \sim t_{(n-1)}.$$`
+
+---
+# Tests and intervals 
+## Overview 
+
+**Means**
+
+Population parameter(s): `\(\mu\)` or `\(\mu_1 - \mu_2\)` 
+
+Sample estimate(s): `\(\bar{x}\)` or `\(\bar{x}_1 - \bar{x}_2\)`
+
+**For a paired difference between samples:**
+
+`$$\frac{\bar{X}_1 - \bar{X}_2}{\sqrt{s^2/n}} \sim t_{(n-1)},$$`
+where `\(n\)` is the number of *pairs* and `\(s^2\)` is the sample variance of the *paired differences*. 
+
+
+
+--
+**For an unpaired difference between sample means:**
+
+`$$\frac{\bar{X}_1- \bar{X}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}} \sim t_{\nu},$$`
+where `\(\nu\)` is really complicated and you won't ever have to calculate this by hand. 
+
+---
+# Tests and intervals 
+## Overview 
+
+As you may have noticed on the comprehension quiz, for proportions and means, there is a connection between two-sided hypothesis tests and confidence intervals. At the same confidence level (or, equivalently, at the same significance/$\alpha$ level) these two methods match perfectly with one another.  
+
+
+**Comprehension quiz: Problem 8**
+
+Suppose we are comparing the mean response time (in seconds) of patients after receiving one of two different physical therapy treatments. A `\(90\%\)` CI for the mean difference in response time between the two groups is found to be `\([0.72, 1.11]\)`. 
+
+If we had conducted a two-sided hypothesis test instead, at an `\(\alpha=0.10\)` significance level, what would have been our conclusion? 
+
+
+
+
+---
+# Tests and intervals 
+## Group work on Class 5 Worksheet 
+
+
+With your group, go through and answer the questions in the Class 5 worksheet on Moodle. 
+
+
+
+
+
+**Group roles:**
+
+- Recorder - Keep track of your group's answers to the three questions above. When there is 1 min remaining, share your answers with me via a DM on Slack. 
+
+- Reporter - Keep track of your group's progress on the Google spreadsheet and be prepared to discuss your group's answers (or any additional questions) with the class.  
+
+- Questioner - Make sure you *ask at least one* additional question to your group about your responses to the questions above. 
+
+
+
+---
+# Importing and Visualizing Data
+
+Think of data in terms of a spreadsheet (or matrix) where 
+
+  - Rows are the observations,
+  
+  - Columns are the different variable names.
+
+.scroll-output[
+
+```r
+library("tidyverse") ## We must do this every time we start a new R session. 
+## Data object (in this example we're looking at miles per hour and number of passengers)
+car_data &lt;- tibble(mph = c(22, 35, 20, 25, 24, 20, 34, 31, 30, 32, 33, 25, 29, 24),
+                  passengers = c(1, 1, 3, 2, 5, 2, 1, 1, 2, 1, 3, 1, 1, 2)) 
+car_data
+```
+
+```
+## # A tibble: 14 x 2
+##      mph passengers
+##    &lt;dbl&gt;      &lt;dbl&gt;
+##  1    22          1
+##  2    35          1
+##  3    20          3
+##  4    25          2
+##  5    24          5
+##  6    20          2
+##  7    34          1
+##  8    31          1
+##  9    30          2
+## 10    32          1
+## 11    33          3
+## 12    25          1
+## 13    29          1
+## 14    24          2
+```
+
+For more on data structures in R see [R cheat sheet 1](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/S2021/
+R_cheat_sheet1.pdf) or [R cheat sheet 2](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/S2021/R_cheat_sheet2.pdf).
+]
+
+
+
+---
+# Importing and Visualizing Data
+## Plotting in the `tidyverse`
+
+.scroll-output[
+The components for building a plot in the `tidyverse` pack are:
+
+  - the data object (typically a `tibble` or `data.frame`), 
+  
+  - the plot initialization page (where you reference the data object and orient the axes), and then 
+  
+  - the plot itself (histogram, density curve, box plot, etc). 
+
+
+
+```r
+## Plot initialization (aes() stands for aesthetics)
+ggplot(car_data, aes(x=passengers, y=mph)) +
+## The actual plot (a scatterplot in this example)
+         geom_point()
+```
+
+&lt;img src="Figs/class4plot1-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Importing and Visualizing Data
+## Plotting in the `tidyverse`
+
+.scroll-output[
+
+### Adding labels and trimming the axes of a plot. 
+
+
+```r
+## Plot initialization (aes() stands for aesthetics)
+ggplot(car_data, aes(x=passengers, y=mph)) +
+## The actual plot (a scatterplot in this example)
+         geom_point() + 
+         ylim(10,40) + xlim(0,6) + 
+         labs(title="Scatterplot") + xlab("Number of passengers") + ylab("Miles per hour")
+```
+
+&lt;img src="Figs/class4plot2-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Importing and Visualizing Data
+## Plotting in the `tidyverse`
+
+.scroll-output[
+
+### For a single quantitative variable, we visualize the values from our sample with a histogram. 
+
+
+```r
+## Plot initialization - we only are interested in the quantitative variable, mph for this plot 
+ggplot(car_data, aes(x=mph)) +
+## The actual plot - rather than use "geom_point()" we now use a function to create a histogram, we can also specify how many bins to break the histogram into 
+         geom_histogram(bins=5) +
+         labs(title="Histogram") + 
+         xlab("Miles per hour") + 
+         ylab("Count")
+```
+
+&lt;img src="Figs/class4plot3-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+
+
+---
+## Planning ahead for next week
+
+- Watch the videos for Week 4 before Tuesday's class.  
+
+- Finish and submit HW 2 before Monday, Feb 22 at 8am EST. 
+
+- Visit me in Office Hours Monday evening to clarify any questions you may have! 
+
+- Check in on the different Slack channels to see if there are any questions you can discuss with your classmates.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

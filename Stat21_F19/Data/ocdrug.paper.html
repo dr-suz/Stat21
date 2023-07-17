@@ -1,0 +1,574 @@
+<HTML> <HEAD> <TITLE>Journal of Statistics Education, v12n1: Bradstreet</TITLE> </HEAD> 
+<BASE HREF="http://jse.amstat.org/">  <BODY bgcolor="white" link="blue" vlink="blue" alink="blue">  
+<table width="100%"> <tr> <td align="right" valign="top"> <a href="http://jse.amstat.org/publications/jse"><font color="blue">
+ <img src="jse_logo_2001_still.gif" border="0"></font></a> </td> </tr> </table>   
+<h1>An Oral Contraceptive Drug Interaction Study</h1> <P> Thomas E. Bradstreet and Deborah L. Panebianco <BR>
+Merck Research Laboratories </P>  <P> <cite>Journal of Statistics Education</cite> Volume 12, Number 1 (2004), 
+jse.amstat.org/v12n1/datasets.bradstreet.html</p>  <p>Copyright &copy; 2004 by Thomas E. Bradstreet and 
+
+Deborah L. Panebianco, all rights reserved.   This text may be freely shared among individuals, but it may not be republished 
+in any medium without express written consent from the authors and advance notification of the editor.</p>   
+<p><HR></p>  
+<P><STRONG>Key Words:</STRONG> Bioequivalence; Crossover; Graphics; Phase I Clinical Trial.  
+<h2>Abstract</h2>  <P> 
+
+This article focuses on a two treatment, two period, two treatment sequence crossover drug interaction study of a new drug and 
+a standard oral contraceptive therapy.  Both normal theory and distribution-free statistical analyses are provided along with 
+a notable amount of graphical insight into the dataset.  For one of the variables, the decision on the presence or absence of 
+a drug interaction is reversed depending on whether the normal theory or the distribution-free analysis is favored.  The data 
+also contain statistically significant period effects, statistically significant but clinically unimportant treatment effects, 
+some modest degree of structural nonnormality; and modest to more extreme outliers.  This and 28 other pedagogically useful 
+datasets can be found at  <A HREF="v12n1/bradstreet_link1.html">www.math.iup.edu/~tshort/Bradstreet</A>. </P>  
+<A NAME="section1"> 
+<H2>1. Introduction</H2>  <P> 
+In the pharmaceutical industry, following the evaluation of new drugs in animals, testing in humans begins in Phase I clinical 
+pharmacology studies which typically are conducted in healthy subjects.   For a few diseases  (such as cancer and AIDS) 
+patients may be used initially.  It is important to evaluate to what degree, if any, that a new drug interacts with food  
+(<A HREF="v12n1/datasets.bradstreet.html#bradstreet2000">Bradstreet 2000</A>), alcohol, or other drugs.  In the study 
+presented, the interest was in determining whether a new asthma drug, Drug D, altered the presence in the blood of an 
+established oral contraceptive therapy when the two therapies were taken together. </P>  <P> This dataset can be used in 
+relatively sophisticated statistics courses which emphasize either biostatistics, statistical methods in clinical trials, 
+data analysis, or experimental design.  The subject matter is of interest and is accessible to faculty, and both statistics 
+and nonstatistics students.  The level of study detail and statistical analyses which should be transferred to the classroom 
+is dependent upon the students’ needs,  for example, more detail and more sophisticated statistical analyses and diagnostic 
+work for graduate level biostatistics or statistics students, and less detail and less sophisticated statistical analyses and 
+diagnostic work for undergraduate service course students.  This and 28 other pedagogically useful datasets can be found at  
+<A HREF="v12n1/bradstreet_link1.html">www.math.iup.edu/~tshort/Bradstreet/</A> or see  Bradstreet  
+(<A HREF="v12n1/datasets.bradstreet.html#bradstreet1991">1991</A>,  
+<A HREF="v12n1/datasets.bradstreet.html#bradstreet1992">1992</A>,  
+<A HREF="v12n1/datasets.bradstreet.html#bradstreet1994">1994</A>),  
+<A HREF="v12n1/datasets.bradstreet.html#bradstreet1995">Bradstreet and Liss (1995)</A>, and  
+<A HREF="v12n1/datasets.bradstreet.html#bradstreet2001">Bradstreet and Short (2001)</A>. 
+</P>  
+<P> <A HREF="v12n1/datasets.bradstreet.html#section2">Section 2</A>  reviews bioavailability and "proving" similarity 
+through an average bioequivalence evaluation as applied to interaction studies.   
+<A HREF="v12n1/datasets.bradstreet.html#section3">Section 3</A> presents the motivation for the study and how the study was 
+conducted.   <A HREF="v12n1/datasets.bradstreet.html#section4">Section 4</A> illustrates the content of the dataset 
+contained in the file OCDRUG.dat.txt.   <A HREF="v12n1/datasets.bradstreet.html#section5">Section 5</A> presents a normal 
+theory statistical analysis of the two treatment, two period, two treatment sequence (2,2,2) crossover study, the 
+corresponding distribution-free methods, insightful graphical procedures specific to this study design, and guidance for 
+software.   <A HREF="v12n1/datasets.bradstreet.html#section6">Section 6</A> describes how to obtain OCDRUG.dat.txt.  </P>  
+<A NAME="section2"> 
+<H2>2. Bioavailability, Interaction Studies, and Bioequivalence</H2>  
+<A NAME="section21"> 
+<H3>2.1 Bioavailability</H3>  
+<P> Bioavailability is defined as "the rate and extent to which the active ingredient or active moiety [portion] is 
+absorbed from a drug product and becomes available at the site of action" in the human body  
+(<A HREF="v12n1/datasets.bradstreet.html#fda2000">Food and Drug Administration 2000</A>, p. 3).  The bioavailability of a 
+drug is characterized by summarizing its time course in the blood.  It is assumed that the concentrations in the blood are 
+representative of the concentrations at the site of action.  After a drug is given to a subject, plasma samples are taken 
+at previously determined time points.  The plasma samples are then assayed individually for drug concentration levels, and 
+a plot of the plasma concentration  (<I>y</I>-axis) vs. time  (<I>x</I>-axis) curve is constructed.  Usually, the plasma 
+concentration vs. time curve is summarized by three variables:  (i) Area Under the plasma Concentration vs. time curve 
+(AUC), a measure of total absorption; (ii) maximum plasma concentration (Cmax), a measure of the extent of absorption; and 
+(iii) time to maximum plasma concentration (Tmax), a measure of the rate of absorption.  Most often, AUC and Cmax are the 
+primary summary measures of bioavailability.  AUC is estimated from zero hours to the last measured time point  
+(for example, 24 hours after dosing) using the linear trapezoidal rule  (<A HREF="v12n1/datasets.bradstreet.html#gibaldi1982">Gibaldi and Perrier 1982</A>; 
+pp. 445-447), and if necessary, extrapolated from the last measured time point to infinity by incorporating the elimination 
+rate constant which describes the rate of drug removal from the body  (<A HREF="v12n1/datasets.bradstreet.html#gibaldi1982">Gibaldi and Perrier 1982</A>; 
+pp. 447-448).  Cmax and Tmax are simply observed from the plasma concentration vs. time curve. </P>  
+<A NAME="section22"> 
+<H3>2.2 Interaction Studies</H3>  
+<P> It should be emphasized that the primary objective of an interaction study is to "prove" the absence of interaction.  
+This focus is quite different statistically from the frequentist hypothesis testing paradigm which many statisticians are 
+initially trained to consider.  Typically, we start with the null hypothesis of "no difference" and then we proceed to work 
+quite hard either to provide statistical evidence against the null case (Fisher's significance testing), or we attempt to 
+choose between the null and alternative hypotheses with maximal power for a certain size test procedure (Neyman-Pearson 
+hypothesis testing).  However, in interaction studies, it is assumed initially that some degree of interaction exists 
+(a nonzero difference), and it is the objective of the experimenters to show that the size of the interaction is not of 
+clinical importance, possibly being zero.  In the current drug interaction study, the interest was in demonstrating that 
+the AUC and Cmax of the oral contraceptive are relatively unchanged, within reasonable clinical allowance, when Drug D is 
+given concomitantly.  If this is indeed the case, then giving Drug D with the oral contraceptive (OCD) is said to be 
+bioequivalent to giving the oral contraceptive alone (OC). </P>  
+<A NAME="section23"> 
+<H3>2.3 Bioequivalence</H3>  <P> Bioequivalence is defined as "the absence of a significant difference in the rate and 
+extent to which the active ingredient or active moiety in pharmaceutical equivalents or pharmaceutical alternatives becomes 
+available at the site of drug action when administered at the same molar dose under similar conditions in an appropriately 
+designed study"  (<A HREF="v12n1/datasets.bradstreet.html#fda2000">Food and Drug Administration 2000</A>; p. 4).  There are 
+three categories of criteria by which bioequivalence could be evaluated:  average bioequivalence, population bioequivalence, 
+and individual bioequivalence.  The former is the currently favored regulatory criterion for most drugs and formulations  
+(<A HREF="v12n1/datasets.bradstreet.html#fda2000">Food and Drug Administration 2000</A>; p. 11); the latter two are 
+criteria which are under development and serious consideration by several groups of scientists  
+(<A HREF="v12n1/datasets.bradstreet.html#fda1999">Food and Drug Administration, 1999</A>).  This article follows the 
+average bioequivalence evaluation paradigm. </P>  <P> In many countries, the current regulatory criterion for establishing 
+average bioequivalence is by way of the so-called "20% rule."  Two treatment regimens are considered bioequivalent if their
+ true mean AUCs are within 20% of each other.  In our example, the true mean AUC for the oral contraceptive when Drug D is 
+administered concomitantly,  <IMG SRC="v12n1/images/muOCD.gif" ALT="mu_OCD">, should be within 20% of the true mean AUC 
+when the oral contraceptive is given alone, <IMG SRC="v12n1/images/muOC.gif" ALT="mu_OC">, i.e., their ratio,  
+<IMG SRC="v12n1/images/muOCD.gif" ALT="mu_OCD"> / <IMG SRC="v12n1/images/muOC.gif" ALT="mu_OC">, falls in the interval 
+[0.80, 1.25]  (<A HREF="v12n1/datasets.bradstreet.html#fda1999">Food and Drug Administration 1999</A>; pp. 2, 3).  The 
+lower end of this average bioequivalence interval addresses equivalent efficacy; the upper end reflects on the concern for 
+equivalent safety.  The upper end of the interval is extended to 1.25 so that the interval on the log scale is symmetric 
+about zero.   </P>  <P> Currently, the most popular approach for establishing average bioequivalence is a two one-sided 
+hypothesis testing procedure  (<A HREF="v12n1/datasets.bradstreet.html#fda1999">Food and Drug Administration 1999</A>; pp. 2, 3) 
+which is equivalent to a confidence interval approach  (<A HREF="v12n1/datasets.bradstreet.html#fda1999">Food and Drug Administration 1999</A>; 
+p. 11).  Regulatory agencies typically require that bioequivalence be concluded with a reasonable degree of assurance.  For 
+example, in the United States a 90% confidence interval is required.  Two treatment conditions are declared as bioequivalent 
+if the calculated 90% confidence interval for the true ratio of means falls between 0.80 and 1.25  
+(<A HREF="v12n1/datasets.bradstreet.html#fda1999">Food and Drug Administration 1999</A>; pp. 3, 5, 6, 11).  AUC and Cmax 
+are natural log transformed prior to statistical analysis  (<A HREF="v12n1/datasets.bradstreet.html#fda1999">Food and Drug Administration 1999</A>; 
+pp. 3, 4, 10, 11, D-1, D-2) for many reasons, among them are:  multiplicative pharmacokinetic models, the bioequivalence 
+criterion compares the treatment conditions proportionally, and generally the log-transformed data appear to more closely 
+follow a normal distribution. </P>  <P> A reader who is interested in more examples and exploring further the issues and 
+methods used in establishing bioequivalence should see the manuscripts by  <A HREF="v12n1/datasets.bradstreet.html#bradstreet1993">Bradstreet (1993)</A> 
+and  <A HREF="v12n1/datasets.bradstreet.html#bradstreet1996">Bradstreet and Dobbins (1996)</A>, and the book by  
+<A HREF="v12n1/datasets.bradstreet.html#chow2000">Chow and Liu (2000)</A>.  Also see the special bioequivalence issues of 
+the  <A HREF="v12n1/datasets.bradstreet.html#dia1995"><I>Drug Information Journal</I> (1995)</A>, the  
+<A HREF="v12n1/datasets.bradstreet.html#jbs1997"><I>Journal of Biopharmaceutical Statistics</I> (1997)</A>, and  
+<A HREF="v12n1/datasets.bradstreet.html#sim2000"><I>Statistics in Medicine</I> (2000)</A>, and the two guidance documents 
+for the U.S.  Food and Drug Administration (<A HREF="v12n1/datasets.bradstreet.html#fda1999">1999</A>,  
+<A HREF="v12n1/datasets.bradstreet.html#fda2000">2000</A>). </P>  
+<A NAME="section3"> 
+<H2>3.  The Study</H2>  
+<A NAME="section31"> 
+<H3>3.1 Motivation for the Study</H3>  <P> There have been reports that some drugs can enhance the metabolism of oral 
+contraceptives and result in pregnancy in some women.  A study was planned to evaluate the impact of the oral dosing of 
+125 milligrams (mg) of a new drug for asthma, Drug D, given twice daily, on the bioavailability of the components of a 
+standard oral contraceptive combination of 35 micrograms (mcg) of ethinyl estradiol (EE) and 1 milligram (mg) of 
+norethindrone (NET).  It was conjectured that Drug D given concomitantly with the EE and NET combination would not have any 
+clinically significant effect on either the AUC (in picograms times hours per milliliter; pg*hr/ml) or Cmax (in picograms 
+per milliliter; pg/ml) of either EE or NET.  Specifically, it was predetermined that the coadministration of the oral 
+contraceptive and Drug D (OCD) would be considered clinically similar to the oral contraceptive alone (OC) if the experimental 
+evidence suggested that there is a 20% or less difference in the true mean values, OCD vs. OC, for each of EE AUC, EE Cmax, 
+NET AUC, and NET Cmax. </P>  <A NAME="section32"> <H3>3.2 Study Conduct</H3>  <P> Twenty-two female subjects were allocated 
+randomly to one of two treatment sequences in a 2,2,2 crossover design.  The study was conducted over two consecutive 
+menstrual cycles for each subject.  The first treatment period corresponded with the first menstrual cycle; the second 
+treatment period corresponded with the second menstrual cycle. </P>  <P> During the first treatment period, each female 
+subject received either 125 mg of Drug D or a matching placebo tablet two times daily for eight days (16 doses) starting 
+with either Day 1, 2, 3, or 4 of her menstrual cycle as was convenient for the subject.  The oral contraceptive 
+administration always started on Day 1 of her menstrual cycle.  On the morning of the eighth day of taking either Drug D or 
+placebo, the female subject took her dose of either Drug D or placebo and also the oral contraceptive.  Blood samples were 
+drawn immediately prior to dosing and at 0.5, 1, 1.5, 2, 3, 4, 6, 8, 10, 12, and 24 hours after dosing.  The quantities of 
+EE and NET present at each time point were assayed from the plasma samples, and these assay values were used to construct 
+separate plasma concentration vs. time curves for EE and NET for each subject.  From the two curves, AUC (pg*hr/ml) and 
+Cmax (pg/ml) values were calculated.  During the second treatment period, this process was repeated with each female subject 
+receiving whichever treatment, either 125 mg of Drug D or placebo, that she had not received during the first treatment 
+period.  The oral contraceptive was again started on Day 1 of her menstrual cycle; Drug D or placebo was started on the 
+same relative day (1, 2, 3, or 4) as during her previous menstrual cycle.  As an example, the four plasma concentration vs. 
+time curves constructed for Subject 8 are shown in  <A HREF="v12n1/datasets.bradstreet.html#figure1">Figure 1</A>. </P>  
+<A NAME="figure1"> 
+<P><HR></P> </A>  
+<A HREF="v12n1/bradstreet_figure1.gif"><IMG SRC="v12n1/bradstreet_figure1.gif" ALT="Bradstreet Figure 1"> Figure 1</A>  
+<P> 
+<B>Figure 1.</B> Plasma Concentration vs. Time Curves for Subject 8.  The <I>y</I>-axes for EE are not the same as the 
+<I>y</I>-axes for NET.  (a) EE OCD; (b) EE OC; (c) NET OCD; (d) NET OC. </P>  <P><HR></P>  <P> Eleven of the female 
+subjects (numbers 2, 4, 5, 8, 9, 12, 14, 16, 18, 20, 21) received Drug D concomitantly with the oral contraceptive 
+combination of EE and NET in the first study period, followed by matching placebo and the oral contraceptive in the second 
+study period (treatment sequence 1).  The other eleven (numbers 1, 3, 6, 7, 10, 11, 13, 15, 17, 19, 22) received matching 
+placebo and the oral contraceptive during the first study period followed by Drug D given concomitantly with the oral 
+contraceptive in the second study period (treatment sequence 2). </P>  
+<A NAME="section4"> 
+<H2>4. The Data</H2>  <P> 
+The dataset contains several pieces of information about the study.  For each female subject, there are two lines of data 
+which display the AUC (pg*hr/ml) and Cmax (pg/ml) values which were calculated and observed from the plasma concentration 
+vs. time curves for both EE and NET.  The details of which treatments (Drug D or placebo) were taken concomitantly with the 
+oral contraceptive in each treatment period (first or second) are also provided.  For example, female Subject 8 received 
+Drug D in the first treatment period and placebo in the second treatment period (treatment sequence 1).  The AUC values 
+calculated for EE and NET were 3,328.1 and 118,340.0 pg*hr/ml when she received Drug D during the first treatment period; 
+the corresponding values in the second period following treatment with placebo were 2,941.4 and 148,220.0 pg*hr/ml, 
+respectively.  The observed Cmax values were 431 and 18,100 pg/ml for Drug D; they were 302 and 24,200 pg/ml for placebo. 
+</P>  
+<A NAME="section5"> 
+<H2>5. Data Analyses</H2>  
+<A NAME="section51"> 
+<H3>5.1 Initial Exploration of the Data</H3>  
+<P> An informative first look at the data can be achieved by constructing three groups of graphics:  hanging dot plots of 
+individual subject ratios, individual subject profile (sometimes called "spaghetti") plots, and scatter plots. </P>  <P> 
+<B>Hanging Dot Plots of Individual Subject Ratios</B> </P>  <P> <A HREF="v12n1/datasets.bradstreet.html#figure2">Figure 2</A> 
+presents individual within-subject natural log transformed ratios, log OCD/OC, of the AUC and Cmax data for EE and NET.  
+The  <I>y</I>-axis is labeled with antilog values.  The target bioequivalence (interaction) limits are indicated by the 
+horizontal dotted lines located at 0.8 and 1.25 on the  <I>y</I>-axis.  If the two treatments, OCD and OC, are bioequivalent, 
+then it is reasonable to expect the individual ratios to cluster somewhere between 0.8 and 1.25.   
+<A HREF="v12n1/datasets.bradstreet.html#figure2">Figure 2</A> suggests that when Drug D is given concomitantly with the 
+oral contraceptive, EE AUC is increased for most individuals, often by more than 20%; EE Cmax is increased for many 
+individuals, sometimes to a notable degree  (Subjects 2 and 20, for example); and NET Cmax is decreased for most 
+individuals often by more than 20%, sometimes to a notable degree  (Subject 9, for example).  It also appears that NET AUC 
+generally decreases in the subjects in treatment sequence 1 (OCD then OC), but generally increases among the subjects in 
+treatment sequence 2 (OC then OCD).  But, as will be shown in the next section, this result is due to an unequal effect of 
+the treatment periods and not due to a true sequence or subject group effect. </P>  
+<A NAME="figure2"> 
+<P><HR></P> </A>  
+<A HREF="v12n1/bradstreet_figure2.gif"><IMG SRC="v12n1/bradstreet_figure2.gif" ALT="Bradstreet Figure 2"> Figure 2</A>  
+<P> <B>Figure 2.</B> Individual Within-Subject Natural Log Transformed Ratios, log OCD/OC.  The <I>y</I>-axis is labeled 
+with antilog values.  The target bioequivalence (interaction) limits are indicated by the horizontal dotted lines located 
+at 0.8 and 1.25 on the <I>y</I>-axis. </P>  <P><HR></P>  <P> <B>Individual Subject Profile ("Spaghetti") Plots</B> </P>  
+<P> In  <A HREF="v12n1/datasets.bradstreet.html#figure3">Figure 3</A> each line represents the response of one subject.  
+The line connects the log AUC or log Cmax value which was observed when Drug D was given concomitantly with the oral 
+contraceptive to the corresponding log AUC or log Cmax value which was observed when the oral contraceptive was given alone.  
+The  <I>y</I>-axis is labeled with antilog values.  The  <I>y</I>-axes are all different.  In addition to providing 
+within-subject information, these spaghetti plots provide important between-subject information such as the range of log 
+AUC or log Cmax values observed, and indications of marginal location and marginal variances.  For example,  
+<A HREF="v12n1/datasets.bradstreet.html#figure3">Figure 3c</A> suggests for each of Subjects 18, 22, and 20, that there is 
+little difference between their log NET AUC value either with or without Drug D.  But, the log NET AUC values observed for 
+Subjects 18 and 22 are many fold apart from those observed for Subject 20.   <A HREF="v12n1/datasets.bradstreet.html#figure3">Figure 3a</A> 
+suggests that log EE AUC is marginally greater with Drug D than without Drug D since most of the lines are decreasing from 
+left to right, but the marginal variances appear quite similar. </P>  
+<A NAME="figure3"> 
+<P><HR></P> </A>  
+<A HREF="v12n1/bradstreet_figure3.gif"><IMG SRC="v12n1/bradstreet_figure3.gif" ALT="Bradstreet Figure 3"> Figure 3</A>  
+<P> <B>Figure 3.</B> Individual Subject Profile (“Spaghetti”) Plots Ordered by Treatment.  The <I>y</I>-axes are labeled 
+with antilog values.  The <I>y</I>-axes are all different.  (a) log EE AUC; (b) log EE Cmax; (c) log NET AUC; (d) log NET 
+Cmax. </P>  <P><HR></P>  <P> <A HREF="v12n1/datasets.bradstreet.html#figure4">Figure 4</A> represents an alternative 
+presentation of the spaghetti plot for log NET AUC where each subject’s profile is constructed ordered by study period 
+rather than by treatment.  This reflects the order in which the data were collected in the study and can be insightful for 
+evaluating period effects, and sometimes for discriminating between carryover effects, sequence effects, and 
+treatment-by-period interaction (see  <A HREF="v12n1/datasets.bradstreet.html#jones1989">Jones and Kenward 1989</A>, pp. 20-22, 
+39-51 and  <A HREF="v12n1/datasets.bradstreet.html#pikounis2001">Pikounis, Bradstreet, and Millard 2001</A>).   </P>  
+<A NAME="figure4"> <P><HR></P> </A>  <A HREF="v12n1/bradstreet_figure4.gif"><IMG SRC="v12n1/bradstreet_figure4.gif" ALT="Bradstreet Figure 4"> Figure 4</A>  
+<P> <B>Figure 4.</B> Individual Subject Profile (“Spaghetti”) Plot Ordered by Study Period – log NET AUC.  The 
+<I>y</I>-axis is labeled with antilog values. </P>  <P><HR></P>  <P> <A HREF="v12n1/datasets.bradstreet.html#figure4">Figure 4</A> 
+clearly suggests a period effect since the log NET AUC value observed for each subject in the second study period was 
+generally larger than the corresponding value in the first treatment period, regardless of treatment, OCD or OC.  This 
+explains the individual ratio pattern observed in  <A HREF="v12n1/datasets.bradstreet.html#figure2">Figure 2</A>.  The 
+period effect manifested itself as smaller individual ratios in treatment sequence 1 (OCD then OC) and larger individual 
+ratios in treatment sequence 2 (OC then OCD).  </P>  <P> <B>Scatter Plots</B> </P>  <P> <A HREF="v12n1/datasets.bradstreet.html#figure5">Figure 5</A> 
+presents square scatter plots of the log AUC and log Cmax data.  The  <I>x</I>- and  <I>y</I>-axes are labeled with antilog 
+values.  The  <I>x</I>-axes are all different; the  <I>y</I>-axes are all different.  If the two treatments are 
+bioequivalent, then we expect to see many of the points close to the diagonal line.  However, most of the points in  
+<A HREF="v12n1/datasets.bradstreet.html#figure5">Figure 5a</A> lie above the diagonal line suggesting an increase in log EE 
+AUC when Drug D is given.  Similarly, in  <A HREF="v12n1/datasets.bradstreet.html#figure5">Figure 5d</A>, most of the 
+points lie below the diagonal line suggesting a decrease in log NET Cmax when Drug D is given. </P>  
+<A NAME="figure5"> 
+<P><HR></P> </A>  
+<A HREF="v12n1/bradstreet_figure5.gif"><IMG SRC="v12n1/bradstreet_figure5.gif" ALT="Bradstreet Figure 5"> Figure 5</A>  
+<P> <B>Figure 5.</B> Scatter Plots.  The <I>x</I>- and <I>y</I>-axes are labeled with antilog values.  The <I>x</I>-axes 
+are all different; the <I>y</I>-axes are all different.  (a) log EE AUC; (b) log EE Cmax; (c) log NET AUC; (d) log NET Cmax. 
+</P>  
+<P><HR></P>  
+<P> In addition to assessing the location of the bivariate point cloud vs. the diagonal line, it is important clinically 
+to identify both concordant and discordant outliers.  In the bioequivalence framework, concordant outliers are those 
+bivariate points close to the diagonal line but are notably distant from the point cloud, situated near either end of the 
+diagonal line.  These points represent those subjects whose paired responses are somewhat similar for that subject, but are 
+notably different (smaller - lower end of the diagonal line; larger - upper end of the diagonal line) than the magnitudes 
+of the response of the other subjects.  Subject 12 in  <A HREF="v12n1/datasets.bradstreet.html#figure5">Figure 5b</A> and 
+Subjects 20, 22, and 18 in  <A HREF="v12n1/datasets.bradstreet.html#figure5">Figure 5c</A> are concordant outliers.  
+Discordant outliers are those bivariate points which stray from the point cloud and stray from the diagonal line.  These 
+belong to subjects whose paired responses are not similar to each other for that subject, and are also notably different 
+from the responses of the other subjects.  For example, Subjects 2 and 20 in  <A HREF="v12n1/datasets.bradstreet.html#figure5">Figure 5b</A>, 
+and Subject 9 in  <A HREF="v12n1/datasets.bradstreet.html#figure5">Figure 5d</A>, are discordant outliers. </P>  
+<A NAME="section52"> 
+<H3>5.2 The Model and the Normal Theory ANOVA</H3>  
+<P> The two treatment, two period, two treatment sequence (2,2,2) crossover design can be modeled as: </P>  <P> 
+<IMG SRC="v12n1/images/bradstreet_equation1.gif" ALT="Y_ijk = ...">  </P>  <P> where </P>  <P> 
+<IMG SRC="v12n1/images/mu.gif" ALT="mu"> = the overall mean effect </P>  <P>	 
+<IMG SRC="v12n1/images/ssubik.gif" ALT="s_ik"> = the effect of subject <I>k</I> in group  <I>i</I>, <I>i</I> = 1,2; 
+<I>k</I> = 1, ..., <I>n<SUB>i</SUB></I> </P>  <P> <IMG SRC="v12n1/images/pisubj.gif" ALT="pi_j"> = the effect of period 
+<I>j</I>, <I>j</I> = 1,2 </P>  <P> <IMG SRC="v12n1/images/tausubdij.gif" ALT="tausubdij"> = the direct effect of the 
+treatment administered in period <I>j</I> of group <I>i</I> </P>  <P> <IMG SRC="v12n1/images/lambdasubdij-1.gif" ALT="lambda_d[i,j-1]"> = the 
+effect of carry-over of the treatment administered in period  <I>j</I> - 1 of group <I>i</I>, where  
+<IMG SRC="v12n1/images/lambdasubi0.gif" ALT="lambda_[i,0]"> = 0 </P>  
+<P> <IMG SRC="v12n1/images/esubijk.gif" ALT="e_ijk"> = random error for subject <I>k</I> in period <I>j</I> in group 
+<I>i</I>. </P>  <P> The subject effects,  <IMG SRC="v12n1/images/ssubik.gif" ALT="s_ik">, are assumed as random  
+independent and indentically distributed  Normal(0,  <IMG SRC="v12n1/images/sigmasquaredsubs.gif" ALT="sigma^2_s">); 
+the random errors,  <IMG SRC="v12n1/images/esubijk.gif" ALT="e_ijk">, are assumed as  
+Normal(0,  <IMG SRC="v12n1/images/sigmasquared.gif" ALT="sigma^2">); other effects are fixed  
+(<A HREF="v12n1/datasets.bradstreet.html#jones1989">Jones and Kenward 1989</A>; pp. 9, 10, 22, 23). </P>  
+<P> The normal theory mixed effects ANOVA for a 2,2,2 crossover study has three single degree of freedom contrasts:  one 
+for unequal carryover effects; one for unequal period effects; and one for unequal treatment effects.  The contrast for 
+unequal carryover effects is assessed against a between-subject error term; the other two are compared to within-subject 
+variability  (<A HREF="v12n1/datasets.bradstreet.html#jones1989">Jones and Kenward 1989</A>; pp. 30-33).  The ANOVA results 
+for our study are shown in  <A HREF="v12n1/datasets.bradstreet.html#table1">Table 1</A>. </P>  
+<A NAME="table1"> 
+<P><HR></P> </A>  
+<P> <B>Table 1.</B> Normal theory mixed effects ANOVA results. </P>  <A HREF="v12n1/bradstreet_table1.jpg"><IMG SRC="v12n1/bradstreet_table1.jpg" ALT="Bradstreet Table 1"></A>  
+<P><HR></P>  <P> An insightful presentation of the ANOVA includes a discussion of confounding.  In the 2,2,2 crossover 
+study design, the unequal carryover, treatment-by-period interaction, and subject group (or sequence) effects are 
+confounded in the single degree of freedom sum of squares which is tested against the between-subject error term  
+(<A HREF="v12n1/datasets.bradstreet.html#jones1989">Jones and Kenward 1989</A>; pp. 39-51).  Some authors recommend against 
+formally testing for the unequal carryover effect  (<A HREF="v12n1/datasets.bradstreet.html#senn1993">Senn 1993</A>; pp. 10-15, 
+ <A HREF="v12n1/datasets.bradstreet.html#senn1997">Senn 1997</A>; pp. 239-247).  And, whether or not to treat the subject 
+effect as either a fixed or random effect is a topic of debate. </P>  <P> The assessment of drug interaction is made by way 
+of the average bioequivalence criterion using the single degree of freedom contrast for unequal treatment effects.  A 90% 
+confidence interval is constructed based upon the observed estimate of the difference, OCD-OC, in the average log 
+transformed values.  The geometric mean ratio (OCD/OC) estimate and the corresponding 90% confidence interval are calculated 
+by exponentiation of the log scale results.  A summary of the interaction analysis is shown in  
+<A HREF="v12n1/datasets.bradstreet.html#table2">Table 2</A> and  
+<A HREF="v12n1/datasets.bradstreet.html#figure6">Figure 6</A>.  In  <A HREF="v12n1/datasets.bradstreet.html#figure6">Figure 6</A>, 
+the  <I>y</I>-axis is labeled with antilog values.  The target bioequivalence (interaction) limits are indicated by the 
+horizontal dotted lines located at 0.8 and 1.25 on the  <I>y</I>-axis. </P>  
+<A NAME="table2"> 
+<P><HR></P> </A>  
+<P> <B>Table 2.</B> Summary of normal theory interaction analyses. </P>  
+<A HREF="v12n1/bradstreet_table2.jpg"><IMG SRC="v12n1/bradstreet_table2.jpg" ALT="Bradstreet Table 2"></A>  
+<A NAME="figure6"> <P><HR></P> </A>  <A HREF="v12n1/bradstreet_figure6.gif"><IMG SRC="v12n1/bradstreet_figure6.gif" ALT="Bradstreet Figure 6"> Figure 6</A> 
+ <P> <B>Figure 6.</B> Point Estimates and 90% Confidence Intervals – Normal Theory.  The <I>y</I>-axis is labeled with 
+antilog values.  The target bioequivalence (interaction) limits are indicated by the horizontal dotted lines located at 0.8 
+and 1.25 on the <I>y</I>-axis. </P>  <P><HR></P>  <P> <A HREF="v12n1/datasets.bradstreet.html#table1">Table 1</A>,  
+<A HREF="v12n1/datasets.bradstreet.html#table2">Table 2</A>, and  <A HREF="v12n1/datasets.bradstreet.html#figure6">Figure 6</A> 
+indicate that there is no clinically meaningful interaction for either log EE AUC, log EE Cmax, or log NET AUC, as the 
+corresponding 90% confidence intervals are contained in the target bioequivalence interval of [0.8, 1.25].  However, there 
+is some evidence that log EE AUC  (<I>p</I> < 0.0001) and log EE Cmax (<I>p</I> = 0.060) are elevated when Drug D is given 
+with the oral contraceptive, as both of the lower limits of the corresponding 90% confidence intervals exceed 1.0.  There 
+is a clinically meaningful decrease in log NET Cmax (<I>p</I> = .019) as the lower limit of the corresponding 90% 
+confidence interval is less than 0.8 which is outside the target bioequivalence interval of [0.8, 1.25].  In addition, the 
+upper limit is less than 1.0.  Given the outlying log EE Cmax data for Subjects 2 and 20 and the outlying log NET Cmax data 
+for Subject 9 shown previously in  Figures  <A HREF="v12n1/datasets.bradstreet.html#figure2">2</A>,  
+<A HREF="v12n1/datasets.bradstreet.html#figure3">3b</A>,  <A HREF="v12n1/datasets.bradstreet.html#figure3">3d</A>,  
+<A HREF="v12n1/datasets.bradstreet.html#figure5">5b</A>, and  <A HREF="v12n1/datasets.bradstreet.html#figure5">5d</A>, it 
+is not surprising that the lengths of the 90% confidence intervals for log EE Cmax and log NET Cmax are longer than the 
+corresponding confidence intervals for log EE AUC and log NET AUC.  The period effect for log NET AUC which was suggested 
+by  <A HREF="v12n1/datasets.bradstreet.html#figure4">Figure 4</A> is confirmed (<I>p</I> < .0001) in  
+<A HREF="v12n1/datasets.bradstreet.html#table1">Table 1</A>. </P>  <P> An interesting teaching point is to demonstrate that 
+each of the single degree of freedom  <I>F</I>-tests is equivalent to a two sample t-test comparing the subjects in one 
+treatment sequence with the subjects in the other treatment sequence with respect to linear combinations of the two data 
+values collected for each subject  (<A HREF="v12n1/datasets.bradstreet.html#jones1989">Jones and Kenward 1989</A>; pp. 22-28).  
+For example a difference between the two groups of subjects, sequence 1 (OCD then OC) minus sequence 2 (OC then OCD) in our 
+study, in the mean within-subject sum of log AUC (or Cmax) values indicates an unequal carryover effect.  To test for 
+unequal period effects, compare the mean within subject treatment difference, OCD-OC, of the log AUC (or Cmax) values.  To 
+test for unequal treatment effects, compare the mean within subject period difference, period 1 - period 2 in our study, of 
+the log AUC (or Cmax) values.  This equivalence can be used to visually evaluate the appropriateness of the normal theory 
+ANOVA  (<A HREF="v12n1/datasets.bradstreet.html#section52">Section 5.2</A>) and to motivate and develop the 
+distribution-free analysis of the 2,2,2 crossover design  
+(<A HREF="v12n1/datasets.bradstreet.html#section53">Section 5.3</A>). </P>  
+<P> <B>Graphics for Visualizing the Data in the ANOVA Contrasts</B> </P>  <P> To visualize and assess nonnormality, 
+heteroscedasticity, and outliers for the data which were input into the two sample  <I>t</I>-test procedure outlined above, 
+plot the two sample distributions of sums or differences side-by-side.  A difference in location of the two distributions 
+suggests an effect.  Further details can be found in <A HREF="v12n1/datasets.bradstreet.html#pikounis2001">Pikounis, Bradstreet, and Millard (2001)</A>. 
+</P>  <P> For example,  <A HREF="v12n1/datasets.bradstreet.html#figure7">Figure 7a</A> portrays the single 
+degree-of-freedom <I>F</I>-test evaluating the treatment effect comparison  (<I>p</I> < .0001) for log EE AUC.  The period 
+effect  (<I>p</I> < .0001) observed for log NET AUC is shown in  
+<A HREF="v12n1/datasets.bradstreet.html#figure7">Figure 7b</A>.   
+<A HREF="v12n1/datasets.bradstreet.html#figure7">Figure 7c</A> displays the lack of carryover effect  (<I>p</I> = .52) for 
+log EE AUC.   </P>  <A NAME="figure7"> <P><HR></P> </A>  <A HREF="v12n1/bradstreet_figure7.gif"><IMG SRC="v12n1/bradstreet_figure7.gif" ALT="Bradstreet Figure 7"> Figure 7</A>  
+<P> <B>Figure 7.</B> Sum and Difference Plots.  The <I>y</I>-axes are labeled with log values.  The <I>y</I>-axes are all 
+different.  The horizontal bars represent sample means.  (a) Treatment effects; (b) Period effects; (c) Carryover effects. 
+</P>  <P><HR></P>  <P> In  <A HREF="v12n1/datasets.bradstreet.html#figure8">Figure 8a</A>, an outlier (Subject 9) is 
+evident in the treatment effect evaluation  (<I>p</I> = .019) for log NET Cmax.  And some degree of heteroscedasticity may 
+be suggested by  <A HREF="v12n1/datasets.bradstreet.html#figure8">Figure 8b</A> which shows the treatment effect evaluation 
+ (<I>p</I> = .060) for log EE Cmax. </P>  <A NAME="figure8"> <P><HR></P> </A>  <A HREF="v12n1/bradstreet_figure8.gif"><IMG SRC="v12n1/bradstreet_figure8.gif" ALT="Bradstreet Figure 8"> Figure 8</A>  
+<P> <B>Figure 8.</B> Sum and Difference Plots. The <I>y</I>-axis is labeled with log values.  The <I>y</I>-axes are both 
+different.   The horizontal bars represent sample means.  (a) Outlier; (b) Possible heteroscedosticity. </P>  
+<P><HR></P>  
+<P> To further describe the three single degree of freedom contrasts, plot the mean log response of each treatment by study 
+period.  Connect the mean log responses across periods with a line either by like treatments or by treatment sequence, and 
+label the  <I>y</I>-axis with anti-log values.  Then evaluate three characteristics of the plot:  1) the relative ordering 
+of the two treatment means within each study period; 2) the magnitude of the difference between the two treatment means 
+within each period; and 3) the magnitude of any difference in means between periods in each treatment group.  For example,  
+<A HREF="v12n1/datasets.bradstreet.html#figure9">Figure 9a</A> represents the treatment effect  (<I>p</I> < .0001) observed 
+for log EE AUC, and  <A HREF="v12n1/datasets.bradstreet.html#figure9">Figure 9b</A> represents the period effect  
+(<I>p</I> < .0001) observed for log NET AUC. </P>  <A NAME="figure9"> <P><HR></P> </A>  
+<A HREF="v12n1/bradstreet_figure9.gif"><IMG SRC="v12n1/bradstreet_figure9.gif" ALT="Bradstreet Figure 9"> Figure 9</A>  
+<P> <B>Figure 9.</B> Mean Log Response Plots.  The <I>y</I>-axis is labeled with antilog values.  The <I>y</I>-axes are 
+both different.<BR>(a) Treatment effects; (b) Period effects. </P>  <P><HR></P>  <P> <B>Diagnostic Plots:  Normal 
+Probability, Model Fit, Residuals</B> </P>  <P> Three types of diagnostic plots assess the appropriateness of the normal 
+theory model for the 2,2,2 crossover design:  normal probability plots, scatter plots of observed vs. fitted values, and 
+scatter plots of studentized residuals vs. fitted values.  These diagnostic plots are somewhat routine in concept, but 
+there is an interesting twist in their construction for the 2,2,2 crossover design.  Because the residuals within a subject 
+sum to zero, the residuals from the two treatment periods have the same magnitudes and opposite signs.  No additional 
+information is gained from the second set of residuals. Therefore, plot the residuals from only one of the two treatment 
+periods.  We used information from the first treatment period.   </P>  <P> Normal Probability Plots:   
+<A HREF="v12n1/datasets.bradstreet.html#figure10">Figure 10</A> presents normal probability plots for the log scaled AUC 
+and Cmax variables for EE and NET.  Given a sample size of twenty-two and the results on random sampling from a normal 
+distribution presented by <A HREF="v12n1/datasets.bradstreet.html#daniel1980">Daniel and Wood (1980</A>; pp. 33-43), a 
+normal theory model for log EE AUC  (<A HREF="v12n1/datasets.bradstreet.html#figure10">Figure 10a</A>) and log NET AUC  
+(<A HREF="v12n1/datasets.bradstreet.html#figure10">Figure 10c</A>) is not unreasonable.  The convex curvature and 
+"shelving" of the internally studentized residuals for log EE Cmax in  
+<A HREF="v12n1/datasets.bradstreet.html#figure10">Figure 10b</A> could be of some concern.  The outlier (Subject 9) in  
+<A HREF="v12n1/datasets.bradstreet.html#figure10">Figure 10d</A> suggests that a normal theory analysis is probably not 
+best for log NET Cmax. </P>  <A NAME="figure10"> <P><HR></P> </A>  
+<A HREF="v12n1/bradstreet_figure10.gif"><IMG SRC="v12n1/bradstreet_figure10.gif" ALT="Bradstreet Figure 10"> Figure 10</A>  
+<P> <B>Figure 10.</B> Normal Probability Plots.  The <I>x</I>- and <I>y</I>-axes are labeled with log values.  The 
+<I>x</I>-axes are all different.  The <I>y</I>-axes are all different.  (a) log EE AUC; (b) log EE Cmax; (c) log NET AUC; 
+(d) log NET Cmax. </P>  <P><HR></P>  <P> Observed vs. Fitted Values:   
+<A HREF="v12n1/datasets.bradstreet.html#figure11">Figure 11</A> presents plots displaying the observed and corresponding 
+fitted values on the log scale.  These figures suggest that the normal theory model is a reasonable approach except for log 
+NET Cmax  (<A HREF="v12n1/datasets.bradstreet.html#figure11">Figure 11d</A>) where some convex curvature and an outlier 
+(Subject 9) suggest otherwise. </P>  <A NAME="figure11"> <P><HR></P> </A>  <A HREF="v12n1/bradstreet_figure11.gif"><IMG SRC="v12n1/bradstreet_figure11.gif" ALT="Bradstreet Figure 11"> Figure 11</A> 
+ <P> <B>Figure 11.</B> Observed vs. Fitted Values.  The <I>x</I>- and <I>y</I>-axes are labeled with log values.  The 
+<I>x</I>-axes are all different.  The <I>y</I>-axes are all different.  (a) log EE AUC; (b) log EE Cmax; (c) log NET AUC; 
+(d) log NET Cmax. </P>  <P><HR></P>  <P> Studentized Residuals vs. Fitted Values:   
+<A HREF="v12n1/datasets.bradstreet.html#figure12">Figure 12</A> presents plots displaying the studentized residuals and 
+corresponding fitted values on the log scale.  These figures do not suggest any easily recognizable variance pattern.  
+Perhaps,  <A HREF="v12n1/datasets.bradstreet.html#figure12">Figure 12b</A> suggests an unknown covariate which was not 
+accounted for in the analysis, as the pattern of points appears to move downward to-the-right.  However, the signal for 
+such an unknown covariate does not appear to be overwhelming. </P>  <A NAME="figure12"> <P><HR></P> </A>  
+<A HREF="v12n1/bradstreet_figure12.gif"><IMG SRC="v12n1/bradstreet_figure12.gif" ALT="Bradstreet Figure 12"> Figure 12</A>  
+<P> <B>Figure 12.</B> Studentized Residuals vs. Fitted Values.  The <I>x</I>- and <I>y</I>-axes are labeled with log values. 
+ The <I>x</I>-axes are all different; the <I>y</I>-axes are all different.  (a) log EE AUC; (b) log EE Cmax; (c) log NET 
+AUC; (d) log NET Cmax. </P>  <P><HR></P>  <A NAME="section53"> <H3>5.3 Distribution-Free Analysis of a 2,2,2 Crossover 
+Study</H3>  <P> Given the suggestion of a modest degree of nonnormality for log EE Cmax, a sample size of only 22, and the 
+presence of a few discordant outliers, most notably for log NET Cmax and log EE Cmax, a distribution-free statistical 
+analysis of these data may be prudent. </P>  <P> A distribution-free statistical analysis of a 2,2,2 crossover study 
+consists of a series of three Wilcoxon rank sum tests analogous to the three two sample  <I>t</I>-tests outlined in  
+<A HREF="v12n1/datasets.bradstreet.html#section52">Section 5.2</A>.  For example, unequal treatment effects are evaluated 
+using the Wilcoxon rank sum test to compare the two treatment sequence groups with respect to the within-subject period 
+difference in the log AUC (or Cmax) values.  Drug interaction is assessed by way of the average bioequivalence criteria 
+using the two sample Hodges-Lehmann point estimator and the two sample Moses confidence interval (see  
+<A HREF="v12n1/datasets.bradstreet.html#hollander1973">Hollander and Wolfe 1973</A>, pp. 68-82;  
+<A HREF="v12n1/datasets.bradstreet.html#koch1972">Koch 1972</A>;  
+<A HREF="v12n1/datasets.bradstreet.html#jones1989">Jones and Kenward 1989</A>, pp. 51-59).  Note that the results from the 
+calculation of the Hodges-Lehmann estimator and Moses confidence interval on the log scale must be divided by two before 
+exponentiation to arrive at the correct estimate and confidence interval.  This is because the distribution-free comparison, 
+sequence 1 (OCD then OC) minus sequence 2 (OC then OCD) in our study, between the two groups of within-subject paired 
+differences (period 1 - period 2 in our study) of log AUC (or Cmax) values essentially counts the treatment difference 
+twice.  That is, the distribution-free calculations give (OCD - OC) - (OC - OCD) = 2(OCD - OC), but we are interested in 
+only OCD - OC.  No similar issue arises for the contrast using the Wilcoxon Rank Sum Test.  A few timely remarks about the 
+scale invariance  (<A HREF="v12n1/datasets.bradstreet.html#mood1974">Mood, Graybill, and Boes 1974</A>, p. 336) of the 
+Wilcoxon Rank Sum Test and the lack of scale invariance of both the Hodges-Lehmann point estimator and Moses confidence 
+interval would be valuable here.  And it is useful to point out that the Moses confidence interval will not necessarily be 
+symmetric about the Hodges-Lehmann point estimate. </P>  <P> <A HREF="v12n1/datasets.bradstreet.html#table3">Table 3</A> 
+and  <A HREF="v12n1/datasets.bradstreet.html#figure13">Figure 13</A> present a summary of the distribution-free analyses.  
+In  <A HREF="v12n1/datasets.bradstreet.html#figure13">Figure 13</A>, the results of the normal theory analysis are shown as 
+a reference set.  The  <I>y</I>-axis is labeled with anti-log values. </P>  <A NAME="table3"> <P><HR></P> </A>  <P> 
+<B>Table 3.</B> Summary of distribution-free interaction analyses. </P>  
+<A HREF="v12n1/bradstreet_table3.jpg"><IMG SRC="v12n1/bradstreet_table3.jpg" ALT="Bradstreet Table 3"></A>  
+<A NAME="figure13"> <P><HR></P> </A>  <A HREF="v12n1/bradstreet_figure13.gif"><IMG SRC="v12n1/bradstreet_figure13.gif" ALT="Bradstreet Figure 13"> Figure 13</A>  
+<P> <B>Figure 13.</B> Point Estimates and 90% Confidence Intervals – Distribution-Free and Normal Theory.  The 
+<I>y</I>-axis is labeled with antilog values.  The target bioequivalence (interaction) limits are indicated by the 
+horizontal dotted lines located at 0.8 and 1.25 on the <I>y</I>-axis. </P>  <P><HR></P>  <P> The conclusions drawn from 
+the normal theory analyses of the absence of a clinically meaningful drug interaction on log EE AUC, log EE Cmax, and log 
+NET AUC, are also suggested by the distribution-free analyses.  Again it is clear that log EE AUC is elevated 
+(<I>p</I> < .0001) to some degree when Drug D is given.  The evidence that log EE Cmax is elevated (<I>p</I> = .15) is 
+less impressive, as the lower limit of the 90% confidence interval, 0.99, is now just below 1.0.  This difference between 
+the normal theory and distribution-free analysis may simply be attributable to the modest degree of nonnormality shown in 
+the normal probability plot for log EE Cmax  (<A HREF="v12n1/datasets.bradstreet.html#figure10">Figure 10b</A>).  The 
+period effect for log NET AUC is confirmed again (<I>p</I> = .0002).   </P>  <P> The most notable difference between the 
+distribution-free and normal theory analyses is observed for log NET Cmax, where Subject 9 is a rather extreme outlier.  
+The point estimate for the true ratio is now greater, 0.90 vs. 0.86, and the confidence interval, (0.82, 0.96), is now 
+somewhat shorter (length = 0.14 as compared to length = 0.17 for the normal theory analysis) and it is contained completely 
+within the target bioequivalence interval of [0.80, 1.25].  So, the original conclusion  of a clinically meaningful 
+reduction in log NET Cmax arrived at through the normal theory analysis is now reversed based upon the distribution-free 
+analysis to a conclusion of no clinically important interaction.  However, it is still clear that log NET Cmax is reduced 
+(<I>p</I> = .0032) to some degree when Drug D is given concomitantly as the upper confidence limit, 0.96, is still below 
+1.0.  And one must wonder, what proportion of the population does Subject 9 represent? </P>  
+<A NAME="section54"> 
+<H3>5.4 Software</H3>  <P> For guidance on computing the statistical analyses of the 2,2,2 crossover design and the 
+accompanying complement of graphics in S-PLUS, see  <A HREF="v12n1/datasets.bradstreet.html#pikounis2001">Pikounis, Bradstreet, and Millard (2001)</A>.  
+SAS users should consult  <A HREF="v12n1/datasets.bradstreet.html#morris2000">Morris and Bradstreet (2000)</A>. </P>  
+<A NAME="section6"> <H2>6. Getting the Data</H2>  <P> The file <A HREF="datasets/ocdrug.dat.txt">ocdrug.dat.txt</A> contains the 
+raw data.  The file  <A HREF="datasets/ocdrug.txt">ocdrug.txt</A> is a documentation file containing a brief description of 
+the dataset. </P>  <P><HR></P>  <A NAME="appendix"> <H2>Appendix - Key to Variables in <A HREF="datasets/ocdrug.dat.txt">ocdrug.dat.txt</A></H2>  
+<PRE> Columns         Description 1-2             Female Subject Number (1 to 22) 4               Treatment Sequence (1 = Drug D, placebo; 2 = placebo,                  Drug D) 6               Study Period (1, 2) 8               Treatment (0 = placebo, 1 = Drug D) 10-15           EE - AUC (pg*hr/ml) 17-19           EE - Cmax (pg/ml) 21-28           NET - AUC (pg*hr/ml) 30-34           NET - Cmax (pg/ml)  Values are delimited by blanks. </PRE>  
+<P><HR></P> 
+<h2>Acknowledgements</h2>  
+<P> The authors would like to thank the referees and the associate editor for their comments, Ms. Laurie Rittle for her 
+careful typing of this article, and Ms. Cindy White for producing the graphics. </P>  
+<P><HR></P>  
+
+<h2>References</h2> 
+ 
+<A NAME="bradstreet1991"> </A> 
+<P> 
+Bradstreet, T. E. (1991), "Some Favorite Datasets from Early Phase of Drug Research," in  
+<I>Proceedings of the Section on Statistical Education</I>, American Statistical Association, pp. 190-195. 
+</P>  
+
+<A NAME="bradstreet1992"> </A> 
+<P> 
+Bradstreet, T. E. (1992), "Favorite Datasets from Early Phases of Drug Research - Part 2," in  <I>Proceedings of the 
+Section on Statistical Education</I>, American Statistical Association, pp. 219-223. 
+</P>  
+
+<A NAME="bradstreet1993"> </A> 
+<P> 
+Bradstreet, T. E. (1993), "Statistical Applications in the Pharmaceutical Industry - Part III:  Phase I and II Clinical 
+Pharmacology Studies,"  <I>Stats</I>, 10, pp. 20-23. 
+</P>  
+
+<A NAME="bradstreet1994"> </A> 
+<P> 
+Bradstreet, T. E. (1994), "Favorite Datasets from Early Phases of Drug Research - Part 3," in  <I>Proceedings of the 
+Section on Statistical Education</I>, American Statistical Association, pp. 247-252. 
+</P>
+
+<A NAME="bradstreet2000"> </A> 
+<P>
+Bradstreet, T. E. (2000), "Food and Drug Interaction:  What Role Does Statistics Play?"  <I>The College Mathematics 
+Journal</I>, 31, pp. 268-273. 
+</P>  
+
+<A NAME="bradstreet1996"> </A> 
+<P> 
+Bradstreet, T. E., and Dobbins, T. W. (1996), "When Are Two Drug Formulations Interchangeable?"  <I>Teaching 
+Statistics</I>, 18, pp. 45-48. 
+</P>  
+
+<A NAME="bradstreet1995"> </A> 
+<P> Bradstreet, T. E., and Liss, C. L. (1995), "Favorite Datasets from Early (and Late) Phases of Drug Research - Part 4," 
+in <I>Proceedings of the Section on Statistical Education</I>, American Statistical Association, pp. 335-340. </P>  
+
+<A NAME="bradstreet2001"> </A> 
+<P> Bradstreet, T. E., and Short, T. H. (2001), "Favorite Datasets From Early Phases of Drug Research - Part 5," in  
+<I>Proceedings of the Section on Statistical Education</I>, American Statistical Association, CD-ROM. </P>  
+
+<A NAME="chow2000"> </A> 
+<P> Chow, S.-C., and Liu, J. P. (2000),  <I>Design and Analysis of Bioavailability and Bioequivalence Studies</I> 
+(2nd ed., revised and expanded),  New York: Marcel Dekker. </P>  
+
+<A NAME="daniel1980"> </A> 
+<P> Daniel, C., and Wood, F. S. (1980), <I>Fitting Equations to Data</I> (2nd ed.), New York: John Wiley and Sons. </P>  
+
+<A NAME="dia1995"> </A> 
+<P> <I>Drug Information Journal</I> (1995), 29(3). </P>  
+
+<A NAME="fda1999"> </A> 
+<P> Food and Drug Administration (1999), "Draft Guidance for Industry:  Average, Population, and Individual Approaches to 
+Establishing Bioequivalence" [Online]. (<A HREF="v12n1/bradstreet_link2.html">www.fda.gov/cder/guidance/guidance.htm</A>) 
+</P>  
+
+<A NAME="fda2000"> </A> 
+<P> Food and Drug Administration (2000), "Guidance for Industry:  Bioavailability and Bioequivalence Studies for Orally 
+Administered Drug Products - General Considerations" [Online].  
+(<A HREF="v12n1/bradstreet_link2.html">www.fda.gov/cder/guidance/guidance.htm</A>) </P>  
+
+<A NAME="gibaldi1982"> </A> 
+<P> Gibaldi, M., and Perrier, D. (1982), <I>Pharmacokinetics</I> (2nd ed.), New York: Marcel Dekker. </P>  
+
+<A NAME="hollander1973"> </A> 
+<P> Hollander, M. and Wolfe, D. A. (1973), <I>Nonparametric Statistical Methods</I>, New York: John Wiley and Sons. </P>  
+
+<A NAME="jones1989"> </A> 
+<P> Jones, B., and Kenward, M. G. (1989), <I>Design and Analysis of Cross-Over Trials</I>, New York: Chapman and Hall. </P> 
+
+ <A NAME="jbs1997"> </A> 
+<P> <I>Journal of Biopharmaceutical Statistics</I> (1997), 7(1). </P>  
+
+<A NAME="koch1972"> </A> 
+<P> Koch, G. G. (1972), "The Use of Non-Parametric Methods in the Statistical Analysis of the Two-Period Change-Over Design,"
+ <I>Biometrics</I>, 28, pp. 577-584. </P>  
+
+<A NAME="mood1974"> </A> 
+<P> Mood, A., Graybill, F. A., and Boes, D. C. (1974), <I>Introduction to the Theory of Statistics</I> (3rd ed.),  New York: McGraw-Hill. 
+
+</P>  <A NAME="morris2000"> </A> 
+<P> Morris, A., and Bradstreet, T. E. (2000), "From Data to Study Report in One Step:   A SAS<SUP><SMALL>TM</SMALL></SUP> 
+Macro for the 2,2,2 Crossover Design," in  <I>Proceedings of PharmaSUG 2000</I>, pp. 317-321. </P>  
+
+<A NAME="pikounis2001"> </A> 
+<P> Pikounis, B., Bradstreet, T. E., and Millard, S. P. (2001),  "Graphical Insight and Data Analysis for the 2,2,2 
+Crossover Study," in  <I>Applied Statistics in the Pharmaceutical Industry With Case Studies Using S-PLUS</I>,  
+eds. S.P. Millard and A. Krause, New York: Springer-Verlag, pp. 153-179. </P>  
+
+<A NAME="senn1993"> </A> 
+<P> Senn, S. (1993), <I>Cross-over Trials in Clinical Research</I>, New York: John Wiley and Sons. </P>  
+
+<A NAME="senn1997"> </A> 
+<P> Senn, S. (1997), <I>Statistical Issues in Drug Development</I>, New York: John Wiley and Sons. </P>  
+
+<A NAME="sim2000"> </A> 
+<P> <I>Statistics in Medicine</I> (2000), 19(20). </P>  
+
+<P><HR></P>  
+<P> Thomas E. Bradstreet 
+<BR>Merck Research Laboratories 
+<BR>Blue Bell, PA 19422 
+<BR>USA 
+<BR><a href="mailto:thomas_bradstreet@merck.com"><I>thomas_bradstreet@merck.com</I></a> </p>  
+<P> Deborah L. Panebianco 
+<BR>Merck Research Laboratories 
+<BR>Blue Bell, PA 19422 
+<BR>USA 
+<BR><a href="mailto:deborah_panebianco@merck.com"><I>deborah_panebianco@merck.com</I></a> </p>  
+<P><HR></P>  
+<SMALL> <FONT FACE="Arial" COLOR="#000000">  <P ALIGN="CENTER">  
+<A HREF="contents_2004.html"><FONT COLOR="green">Volume 12 (2004)</FONT></A> |   
+<A HREF="jse_archive.html"><FONT COLOR="green">Archive</FONT></A> |   
+<A HREF="jse_index.html"><FONT COLOR="green">Index</FONT></A> |   
+<A HREF="jse_data_archive.html"><FONT COLOR="green">Data Archive</FONT></A> |  
+<A HREF="jse_info_service.html"><FONT COLOR="green">Information Service</FONT></A> |   
+<A HREF="jse_board.html"><FONT COLOR="green">Editorial Board</FONT></A> |   
+<A HREF="jse_author_info.html"><FONT COLOR="green">Guidelines for Authors</FONT></A> |   
+<A HREF="jse_data_contributor_info.html"><FONT COLOR="green">Guidelines for Data Contributors</FONT></A> |   
+<A HREF="./"><FONT COLOR="green">Home Page</FONT></A> |  
+<A HREF="mailto:journals@amstat.org"><FONT COLOR="green">Contact JSE</FONT></A> |   
+<A HREF="/publications/"><FONT COLOR="green">ASA Publications</FONT></A> </P> </FONT> </SMALL>  </body> </html>   

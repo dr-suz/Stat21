@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 23</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <script src="class23_files/header-attrs/header-attrs.js"></script>
+    <link href="class23_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class23_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 23
+## Statistical Methods II (Stat 021)
+### Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, May 4, 2021 (updated: 2021-05-04)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- Quick lecture: statistical inference overview (10 mins)
+
+- Interaction effects group work (15 mins)
+
+- Review Test 2 common confusions (15 mins)
+
+- Housekeeping items and announcements (5 mins)
+
+---
+# Tuesday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+&lt;img src="Figs/feelings_wheel.jpg" width="683" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+## About random variables 
+### Sampling strategies 
+
+"Research studies are usually carried out on sample of subjects rather than whole populations. The most challenging aspect of fieldwork is drawing a random sample from the target population to which the results of the study would be generalized. In actual practice, the task is so difficult that some sampling bias occurs in almost all studies to a lesser or greater degree. In order to assess the degree of this bias, the informed reader of medical literature should have some understanding of the population from which the sample was drawn. The ultimate decision on whether the results of a particular study can be generalized to a larger population depends on this understanding."
+
+"Similarly, in inferential statistics, it is not enough to just describe the results in the sample. One has to critically appraise the real worth or representativeness of that particular sample."
+
+“Statistics without tears: Populations and samples Amitav Banerjee, Suprakash Chaudhury” Industrial Psychiatry Journal 2010
+
+
+---
+## Statistical Inference
+### Moving from the sample to the population 
+
+"Note, in particular, that data should not be confused with random variables. Random variables live in the theoretical world. When we say things like, “Let us assume the data are normally distributed” and we proceed to make a statistical inference, we do not need to take these words literally as asserting that the data form a random sample. Instead, this kind of language is a convenient and familiar shorthand for the much weaker assertion that, for our specified purposes, the variability of the data is adequately consistent with variability that would occur in a random sample."
+
+For confidence intervals and hypothesis tests "[we] are able to draw useful conclusions as long as our theoretical world is aligned well with the real world that produced the data."
+
+Statistical Inference: The Big Picture. Robert E. Kass Statistical Science 2011
+
+
+---
+## About statistical inference 
+## Moving from the sample to the population
+
+
+&lt;img src="Figs/Kass_inference.png" width="696" height="400" style="display: block; margin: auto;" /&gt;
+
+
+
+Statistical Inference: The Big Picture. 
+Robert E. Kass
+Statistical Science 2011 
+
+
+
+---
+## Interpreting effect sizes 
+### Group work (10 mins)
+
+**Instructions:** With your group, use the code on the next slides to work through this the edited version of the Class 22 worksheet. (This is available in the Week 12 material on Moodle.) 
+
+**For now, only do the questions associated with Model 1 and Model 2.** 
+
+**Recorder** You will be sharing your screen with your group mates as you write the code to solve these questions. Then, share a screenshot of the worksheet and use your stylus to write out the estimated regression equations and work through the steps to answer the questions with your group. 
+
+**Reporter** Make a copy of the worksheet and type your group's answers into your copy of the worksheet. Submit this to me (and your group mates) on Slack when there is one minute left and be prepared to discuss your answers with me when I visit your group.  
+
+**Questioner** Be prepared to annotate the screen to highlight any areas where you have questions or are unclear about the reasoning to an answer. For each question, determine if the answer should be a numeric value or if it will depend on another variable? 
+
+
+---
+## Interpreting effect sizes 
+### Group work 
+
+
+```r
+library("tidyverse")
+mileage &lt;- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/mileage.txt"), 
+                       skip=2, col_names = c("car", "mpg", "displacement", "weight", "transmission_type"), 
+                       cols(transmission_type = col_factor())) %&gt;% na.omit
+## Note that transmission_type is already a factor! 
+head(mileage)
+```
+
+```
+## # A tibble: 6 x 5
+##   car          mpg displacement weight transmission_type
+##   &lt;chr&gt;      &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;            
+## 1 Apollo      18.9          350   3910 A                
+## 2 Omega       17            350   2860 A                
+## 3 Nova        20            250   3510 A                
+## 4 Monarch     18.2          351   3890 A                
+## 5 Duster      20.1          225   3365 M                
+## 6 JensonConv  11.2          440   4215 A
+```
+
+
+---
+## Interpreting effect sizes 
+### Group work 
+
+
+```r
+mod1 &lt;- lm(mpg ~ displacement + transmission_type, mileage)
+
+mod2 &lt;- lm(mpg ~ displacement + relevel(transmission_type, "M"), mileage)
+
+mod3 &lt;- lm(mpg ~ displacement + transmission_type + displacement*transmission_type, mileage)
+```
+
+
+---
+## Interpreting effect sizes 
+### Group work (5 mins)
+
+**Instructions:** With your group, use the code on the next slide to work through this the edited version of the Class 22 worksheet. (This is available in the Week 12 material on Moodle.) 
+
+**Now, complete the questions based on Model 3.** 
+
+---
+## Test 2 Review 
+
+---
+## Test 2  
+### Problem 2 
+
+
+The following information is based on performing a Tukey HSD pairwise comparison to determine where the greatest disparities in SAT scores occur. The plot below displays the adjusted p-values and the estimated differences from each pair-wise comparison. The corresponding output of the `TukeyHSD` function is show on the next page.  
+
+Based on these pairwise comparisons, which differences in SAT scores are statistically significant? Which differences are practically significant? Why might these not be the same? 
+
+---
+## Test 2 
+### Problem 2 
+
+&lt;img src="Figs/unnamed-chunk-6-1.png" height="400" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Test 2 
+### Problem 2 
+
+
+```r
+TukeyHSD(mod1)
+```
+
+```
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = x)
+## 
+## $`factor(Income)`
+##                            diff         lwr       upr     p adj
+## &gt;200K-&lt;20K           286.636364 -337.655963 910.92869 0.8928243
+## 100K-120K-&lt;20K       231.769697   -5.497893 469.03729 0.0612866
+## 120K-140K-&lt;20K       199.136364 -149.853656 548.12638 0.7009310
+## 140K-160K-&lt;20K       128.636364 -330.830348 588.10308 0.9958387
+## 160K-200K-&lt;20K       332.386364  -16.603656 681.37638 0.0754563
+## 20K-40K-&lt;20K          50.165775 -181.121600 281.45315 0.9994311
+## 40K-60K-&lt;20K         100.836364 -136.431226 338.10395 0.9305709
+## 60K-80K-&lt;20K         239.448864    5.339241 473.55849 0.0406956
+## 80K-100K-&lt;20K        140.769697  -96.497893 378.03729 0.6523685
+## 100K-120K-&gt;200K      -54.866667 -672.183441 562.45011 0.9999997
+## 120K-140K-&gt;200K      -87.500000 -755.765011 580.76501 0.9999918
+## 140K-160K-&gt;200K     -158.000000 -890.047641 574.04764 0.9994532
+## 160K-200K-&gt;200K       45.750000 -622.515011 714.01501 1.0000000
+## 20K-40K-&gt;200K       -236.470588 -851.513628 378.57245 0.9622467
+## 40K-60K-&gt;200K       -185.800000 -803.116774 431.51677 0.9929020
+## 60K-80K-&gt;200K        -47.187500 -663.297398 568.92240 0.9999999
+## 80K-100K-&gt;200K      -145.866667 -763.183441 471.45011 0.9988729
+## 120K-140K-100K-120K  -32.633333 -368.986013 303.71935 0.9999994
+## 140K-160K-100K-120K -103.133333 -553.076385 346.80972 0.9991144
+## 160K-200K-100K-120K  100.616667 -235.736013 436.96935 0.9932118
+## 20K-40K-100K-120K   -181.603922 -393.341828  30.13399 0.1583446
+## 40K-60K-100K-120K   -130.933333 -349.187772  87.32111 0.6378861
+## 60K-80K-100K-120K      7.679167 -207.137979 222.49631 1.0000000
+## 80K-100K-100K-120K   -91.000000 -309.254439 127.25444 0.9379490
+## 140K-160K-120K-140K  -70.500000 -588.135851 447.13585 0.9999885
+## 160K-200K-120K-140K  133.250000 -289.397903 555.89790 0.9900895
+## 20K-40K-120K-140K   -148.970588 -481.131793 183.19062 0.9057307
+## 40K-60K-120K-140K    -98.300000 -434.652679 238.05268 0.9942765
+## 60K-80K-120K-140K     40.312500 -293.820005 374.44501 0.9999960
+## 80K-100K-120K-140K   -58.366667 -394.719346 277.98601 0.9999094
+## 160K-200K-140K-160K  203.750000 -313.885851 721.38585 0.9562572
+## 20K-40K-140K-160K    -78.470588 -525.288998 368.34782 0.9998999
+## 40K-60K-140K-160K    -27.800000 -477.743052 422.14305 1.0000000
+## 60K-80K-140K-160K    110.812500 -337.473297 559.09830 0.9983943
+## 80K-100K-140K-160K    12.133333 -437.809718 462.07639 1.0000000
+## 20K-40K-160K-200K   -282.220588 -614.381793  49.94062 0.1677531
+## 40K-60K-160K-200K   -231.550000 -567.902679 104.80268 0.4422561
+## 60K-80K-160K-200K    -92.937500 -427.070005 241.19501 0.9960376
+## 80K-100K-160K-200K  -191.616667 -527.969346 144.73601 0.7028520
+## 40K-60K-20K-40K       50.670588 -161.067318 262.40849 0.9987544
+## 60K-80K-20K-40K      189.283088  -18.909965 397.47614 0.1072775
+## 80K-100K-20K-40K      90.603922 -121.133985 302.34183 0.9277570
+## 60K-80K-40K-60K      138.612500  -76.204646 353.42965 0.5368964
+## 80K-100K-40K-60K      39.933333 -178.321105 258.18777 0.9998590
+## 80K-100K-60K-80K     -98.679167 -313.496313 116.13798 0.8925399
+```
+
+---
+## Test 2 
+### Problem 2 
+
+
+|              | Statistical Difference | Practical Difference (of at least `\(200\)` points)   | 
+| ------------ | ---------------------- | ---------------------- |
+| `\(\alpha=0.1\)` | 160K-200K and &lt; 20K   | 160K-200K and &lt;20K      |
+|              | 100K-120K and &lt;20K    | 100K-120K and &lt;20K      |
+|              | 60K-80K and &lt;20K      |  60K-80K and &lt;20K       | 
+| `\(\alpha=0.2\)` | 100K-120K and 20K-40K |                         |
+|              | 160K-200K and 20K-40K |  160K-200K and 20K-40K  |
+|              |                       | 160K-200 and 140K-160K  |
+|              |                       |    20K-40K and &lt;20K     |
+|              |                       | 160K-200K and 40K-60K   |
+|              |                       |      &gt;200K and &lt;20K     |
+
+
+These do not match in some cases because of the severely unbalanced samples sizes. 
+
+---
+## Test 2 
+### Problem 2 
+
+
+
+```r
+SAT_data %&gt;% count(factor(Income))
+```
+
+```
+## # A tibble: 10 x 2
+##    `factor(Income)`     n
+##    &lt;fct&gt;            &lt;int&gt;
+##  1 &lt;20K                11
+##  2 &gt;200K                1
+##  3 100K-120K           15
+##  4 120K-140K            4
+##  5 140K-160K            2
+##  6 160K-200K            4
+##  7 20K-40K             17
+##  8 40K-60K             15
+##  9 60K-80K             16
+## 10 80K-100K            15
+```
+
+---
+## Test 2 
+### Problem 5a  
+
+
+The following data were collected by a GPS watch worn by the runner of a four-mile course. Using heart rate measurements after each run, an analysis of the runner's post-exercise heart rate recovery provides an indication of cardiovascular fitness. We are interested in answering the question: is the speed of the run (in mph) related to the number of calories burned. 
+
+
+```r
+run_dat &lt;- read_table2("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/Four-Mile-Run-data.txt")
+summary(lm(calories~aveSpeed, run_dat))
+```
+
+
+
+---
+## Test 2 
+### Problem 5a  
+
+
+```
+## 
+## Call:
+## lm(formula = calories ~ aveSpeed, data = run_dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -55.542 -18.918   2.212  16.376  56.130 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  -208.21     161.63  -1.288  0.21495   
+## aveSpeed       80.82      22.51   3.590  0.00225 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 30.84 on 17 degrees of freedom
+## Multiple R-squared:  0.4313,	Adjusted R-squared:  0.3978 
+## F-statistic: 12.89 on 1 and 17 DF,  p-value: 0.002255
+```
+
+
+---
+## Test 2 
+### Problem 5a  
+
+a) What is the estimate for the standard deviation of the number of calories burned based on this linear model?
+
+**Solution:** `\(\hat{\sigma}=30.84\)`
+
+
+
+---
+## Test 2 
+### Problem 5d 
+
+
+d) What numbers in the R output above can help us determine if this model is a good fit for the data? Explain briefly. (There are at least two.)
+
+**Solution:** Any of the following options are valid: 
+
+  - R-squared; 
+
+  - p-value of the F-test for model fit; 
+
+  - p-value of the t-test for the significance of the predictor. 
+
+
+---
+### Announcements 
+
+- Slack
+  
+  * I will be checking Slack every day this week from 1-1:30 pm EST 
+  
+  * If you have coding problems, use the #r-q-and-a channel and include
+  
+    - The code that is causing the error 
+    
+    - The error message 
+  
+  * Final check-in posted
+
+- Office hours 
+
+  * Th May 6 from 2-3 pm EST
+  
+  * M May 10 from 7:30-8:30 pm 
+  
+  * If you cannot make these and need an additional appointment, let me know 24 hrs in advance and I'll do my best to accommodate you 
+
+---
+### Announcements 
+
+- Final Project 
+
+  * Part 3 is due May 11th
+
+  * Part 4 instructions will be posted this week 
+  
+- Test 3 
+
+  * Released at 8am on May 13 
+  
+  * Due to Gradescope by 12pm on May 15th 
+  
+  * Same format and policies as Test 1 and 2 but it will be a bit longer
+
+- Next class 
+
+  * Building a MLR model 
+  
+  * HW bonus problems group work 
+  
+  * HW 8 group work
+  
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

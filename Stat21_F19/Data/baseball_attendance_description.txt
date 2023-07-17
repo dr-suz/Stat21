@@ -1,0 +1,6 @@
+American League baseball games are
+played under the designated hitter rule, meaning that pitchers,
+often weak hitters, do not come to bat. Baseball owners believe
+that the designated hitter rule means more runs scored, which
+in turn means higher attendance. Is there evidence that more
+fans attend games if the teams score more runs? The data give attendance total, home, and away for each team in major league baseball for the 2016 season. Does attendance respond to winning or runs scored?

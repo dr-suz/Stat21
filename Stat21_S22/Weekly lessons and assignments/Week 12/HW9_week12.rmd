@@ -1,0 +1,166 @@
+---
+title: "Stat 21 Homework 9"
+author: ' Name '
+date: 'Due: Tuesday, April 19th by midnight'
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+Use this file as the template for your submission. Do not delete anything from this template unless you are prompted to do so (e.g. where to write your name above, where to write your solutions or code below). Make sure you have installed the following packages in your version of RStudio: `tidyverse`, `knitr` __before__ you attempt to knit this document.
+
+Your completed assignment should be submitted as a single __PDF__ using the link under Week 12 titled "Submit HW 9 to Gradescope". You must use R markdown to write up your solutions. For any homework problems that involve coding in R, you must provide __both__ the code and a written answer interpreting the output within the context of the problem. You are allowed to work with your classmates on this homework assignment but you are expected to write up your own solutions. Every answer must be supported by a written statement unless otherwise specified. *A good rule of thumb is to make sure your answer is understandable to someone who hasn't read the problem question (or code output associated with it).* 
+
+**Additionally**, make sure that when you upload your solutions to Gradescope, you select which pages go correspond with which questions. Also, check to make sure that your knitted homework document is not uploaded as an extra-long single page document. Failure to do these things will result in a penalty on your homework grade. Finally, I strongly recommend that you address and resolve any knitting or R coding issues before Saturday as solutions to any R-coding questions that are not knitted properly will not receive any credit. 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data) ## for the data 
+library(car)       ## for VIF function 
+```
+
+# Part I: Concept problems 
+ 
+## Problem 1
+
+Aphids (a type of small insect) produce a form of liquid waste, called honeydew, when they eat plant sap. An experiment was conducted to see whether the amounts of honeydew produced by aphids differ for different combinations of type of aphid and type of host plant. The following ANOVA table was produced with the data from this experiment
+
+**Analysis of variance table**
+
+| Source | DF  | SS  | MS  | F-value | P-value |
+|    ---:| ---:| ---:| ---:|     ---:|     ---:|
+| Aphid/host combination |  ?  |  ?    | 4.9807 | ? | 0.000 |
+| Error                  | 46  | 39.87 | 0.8667 |   |       |
+| Total                  | 51  | 64.77 |        |   |       |
+
+
+
+(a) Fill in the three missing values in this ANOVA table. Also show how you calculate them.
+
+(b) How many different aphid/plant combinations were considered in this analysis? Explain how you know.
+
+(c) Summarize the conclusion from this ANOVA (in context).
+
+
+### Solution to Problem 1 
+
+(a) [Write your answer here]
+
+(b) [Write your answer here]
+
+(c) [Write your answer here]
+
+
+## Problem 2
+
+Nationally, the abuse of methamphetamine has become a concern, not only because of the effects of drug abuse, but also because of the dangers associated with the labs that produce them. A stratified random sample of a total of 12 counties in Iowa (stratified by size of county—small, medium, or large) produced the following ANOVA table relating the number of methamphetamine labs to the size of the county. Use this table to answer the following questions.
+
+**Analysis of variance**
+
+| Source | DF  | SS  | MS  | F-value |  
+|  ---:| ---:| ---:| ---:| ---:|   
+| Type  | ?  | 37.51  | ?   | ? | 
+| Error | ?  |  ?     | ?   |   |  
+| Total | ?  | 70.60  |     |   |   
+
+
+(a) Fill in the values missing from the table and show your work. 
+
+(b) What does the MS for county type tell you?
+
+(c) Find the P-value for the F-test in the table.
+
+(d) Describe the hypotheses tested by the F-test in the table, and using the P-value from part (c), give an appropriate conclusion.
+  
+
+### Solution to Problem 2
+
+(a) [Write your answer here]
+
+(b) [Write your answer here]
+
+(c) [Write your answer here]
+
+(d) [Write your answer here]
+
+
+ 
+# Part II: R Problems 
+
+**Context for Problems 3-5:**
+
+The city of New Haven, Connecticut, administered exams (both written and oral) in November and December of 2003 to firefighters hoping to qualify for promotion to either Lieutenant or Captain in the city fire department. A final score consisting of a 60\% weight for the written exam and a 40% weight for the oral exam was computed for each person who took the exam. Those people receiving a total score of at least 70\% were deemed to be eligible for promotion. 
+
+
+In a situation where $t$ openings were available, the people with the top $t+2$ scores would be considered for those openings. A concern was raised, however, that the exams were discriminatory with respect to race and a lawsuit was filed. The data are given in the data file `Ricci`.
+
+```{r}
+library(Stat2Data)
+data(Ricci)
+Ricci %>% head
+```
+
+For each person who took the exams, there are measurements on their race (Black, white, or Hispanic), which position they were trying for (Lieutenant, Captain), scores on the oral and written exams, and the combined score.
+
+The concern over the exams administered by the city was that they were discriminatory based on race. Here we concentrate on the overall, combined score on the two tests for these people seeking promotion and we analyze the average score for the three different races.  
+
+## Problem 3
+
+Use a graphical approach to answer the question of whether the average combined score is different for the three races. What do the graphs suggest about any further analysis that could be done? Explain.
+
+
+```{r}
+# Use this space for coding 
+```
+
+### Solution to Problem 3
+
+[Write your answer here]
+
+
+## Problem 4
+  
+(a) Check the conditions necessary for conducting an ANOVA to determine if the combined score is significantly different for at least one race.
+
+(b) Write out in words and in symbols the hypotheses that would be tested by an ANOVA model in this setting.
+
+```{r}
+# Use this space for coding 
+```
+
+### Solution to Problem 4
+
+(a) [Write your answer here]
+
+(b) [Write your answer here]
+
+
+## Problem 5
+
+What conclusions do you reach from the ANOVA analysis? Write a paragraph discussing your conclusions. Include the relevant statistics (F-value, P-value, etc.) as part of your discussion.  
+
+```{r}
+# Use this space for coding 
+```
+
+### Solution to Problem 5
+
+[Write your answer here]

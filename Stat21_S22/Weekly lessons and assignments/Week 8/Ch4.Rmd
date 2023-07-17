@@ -1,0 +1,250 @@
+---
+title: "Week 8 and 9"
+subtitle: "Selecting predictors and identifying unsual data points"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+output:
+  xaringan::moon_reader:
+    css: ["default"] # , "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+library("Stat2Data")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre{
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output{
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small{
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+    
+    
+## Why isn't this running????
+```
+# Decisions about predictors
+## Nested F test 
+
+```{r}
+data(CrabShip)
+CrabShip %>% head
+```
+
+---
+# Decisions about predictors
+## Nested F test
+
+```{r}
+full <- lm(Oxygen ~ Mass + Noise, CrabShip)
+red <- lm(Oxygen ~ Mass, CrabShip)
+anova(red, full)
+```
+
+---
+# Decisions about predictors
+## Mallow's Cp 
+
+```{r}
+library(olsrr)
+# ols_mallows_cp(model, fullmodel)
+
+ols_mallows_cp(red, full)
+```
+---
+# Decisions about predictors
+## AIC 
+
+```{r}
+ols_aic(red, method="R")
+ols_aic(full, method="R")
+```
+
+.scroll-small[
+## BIC 
+```{r}
+ols_sbic(red, full)
+```
+]
+
+---
+# Decisions about predictors
+## Compare adjusted coefficient of determination 
+
+.scroll-output[
+```{r}
+summary(full)$adj.r.squared
+
+summary(red)$adj.r.squared
+```
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+```{r}
+data(HousesNY)
+HousesNY %>% head
+```
+
+Added variable plots are useful when we want to understand relative effects of a particular predictor variable, given that all other predictors have been accounted for in the model. In particular, for MLR models this is a useful technique to identify potentially influential data points that are unusual only if we consider the values of another/other predictor variable(s). 
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+```{r}
+mod0 <- lm(Price ~ Beds + Lot + Size, HousesNY)
+mod0 %>% summary 
+```
+
+Suppose the predictor of interest is `Size`. The larger model includes `Beds`, `Lot`, and `Size`.
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+```{r}
+mod1 <- lm(Price ~ Beds + Lot, HousesNY)
+mod1 %>% summary 
+```
+
+The smaller model includes only `Beds` and `Lot`.]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+Added variable plots would consider the effect of the predictors from the smaller model `Beds` and `Lot` in relation to the predictor of interest, `Size`. 
+
+```{r}
+mod2 <- lm(Size ~ Beds + Lot, HousesNY)
+mod2 %>% summary 
+```
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+Let's collect the residuals from the smaller model and the residuals from the regression of the predictor of interest (`Size`) on the predictors of the smaller model in a new data object.  
+
+```{r}
+added_varb_plot_data <- tibble(res1 = mod1$residuals, res2 = mod2$residuals)
+added_varb_plot_data %>% head
+```
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+Now we'll create an added variable plot by plotting these two groups of residuals against one another. We want to look out for any strange data points to investigate them as potentially influential data points. 
+
+```{r eval=FALSE}
+ggplot(added_varb_plot_data, aes(x=res2, y=res1)) + 
+  geom_point() + 
+  geom_smooth(method=lm, se=FALSE) + 
+  geom_abline(intercept=0) + 
+  geom_text(label=rownames(added_varb_plot_data), nudge_y = -5) + 
+  labs(title="Added variable plot for housing data", x="Residuals for regressing Beds on Size",y="Residuals for regressing Price on Beds")
+```
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+```{r echo=FALSE}
+ggplot(added_varb_plot_data, aes(x=res2, y=res1)) + 
+  geom_point() + 
+  geom_smooth(method=lm, se=FALSE) + 
+  geom_abline(intercept=0) + 
+  geom_text(label=rownames(added_varb_plot_data), nudge_y = -5) + 
+  labs(title="Added variable plot for housing data", x="Residuals for regressing Beds on Size",y="Residuals for regressing Price on Beds")
+```
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+.scroll-output[
+Notice that the slope of the line of best fit for the added variable plot is actually the coefficient of the predictor `Size` in the larger model containing all three predictors. 
+
+```{r}
+resids_mod <- lm(res1 ~ res2, added_varb_plot_data)
+resids_mod %>% summary()
+```
+]
+
+---
+# Identifying unsusal data points
+## Leverage
+
+
+$$Leverage_i = h_i = \frac{1}{n} + \frac{x_i - \bar{x}}{\sum (x_i - \bar{x})^2}$$
+
+Standardized residuals: $\frac{y_i - \bar{y}}{\hat{\sigma}\sqrt{1 - h_i}}$
+
+Studentized residuals: $\frac{y_i - \bar{y}}{\hat{\sigma}_{(i)}\sqrt{1 - h_i}}$, where $\hat{\sigma}_{(i)}$ is the estimate from the model that doesn't include the $i^{th}$ data point. 
+
+
+---
+# Identifying unsusal data points
+## Leverage
+
+Other measures of influence include 
+
+* Cook's distance 
+
+* DFfits
+
+* DFbetas 

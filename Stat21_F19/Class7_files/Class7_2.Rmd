@@ -1,0 +1,371 @@
+---
+title: "Class 7"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/9/16 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+  includes:
+    in header: STteachingMarkdown.sty    
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+#library('fivethirtyeight')
+
+setwd("~/Drive/Swat docs/Stat 21/Class7_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class7_files/ocs-healthexpenditure-master")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.height=4, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+```{r, echo=FALSE, fig.height = 4, fig.align='center'}
+knitr::include_graphics("Figs/kareem_carr_pvalues.png")
+```
+
+
+---
+
+# Topics covered in today's lecture
+
+  - Determining normality with Quantile-Quantile (QQ) plots
+  - Simple linear regression
+  
+  
+Come see me about HW 1: 
+
+  - Bing Tu
+
+  - Jose Valdivia
+
+  - Colin Perkins-Taylor 
+
+
+---
+# How to determine if the population from which you sampled is Gaussian? 
+
+```{r import_data, echo=FALSE, warning=FALSE}
+rm(list = ls()) ## this just makes sure that you are starting R with a fresh slate (so nothing is automatically loaded in your environment)
+
+library("tidyverse")
+coverage <- read_csv("./ocs-healthexpenditure-master/data/KFF/healthcare-coverage.csv", 
+                     skip = 2, col_names = TRUE)
+coverage <- read_csv("./ocs-healthexpenditure-master/data/KFF/healthcare-coverage.csv", 
+                     skip = 2, col_names = TRUE,
+                     n_max  = which(coverage$Location == "Notes")-1)
+head(coverage)
+
+spending <- read_csv("./ocs-healthexpenditure-master/data/KFF/healthcare-spending.csv", 
+                     skip = 2, col_names = TRUE)
+spending <- read_csv("./ocs-healthexpenditure-master/data/KFF/healthcare-spending.csv", 
+                     skip = 2, col_names = TRUE,
+                     n_max  = which(spending$Location == "Notes")-1)
+head(spending)
+```
+We first try to visualize the data. Typically we plot our response variable as a histogram and/or fit a density curve. 
+
+---
+# Research questions for healthcare data 
+
+1. What does the (per capita) spending on healthcare look like for each region of the US (North Central, Northeast, South, West)? Does it look Normally distributed? 
+
+1. Is there a relationship between healthcare coverage and healthcare spending in the United States?
+
+
+For now, let's resitrict our investigation to the Northeast. 
+
+---
+# How to determine if the population from which you sampled is Gaussian? 
+
+
+```{r bodyTempPlot, echo=FALSE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center'}
+body_temp_dat <- read_table2("normtemp_data.txt", 
+                        col_types = list(col_double(),col_character(),col_double()))
+
+ggplot() + geom_density(data=body_temp_dat, aes(Temperature)) + 
+                 xlim(80, 120) +
+                 geom_density(aes(rnorm(130, 98, 0.7)), col="blue") +
+                 geom_density(aes(rcauchy(130, 98, 0.7)), col="green")
+```
+
+It can be difficult to visually recognize normality this way. 
+
+
+---
+# Normal probability plots
+
+A visually, easier to detect comparison is to look at the <a href="https://en.wikipedia.org/wiki/Quantile">quantiles</a> of the observed data and compare them to some hypotheitical quantiles of a Gaussian<sup>[1]</sup> distribution. To do this, we plot the *standardized and ordered* data (from smallest to largest), $$(x^{(1)}, x^{(2)}, \dots, x^{(n)})$$
+against $E[X^{(i)}],$ the expected value of the order statistics from a *standard* (mean 0 and s.d. 1) Gaussian distribution. 
+
+
+
+Such **QQ plots (Quantile-quantile plots)** generalize to other distributions as well (e.g. Gamma, Beta, etc). These plots help us answer the question: "Is the distribution of the data similar to a Gaussian (or Gamma, etc) distribution?" 
+
+
+***
+.footnote[[1] Gaussian is just another name for the Normal distribution. (Sometimes it's used because we just the word "normal" so often in English that it can be confusing when talking about Statistics.)]
+
+
+---
+# What are <a href="https://en.wikipedia.org/wiki/Quantile">quantiles</a>?
+
+
+R can find the quantiles for any common distribution functions very easily:
+
+```{r findQuantiles, echo=TRUE, warning=FALSE}
+?qnorm
+normal_quantiles <- qnorm(p=seq(0,1,0.1), mean=0, sd=1, lower.tail=TRUE)
+t_quantiles <- qt(p=seq(0,1,0.1), df=129, lower.tail=TRUE)
+normal_quantiles; t_quantiles
+```
+
+.footnote[Here is a useful guide to all the base R density, distribution, quantile, and random generating functions: http://www.stat.umn.edu/geyer/old/5101/rlook.html]
+
+---
+# Example of finding a sample quantile
+
+Find the number in the following set of data where 20 percent of values fall below it, and 80 percent fall above:
+
+1 3 5 6 9 11 12 13 19 21 22 32 35 36 45 44 55 68 79 80 81 88 90 91 92 100 112 113 114 120 121 132 145 146 149 150 155 180 189 190
+***
+
+**Step 1:** Order the data from smallest to largest. The data in the question is already in ascending order.
+
+
+**Step 2:** Count how many observations you have in your data set. this particular data set has 40 items.
+
+
+**Step 3:** Convert any percentage to a decimal for “q”. We are looking for the number where 20 percent of the values fall below it, so convert that to .2.
+
+
+**Step 4:** Insert your values into the formula:
+
+ith observation $= q (n + 1)$
+
+ith observation $= .2 (40 + 1) = 8.2$
+
+
+
+---
+# Example of finding a sample quantile
+
+Find the number in the following set of data where 20 percent of values fall below it, and 80 percent fall above:
+
+1 3 5 6 9 11 12 13 19 21 22 32 35 36 45 44 55 68 79 80 81 88 90 91 92 100 112 113 114 120 121 132 145 146 149 150 155 180 189 190
+***
+
+Or, just use R! Because R can also very easily find sample quantiles. 
+
+```{r findQuantiles2, echo=TRUE, warning=FALSE}
+?quantile
+my_samp <- c(1, 3, 5, 6, 9, 11, 12, 13, 19, 21, 22, 32, 35, 36, 45, 44, 55, 68, 79, 80, 81, 88, 90, 91, 92, 100, 112, 113, 114, 120, 121, 132, 145, 146, 149, 150, 155, 180, 189, 190)
+quantile(my_samp, probs = 0.2)
+```
+
+
+.footnote[https://www.statisticshowto.datasciencecentral.com/quantile-definition-find-easy-steps/]
+
+
+---
+# Interpreting Normal probability plots 
+## (I.e. QQ plots for Normality)
+
+Interpretation: A linear relationship close to the diagonal line $x=y$ indicates a close matching of your observed data with a Normal distribution. 
+
+
+For example, let's create a fake data set from a Normal distirbution and view a QQ plot for this data:
+
+```{r qqPlotFakeClass6, echo=TRUE, warning=FALSE, results='hide'}
+set.seed(100)
+fake_dat <- tibble(observedData = rnorm(n=50,mean=3,sd=1.2))  ##fake ddata that is reprodcible becase I set the random seed
+plot1 <- ggplot(data = fake_dat) +
+         labs(title = "Normal probability plot", 
+              subtitle = "Fake data from a Normal distribution",
+              x = " ") #Here I greate the plot object (and give it a name) 
+
+plot1 + aes(sample=observedData) + stat_qq() + stat_qq_line()  ##this line calls the plot object into view and adds to it a QQ plot of the sample and line.
+```
+
+---
+# Interpreting Normal probability plots 
+## (I.e. QQ plots for Normality)
+
+Interpretation: A linear relationship close to the diagonal line $x=y$ indicates a close matching of your observed data with a Normal distribution. 
+
+
+For example, let's create a fake data set from a Normal distirbution and view a QQ plot for this data:
+
+```{r qqPlotFakeClass6_2, echo=FALSE, warning=FALSE}
+set.seed(100)
+fake_dat <- tibble(observedData = rnorm(n=50,mean=3,sd=1.2))  ##fake ddata that is reprodcible becase I set the random seed
+plot1 <- ggplot(data = fake_dat) +
+         labs(title = "Normal probability plot", 
+              subtitle = "Fake data from a Normal distribution",
+              x = " ") #Here I greate the plot object (and give it a name) 
+
+plot1 + aes(sample=observedData) + stat_qq() + stat_qq_line()  ##this line calls the plot object into view and adds to it a QQ plot of the sample and line.
+```
+
+
+---
+# Interpreting Normal probability plots 
+##(I.e. QQ plots for Normality)
+
+Now lets investigate the body temperature data again. 
+
+```{r qqPlotTempClass6, echo=TRUE, warning=FALSE}
+plot1 <- ggplot(body_temp_dat, aes(sample = Temperature))
+
+plot1 + stat_qq() + stat_qq_line() + labs(title = "Normal probability plot", subtitle = "Body temp data")
+```
+
+
+---
+# Interpreting Normal probability plots 
+##(I.e. QQ plots for Normality)
+
+
+```{r qqPlotTempClass6_@, echo=FALSE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center'}
+plot1 <- ggplot(body_temp_dat, aes(sample = Temperature))
+
+plot1 + stat_qq() + stat_qq_line() + labs(title = "Normal probability plot", subtitle = "Body temp data")
+```
+
+
+**Q:** What do the deviations in the tails mean? 
+
+
+--
+**A:** The lower quantiles of the sample are smaller than we expect and upper quantiles of the sample are higher than we expect. That means, our data has *heavier tails* than a Normal distribution. 
+
+
+---
+# QQ plot to test for t-distributed data
+
+Let's try a QQ-plot that instead compares the data to a t-distribution.
+
+```{r qqPlotTempClass6.2, echo=TRUE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center'}
+deg_of_free = list(df = length(body_temp_dat$Temperature)-1)
+plot2 <- ggplot(body_temp_dat, aes(sample = Temperature))
+plot2 + 
+  stat_qq(distribution = qt, dparams = deg_of_free) + #Note: the default option for distribution is "qnorm" and dparas is a list of "0" and "1"
+  stat_qq_line(distribution = qt, dparams = deg_of_free) + 
+  labs(title = "T-distribution probability plot", subtitle = "Body temp data")
+```
+
+
+
+---
+# Comment about statistical significance 
+
+
+  1. Statistical significance does not equal practical significance. (E.g. if we examine the relationship between height and salary for adults, finding that every additional inch of height has a predictive effect on salary of about &#36;10 per inch, with a standard error of about &#36;2) this isn't as practically useful as say, finding a predictive effect of &#36;10,000 per inch with a standard error of &#36;5000.)
+  
+  1. Changes in statistical significance are not themselves significant. (E.g. the actual difference between a p-value of 0.051 and 0.049 is very small, even though with an $\alpha$ level of $0.05$ they differ in statistical significance.)
+
+
+.footnote[Reading reference: pg 22 Gelman and Hill ]
+
+
+---
+# A simple statistical model 
+
+$Y = f(X) + \epsilon$
+
+- $f$ is a smooth function
+  
+  - In linear regression, we consider functions with linear coefficients. These are our model parameters. 
+
+- $\epsilon$ is some random measurement error 
+
+  - Note: against convention, even though this is a greek letter, $\epsilon$ represents a random variable!
+
+  - In linear regression, we assume that the random variable $\epsilon$ is normally distributed, centered around $0$, and has some finite variance $\sigma^2$. 
+
+$\text{I.e. }\epsilon \sim N(0,\sigma).$
+
+  
+  - The variance $\sigma^2$ is also a model parameter! 
+  
+
+---
+# Simple linear regression
+
+In $Y = f(X) + \epsilon$, $f(X)$ is just the equation for a line! 
+
+
+Statistical conventiaon represents this line with a intercept, $\beta_0$, and a slope $\beta_1$ so that we have the following **simple linear regression model**:
+$$Y = \beta_0 + \beta_1 X + \epsilon.$$
+
+
+
+***
+
+Compare this to the the typical algebreic notation for the equation of a line: 
+$$Y = aX + b.$$
+
+
+---
+# Simple linear regression
+
+$$Y = \beta_0 + \beta_1 X + \epsilon.$$
+
+For now, we are only going to consider the case where $X$ and $Y$ both represent **quantitative, continuous** random variables.
+
+
+We will be generalizing this SLR (simple linear regression) model to cases where 
+
+  - X is a discrete and qualitative variable;
+
+  - X is a discrete and quantitative variable; 
+
+  - We have more than just one predictor variable; 
+
+  - Y is a binary variable.
+  
+  
+In this class we will always assume $\epsilon$ is Normally distributed, other statistical models are abundant but this is a good first step towards understanding these other models. 
+
+
+
+https://vincentarelbundock.github.io/Rdatasets/datasets.html
+
+find new data set for SLR (ideally one with both categorical and continuous explanatory varbs)
+
+---
+# Simple linear regression
+
+
+---
+# Central limit theorem
+
+
+
+---
+# Simpson's paradox 
+
+
+
+---
+# Fundamentals of modeling
+

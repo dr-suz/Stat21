@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 2
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/9/4 (updated: 2019-09-12)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+# Topics covered in today's lecture
+
+Laptops out! 
+
+If you have RStudio installed then go ahead and open it, otherwise, go to https://RStudio.swarthmore.edu. 
+
+Also go to Moodle to access the data and data description files for the beef consumption study.
+
+ - Revisit the beef consumption data and data visualization. 
+ 
+--
+By the end of this lecture, you should be ready to start HW 1. Homework is designed to take you a handful of hours each week. (If it's much more or less, please let me know.) 
+
+
+---
+# US Beef Consumption Analysis from the 80s
+
+Examine the column (i.e. variable) names in the data set:
+
+```
+##  [1] "Year"             "ChickPrice"       "BeefPrice"       
+##  [4] "BeefConsump"      "CPI"              "DPI"             
+##  [7] "RealChickenPrice" "RealBeefPrice"    "RealDPI"         
+## [10] "RDPI_transformed"
+```
+
+What are the answers to the four **critical questions** in this example? 
+
+1. What are the observational units?
+
+1. What are the variables in this study, what type of variables are they, and which roles do they each play?
+
+1. Is the study observational or is it an experiment?
+
+1. Does the study use random sampling, random assignment, both or neither?
+
+
+---
+# What does no evidence of a relationship look like? 
+
+All of the following plots show no evidence of a relationship between the predictor and the response variables.
+This is because there truly is no relationship in these examples! 
+The data (response and predictor variables) were generated independently
+
+&lt;img src="Figs/figNoRelationshipClass2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# A look at this model for US beef consumption
+
+![](Figs/figBeefDataClass2-1.png)&lt;!-- --&gt;
+
+---
+# Visualizing data 
+
+&lt;img src="Figs/figHistogramClass2-1.png" style="display: block; margin: auto;" /&gt;
+
+Histograms are a way of counting frequency/prevalence. The total **area** of the bars represents the total occurrences of each category/interval. Once rescaled to represent portions rather than counts, histograms are graphical approximations for the **densities** of the population under study.  
+
+
+---
+# Some examples of bad plots&lt;sup&gt;[2]&lt;/sup&gt;
+
+
+&lt;img src="Figs/planned_parenthood.png" width="600px" height="250px" /&gt;
+
+.footnote[[2] https://www.politifact.com/truth-o-meter/statements/2015/oct/01/jason-chaffetz/chart-shown-planned-parenthood-hearing-misleading-/
+
+For more fun with bad graphs see, e.g., https://venngage.com/blog/misleading-graphs/, or do an internet search for your own examples.]
+
+---
+# Some examples of bad plots&lt;sup&gt;[2]&lt;/sup&gt;
+
+
+&lt;img src="Figs/planned_parenthood.png" width="600px" height="250px" /&gt;
+
+**Note:** Often, the thing that makes a plot bad is a scaling issue. 
+
+.footnote[[2] https://www.politifact.com/truth-o-meter/statements/2015/oct/01/jason-chaffetz/chart-shown-planned-parenthood-hearing-misleading-/
+
+For more fun with bad graphs see, e.g., https://venngage.com/blog/misleading-graphs/, or do an internet search for your own examples.]
+
+---
+# Some examples of bad plots - fixed
+
+
+&lt;img src="Figs/planned_parenthood2.png" width="600px" height="250px" /&gt;&lt;img src="Figs/planned_parenthood3.png" width="600px" height="250px" /&gt;
+
+
+---
+# Introduction to R Studio  
+
+- Personalize the layout and the display
+
+- Output 
+
+  - Console
+
+- Input
+
+  - Document types
+
+  - How to run code (Mac vs PC)
+  
+- Environment/History/Connections
+  
+  - Clear variables
+
+- Files/Plots/Packages/Help/Viewer
+  
+  - Set working directory
+  
+  - R help documentation
+  
+
+---
+# Resources for learning to program in R 
+
+- R package *swirl()* for tutorials (part of HW 1)
+- Google is your friend! (and Stack Exchange, etc.)
+- R for Data Science (free online textbook) https://r4ds.had.co.nz/
+
+
+# Introduction to R packages
+
+- Installing vs calling
+- The R package *tidyverse* is an "umbrella-package"" that installs several other packages that are useful for data analysis, e.g. tidyr, dplyr, ggplot2, tibble.
+
+
+---
+# Let's look at some data
+
+
+```r
+rm(list = ls())
+#install.packages("tidyverse") ##should also install the dependencies "ggplot2" (for visualizing data) and "margrittr" (for piping)
+library("tidyverse")
+#setwd("~/Dropbox/z MyStuff Dropbox/Swat docs/Stat 21/Class2_files")  ###NOTE: you must set this to your own directory! 
+read_table2("normtemp_data.txt") 
+```
+
+```
+## # A tibble: 130 x 3
+##    Temperature Handedness HeartRate
+##          &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+##  1        96.3          1        70
+##  2        96.7          1        71
+##  3        96.9          1        74
+##  4        97            1        80
+##  5        97.1          1        73
+##  6        97.1          1        75
+##  7        97.1          1        82
+##  8        97.2          1        64
+##  9        97.3          1        69
+## 10        97.4          1        70
+## # … with 120 more rows
+```
+
+---
+# Let's look at some data
+
+
+```
+## # A tibble: 130 x 3
+##    Temperature Handedness HeartRate
+##          &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+##  1        96.3          1        70
+##  2        96.7          1        71
+##  3        96.9          1        74
+##  4        97            1        80
+##  5        97.1          1        73
+##  6        97.1          1        75
+##  7        97.1          1        82
+##  8        97.2          1        64
+##  9        97.3          1        69
+## 10        97.4          1        70
+## # … with 120 more rows
+```
+
+
+All of the columns were imported as type "double". Is this what we want?
+
+
+.footnote[https://magazine.amstat.org/blog/2019/03/01/evolutionofvariables/]
+
+
+---
+# Let's look at some data
+
+Now we can create a data "object" which we will call *body_temp_dat*.
+
+
+```r
+body_temp_dat &lt;- read_table2("normtemp_data.txt", 
+                        col_types = list(col_double(),col_character(),col_double()))
+body_temp_dat %&gt;% head() 
+```
+
+```
+## # A tibble: 6 x 3
+##   Temperature Handedness HeartRate
+##         &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
+## 1        96.3 1                 70
+## 2        96.7 1                 71
+## 3        96.9 1                 74
+## 4        97   1                 80
+## 5        97.1 1                 73
+## 6        97.1 1                 75
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

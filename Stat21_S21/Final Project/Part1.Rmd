@@ -1,0 +1,40 @@
+---
+title: "Stat 21 Final Project - Part 1"
+author: "Swarthmore College"
+date: "Due: April 15, 2021"
+output:
+  pdf_document: 
+  toc: no
+html_document:
+  code_folding: show
+toc: yes
+toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+This assignment is due on to be submitted as a single PDF document on Moodle by noon (EST) on __April 15, 2021__. This is the first of four parts that will comprise your final project for this class. This part of your final project is worth 50 points. The purpose of this exercise is to make sure you are familiar with writing a scientific document in R Markdown that includes properly cited sources. Make sure you install the R package called `bookdown` before you try to knit the R template provided on Moodle. 
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE) 
+knitr::opts_chunk$set(echo=TRUE) 
+
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+For this assignment you are going to research a recipe for a baked good. Pick a recipe and find two sources: one source for the recipe and another source with some historical or cultural information about the recipe. (For example, here is a [recipe](https://www.tasteofhome.com/recipes/traditional-hot-cross-buns) for hot crossed buns and here is a [Smithsonian article](https://www.smithsonianmag.com/smart-news/five-great-myths-about-hot-cross-buns-traditional-pre-easter-pastry-180951130) talking about the history of hot crossed buns. Pick something else for your assignment.)
+
+Create a [Zotero](https://guides.tricolib.brynmawr.edu/zotero) account (you all have access to Zotero through the college). Save your two references as citations in Zotero.  Export these two citations as a .bib file. [Instructions here](https://libguides.rhul.ac.uk/referencing/Zoterolatex) Name this file "references" and make sure it is saved in the same location as your R markdown script template. Open the references.bib file in a text editor and change the tags for each source so that one tag is called "recipe" and the other is called "history". (Note the tag is whatever word or phrase immediately follows the first open curly bracket and is before the first comma.)
+
+Use the R Markdown template provided on Moodle to create a document with three sections: introduction, methods, and conclusion. Write two sentences for the introduction and conclusion and copy and paste the recipe in the methods section. Make sure you cite your source within the document. See [these instructions](https://www.earthdatascience.org/courses/earth-analytics/document-your-science/add-citations-to-rmarkdown-report/) on how to create a bibliography in R Markdown. Note you must have installed the R package called `bookdown` first! 
+
+Finally, record a short video on Zoom (no longer than one minute) where you present an image of the baked good and describing what the food item is and why you picked it or why someone should make it. 
+
+You will submit the PDF document of your "paper" to Gradescope and you will submit the .mp4 video recording of your presentation to me 

@@ -1,0 +1,217 @@
+---
+title: "Stat 21 Homework 2"
+author: " Person 1, Person 3, etc "
+date: "Due: Saturday, Feb 5th by midnight"
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+Use this file as the template for your submission. Do not delete anything from this template unless you are prompted to do so (e.g. where to write your name above, where to write your solutions or code below). Make sure you have installed the following packages in your version of RStudio: `tidyverse`, `knitr` __before__ you attempt to knit this document.
+
+Your completed assignment should be submitted as a single __PDF__ using the link under Week 3 titled "Submit HW 2 to Gradescope". You must use R markdown to write up your solutions. For any homework problems that involve coding in R, you must provide __both__ the code and a written answer interpreting the output within the context of the problem. You are allowed to work with your classmates on this homework assignment but you are expected to write up your own solutions. Every answer must be supported by a written statement unless otherwise specified. *A good rule of thumb is to make sure your answer is understanable to someone who hasn't read the problem question (or code output associated with it).* 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+```
+
+
+# Part I: Non-R Problems
+
+## Problem 1
+
+Recall the census data problem from HW 1. Data for a certain country shows that 19% of the adult residents are Latinx and 72 people are called for jury duty. Out of these 72, only 9 people are Latinx and we want to know if this apparent under-representation of Latinx jurors calls into question the fairness of the jury selection system. For this problem setting answer the following questions. 
+
+(a) What is the population under study and what is the population parameter we are interested in?
+
+(b) What is the sample estimate for the parameter?
+
+(c) State a null and alternative hypothesis test we can conduct to answer the question posed above. 
+
+(d) We could answer this question with a confidence interval. Suppose you calculate a lower bound (LB) and upper bound (UB) for the parameter. Referencing the interval, [LB, UB], how would you determine if there is statistical evidence of under-representation of Latinx jurors? 
+
+**Solution Problem 1:**
+
+(a) [Write your solution here.]
+
+(b) [Write your solution here.]
+
+(c) [Write your solution here.]
+
+(d) [Write your solution here.]
+
+
+
+## Problem 2 
+
+In a survey of $988$ men aged $18–24$, the regression equation for predicting height from weight was: 
+$$\hat{height} = 62.4 + (0.047)(weight),$$
+where height is measured in inches and weight is measured in lbs. Is the following statement correct: “If someone gains $10$ pounds, he will get taller by $(0.047)(10) = 0.47$ inches”? If not, provide a better explanation for the meaning of the slope in the regression equation.
+
+
+**Solution Problem 2:** [Write your solution here.]
+
+
+## Problem 3
+
+Student's investigating the packaging of potato chips purchased 6 bags of Lay's Ruffles marked with a net weight of 28.3 grams. They carefully weighed the contents of each bag, recording the following weights (in grams): 29.3, 28.2, 29.1, 28.7, 28.9, 28.5 
+
+(a) State the null and alternative hypotheses to test whether or not the net weight of these chips is different from 28.3 g, defining the paramerter in terms of the population. 
+
+(b) Explain the conditions needed to appropriately conduct this test.
+
+**Solution Problem 3:** 
+
+(a) [Write your solution here.]
+
+(b) [Write your solution here.]
+
+
+## Problem 4
+
+Having done poorly on their Biology final exams in June, six students repeat the course in summer school and take another exam in August. If we consider these students to be representative of all students who might attend this summer school in other years, what procedure can we use to determine if these results provide evidence that the program is worthwhile? 
+
+**Person:** Aaron, Brittney, Chloe, Drake, Edward, Frankie
+
+**June scores:** 54, 49, 68, 66, 62, 62  
+
+**August scores:** 50, 65, 74, 64, 68, 72
+
+
+**Solution Problem 4:** [Write your solution here.]
+
+
+
+# Part II: R coding problems
+
+## Problem 5
+
+Consider the regression equation in Problem 2. Suppose the variance of our model error is $\sigma^2=2$. Use the R code chunk below and the `pnorm` function to calculate the percentage of all $200$-pound men that we expect to be taller than $74$ inches? (You can assume the regression model assumptions are met.)
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+**Solution Problem 5:** [Write your solution here.]
+
+
+
+## Problem 6
+
+Do the following data suggest that there is a significant difference in calories between servings of strawberry and vanilla yogurt? Following the code from this week's reading assignment, import the data and then test an appropriate hypothesis. State your conclusion within the context of the problem. 
+
+| Brand               | Strawberry  (cal/serving)         | Vanilla (cal/serving) |
+|---------------------|----------------------|---------|
+| America's Choice    | 210                  | 200     |
+| Breyer's Lowfat     | 220                  | 220     |
+| Columbo             | 220                  | 180     |
+| Dannon Light 'n Fit | 120                  | 120     |
+| Dannon Lowfat       | 210                  | 230     |
+| Dannon la Creme     | 140                  | 140     |
+| Great Value         | 180                  | 80      |
+| La Yogurt           | 170                  | 160     |
+| Mountain High       | 200                  | 170     |
+| Stonyfield Farm     | 100                  | 120     |
+| Yoplait Custard     | 190                  | 190     |
+| Yoplait Light       | 100                  | 100     |
+
+
+**Solution Problem 6:** [Write your solution here.]
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+## Problem 7
+
+A survey of $430$ randomly chosen college students found that $21\%$ of the 222 full-time students and $18\%$ of the 208 part-time students had purchased books in person from their campus book store. Is there statistical evidence that full-time students are more likely than part-time students to purchase their books in person (rather than online)? Test an appropriate hypothesis and state your conclusion in the context of the problem. 
+
+**Solution Problem 7:** [Write your solution here.]
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+## Problem 8
+
+Researchers comparing the effectiveness of two pain medications randomly selected a group of patients who had been complaining of a certain kind of joint pain. They randomly divided these people into two groups, then administered the pain killers. Of the 112 people in the group who received medication A, 84 said this pain reliever was effective. Of the 108 people in the other group, 66 reported that pain reliever B was effective. 
+
+(a) First, find a $95\%$ CI for the percent of people who may get relief from their joint pain my using medication A. Next, find a $95\%$ CI for the percent of people who may get relief from their joint pain my using medication B. Do these two CIs overlap? What do you think this means about the comparative effectiveness of these medications?
+
+(b) Find and interpret a $95\%$ CI for the difference in the proportions of people who may find these medications effective. Explain what it means if you interval contains or does not contain zero. 
+
+**Solution Problem 8:**
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+(a) [Write your solution to part (a) here.]
+
+(b) [Write your solution to part (b) here.]
+
+
+## Problem 9
+
+A nutrition laboratory tests 40 reduced sodium hot dogs, finding that the mean sodium content is 310 mg, with a standard deviation of 36 mg. 
+
+(a) Find a 95% CI for the mean sodium content of this brand of hot dog and explain what your internal means. 
+
+(b) What assumptions were necessary to find this CI? Are these assumptions reasonable in this situation? 
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+**Solution Problem 9:**
+
+(a) [Write your solution to part (a) here.]
+
+(b) [Write your solution to part (b) here.]
+
+
+## Problem 10
+
+When a professional statistician has information to share with colleagues, they will submit an article to one of several Statistics journals for publication. This can be a lengthy process; typically the article must be circulated for "peer review" and then edited before being accepted for publication. There the article must wait in line with other articles before appearing in print. In the Winter 1998 issue of Change magazine, Eric Bradlow and Howard Wainer reported on this delay for several journals between 1990 and 1994. 
+
+For 288 articles published in the journal *The American Statistician*, the mean length of time between initial submission and publication was 21 months with a standard deviation of 12 months. For 209 articles published in the journal *Applied Statistics*, the mean time to publication wa
+s 31 months with a standard deviation of 12 months. 
+
+(a) Use the R code chunk below to calculate and interpret a 90% confidence interval for the difference in mean delay between the two journals by hand. The critical value, $t^*$, is `r round(qt(1-0.05, df = (12^2/288 + 12^2/209)^2/((1/287)*(12^2/288)^2 + (1/208)*(12^2/209)^2) ,lower.tail=TRUE),2)`. 
+
+(b) What are the assumptions needed for part (a)? 
+
+(c) State the null and alternative hypotheses for a two-sided hypothesis test that there is a difference in the publication time between the journals. Without doing any calculations in R or by hand, what are the results of this hypothesis test (at an $\alpha=0.10$ significance level)? 
+
+**Solution Problem 8:**
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+(a) [Write your solution to part (a) here.]
+
+(b) [Write your solution to part (b) here.]
+
+(c) [Write your solution to part (c) here.]
+
+  

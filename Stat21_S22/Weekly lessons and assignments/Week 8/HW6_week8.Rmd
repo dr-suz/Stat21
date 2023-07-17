@@ -1,0 +1,150 @@
+---
+title: "Stat 21 Homework 6"
+author: ' Person 1, Person 3, etc '
+date: 'Due: Sunday, March 20th by midnight'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+Use this file as the template for your submission. Do not delete anything from this template unless you are prompted to do so (e.g. where to write your name above, where to write your solutions or code below). Make sure you have installed the following packages in your version of RStudio: `tidyverse`, `knitr` __before__ you attempt to knit this document.
+
+Your completed assignment should be submitted as a single __PDF__ using the link under Week 8 titled "Submit HW 6 to Gradescope". You must use R markdown to write up your solutions. You are allowed to work with your classmates on this homework assignment for all problems *except problem 10* which I recommend you complete on your own. **This homework assignment will be graded for completion rather than for correctness so please pay careful attention to the following additional instructions to make sure you receive credit for your work.** 
+
+**Additionally**, make sure that when you upload your solutions to Gradescope, you select which pages go correspond with which questions. Also, check to make sure that your knitted homework document is not uploaded as an extra-long single page document. Failure to do these things will result in a penalty on your homework grade. Finally, I strongly recommend that you address and resolve any knitting or R coding issues before Saturday as solutions to any R-coding questions that are not knitted properly will not receive any credit. 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data) ## for the data 
+library(GGally)    ## for matrix of scatter plots 
+library(car)       ## for VIF function 
+```
+
+Consider the 2016 MLB data that we explored in class, the first six rows of which are shown below.
+
+```{r}
+data("MLBStandings2016")
+MLBStandings2016 %>% head
+```
+
+
+We are going to consider the following variables to create a MLR model and practice visualizing the data for this model. 
+
+**Predictors:** League (categorical), Runs, OBP, ERA
+
+**Response:** WinPct 
+
+***
+
+## 1. 
+
+Use `select()` function to create new data set called `my_MLB` that contains only the variables we are interested in using in our model (listed above). 
+
+```{r}
+
+```
+
+## 2.
+
+Use the space below to create two side-by-side box plots for the numeric response variable over each level of the categorical variable `League`. Briefly interpret these box plots.
+
+```{r}
+
+```
+
+[Leave your comments here]
+
+## 3. 
+
+Use the space below and the `filter()` function to create a new data set called `your_MLB` that contains only the data for either the National League or the American League (your choice).
+
+```{r}
+
+```
+
+
+## 4. 
+
+Use the space below to create a scatter plot comparing the numeric predictor `OBP` to another numeric predictor, `ERA`. Briefly interpret this plot.
+
+```{r}
+
+```
+
+[Leave your comments here]
+
+
+## 5. 
+
+Use the space below to fit a MLR model to the data set `my_MLB` with all predictor variables and response `WinPct`. Then, use the `mutate()` function to add two columns to the `my_MLB` data set corresponding to the residuals and the fitted values. Use the `head()` function to print the first six rows of `my_MLB`.  
+
+```{r}
+
+```
+
+## 6. 
+
+Use the space below to create a histogram of the residuals from your model in problem 5. 
+
+```{r}
+
+```
+
+## 7. 
+
+Use the `mutate()` function and the `rstudent()` function to add another column onto the `my_MLB` data set that consists of the studentized versions of the residuals from the model in problem 5. Use the `head()` function to print the first six rows of `my_MLB`.   
+
+```{r}
+
+```
+
+## 8. 
+
+Use the space below to create a histogram of the studentized residuals that you added to the `my_MLB` data set in problem 7. Comment on the difference/similarity between this histogram and the one in problem 7. 
+
+```{r}
+
+```
+
+[Leave your comments here]
+
+## 9. 
+
+Use the space below to create a Normal quantile plot for the studentized residuals from problem 8. Compare this plot to the histogram in problem 8 and comment on their relationship. 
+
+```{r}
+
+```
+
+[Leave your comments here]
+
+## 10. 
+
+Improve upon this MLR model in some demonstrable way. Include your code for the new model and the new data based on this model and then justify that your model is an improvement. 
+
+```{r}
+
+```
+
+[Write about why this is an improved version of the model here.]
+

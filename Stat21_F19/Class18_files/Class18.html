@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 18</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class18_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class18_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 18
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/10/21 (updated: 2020-10-22)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+&lt;img src="Figs/research_risks.png" height="450" style="display: block; margin: auto;" /&gt;
+
+
+
+.footnote["The 1919 Great Boston Molasses Flood remained the deadliest confectionery containment accident until the Canadian Space Agency's 2031 orbital maple syrup delivery disaster." 
+
+https://www.xkcd.com/1904/]
+
+---
+## What have we covered thus far?
+
+  - Simple linear regression (SLR)
+  - One-way analysis of variance (ANOVA)
+  - Chi-squared tests for independence 
+  
+Next class we will start to put all of these together as we begin learning about **multiple linear regression** (MLR). 
+
+
+  &gt; It is **crucial** to understand each of the topics above in order to properly build MLR models. If you have any questions from a past lecture/homework/exam please ask it! 
+
+
+
+Reminders: check your HW grades on Gradescope and submit a re-grade request if you think there is an error **and** my new office hours are every W 2-3:30 and Th 10-11:30.
+
+---
+## Post-break refresher on ANOVA
+
+What does the data used in an ANOVA model look like?
+
+
+--
+What is the difference between ANOVA and chi-squared tests? Between ANOVA and SLR models? 
+
+
+--
+How do we mathematically write an ANOVA model? 
+
+
+--
+What are the assumptions for an ANOVA model? 
+
+
+--
+What is the ANOVA F-test? 
+
+
+
+--
+.blue[Note:] All answers to these questions can be found in previous slides.
+
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+Let's build our ANOVA model based on a new version of the data where the categorical variable has been read into R as a variable of type *factor*.
+
+```r
+library("tidyverse")
+data(msleep)
+msleep2 &lt;- msleep %&gt;% 
+           mutate(order_cat = order %&gt;% fct_infreq()) %&gt;%
+           select(order_cat, sleep_total)
+ANOVA_mammals &lt;- lm(sleep_total ~ order_cat, data=msleep2)
+```
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+By default, R chooses the **reference category** alphabetically. Since we used the *fct_infreq()* function from the *forcats* package, we instead told R to use the category with the most observational units as the reference level. 
+
+.scroll-small[
+
+```r
+msleep2 %&gt;% count(order_cat)
+```
+
+```
+## # A tibble: 19 x 2
+##    order_cat           n
+##    &lt;fct&gt;           &lt;int&gt;
+##  1 Rodentia           22
+##  2 Carnivora          12
+##  3 Primates           12
+##  4 Artiodactyla        6
+##  5 Soricomorpha        5
+##  6 Cetacea             3
+##  7 Hyracoidea          3
+##  8 Perissodactyla      3
+##  9 Chiroptera          2
+## 10 Cingulata           2
+## 11 Didelphimorphia     2
+## 12 Diprotodontia       2
+## 13 Erinaceomorpha      2
+## 14 Proboscidea         2
+## 15 Afrosoricida        1
+## 16 Lagomorpha          1
+## 17 Monotremata         1
+## 18 Pilosa              1
+## 19 Scandentia          1
+```
+
+```r
+ANOVA_mammals
+```
+
+```
+## 
+## Call:
+## lm(formula = sleep_total ~ order_cat, data = msleep2)
+## 
+## Coefficients:
+##              (Intercept)        order_catCarnivora         order_catPrimates  
+##                 12.46818                  -2.35152                  -1.96818  
+##    order_catArtiodactyla     order_catSoricomorpha          order_catCetacea  
+##                 -7.95152                  -1.36818                  -7.96818  
+##      order_catHyracoidea   order_catPerissodactyla       order_catChiroptera  
+##                 -6.80152                  -9.00152                   7.33182  
+##       order_catCingulata  order_catDidelphimorphia    order_catDiprotodontia  
+##                  5.28182                   6.23182                  -0.06818  
+##  order_catErinaceomorpha      order_catProboscidea     order_catAfrosoricida  
+##                 -2.26818                  -8.86818                   3.13182  
+##      order_catLagomorpha      order_catMonotremata           order_catPilosa  
+##                 -4.06818                  -3.86818                   1.93182  
+##      order_catScandentia  
+##                 -3.56818
+```
+]
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+If we wanted the reference category to be the factor with the fewest number of observational units we can modify the data with the *fct_rev()* function and then re-fit the model. Similarly, if we wanted the reference category to be a specific factor level we could coerce this using the function *fct_recode()*.  
+
+.scroll-small[
+
+```r
+msleep3 &lt;- msleep %&gt;%
+           mutate(order_cat = order %&gt;% fct_infreq() %&gt;% fct_rev()) %&gt;% 
+           select(order_cat, sleep_total)
+ANOVA_mammals2 &lt;- lm(sleep_total ~ order_cat, data=msleep3)
+ANOVA_mammals2 
+```
+
+```
+## 
+## Call:
+## lm(formula = sleep_total ~ order_cat, data = msleep3)
+## 
+## Coefficients:
+##              (Intercept)           order_catPilosa      order_catMonotremata  
+##                    8.900                     5.500                    -0.300  
+##      order_catLagomorpha     order_catAfrosoricida      order_catProboscidea  
+##                   -0.500                     6.700                    -5.300  
+##  order_catErinaceomorpha    order_catDiprotodontia  order_catDidelphimorphia  
+##                    1.300                     3.500                     9.800  
+##       order_catCingulata       order_catChiroptera   order_catPerissodactyla  
+##                    8.850                    10.900                    -5.433  
+##      order_catHyracoidea          order_catCetacea     order_catSoricomorpha  
+##                   -3.233                    -4.400                     2.200  
+##    order_catArtiodactyla         order_catPrimates        order_catCarnivora  
+##                   -4.383                     1.600                     1.217  
+##        order_catRodentia  
+##                    3.568
+```
+]
+
+
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+Compare the following output. What is the same? What is different? 
+
+.scroll-small[
+
+```r
+summary(ANOVA_mammals)
+```
+
+```
+## 
+## Call:
+## lm(formula = sleep_total ~ order_cat, data = msleep2)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.6167 -0.9341  0.0000  1.0167  6.5000 
+## 
+## Coefficients:
+##                          Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)              12.46818    0.55092  22.631  &lt; 2e-16 ***
+## order_catCarnivora       -2.35152    0.92734  -2.536 0.013673 *  
+## order_catPrimates        -1.96818    0.92734  -2.122 0.037680 *  
+## order_catArtiodactyla    -7.95152    1.19013  -6.681 6.72e-09 ***
+## order_catSoricomorpha    -1.36818    1.28023  -1.069 0.289219    
+## order_catCetacea         -7.96818    1.59038  -5.010 4.55e-06 ***
+## order_catHyracoidea      -6.80152    1.59038  -4.277 6.45e-05 ***
+## order_catPerissodactyla  -9.00152    1.59038  -5.660 3.83e-07 ***
+## order_catChiroptera       7.33182    1.90845   3.842 0.000283 ***
+## order_catCingulata        5.28182    1.90845   2.768 0.007376 ** 
+## order_catDidelphimorphia  6.23182    1.90845   3.265 0.001758 ** 
+## order_catDiprotodontia   -0.06818    1.90845  -0.036 0.971612    
+## order_catErinaceomorpha  -2.26818    1.90845  -1.188 0.239031    
+## order_catProboscidea     -8.86818    1.90845  -4.647 1.73e-05 ***
+## order_catAfrosoricida     3.13182    2.64213   1.185 0.240267    
+## order_catLagomorpha      -4.06818    2.64213  -1.540 0.128556    
+## order_catMonotremata     -3.86818    2.64213  -1.464 0.148079    
+## order_catPilosa           1.93182    2.64213   0.731 0.467351    
+## order_catScandentia      -3.56818    2.64213  -1.350 0.181614    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.584 on 64 degrees of freedom
+## Multiple R-squared:  0.7369,	Adjusted R-squared:  0.6629 
+## F-statistic: 9.957 on 18 and 64 DF,  p-value: 2.04e-12
+```
+
+```r
+anova(ANOVA_mammals)      
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: sleep_total
+##           Df  Sum Sq Mean Sq F value   Pr(&gt;F)    
+## order_cat 18 1196.71  66.484  9.9566 2.04e-12 ***
+## Residuals 64  427.35   6.677                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+]
+
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+.scroll-output[
+
+```r
+g &lt;- ggplot(msleep2, aes(x=order_cat, y=sleep_total))
+g + geom_count(col="tomato3", show.legend=F) +
+  labs(subtitle="Sleeping time for different mammals", 
+       y="Total hours slept", 
+       x="Mammal order", 
+       title="Counts Plot") + 
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+![](Figs/msleep_class16_4-1.png)&lt;!-- --&gt;
+]
+
+---
+## Sample size determination 
+
+In HW 4 you are asked to solve a sample size problem. This is a common statistical question that is really related to the statistical concept of &lt;a href="https://en.wikipedia.org/wiki/Power_(statistics)"&gt;power&lt;/a&gt;. 
+
+
+
+-  Type I error probability: `\(\alpha\)`
+-  Type II error probability: `\(\beta\)`
+-  Statistical power: `\(1 − \beta\)`
+
+
+
+  &gt; "Sample size is never large enough... just as you never have enough money, because perceived needs increase with resources, your inferential needs will increase with your sample size."&lt;sup&gt;[1]&lt;/sup&gt; 
+
+
+Note: Sample size determination is specific to the particular test or model, it cannote be answered as a general statistical question without understanding the context of the problem at hand.  
+
+
+.footnote[[1] http://www.stat.columbia.edu/~gelman/stuff_for_blog/chap20.pdf]
+
+---
+## What are degrees of freedom? 
+
+This is a **good question** but the answer is hardly understood by many people (including statisticians)! 
+
+  &gt; "[T]his is a case where the mathematical notion is simpler than any non-mathematical interpretation of it"... but understanding the mathematical notion requires understanding linear algebra and geometry in `\(n\)`-dimensional space.&lt;sup&gt;[2]&lt;/sup&gt; 
+
+Degrees of freedom are often broadly defined how many independent pieces of information in the data are free to vary when estimating statistical parameters or calculating summary statistics.
+
+
+--
+**Example 1:**&lt;sup&gt;[3]&lt;/sup&gt; Wearing a different hat every day of the week, when you only have `\(7\)` hats available. You have 7-1 = 6 days of “hat” freedom—in which the hat you wore could vary but on the last day you're down to only one option.
+
+&lt;img src="Figs/hats.png" height="100" style="display: block; margin: auto;" /&gt;
+
+.footnote[&lt;a href="https://blog.minitab.com/blog/statistics-and-quality-data-analysis/what-are-degrees-of-freedom-in-statistics"&gt;Here&lt;/a&gt;&lt;sup&gt;[3]&lt;/sup&gt; is a very approachable and intuition-based explanation of degrees of freedom. And here is a very mathematically thorough summary on &lt;a href="https://en.wikipedia.org/wiki/Degrees_of_freedom_(statistics)"&gt;Wikipedia&lt;/a&gt;. And finally, &lt;a href="http://www.nohsteachers.info/pcaso/ap_statistics/PDFs/DegreesOfFreedom.pdf"&gt;this&lt;/a&gt; &lt;sup&gt;[2]&lt;/sup&gt; is a great paper on degrees of freedom written by the first female president of the American Statistical Association.]
+
+---
+## What are degrees of freedom? 
+
+
+
+**Example 2:** Residual standard error 
+
+`$$\hat{\sigma} = \sqrt{\frac{SS_{res}}{n-2}} = \sqrt{\frac{\sum_{i=1}^{n}(\hat{y}_i - y_i)^2}{n-2}}$$`
+
+We have a sample of `\(n\)` observational units. In order to calculate `\(\hat{y}_i\)` however, we have to estimate two parameters: `\(\beta_0\)` and `\(\beta_1\)`. Once we compute `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)`, we are essentially imposing two linear constraints on our observational units. 
+
+
+--
+I think the hardest degrees of freedom question we have faced thus far is: why are the degrees of freedom associated with the `\(SS_{reg}\)` (in SLR) equal to `\(1\)`? 
+
+
+*However* it is easy to see that the degrees of freedom associated with `\(SS_{res}\)` is `\(n-2\)` and the degrees of freedom associated with `\(SS_{tot}\)` is `\(n-1\)` (because we must calculate `\(\bar{y}\)` which corresponds to a linear constraint). So if the degrees of freedom are additive (which they are), then by deduction we have that the degrees of freedom associated with `\(SS_{reg}\)` are `\(1\)`.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

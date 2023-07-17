@@ -1,0 +1,19 @@
+brand rating sugar_content
+"breyers" 4.9 0.22
+"breyers" 4.5 0.216867469879518
+"breyers" 3.3 0.197674418604651
+"breyers" 4.9 0.22
+"breyers" 2.8 0.0493827160493827
+"breyers" 4.4 0.206896551724138
+"breyers" 4 0.25
+"breyers" 3.9 0.204545454545455
+"breyers" 4.4 0.209876543209877
+"breyers" 4 0.207317073170732
+"breyers" 4.4 0.0777777777777778
+"breyers" 4.4 0.0777777777777778
+"breyers" 1.2 0.23595506
+"breyers" 4 0.20731707
+"breyers" 4.2 0.18292683
+"breyers" 3.3 0.07692308
+"breyers" 4.1 0.21590909
+

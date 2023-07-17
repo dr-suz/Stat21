@@ -1,0 +1,22 @@
+Dataset:  pollute_inventory.dat
+
+Source: J.J. Lyu, A. Gunasekaran, J-H. Ding (1996). "Statistical Analysis
+of the Impact of Air Pollution on the Quality of Inventory," Imternational
+Journal of Quality & Reliability Management, Vol. 13, #7, pp. 48-56.
+
+Description: Analysis of Covariance, relating Y=Weight loss to Air pollution
+source (5 levels), and Material Source (2 levels), with storage time as
+covariate.
+Air Pollution Source:
+1 = Trough for washing acid in neighboring nuts factory
+2 = Refraction furnace
+3 = cooling area for aluminum dregs
+4 = mist discharged by the neighboring lead retrieval factory
+5 = dormitory area at Cheng Kung University
+Material source: 1=Overseas, 2=domestic
+
+Variables/Columns
+Air pollution source    8
+Material Source   16
+Storage Time      20-24
+Weight loss (mg)  28-32

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class2_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class2_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 2
+## Agenda for in-class discussion
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, Sept 10, 2020 (updated: 2020-09-15)
+
+---
+
+
+
+
+# Happy Thursday!  
+
+Here's the agenda for today's class: 
+
+- Housekeeping items
+
+- Knitting Homework Documents with R Markdown 
+
+- Simulation study of the Central Limit Theorem 
+
+  - Practice with sharing screen 
+  
+  - Practice with Zoom whiteboard 
+
+- Practice problems with one sample proportions  
+
+- An announcement from W+iMS (9:20am/10:40am ET)
+
+---
+# Some housekeeping 
+
+
+### Diverse Statisticians Matter!
+
+If you are planning to attend the lunch on Monday, the 14th at 1:10pm with Dr. Emma Benn please send me a message on Slack! (We want to make sure that at least a few students show up.)
+
+**Fun fact** Dr. Benn is actually a Swat alumnus! 
+
+### Math/Stats Department Social Event 
+&lt;img src="Figs/Sundae20.png" height="200" style="display: block; margin: auto;" /&gt;
+
+http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class2_files/Sundae20.pdf
+
+
+---
+# Continuing from last class...
+
+## Introduction to RStudio
+
+- Compile R script document 
+
+- Knit R Markdown document 
+
+  - Run lines of code within 
+  
+  - Create HTML and PDF outputs
+
+
+**Update:** We have a different shared RStudio address: /shared/stat021f20
+(The change is reflected in the syllabus online.)
+
+***
+
+Make sure you have access to all of the following Slack channels:
+
+1. homework-q-and-a
+2. r-q-and-a
+3. typo-alert
+4. weekly-checkin
+5. Your group specific channel
+
+---
+# Group Roles 
+
+
+  - Note-taker - this is the person creating the presentation item on the Zoom whiteboard or separate document etc. 
+
+  - Presenter - this is the person who will report the presentation materials and general discussion.
+
+  - Recorder - this is the person who takes notes on who is in attendance, who is participating, and keeps track of the time.
+
+  - Questioner - this person will push back when the group comes to consensus too quickly, without considering a number of options or points of view.
+  
+
+
+---
+
+# Simulation Study 
+
+**To do:** 
+
+Open the CLT simulations R script file in Rstudio.swarthmore.edu. (Only one group member needs to do this and can share their screen). Answer the questions presented within the R comments (the #'s) at the end of the file. 
+
+
+**Hand in:** 
+
+In the Zoom chat, submit a text document with your group's written answers. 
+
+
+When we come back together as a class, be prepared to discuss what you observed in the simulations with your group. 
+
+---
+
+# Simulation Study 
+## Questions about the CLT 
+
+**From Moodle:** 
+
+- How can a variable that only takes on values from `\([-2,3]\)` have a mean that has a distribution ranging from negative infinity to infinity?* 
+
+
+Any others? 
+
+
+.footnote[*A good (albeit math-heavy) answer to this question can be found in the comments here: https://stats.stackexchange.com/questions/339759/how-can-the-central-limit-theorem-hold-for-distributions-which-have-limits-on-th. The comment that begins with "This is an excellent question..."]
+
+---
+## Questions about inference for a proportion 
+
+**From Moodle:** 
+
+- I'd like to go over confidence intervals and hypothesis tests in class if possible.
+
+- What is the difference between `\(p\)` and `\(\hat{p}\)`? 
+
+- What is the critical value? 
+
+- Can we go over why we use `\(p_0\)` in the formula for the Z-score test statistic? 
+
+
+**Assignment**
+
+For the group Questioner: Make sure all of the above questions are addressed during your group's discussions for Practice problem 1. 
+
+For the group Presenter: Be ready to report your group's responses to any of the questions above. You'll either report your group's solution to these questions (when asked) or you'll report a more refined version of these questions based on your discussion (or both). If you don't have any answers to report but only have more questions, that is ok! Report those. 
+
+
+---
+# Practice Problem 1
+## Inference for a proportion
+
+In New York City on October 23rd, 2014, a doctor who had recently been treating Ebola patients in Guinea went to the hospital with a slight fever and was subsequently diagnosed with Ebola. Soon after, a survey conducted by the Marist Poll, an organization with a carefully designed methodology for drawing random samples from identified populations, found that, out of a sample of size `\(1042\)`, `\(82\%\)` of New Yorkers favored a "mandatory 21-day quarantine for anyone who has come in contact with an Ebola patient."
+
+
+**To do:** 
+
+a) Verify that the sampling distribution of `\(\hat{p}\)` is nearly normal.
+
+b) Construct a `\(95\%\)` confidence interval for `\(p\)`, the proportion of New York adults who supported a quarantine for anyone who has come into contact with an Ebola patient. Specifically state the values of `\(\hat{p}_{obs}\)`, `\(z_{\alpha/2}^*\)`, and `\(SE(\hat{p})\)`.  
+
+c) Conduct an `\(\alpha=0.05\)` hypothesis test to answer the question: Is the proportion of New York adults who support the mandatory quarantine larger than `\(75\%\)`? 
+
+
+**Hand in:** 
+Screenshot of your group's Zoom whiteboard with your answers to the questions above. 
+
+---
+# Practice Problem 1
+## Source
+
+.footnote[Introductory Statistics for the Life and Biomedical Sciences by Julie Vu and David Harrington.]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

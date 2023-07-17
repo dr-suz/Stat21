@@ -1,0 +1,209 @@
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+
+\newcommand{\blankline}{\quad\pagebreak[2]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify Course title, instructor name, semester here %%%%%%%%
+
+\title{Stat 21: Statistical Methods 2}
+\author{Suzanne Thornton}
+\date{Fall, 2019}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[sc]{mathpazo}
+\linespread{1.05} % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage[mmddyyyy]{datetime}% http://ctan.org/pkg/datetime
+\usepackage{advdate}% http://ctan.org/pkg/advdate
+\newdateformat{syldate}{\twodigit{\THEMONTH}/\twodigit{\THEDAY}}
+\newsavebox{\MONDAY}\savebox{\MONDAY}{Mon}% Mon
+\newcommand{\week}[1]{%
+	%  \cleardate{mydate}% Clear date
+	% \newdate{mydate}{\the\day}{\the\month}{\the\year}% Store date
+	\paragraph*{\kern-2ex\quad #1, \syldate{\today} - \AdvanceDate[4]\syldate{\today}:}% Set heading  \quad #1
+	%  \setbox1=\hbox{\shortdayofweekname{\getdateday{mydate}}{\getdatemonth{mydate}}{\getdateyear{mydate}}}%
+	\ifdim\wd1=\wd\MONDAY
+	\AdvanceDate[7]
+	\else
+	\AdvanceDate[7]
+	\fi%
+}
+\usepackage{setspace}
+\usepackage{multicol}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr,lastpage}
+\usepackage{url}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{layout}
+
+\lhead{}
+\chead{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify header here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rhead{\footnotesize Text in header}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lfoot{}
+\cfoot{\small \thepage/\pageref*{LastPage}}
+\rfoot{}
+
+\usepackage{array, xcolor}
+\usepackage{color,hyperref}
+\definecolor{clemsonorange}{HTML}{EA6A20}
+\hypersetup{colorlinks,breaklinks,linkcolor=clemsonorange,urlcolor=clemsonorange,anchorcolor=clemsonorange,citecolor=black}
+
+\begin{document}
+	
+	\maketitle
+	
+	\blankline
+	
+	\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+		
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
+		% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		E-mail: \texttt{sthornt1@swarthmore.edu} & \\ %Web: \href{www.swarthmore.edu/~sthornt1}{\tt\bf www.swarthmore.edu/~sthornt1}  \\
+				Office: Science Center 136 & Class Room: Science Center 145 \\
+				Office Hours: M 2$-$3:30pm or Th 10$-$11:30am  &  \\
+			Class Hours: M/W/F  8:30$-$9:20am or 9:30$-$10:20am  & 
+	\end{tabular*}
+	
+	\vspace{5 mm}
+	
+
+	\section*{Course Description}
+
+Stat 21 is a second course in applied statistics that extends methods taught in Stat 11. Topics include multiple linear regression, analysis of variance, and logistic regression. Both sections of this class are intended to be identical and will be graded together.
+	
+
+	\section*{Required and Recommended Materials}
+	
+	\begin{itemize}
+		\item Lecture slides will be made available on Moodle after each class. 
+				\item I will be referencing the following textbooks but they are not required:
+		\begin{enumerate}
+			\item Data analysis using regression and multilevel/hierarchical models by Andrew Gelman and Jennifer Hill.
+			\item Data analysis and regression: a second course in statistics by Frederick Mosteller and John W. Tukey.
+			\item Linear Regression Analysis by George Seber and Alan Lee
+		\end{enumerate}
+		\item We will be using the software R Studio, a free front-end interface to R which is a free program widely used by statisticians (and many others) and runs on MacOS, Windows, and Linux. You can download and install R from this web page: \href{https://cran.r-project.org}{\tt https://cran.r-project.org}. You can download RStudio here: \href{https://www.rstudio.com/products/rstudio/download/}{\tt https://www.rstudio.com/products/rstudio/download/} (be sure to install R \textbf{first}).
+		\item You will be required to complete your homework assignments using R Markdown. R Markdown is a file format for making dynamic documents with R. An R Markdown document is written in markdown (an easy-to-write plain text format) and contains chunks of embedded R code. Once R and R Studio are installed, it is easy to write and compile an R Markdown document since this is all built in to the R Studio interface. 
+		\item It is highly recommended that you use a laptop to follow along with in-class examples. If you do not have access to a laptop, there are department laptops that can be made available to you at the beginning of each class. Please refrain from using your laptops in class for anything other than class activities.
+	\end{itemize}
+	
+
+	\section*{Prerequisites}
+	AP Stat, Stat 11, Stat 61, Econ 31, or Stat 1 with permission of the instructor
+	
+
+	\section*{Getting help}
+	\begin{enumerate}
+		\item The first resource you have is each other! You can learn a lot by asking and attempting to answer questions on Piazza. 
+		\item I encourage you to drop by my office hours: Monday 2:00$-$3:30pm, Thursday 10:00$-$11:30am, or by appointment.
+		\item Stat Clinics are Stat Clinics are drop-in study sessions run by friendly and knowledgeable upperclassmen Sunday through Thursday nights 7:00$-$10:00 pm starting the first day of classes. Clinics are an opportunity to study, do homework, meet and work with classmates, and ask questions about statistics. Because clinics are drop-in, you are welcome to come and go as you please, but be sure to sign-in when you are there. To make the most of your time at clinic, be sure to first try problems on your own, or bring questions you have from your text or lecture. Bringing your textbook and lecture notes is essential because these are helpful resources for both you and the Clinician working with you. There will likely be other students at Clinic with questions for the Clinician, so do not expect to get individual attention the entire time you are at clinic. Be open to working on other problems, thinking about and trying to work through the question you have for the Clinician, working with classmates, or doing other coursework while you wait to speak with the Clinician. For questions about Stat Clinics please visit
+		\href{https://www.swarthmore.edu/math-stat-academicsupport/math-and-stat-clinics}{\tt https://www.swarthmore.edu/math-stat-academicsupport/math-and-stat-clinics}  or contact Danielle Ledford, the Academic Support Coordinator for the Math/Stat Department.
+		\item If you find that you are still needing help after utilizing the above resources, you can request tutoring at no cost. \\ 
+		See \href{http://www.swarthmore.edu/academics/math-pirates.xml}{\tt http://www.swarthmore.edu/academics/math-pirates.xml}.
+	\end{enumerate}
+
+	
+	\subsection*{Grading Policy}
+Homework will be assigned every one or two weeks and is due (handed in to me) by 12:00pm on the due date. Late homework will not be accepted, with one exception: you may hand in one assignment late once during the semester, in which case it will be due at noon of the next class. If you are planning to hand in a homework late, let me know by email before the original due date. All homework assignments must be typed using R Markdown. 
+
+
+ There will be two in-class midterms. In lieu of a final exam, you will have a final project which will be to develop your own R package. Makeup exams will be given only in the case of an unforeseeable emergency, such as illness or family emergency. ``Having too much work" and ``Going on vacation" don't count as unforeseeable emergencies.) 
+
+
+ Class participation determines the remainder of your course grade. So be sure to attend class and participate by asking/answering questions and participating in any group work. 
+
+	\begin{itemize}
+		\item \underline{\textbf{5\%}} of your grade will be determined by class participation;
+		\item \underline{\textbf{25\%}} of your grade will be determined by a final class project;
+		\item \underline{\textbf{30\%}} of your grade will be determined by homework assignments;
+		\item \underline{\textbf{40\%}} of your grade will be determined by 2 in class midterm exams (20\% each).
+	\end{itemize}
+
+
+Attendance will be recorded for the purpose of evaluating your participation grade. To get full credit for class participation you can 
+\begin{itemize}
+	\item Ask/answer (non-anonymous) questions on Piazza:\\ \href{https://piazza.com/swarthmore/fall2019/stat21/home}{\tt https://piazza.com/swarthmore/fall2019/stat21/home};
+	\item Participate in group discussions in class;
+	\item Ask me questions in class and/or in office hours.
+\end{itemize}
+	
+
+	\subsection*{Academic Integrity and Honesty}
+	I encourage you to discuss homework problems with other students (and with me and the clinicians), but you must write your final answer yourself, in your own words. Solutions prepared ``by committee" or by copying, paraphrasing, or summarizing someone else's work are not acceptable. Collaboration of any sort on the exams or final project is prohibited. If I see evidence that homework assignments were copied, all parties involved will receive a grade $0$ on the assignment and will forfeit the opportunity to hand in a late homework assignment without penalization. If I see evidence of cheating on either midterm exams or on the final project, you will receive a failing grade for the entire course, no exceptions. 
+	
+	\subsection*{Accommodations for Disabilities}
+ If you believe you need accommodations for a (physical or mental) disability or a chronic medical condition, please contact Student Disability Services (Parrish $113$W/$123$W) via e-mail at
+ \texttt{studentdisabilityservices@swarthmore.edu} to arrange an appointment to discuss your needs. As appropriate, the office will issue students with documented disabilities or medical conditions a formal accommodations Letter. Since accommodations require early planning and are not retroactive, please contact Student Disability Services as soon as possible. For details about the accommodations process, visit the Student Disability Services website. 
+ 
+ You are also welcome to contact me privately to discuss your academic needs. However, all disability-related accommodations must be arranged, in advance, through Student Disability Services.
+
+	\subsection*{Additional resources}
+	There are freely available mental health resources through Swarthmore that I encourage you to check out at \href{https://www.swarthmore.edu/counseling-and-psychological-services/services}{\tt https://www.swarthmore.edu/counseling-and-psychological-services/services}.
+	It's way easier to do math with a healthy brain, there's no shame in getting additional help to get there! 
+ 
+ 
+ 	\subsection*{Help me make this a successful course for you}
+ 	We all come to class with different backgrounds and experiences and this diversity of thoughts and perspectives will make our learning environment richer. It is expected that you will respect other's identities and contributions and that we all will support each other in this learning environment.
+ 	
+ 	
+ 	 If you have comments or suggestions on how I can make the course better for you, please share them with me. I want you all to have a positive learning experience and welcome your feedback! 
+ 
+	% Course Schedule %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\newpage
+	\section*{Schedule and weekly learning goals}
+	The schedule is tentative and subject to change. 
+	% Set first date of the semester (for some reason this is a week before what comes up, but that's easy to get around)
+	\SetDate[26/08/2019]
+	\week{Week 01} Review
+	
+	\week{Week 02} Review and simple linear regression
+	
+	\week{Week 03} Simple linear regression and ANOVA 
+	
+	\week{Week 04} ANOVA
+	
+	\week{Week 05}  ANOVA and \textbf{Midterm 1}
+	
+	\week{Week 06} Multivariate data
+	
+	\week{Week 07} \textbf{Fall break}
+	
+	\week{Week 08} Multivariate data
+	
+	\week{Week 09} Multivariate data
+	
+	\week{Week 10} Multivariate data
+	
+	\week{Week 11} Logistic regression and GLMs
+	
+	\week{Week 12} GLMs and  \textbf{Midterm 2}
+	
+	\week{Week 13}  Additional topics and \textbf{Thanksgiving break}
+	
+	\week{Week 14} Additional topics 
+	
+	\week{Week 15} Additional topics and \textbf{Finals week begins}
+
+	
+\end{document}
+
+

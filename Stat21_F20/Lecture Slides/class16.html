@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 16</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class16_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class16_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 16
+## Agenda for in-class discussion
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, Oct 29, 2020 (updated: 2020-10-29)
+
+---
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## Class 16, Thursday the 29th
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - HW 6 will be released tomorrow and is due on Tuesday, Nov 10th. 
+  
+  - No class on Tuesday! There will be 3 videos to watch for Thursday's class (we'll call this class 17). They will be available by Monday next week at the latest. The comprehension quiz will be available by noon on Wednesday. 
+  
+  - Final project introduction 
+  
+- Check-in   
+
+- SLR Transforming SAT Data Wrap Up 
+
+- Simulation experiment for understanding confidence and prediction intervals 
+]
+
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+&lt;img src="Figs/real-feel.png" height="500" style="display: block; margin: auto 0 auto auto;" /&gt;
+]
+
+
+---
+## SLR - Transforming data 
+### Group work  
+
+Complete Step 3 of the [worksheet](https://docs.google.com/document/d/1BO_59xZriB8RJS43B6kOCMfHn3cOgn_lA5uBmuqg6os/edit?usp=sharing) from last class. As before, you may find it useful to review some properties of logarithms and exponents using this [reference](https://wou.edu/mathcenter/files/2015/09/Exponents-and-Logarithms.pdf). 
+
+**Note-taker:** You will submit the completed worksheet to me over your group's Slack channel at the end of class. (Please make sure the settings allow me to access your document!) 
+
+**Presenter:** Be prepared to answer questions based on your worksheet when we discuss the worksheet as a class. 
+
+**Recorder:** Keep track of the time and alert your group when you have 5 mins remaining. 
+
+**Questioner:** Be prepared to ask any questions that have come up within your group discussion when I stop by your breakout room. 
+
+
+
+---
+## SLR - Transforming data 
+### Group work  
+
+We are going to practice transforming the data to fit a stronger linear model to the SAT score data from Problem 3 of Test 1. 
+
+**Step 1**
+
+1. Use the code on the next two slides to write out the estimated regression equation for the data and interpret the meaning of the slope. 
+2. What important features do you notice in the scatter plot of the data, the residual plot, and/or the normal probability plot for the standardized residuals?
+
+
+```r
+income_SAT2 &lt;- tibble(income = c(10000, 30000, 50000, 70000, 90000, 110000,
+                                 130000, 150000, 180000, 300000),
+                      SAT_score = c(1323, 1398, 1461, 1503, 1545, 1580, 1594,
+                                     1619, 1636, 1721))
+SLR_SAT &lt;- lm(SAT_score ~ income, income_SAT2)
+summary(SLR_SAT)
+```
+
+
+---
+## SLR - Transforming data 
+### Step 1 continued
+
+
+
+```r
+ggplot(income_SAT2, aes(x=income ,y=SAT_score)) +
+  geom_point() + 
+  labs(title="SAT data scatter plot", x="Household income", y="SAT Score")
+
+income_SAT2 &lt;- income_SAT2 %&gt;% mutate(resids = SLR_SAT$residuals,
+                                      fits = SLR_SAT$fitted.values)
+ggplot(income_SAT2, aes(sample=SAT_score)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal prob plot for residuals")
+
+ggplot(income_SAT2, aes(x=fits, y=resids)) +
+  geom_point() + 
+  labs(title="Residuals vs fitted values", x="Fitted values", y="Residuals") +
+  geom_hline(yintercept=0)
+```
+
+
+
+---
+## SLR - Transforming data 
+### Group work  
+
+**Step 2**
+
+1. Use the `mutate` function to transform the response variable `\(Y\)` by raising `SAT_score` to the 10th power. I.e. create a new response variable `\(Y_{transformed} = Y^{10}\)`. Then fit a SLR model using `\(x\)` to predict `\(Y_{transformed}\)`.  
+2. Produce and interpret a scatter plot of the data, a residual plot, and a normal probability plot for the residuals.
+3. Write out the estimated regression equation for the transformed data and then interpret the slope of this model and in the context of the original units of `\(Y\)`. 
+
+
+
+```r
+# Here is how to find a logarithm of base 10 in R
+a &lt;- 22000
+b &lt;- log(a, base=10)
+10^b  # Double check the properties of logarithms 
+```
+
+
+---
+## SLR - Transforming data 
+### Group work 
+
+**Step 3** (Reference the Class 14 Part 3 lecture notes for the code.) 
+
+1. Use the regression model from Step 2 to compute a confidence interval for the mean SAT score for a student from a household making $62,000 per year. Interpret this interval in the units of the un-transformed data.   
+2. Use the regression model from Step 2 to compute a prediction interval for the SAT score of a student from a household making $120,000 per year. Interpret this interval in the units of the un-transformed data.   
+
+
+
+
+
+---
+## Simulation Study
+### Prediction intervals and confidence intervals for the slope 
+
+This is Problem 2.23 in our textbook.
+
+Consider the simple linear regression model 
+`$$y = 50 + 10x + \epsilon, \quad \text{where } \epsilon \sim N(0,16).$$`
+Generate 500 samples of 20 observations drawing one observation for each level of `\(x=1,1.5,, \dots,10\)` for each sample. 
+
+(a) For each sample compute the least-squares estimates of the slope and intercept. Construct histograms of the sample values of `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)`. Discuss the shape of these histograms. 
+
+(b) For each sample, compute an estimate of `\(E[Y \mid x=5]\)`. Construct a histogram of the estimates you obtained. Discuss the shape of the histogram 
+
+(c) For each sample, compute a `\(95\%\)` CI on the slope. How many of these intervals contain the true value `\(\beta_1=10\)`? Is this what you would expect?
+
+(d) For each estimate of `\(E[Y \mid x=5]\)` in part (b), compute the `\(95\%\)` CI. How many of these intervals contain the true value of `\(E[Y \mid x=5]=100\)`? Is this what you would expect? 
+
+
+---
+## Simulation Study
+### Group Work
+
+Download the R script file called `class16_simulations.R`, available [here](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class16_files/class16_simulation.R). 
+
+**Note-taker:** You will submit the completed R script file to me over your group's Slack channel at the end of class. You will need to upload this file as an attachment in a Slack message. 
+
+**Presenter:** Be prepared to answer the discussion questions when we discuss the prompts as a class and/or be prepared to mention any questions that arose during your groups discussion. 
+
+**Recorder:** Keep track of the time and alert your group when you have 5 mins remaining. 
+
+**Questioner:** Make sure that everyone understands the general purpose of each coding section for parts (a) - (d) by asking clarifying questions. Also, be prepared to ask any questions that have come up within your group discussion when I stop by your breakout room.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

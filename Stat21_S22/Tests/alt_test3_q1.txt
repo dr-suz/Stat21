@@ -1,0 +1,22 @@
+
+Suppose a research group is hired to investigate the satisfaction of employees at a large hospital. They decide to build a MLR to predict the turnover rates for different positions ($Y$ measured as the proportion of employees leaving per year) as a linear function of a binary categorical predictor variable indicating whether or not the position has union representation and is part or full time, (levels: unionized part time, unionized full time, non-unionized part time, non-unionized full time) and a numerical predictor variable $x_4$, representing the average salary for each position (in 1000s of US dollars).  
+
+Given a "full" model 
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_4 + + \beta_5 x_1 x_4 + \beta_6 x_2 x_4 + \beta_7 x_3 x_4 + \epsilon,$$
+where $$x_1 = \begin{cases}1, \text{ if position is unionized and part-time}\\ 0, \text{ otherwise} \end{cases}\\
+x_2 = \begin{cases}1, \text{ if position is unionized and full-time}\\ 0, \text{ otherwise} \end{cases}\\
+x_3 = \begin{cases}1, \text{ if position is not unionized and full-time}\\ 0, \text{ otherwise} \end{cases}$$
+and $x_4$ is the average salary, match the questions below to their corresponding null hypotheses.   
+
+
+
+a) Is there statistically discernible evidence of a linear relationship between union representation and part/full time jobs and a position's turnover rate?
+
+b) Given we are only comparing positions that have the same average salary, is there a statistically significant difference in the mean turnover rate for positions that are full-time and non-unionized vs those that are full-time and unionized? 
+
+c) Given we are only comparing positions that are part-time and non-unionized, is there a statistically significant difference in the turnover rate for positions with a higher (by 1000 US dollars) average salary? 
+
+d) Does the change in turnover rate associated with increasing average salary depend on whether or not the position is part or full time and unionized? 
+
+e) Given we are only comparing positions that are full-time and non-unionized, is there a statistically significant difference in the turnover rate for positions with a higher (by 1000 US dollars) average salary? 
+

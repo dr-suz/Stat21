@@ -1,0 +1,57 @@
+---
+title: "Stat 21 Homework 4 - Problem 1 Rubric"
+author:
+- "Your name here"
+- "Collaborators: [list any collaborators here]"
+date: "Due: Oct 1st, by noon ET"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+To see how much of a difference time of day makes on the speed at which she could download files, a college sophomore performed an experiment. She placed a file on a remote server and then proceeded to download it at three different time periods of the day (Early - 7:00am, Evening - 5:00pm, Late night 12:00am). She downloaded the file 48 times in all, 16 times at each time of day and recorded the time (in seconds) that the download took. 
+
+The following R code contains this data set, labeled `download_data`. 
+```{r}
+download_data <- tibble(time_of_day = c(rep("Early",16), rep("Evening",16), rep("Late Night", 16)),
+                        time_sec = c(68,138,75,186,68,217,93,90,71,154,166,130,72,81,76,129,299,367,331,257,260,269,252,200,296,204,190,240,190,240,350,282,216,175,274,171,187,213,221,139,226,128,236,128,217,196,201,161))
+head(download_data)
+```
+
+## Problem 1
+
+Identify the predictor and response variables. How many degrees of freedom will the treatment sum of squares term have? How many degrees of freedom will the sum squared error term have? 
+
+**Solution Problem 1:**
+
+```{r}
+dim(download_data)
+```
+
+$$df_{trt} = K-1 = 3-1 = 2$$
+$$df_{Error} = n-K = 48-3 = 45$$
+
+Only give full credit if the student gets both degrees of freedom correct. Don't take off any points for the student not showing R code to answer this question. 

@@ -1,0 +1,61 @@
+---
+title: "Stat 21 Homework 3 - Problem 7 Rubric"
+author:
+- "Your name here"
+- "Collaborators: [list any collaborators here]"
+date: "Due: Oct 1st, by noon ET"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+
+## Problem 7
+
+Every statement about a confidence interval contains two parts - the level of confidence and the interval. Suppose that an insurance agent estimating the mean loss claimed by clients after home burglaries created the $95\%$ CI $[1644, 2391]$ dollars. 
+
+(a) What is the margin of error for this estimate? 
+
+(b) Carefully explain the meaning of the interval in this context. 
+
+(c) Carefully explain what the $95\%$ confidence level means. 
+
+**Solution Problem 7:**
+
+(a) The margin of error is half the length of the confidence interval: `r round((2391-1644)/2,1)`.
+
+```{r problem7, echo=TRUE, eval=TRUE}
+ME <- (2391-1644)/2
+ME
+```
+
+(b) We are pretty sure that (or $95\%$ confident that) the true mean loss claimed by clients after home burglaries lies between \$1644 and \$2391.
+
+
+(c) Having a confidence level of $95\%$ means that if other insurance agents also wated to estimate the mean loss claimed by clients with an interval and did so by collecting a simple random sample of clients (with the same $n$ as the agent mentioned in the problem), then $95\%$ of these other agents would produce a lower and upper bound that actually contains the true average claimed loss, $\mu$. So our of, say, 1000 agents collecting their own random samples of data, $0.05\times 1000 = 500$ of the agents will (because of natural sampling variability) produce a CI that does **not** contain $\mu$. 
+
+
+**Note:** Students don't have to write out as long of a response as I did for part (c) but to get full credit they need to first, say something true and second, not say something false. Please email me if you have any questions on any of the students' responses.  

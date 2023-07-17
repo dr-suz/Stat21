@@ -1,0 +1,59 @@
+---
+title: "Stat 21 Final Project - Part 4 Late Requests"
+author: "Swarthmore College"
+date: "Due: May 16, 2021 11:59pm EST"
+output:
+  pdf_document: 
+  toc: no
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+This part of your final project will be completed in the Slack channel `final-project`. All components are due by __May 17th at 11:59pm EST__. Note that part of this assignment involves responding to questions or comments others post about your project on Slack. Please make sure that you have completed all comments on other students' projects no later than __Sunday, May 16th at 11:59pm EST__. 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+*** 
+
+Please do not post the link to your Google drive folder any earlier than __Saturday, May 15th__ to prevent confusion with the other projects which will still be under review by other students. 
+
+
+Part 4 of your final project represents the peer-review component of your projects. This part of your project is worth 100 points total. You may earn up to 80 points by asking a thoughtful (and non-repetitive question) on two other student's presentations (worth 20 points each) and responding to the two questions other student's ask about your project (worth 20 points each). Credit is given for the thoughtfulness of your questions and responses. You have been assigned to review two of your peers' projects in this way: 
+
+- Ben please review Patty and Mwangangi's projects. 
+
+- Patty please review Mwangangi and Faith's projects. 
+
+- Mwangangi please review Faith and Ben's projects. 
+
+- Faith please review Ben and Patty's projects. 
+
+The remaining 20 points of this assignment will be assigned based on how well you adhere to the following instructions: 
+
+- Edit your Slack comment sharing your presentation to include the title of your project and the option number for your project; 
+                                     
+- Be respectful and courteous and focus your comments on the content of the work; 
+
+- Make sure your feedback provides indication that you have both watched the recorded presentation and skimmed through the written report for both projects you leave questions for; 
+
+- Submit your comments to other student's projects by 11:59 pm EST on Sunday the 16th; 
+
+- Submit your responses to other students' questions by 11:59 pm EST on Monday the 17th. 

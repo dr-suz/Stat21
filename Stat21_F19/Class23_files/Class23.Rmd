@@ -1,0 +1,317 @@
+---
+title: "Class 23"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/11/1 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Topics covered today: 
+
+- Interaction terms
+
+- collinearity
+
+- ~~Overfitting and underfitting models~~
+
+
+---
+## Interaction terms
+
+It is possible that the values of any two of these predictor variables may have an affect on a third predictor variable. And, it's possible that the effect is not additive.<sup>[1]</sup>
+
+A consequence of interaction between variables is that it makes it more difficult to predict the consequences of changing the value of any individual variable.
+
+
+**Q:** Why would we want to include interaction terms in a MLR?
+
+
+--
+**A:** It allows our model to fit differently over different subsets of the data. 
+
+
+*** 
+
+--
+**In practice:**
+
+  - Predictor variables that have large main effects tend to also have large interactions with other predictor variables.<sup>[3]</sup> 
+
+  - When you include interaction terms in your model, it's a good idea to standardize your data before fitting the model. This helps with the interpretability of the model coefficients since interacting terms may not be measured in the same units.<sup>[3]</sup>
+
+
+---
+## Interaction terms
+### SAT data 
+
+```{r echo=FALSE}
+SAT_data <- read_table2("sat.dat.clean.txt", 
+                        col_names = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot"), cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+MLR_SAT4 <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         PropnStu, data = SAT_data)
+MLR_SAT4_sum <- summary(MLR_SAT4)
+residual_plot_data4 <- SAT_data %>% 
+                      mutate(residuals = MLR_SAT4_sum$residuals, fitted_vals = MLR_SAT4$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+```
+
+Recall the MLR model with four predictor variables that we built to predict SAT scores of public schools: 
+.scroll-small[
+```{r echo=FALSE}
+MLR_SAT4 <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         PropnStu, data = SAT_data)
+summary(MLR_SAT4)
+```
+]
+
+---
+## Interaction terms
+### SAT data
+
+Since we want to investigate possible interactions let's standardize the data set to get rid of all units for each variable. 
+
+.scroll-small[
+```{r}
+SAT_data_standard <- SAT_data %>% 
+                     mutate_at(vars("PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu"), funs(scale)) ##Note we do NOT standardizing the response variable, Y!!
+
+MLR_SAT_standard <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         PropnStu, data = SAT_data_standard)
+summary(MLR_SAT_standard)
+```
+]
+
+Now it's clear that the variable with the largest estimated effect on SAT scores is the proportion of students taking the exam. 
+
+
+
+---
+## Interaction terms
+### SAT data
+
+Let's see if there are any interaction effects between the proportion of students taking the exam and the other variables. 
+
+.scroll-small[
+```{r}
+MLR_SAT_interaction <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         PropnStu + 
+                         PropnStu*PerPupilSpending +
+                         PropnStu*StuTeachRatio +
+                         PropnStu*Salary, data = SAT_data_standard)
+summary(MLR_SAT_interaction)
+```
+]
+
+---
+## Interaction terms
+
+Although, based on the R output, it doesn't look like there's any interaction between the proportion of students and the other three variables, let's consider the mathematical form of the interaction model on the previous slide. 
+
+If $Y=$SAT score, $X_1=$per pupil spending, $X_2=$student teacher ratio, $X_3=$teacher salary, and $X_4=$ proportion of eligible students who took the SAT, then the model with the three interaction terms from before looks like: 
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_4 + \beta_5 (x_1 x_4) + \beta_6 (x_2 x_4) + \beta_7 (x_3 x_4) + \epsilon$$
+
+--
+which can be rearranged to look like
+$$Y = \beta_0 + (\beta_1 + \beta_5 x_4)x_1 +
+ (\beta_2 + \beta_6 x_4)x_2 +
+  (\beta_3 + \beta_7 x_4)x_3 +
+   \beta_4 x_4 +\epsilon.$$
+
+***
+
+--
+The interpretation of the interaction terms is that we expect the effect on SAT scores by changing $X_1$, for instance, depends also on the value of $X_4$. 
+
+In our specific model for example, if we consider the interaction between student teacher ratio and the proportion of students, that we expect the effect that the school's student teacher ratio has on SAT scores depends on whether the proportion of students taking the exam is low or high. 
+
+---
+## collinearity 
+
+There are a lot of important c-words in statistics. Especially confusing can be the following: collinearity, correlation, and covariance. But, somewhat intuitively, there is a relationship among these three terms. 
+
+Recall the definitions of correlation and covariance for any two random variables, say, $X$ and $Y$:
+
+$$Cov(X,Y) = E[(X -E[X])(Y-E[Y])] = \dots = E[XY] - E[X]E[Y]$$
+
+$$Corr(X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}$$
+
+
+--
+Also, recall the fact that .blue[if $X$ and $Y$ are independent, then $Cov(X,Y)=0$ and therefore $X$ and $Y$ are uncorrelated.]
+
+**But** if $X$ and $Y$ are uncorrelated, then it is still possible for $X$ and $Y$ to be dependent or independent.    
+
+---
+## collinearity 
+
+So now we see that correlation is just a standardized version of the covariance between two variables. (Standardized in the sense that it will always be between the interval $[-1,1]$.)
+
+.red[What is collinearity?] 
+
+
+--
+This is a term specific to MLR models that describes the statistical phenomenon in which two or more predictor variables are highly correlated with each other. 
+
+
+In other words, this means that two predictor variables, say, $X_1$ and $X_2$, are colinear if $Corr(X_1, X_2) \approx \pm 1$. 
+
+  - This means that we could predict the values of one from the other in a SLR model! 
+  
+  - This is **not** a problem for .red[estimation] or .red[prediction] with a MLR. 
+  - This **is** a problem however that inflates the estimated variances of our regression coefficients and therefore the individual test of significant slope parameters.<sup>[5]</sup> 
+  
+  - Outliers can have a big impact on the collinearity of a pair of variables.<sup>[5]</sup> 
+
+
+---
+## collinearity 
+### SAT data
+Again let's investigate the MLR model with four predictor variables that we built to predict SAT scores of public schools. Does it seem like any of the predictor variables might be correlated with each other? 
+
+```{r echo=FALSE}
+MLR_SAT_standard <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         PropnStu, data = SAT_data_standard)
+```
+
+We can estimate the correlations among each pair of variables (without risking multiple testing issues): 
+.scroll-small[
+```{r}
+cor(SAT_data_standard$PerPupilSpending, SAT_data_standard$StuTeachRatio)
+cor(SAT_data_standard$PerPupilSpending, SAT_data_standard$Salary)
+cor(SAT_data_standard$PerPupilSpending, SAT_data_standard$PropnStu)
+cor(SAT_data_standard$StuTeachRatio, SAT_data_standard$Salary)
+cor(SAT_data_standard$StuTeachRatio, SAT_data_standard$PropnStu)
+cor(SAT_data_standard$Salary, SAT_data_standard$PropnStu)
+```
+Note: The estimated correlation between two variables is not affected by whether or not those variables are standardized because correlation itself is already standardized.
+]
+
+
+---
+## collinearity 
+
+
+When we see evidence of collinear predictor variables, it's a good idea to re-visit which variables you want to include in the model .red[because]  collinearity affects the variance of our predictors and therefore affects the conclusion of the individual t-tests!<sup>[4]</sup>
+
+
+**Q:** Do we need to be concerned about multiple testing with interaction terms? with collinearity? 
+
+
+--
+**A:** We do need to keep an eye on multiple tests issues when we're determining which main effects and interaction effects to include in the model (these are questions of statistical significance). The problem of multiple testing is not a concern however, in estimation/prediction problems therefore it is not a major concern when checking for collinearity (all we're doing is getting estimates for different correlations).
+
+
+
+**Note:** Interaction terms are structurally colinear, which we can't do much about. (See slides for Class 24.)  
+ 
+---
+## collinearity 
+### Remedies 
+
+A couple of simple remedies for collinearity are
+
+  - Try collecting more data to see if the collinearity is dues to insufficient data; 
+  
+  - Reduce the number of variables in your model so that none of them are collinear;
+  
+  - Other regression methods such as *ridge regression* (you don't need to know what this is for my class).<sup>[5]</sup> 
+
+---
+## collinearity 
+### SAT data 
+
+Finally we can get a better model for the SAT data by adjusting which variables we include:
+
+.scroll-small[
+```{r echo=FALSE}
+MLR_SAT_good <- lm(SAT_tot ~ PerPupilSpending +
+                             StuTeachRatio + 
+                             PropnStu, data = SAT_data)
+summary(MLR_SAT_good)
+```
+]
+
+
+
+---
+## Sources 
+
+
+[1]  https://stats.stackexchange.com/questions/113733/what-is-the-difference-between-collinearity-and-interaction
+
+[2] https://datascienceplus.com/multicollinearity-in-r/
+
+[3] Data Analysis Using Regression and Multilevel/Hierarchical Models by Andrew Gelman and Jennifer Hill. Cambridge University Press. (2007)
+
+[4] Linear Statistical Models by James Stapleton. Wiley Series in Probability and Statistics. (2009)
+
+[5] Linear Regression Analysis by George Seber and Alan Lee. Wiley Series in Probability and Statistics. (2003)

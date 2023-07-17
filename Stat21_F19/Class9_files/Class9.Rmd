@@ -1,0 +1,341 @@
+---
+title: "Class 9"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/9/20 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class9_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.height=6, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 80%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+```{r, echo=FALSE, fig.align='center', out.width=600}
+#knitr::include_graphics("~/Drive/Swat docs/Stat 21/Class9_files/Figs/ten_thousand.png")
+knitr::include_graphics("Figs/ten_thousand.png")
+```
+
+.footnote[https://xkcd.com/892/]
+
+---
+## Important dates
+
+- October 4th exam 1
+
+  - Office hours that week: M 2-3:30pm and Tu 2-3:30pm (I will be traveling starting Wednesday after class - still available via email and Piazza)
+
+- November 22nd exam 2
+  
+- December 13th final project due  
+
+---
+## For Exam 1: 
+  
+  - Some simple ANOVA problems 
+  
+  - All review material and all SLR material
+  
+  - No formula sheet or calculated will be needed
+  
+  - Review class on Wednesday, Oct 2nd 
+  
+  - New regualr office hours on W and Th (instead of M and Th)
+  
+--
+## Outline for the next two classes: 
+
+**Today**
+
+  - .blue[Estimation] with simple linear regression models
+  
+**Next class**
+
+  - .blue[Inference] with simple linear regression models
+
+    
+  
+---
+## Health care data 
+.scroll-output[
+```{r echo=TRUE, warning=FALSE}
+hc_employer_2013 <- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+names(hc_employer_2013)
+class(hc_employer_2013)
+dim(hc_employer_2013)
+head(hc_employer_2013)
+```
+]
+
+.green[Note that there are 51 "states" here (includes DC) - and not 52 like I was claiming earlier, duh!]
+
+
+---
+## Health care data 
+
+```{r hcDataClass9, echo=FALSE, warning=FALSE}
+hc_employer_2013 <- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+names(hc_employer_2013)
+class(hc_employer_2013)
+dim(hc_employer_2013)
+head(hc_employer_2013)
+```
+
+(1) What are the observational units?
+
+
+---
+## Health care data 
+
+```{r hcDataClass9_2, echo=FALSE, warning=FALSE}
+hc_employer_2013 <- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+names(hc_employer_2013)
+class(hc_employer_2013)
+dim(hc_employer_2013)
+head(hc_employer_2013)
+```
+
+(2) What are the variables in this study, what type of variables are they, and which roles do they each play?
+
+
+---
+## Health care data 
+
+```{r hcDataClass9_3, echo=FALSE, warning=FALSE}
+hc_employer_2013 <- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+names(hc_employer_2013)
+class(hc_employer_2013)
+dim(hc_employer_2013)
+head(hc_employer_2013)
+```
+
+(3) Is the study observational or is it an experiment?
+
+
+---
+## Health care data 
+
+```{r hcDataClass9_4, echo=FALSE, warning=FALSE}
+hc_employer_2013 <- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+names(hc_employer_2013)
+class(hc_employer_2013)
+dim(hc_employer_2013)
+head(hc_employer_2013)
+```
+
+(4) Does the study use random sampling, random assignment, both or neither?
+
+
+---
+## SLR for health care data 
+
+```{r hcRegressionClass9, echo=FALSE, warning=FALSE, fig.width = 10, fig.align = 'center'}
+ggplot(hc_employer_2013, aes(x=spending_capita, y=prop_coverage)) +
+  geom_point() + 
+  geom_smooth(method = "lm", se=FALSE) +
+  labs(title="Simple Linear Reguression", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Per capita cost", y="Proportion of people covered") 
+```
+
+--
+.center[.red[This is different from a QQ plot!]]
+
+---
+## SLR for health care data 
+
+.scroll-output[
+We are .red[not] looking at a .red[QQ-line] over a scatterplot of the sample quantiles, rather, we are looking at a **regression line** over a scatterplot of the data. 
+
+
+```{r hcRegressionClass9_2, echo=TRUE, warning=FALSE}
+SLR_hc_employer_2013 <- lm(prop_coverage~spending_capita, data=hc_employer_2013)
+summary(SLR_hc_employer_2013)
+```
+]
+
+---
+## Assumptions for estimation with SLR
+
+$$Y = \beta_0 + \beta_1 x + \epsilon$$
+
+1. $E[\epsilon]=0$;
+
+1. $Var[\epsilon]=\sigma^2 < \infty$;
+
+1. Each instance of the random variable $\epsilon$ is independant of any other instance. 
+
+
+--
+All of these assumptions have to do with the random variable $\epsilon$. We never actually observe any instances of $\epsilon$, the best thing we have are the observed residuals. (But note that these residuals treat our estimates of the model parameters (slope and intercept) as if they are definitely correct, in reality, this was just an informed guess.)
+
+---
+##Checking assumption 1:  zero mean
+
+$$E[\varepsilon]=0$$
+
+
+The mean of the residuals will always be zero because they are calculated based on the regression line we fit. 
+
+```{r hcRegressionClass9_3, echo=TRUE, warning=FALSE}
+SLR_hc_employer_2013 %>% 
+  residuals %>% 
+  mean 
+```
+
+
+
+---
+##Checking assumption 1: zero mean
+
+$$E[\varepsilon]=0$$
+
+
+The mean of the residuals will always be zero because they are calculated based on the regression line we fit. 
+
+```{r hcRegressionClass9_4, echo=FALSE, warning=FALSE, fig.width = 10, fig.align = 'center'}
+hc_employer_2013_all <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc_employer_2013$residuals, fitted_vals = SLR_hc_employer_2013$fitted.values) 
+
+ggplot(hc_employer_2013_all) +
+  geom_point(aes(x=spending_capita, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Per capita health care cost", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+
+
+- If you suspect that the mean of your $Y$ measurement errors is non-zero, you can still ensure that this model assumption is met by **standardizing the data** before you fit a regression curve. 
+
+
+- When we get to MLR (multiple linear regression), it will become more important to standardize the data before fitting a regression line. 
+
+---
+##Checking assumption 2: .red[constant] variance
+
+$$Var[\epsilon]=\sigma^2 < \infty$$
+
+<a href="https://en.wikipedia.org/wiki/Heteroscedasticity">Heteroscedasticity</a> often occurs when there is a large difference among the sizes of the response variable. What we are looking for here is: does our measurement error $(\epsilon)$ vary (increase or decrease) with each new observation $(y_i, x_i)$?
+
+  - cross section data 
+  - time series data 
+  - econometrics data 
+
+
+1. Example: Income versus money spent on meals.
+
+1. Example: Measuring changing distance of a rocket being launched. 
+
+.footnote[For more reading on heteroscedacity: http://www.statsmakemecry.com/smmctheblog/confusing-stats-terms-explained-heteroscedasticity-heteroske.html (note that they use the terms independent and dependent variables which is not great but common!)]
+---
+##Checking assumption 2: .red[constant] variance
+
+$$Var[\epsilon]=\sigma^2 < \infty$$
+
+```{r hcRegressionHetero, echo=FALSE, warning=FALSE, fig.width = 10, fig.align = 'center'}
+hc_employer_2013_all <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc_employer_2013$residuals, fitted_vals = SLR_hc_employer_2013$fitted.values) 
+
+plot1 <- ggplot(hc_employer_2013_all) +
+         geom_point(aes(x=spending_capita, y=prop_coverage)) + 
+         labs(title="Scatter plot of data", subtitle="Cost of health care a predictor of proportion of people with coverage",
+         x="Per capita health care cost", y="Proportion of people covered") 
+
+
+plot2 <- ggplot(hc_employer_2013_all) +
+         geom_point(aes(x=spending_capita, y=residuals)) + 
+         labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+         x="Per capita health care cost", y="Residuals") + 
+  geom_hline(yintercept=0)
+
+library("gridExtra")
+grid.arrange(grobs = list(plot1, plot2))
+```
+---
+##Checking assumption 2: .red[constant] variance
+
+So you have evidence of heteroskedasity, what now? 
+
+--
+It **is** ethical/permissible statistically to play around with transforming the data $(x_i, y_i)$! So try transforming the response and/or predictor variable to address this problem. 
+
+
+In general, for linear modeling, some heteroskedasity is not a deal-breaker, there are more severe consequences however for non-linear models (e.g. logit or probit models).
+
+
+--
+What do I mean by *severe consequences*?
+
+---
+##Checking assumption 3: independence
+
+This assumption is difficult to check. Usually you have to think critically about what are potential sources of error in your measurements of the response variable $Y$.
+
+
+For temporal data, you can check the <a href="">autocorrelation</a>.
+
+
+Otherwise, we can look for linear relationships in scatter plots of the residuals and the predictor variables. If we find evidence of this, we may need to re-consider what predictor variables we include in our model. 
+
+---
+## <a href="https://en.wikipedia.org/wiki/Central_limit_theorem#Classical_CLT">Central limit theorem</a>
+
+**English version:**
+
+If: $X_1, X_2, \dots,X_n$ are (1) all random variables with the same distribution (e.g. all Poisson, all beta, all t-distributed) and (2)there are no statistical dependencies between any two arbitrary groups of these random variables and (3)the average and variance of these random variables are all the same 
+
+
+Then the distribution of the average of these $n$ random variables is Gaussian with the same mean and variance as the individual random variables 
+
+
+**Math version:**
+
+If $X_1, X_2, \dots,X_n$ are all random variables with the same distribution, if they are all independent of one another, and if $E[X_{i}]=\mu$ and $Var[X_{i}]=\sigma^2$ for all $i=1,\dots,n$ then
+
+$$\bar{X} \sim N(\mu, \sigma).$$

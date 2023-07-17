@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 3 - Part 2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class3-part2_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class3-part2_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 3 - Part 2
+## One-sample T-test for a Population Mean
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, Sept 15, 2020 (updated: 2020-09-07)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+
+## T-distribution
+### Review 
+
+When modeling the behavior of quantitative random variables, we often use Student's T-distribution rather than a Normal distribution. The notation for a RV that follows a T-distribution is: 
+`$$X \sim t_{\nu},$$` 
+where `\(\nu=\)` the degrees of freedom of the distribution. Typically this is some function of the sample size, `\(n\)`. 
+
+The benefit of using the t-distribution is that we do not need to invoke the CLT! .blue[As long as the quantitative variable is reasonably symmetric and uni-modal in the values that it takes on within the population of interest, the T-distribution is an appropriate model to use for the sampling mean of this variable.]
+
+I.e. `\(f(\bar{X}) \sim t_{n-1}\)`, where `\(n\)` is the size of the sample of observations and `\(f(\cdot)\)` is a function of the sampling mean. The specific details of the function `\(f\)` are not super important for us but it actually ends up being the same formula for the test statistic we will discuss at the end of these notes. 
+
+Note this is true even for small sample sizes! 
+
+
+---
+## T-distribution
+### Visualized 
+
+
+&lt;img src="Figs/t-dist-compared-to-norm.jpeg" width="500" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+## Population mean
+### Problem set-up
+
+Collect quantitative information from a SRS of individuals, e.g. age or the amount of time to complete a certain task.
+
+**Population:** E.g. Adults over the age of 18 who live in NYC
+
+If we treat the numerical values as observations of a RV, `\(X\)`, then the *population parameter* we are interested in is `\(\mu = E[X]\)`: the average/mean value of this quantitative variable over the entire population of interest. Recall the definition of the expectation operation
+
+`$$E[X] = \sum_{x \in S} xPr(X=x),$$`
+where `\(S\)` is the sample space of all possible values `\(X\)` might take. (Note for continuous quantitative variables (where fractions and decimal values are possible) the definition above is a little bit different and involves integrating over the sample space rather than summing up discrete elements.)
+
+
+---
+## Population mean
+### Problem set-up
+
+**Sample:** A random subset of the population 
+
+`\begin{align}
+x_{obs} &amp;=&amp; \{x_1, x_2, x_3, \dots, x_n\} \\
+ &amp;=&amp; \{1.2, 2.54, 0.87, \dots, 2.11\} \\
+\end{align}`
+
+**Sample size:** `\(n=\)` the number of people who responded to the survey. 
+
+
+After we have surveyed our entire sample of `\(n\)` individuals, we now have an **estimate** for the population parameter: 
+`$$\bar{X} = \frac{1}{n}\sum_{i=1}^{n}x_i.$$`
+
+Although it's easy to compute `\(\bar{X}\)`, the statistical question we are generally interested in is: .blue[How close is this sample estimate,] `\(\bar{X}\)`.blue[, to the (unknown) population parameter value,] `\(\mu\)`.blue[?] 
+
+
+---
+## Quick Detour
+### Review material 
+
+For completeness, let's also review the concept of variance (or standard deviation) for a quantitative variable. 
+
+When talking about the **variance** of a RV over the entire **population**, we denote this parameter by `\(\sigma^2\)` (or `\(\sigma\)` if we are talking about the standard deviation instead). The formula for the population variance is similar to the formula for the population mean, only now we are looking at the mean squared distance from `\(\mu\)`
+`$$Var[X] = \sum_{x \in S}\left[(x-\mu)^2Pr(X=x)\right].$$` 
+
+(Again for continuous quantitative RVs the above definition must be adjusted to use integration instead of summation.) 
+
+To estimate the population variance with the **sample variance**, we use the formula 
+`$$s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{X})^2.$$`
+
+---
+## Population mean
+### Problem set-up
+
+To answer the question about how close is `\(\bar{X}\)` to the parameter `\(\mu\)`, we can use CIs or a hypothesis test. Before doing so, we must make sure the following **assumptions** are reasonable! 
+
+1. The values the quantitative variable `\(X\)` can take on, follow roughly a symmetric and uni-modal histogram based on all the data from the entire population. (Since we aren't able to collect data on the entire population, we typically can only check this assumption with a histogram of the observed values of `\(X\)` from our sample of size `\(n\)`.) .blue[For larger sample sizes, we can relax this assumption.]
+
+2. The data is a simple random sample (SRS) from the population of interest. (Are there any dependencies among the data? Does the sample comprise less than `\(10\%\)` of the population? Was the sample collected without bias?)
+
+
+---
+## Confidence interval
+
+A `\((1-\alpha)\times100 \%\)` confidence interval for parameter `\(\mu\)` is: 
+`$$\bar{X}_{obs} \pm \left(t^*_{\alpha/2} \times \sqrt{\frac{s^2}{n}}\right).$$`
+
+In the above, `\(t^*_{\alpha/2}\)` is the **critical value**, the upper `\((1-\frac{\alpha}{2})\%\)` **quantile** of a Student's T RV with `\(\nu = n-1\)` degrees of freedom. 
+
+
+
+**Q:** What is the margin of error? 
+
+
+---
+## Confidence interval
+### Interpretation 
+
+If we were to collect more size `\(n\)` simple random samples (SRS) from the same population, we would get slightly different confidence intervals. But, in the long run, `\((1-\alpha)\times 100\%\)` of those confidence intervals will contain the true population mean, `\(\mu\)`. 
+
+
+### In R
+.scroll-small[
+
+```r
+#Define the observed data and sample size
+x_obs &lt;- c(3.1, 3.34, 4.2, 2.99, 2.86, 1.57, 4.13, 4.07, 3.66)
+samp_size &lt;- 9
+#Then use the t.test() function 
+t.test(x_obs, n=samp_size, conf.level=0.95)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  x_obs
+## t = 11.985, df = 8, p-value = 2.165e-06
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  2.684772 3.964117
+## sample estimates:
+## mean of x 
+##  3.324444
+```
+
+```r
+#To get R to only show the CI we can extract it with the $conf.int appended at the end
+t.test(x_obs, n=samp_size, conf.level=0.95)$conf.int
+```
+
+```
+## [1] 2.684772 3.964117
+## attr(,"conf.level")
+## [1] 0.95
+```
+]
+
+
+---
+## Hypothesis test 
+
+We first must identify the null and alternative hypotheses:
+`\begin{align}
+H_0: \mu = \mu_0 \quad\text{and}\quad &amp;H_A: \mu &gt; \mu_0 \\
+      \text{ or }&amp;H_A: \mu &lt; \mu_0\\
+      \text{ or }&amp;H_A: \mu \neq \mu_0.
+\end{align}`
+
+Then we calculate the test statistic
+`$$\text{Test Statistic} = \text{T-score} = \frac{\bar{X} - \mu_{0}}{\sqrt{\frac{s^2}{n}}}.$$`
+
+---
+## Hypothesis test 
+### Interpretation 
+
+The p-value is the probability that a Student's T RV with `\(n-1\)` degrees of freedom is "more extreme" (in the direction of `\(H_1\)`) than the observed value of the test statistic above. If the p-value is smaller than the pre-set `\(\alpha\)` value, we conclude that the data provides statistical evidence against `\(H_0\)` and instead in favor of `\(H_1\)`. 
+
+### In R
+.scroll-small[
+
+```r
+#Define the observed data and sample size
+x_obs &lt;- c(3.1, 3.34, 4.2, 2.99, 2.86, 1.57, 4.13, 4.07, 3.66)
+samp_size &lt;- 9
+#Determine the direction of the alternative hypothesis, the confidence level, and the null value of mu (in the example here we are testing if mu is equal to or different from 3.0)
+t.test(x_obs, n=samp_size, alternative= "two.sided", mu =3.0, conf.level=0.95)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  x_obs
+## t = 1.1696, df = 8, p-value = 0.2758
+## alternative hypothesis: true mean is not equal to 3
+## 95 percent confidence interval:
+##  2.684772 3.964117
+## sample estimates:
+## mean of x 
+##  3.324444
+```
+
+```r
+#For more information on the function (like the possible directions for the alternative hypothesis), run the following line of code:
+help(t.test)
+```
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

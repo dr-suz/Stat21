@@ -1,0 +1,204 @@
+---
+title: "Class 9 - Part 2"
+subtitle: "Analysis of Variance (ANOVA)"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Oct 6, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## ANOVA Example 
+### Problem setting 
+
+A pharmaceutical company tested three formulations of a pain relief medicine for migraine headache sufferers. For the experiment 27 volunteers were selected and 9 were randomly assigned to one of three drug formulations. The subjects were instructed to take the drug during their next migraine headache episode and to report their pain on a scale of 1 = no pain to 10 = extreme pain, 30 minutes after taking the drug. 
+
+
+
+**Type of study** 
+--
+Experiment
+
+
+--
+**Observational units** 
+--
+People 
+
+
+--
+**Variables** 
+--
+Pain - quantitative (between 1 and 10), response 
+
+Medication - categorical (3 levels), predictor
+
+---
+## ANOVA Example 
+### Pre-processing the data 
+
+.scroll-output[
+```{r}
+pain_med <- tibble(drug_type = c(rep("A",9), 
+                                 rep("B",9), 
+                                 rep("C",9)),
+                   pain = c(4,5,4,3,2,4,3,4,4,6,8,4,5,4,6,5,8,6,6,7,6,6,7,5,6,5,5))
+head(pain_med)
+
+# Create a factored version of the drug_type variable  
+pain_med <- pain_med %>% mutate(drug_type_fct = factor(drug_type))
+head(pain_med)
+```
+]
+
+
+---
+## ANOVA Example 
+### State the null and alternative hypotheses 
+
+
+Let $\mu$ be the average pain score, 30 minutes after taking (any) medication. 
+
+$$H_0: \mu_{A} = \mu_{B} = \mu_{C}\\
+H_{A}: \text{The average pain score is not the same for each of the medication types.}$$
+
+
+---
+## ANOVA Example 
+### Check the necessary assumptions
+
+**Independence**
+
+1. Independent levels 
+2. Independent data 
+
+
+Since this is a randomized experiment, the pain scores within each treatment group are independent and each of the treatments (medication types) are independent. (We wouldn't expect the results of medication A to have any effect on the results of medication B since patients are only taking one of the medication types and each type is a different drug.)
+
+---
+## ANOVA Example 
+### Check the necessary assumptions
+
+**Homogeneity of variance** and **Normality**
+
+.scroll-small[
+```{r}
+ggplot(pain_med, aes(x=drug_type_fct, y=pain)) + 
+  geom_boxplot() + 
+  labs(title="Box plot of pain scores") +
+  xlab("Drug Type") + ylab("Pain (1=lowest, 10=highest)")
+```
+]
+
+
+---
+## ANOVA Example 
+### Performing the test in R 
+
+```{r} 
+ANOVA_model <- aov(pain ~ drug_type_fct, data=pain_med)
+summary(ANOVA_model)
+```
+
+$MSE = 1.185$ is an estimate for the variance of the pain scores. 
+
+P-value $= 0.000256 < \alpha$ for any $\alpha \geq 0.01$
+
+
+**Conclusion:** There is sufficient evidence in this data to indicate that the medications do not all perform the same with respect to reducing the pain of migraines. 
+
+
+---
+## ANOVA Example 
+### Interpret the results 
+
+```{r}
+ANOVA_model$coefficients 
+```
+
+
+Note that although it's labeled as the "intercept", `r round(ANOVA_model$coefficients[1], 2)` is the mean pain level after taking drug type A. 
+
+.red[The mean pain level for drug type B is:] `r round(ANOVA_model$coefficients[1], 2)` + `r round(ANOVA_model$coefficients[2], 2)` = `r round(ANOVA_model$coefficients[1], 2)+round(ANOVA_model$coefficients[2], 2)`.
+
+.red[The mean pain level for drug type C is:] `r round(ANOVA_model$coefficients[1], 2)` + `r round(ANOVA_model$coefficients[3], 2)` = `r round(ANOVA_model$coefficients[1], 2)+ round(ANOVA_model$coefficients[3], 2)`. 
+
+
+Hence, medication type A is called the **reference level**. By default, R chooses the reference level alphabetically. There are ways to change this using the following functions in the tidyverse:
+
+- `fct_inorder()` chooses the reference level to be the first level that appears in the data set 
+- `fct_infreq()` chooses the reference level to be the level with the most observational units 
+- There are [many more ways](https://r4ds.had.co.nz/factors.html#modifying-factor-levels) to customize how the levels of a factor are arranged 
+
+---
+## Example
+### Multiple comparisons 
+
+```{r}
+TukeyHSD(ANOVA_model)
+```
+
+From this output we see that medications B and A produce different average pain results and medications C and A produce different average pain results. There does not appear to be a difference in the pain levels resulting from medication B and C however. 
+
+---
+## Additional references 
+
+For more on how to do an ANOVA analysis in R see this link: https://bookdown.org/steve_midway/DAR/understanding-anova-in-r.html 

@@ -1,0 +1,216 @@
+---
+title: "Class 4 - Part 1"
+subtitle: "Two-sample T-tests for the Difference in Population Means"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Sept 17, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Difference in means  
+### Problem Set-up
+
+Just as we were able to determine if there is a statistically significant difference between two population proportions, we are now going to do the same for two populations with quantitative variables of interest. The question that we are interested in now is: "Is there a statistically significant difference between the mean values of these two RVs?" 
+
+
+.pull-left[**Option 1:** Un-paired samples
+
+In this setting, we have two independent simple random samples from two populations (e.g. comparing the SAT scores of public versus private high schools). The two samples may or may not have the same sample size.] 
+.push-right[**Option 2:** Paired sample 
+
+In this setting, we have two samples but they are from the same population (e.g. we may be studying genetic traits across twins or test scores of the same people before and after attending a workshop on test-taking strategies). The samples will always be the same size in this setting.]
+
+&nbsp;
+&nbsp;
+--
+
+.center[The key to understanding the differences between these settings is to think about the variation between the two samples. If the samples are from different populations, then the values that the quantitative variables take on probably varies a lot more than if they were samples from the sample population.]   
+
+---
+## Option 1 - Un-paired samples, difference in means  
+### Problem Set-up
+
+
+**Population:** 
+
+If we have two samples from different populations, we can consider the quantitative RVs as *two, independent* continuous RVs, $X_1$ and $X_2$. The *population parameter* we are interested in is $\mu_1-\mu_2$: the difference between the two population means,
+
+$$\mu_1 = E[X_1] = \sum_{x \in S_1} xPr(X_1=x), \text{ and } \mu_2 = E[X_2] = \sum_{x \in S_2} xPr(X_2=x),$$
+where $S_1$ and $S_2$ are the sample spacers of all possible values $X_1$ and $X_2$ might take, respectively.
+
+**Sample:** Two .blue[independent] random subsets, one from each population 
+
+\begin{align}
+x_{1, obs} &=& \{x_{1,1}, x_{1,2}, x_{1,3}, \dots, x_{1,n_1}\} \text{ and}\\
+x_{2, obs} &=& \{x_{2,1}, x_{2,2}, \dots, x_{2,n_2}\} 
+\end{align}
+
+**Sample size:** $n_1=$ the number of observational units in the first sample; $n_2=$ the number of observational units in the second sample  
+
+
+---
+## Option 1 - Un-paired samples, difference in means  
+### Problem Set-up
+
+
+With our two samples, we now have an **estimate** for the parameter of interest $\mu_1-\mu_2$: 
+$$\bar{X}_1 - \bar{X}_2 = \frac{1}{n_1}\sum_{i=1}^{n_1}x_{1,i} - \frac{1}{n_2}\sum_{j=1}^{n_2}x_{2,j}.$$
+
+We also know that for RVs, $X$ and $Y$, $Var(X-Y) = Var(X) + Var(Y) - 2Cov(X,Y)$ and that if $X$ and $Y$ are independent, then $Cov(X,Y)=0$. This means that if we consider $\bar{X}_1$ and $\bar{X}_2$ as independent RVs with their own sampling distributions, then 
+$$Var(\bar{X}_1 - \bar{X}_2) = Var(\bar{X}_1) + Var(\bar{X}_2) + 0 = \frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2},$$
+where $\sigma_1^2$ is the unknown variance for $X_1$ over the first population and $\sigma_2^2$ is the same but for the second population. 
+
+---
+## Option 1 - Un-paired samples, difference in means  
+### Problem Set-up
+
+
+With our two samples, we now have an **estimate** for the parameter of interest $\mu_1-\mu_2$: 
+$$\bar{X}_1 - \bar{X}_2 = \frac{1}{n_1}\sum_{i=1}^{n_1}x_{1,i} - \frac{1}{n_2}\sum_{j=1}^{n_2}x_{2,j}.$$
+
+
+Naturally, we want to know how close the estimate above is to the parameter of interest. Before we can address this, we must make sure the following **assumptions** are reasonable for *both* samples:  
+
+1. The two populations must be independent of one another. There is no statistical test for this assumption. You must carefully think about any possible dependencies between the two populations before proceeding. 
+
+2. The values the quantitative variables $X_1$ and $X_2$ can take on, follow roughly a symmetric and uni-modal histogram. (Since we aren't able to collect data on the entire population, we typically can only check this assumption with two histograms for both sets of observed values.
+
+3. The data are simple random samples (SRS) from both populations of interest. (Are there any dependencies among the data? Do the samples comprise less than $10\%$ of the populations? Were these samples collected without bias?)
+
+
+---
+## Confidence Intervals 
+### Option 1: Un-paired samples 
+
+A $(1-\alpha)\times100 \%$ confidence interval for the true (unknown) difference $\mu_1-\mu_2$ is 
+
+$$(\bar{X}_{1} - \bar{X}_{2}) \pm \left(t^*_{\alpha/2} \times \sqrt{\frac{s_1^2}{n_1}+ \frac{s_2^2}{n_2} }\right),$$
+where $t^*_{\alpha/2}$ is the **critical value** which (as before) is the upper $\left(1-\frac{\alpha}{2}\right)\%$ **quantile** of a Student's T RV with $\nu$ degrees of freedom.
+
+
+**Q:** What is $\nu$? 
+
+
+--
+$$\nu = \frac{\left(\frac{s_1^2}{n_1}+ \frac{s_2^2}{n_2} \right)^2}{\frac{1}{n_1-1}\left(\frac{s_1^2}{n_1}\right)^2 + \frac{1}{n_2-1}\left(\frac{s_2^2}{n_2}\right)^2 }$$
+But don't worry, you won't need to calculate this because R does that for you behind the scenes!
+
+
+---
+## Confidence Intervals 
+### Option 1: Un-paired samples 
+
+.scroll-output[
+Example: Suppose we are comparing the battery life (in minutes) of two different brands of AA batteries. 
+
+## In R 
+
+```{r}
+#Define the observed data 
+x1_obs <- c(160, 200, 205, 181, 190, 187, 172, 193, 182, 192)
+x2_obs <- c(212, 207, 198, 199, 208, 209, 192, 207)
+#Then use the t.test() function 
+t.test(x1_obs, x2_obs, paired=FALSE, conf.level=0.95)$conf.int
+```
+
+
+## Interpretation 
+
+We are $95\%$ confident that the true difference between battery life between these two brands is
+`r round(t.test(x1_obs, x2_obs, paired=FALSE, conf.level=0.95)$conf.int[[1]],2)` and `r round(t.test(x1_obs, x2_obs, paired=FALSE, conf.level=0.95)$conf.int[[2]],2)`. Since this interval lies entirely below zero, this data does provides **statistical** evidence that there is a significant difference in the two brands' average battery life. ]
+
+
+
+---
+## Hypothesis tests 
+### Option 1: Un-paired samples 
+
+First determine what significance level you want to use! To be consistent with the confidence interval we just calculated, we're going to set $\alpha=0.05$. 
+
+
+As it was with testing the difference in proportions, when comparing two means we are mostly interested in whether or not these means are the same or if one is bigger than the other. In other words, we want to test the null versus one of these three alternatives:
+\begin{align}
+H_0: \mu_1 - \mu_2 = 0 \quad\text{and}\quad &H_A:  \mu_1 - \mu_2 < 0 \\
+      \text{ or }&H_A:  \mu_1 - \mu_2 > 0\\
+      \text{ or }&H_A:  \mu_1 - \mu_2 \neq 0.
+\end{align}
+
+To calculate the test statistic for any of the above hypotheses we use 
+$$\text{Test Statistic} = \text{T-score} = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}}.$$
+
+---
+## Hypothesis tests 
+### Option 1: Un-paired samples 
+
+.scroll-output[
+## In R 
+```{r}
+#Define the observed data 
+x1_obs <- c(160, 200, 205, 181, 190, 187, 172, 193, 182, 192)
+x2_obs <- c(212, 207, 198, 199, 208, 209, 192, 207)
+#Then use the t.test() function and specify the direction of your alternative
+t.test(x1_obs, x2_obs, alternative="two.sided", paired=FALSE, conf.level=0.95)
+```
+
+## Interpretation 
+
+With a p-value of `r round(t.test(x1_obs, x2_obs, alternative="two.sided", paired=FALSE, conf.level=0.95)$p.value, 2)` and a significance level of $\alpha = 0.05$, we reject the null hypothesis in favor of the alternative. This data provides enough evidence to suggest there is a statistically significant difference between the two average battery brands' life-span.]

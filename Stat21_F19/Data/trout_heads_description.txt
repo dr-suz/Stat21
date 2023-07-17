@@ -1,0 +1,15 @@
+Dataset:  trouthead.dat
+
+Source: C. McC. Mottley (1941). "The Covariance Method of Comparing
+the Head-Lengths of Trout From Different Environment," Copeia,
+Vol.1941, #3, pp. 154-159
+
+Description: Head-Lengths and Standard-Lengths of 50 male and 50
+female trout from Kootenay Lake and 10 male and 10 female trout
+from Lake Wilson.
+
+Variables/Columns
+Sex   8  /*  1=M, 2=F  */
+Lake    16   /* 1=KL, 2=LW   */
+Head-Length (mm)  22-24
+Standard-Length (mm)  30-32

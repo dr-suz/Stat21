@@ -1,0 +1,110 @@
+---
+title: "Multiple Comparisons in R"
+output:
+  html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE) 
+
+library(tidyverse)
+library(knitr)
+```
+
+## Example 
+
+Consider the following data set of $344$ penguins samples from the Palmer Archipelago in Antarctica. There are three different species of penguins who reside on three different islands in the archipelago. Note, this data is only accessible after installing and loading the library `palmerpenguins`. [Source: https://allisonhorst.github.io/palmerpenguins/]
+
+```{r}
+#install.packages("palmerpenguins")
+library("palmerpenguins")
+penguins %>% head 
+```
+Note, there are some missing values in the data so let's re-define our data set to exclude these observations. 
+```{r}
+penguins_complete <- penguins %>% na.omit
+penguins %>% dim 
+penguins_complete %>% dim
+```
+
+
+Let's consider a one-way ANOVA model for the length of the penguins beaks as a function of the species type. First, let's see what the different species types are. 
+```{r}
+penguins_complete$species %>% summary
+```
+
+
+```{r}
+penguin_anova <- lm(bill_length_mm ~ species, penguins_complete)
+penguin_anova %>% summary
+```
+The summary above shows the output for the overall F-test of the hypothesis $H_0: \alpha_{A} = \alpha_{C} = \alpha_{G} = 0$ vs $H_A: \text{ At least one }\alpha_{k}\text{ is not}0$.
+
+With such a small p-value for the overall F-test, there is statistically detectable difference among at least one of the species in terms of bill length. But in order to determine which species differ, we have at least three different null hypotheses to consider:
+$$H_0: \alpha_{C} - \alpha_{G} = 0$$ or 
+$$H_0: \alpha_{A} - \alpha_{C} = 0$$ or 
+$$H_0: \alpha_{A} - \alpha_{G} = 0.$$ 
+Now that we are testing the same data three additional times we need to consider that we risk increasing the change of a false positive (or Type I) error. One way to adjust for the problem of **multiple comparisons** is to use Fisher's Least Significant Difference method. This method is easy to apply in R but we first need to install and load the package `DescTools`. 
+
+```{r}
+#install.packages("DescTools")
+library(DescTools)
+```
+
+Then, we need to make sure our ANOVA model is in a form that the function `PostHocTest()` will recognize. To do this we can use the `aov()` function which will make sure R understands that our linear regression model `penguin_anova` is a special ANOVA model object. Take a look at the summary of this converted model and compare it to the summary above. They mathematically represent the same model, just in different forms. 
+
+```{r}
+penguin_aov <- penguin_anova %>% aov
+penguin_aov %>% summary
+```
+
+Finally, we use the `PostHotTest()` function and specify `method="lsd"` to apply Fisher's Least Significant Difference adjustment and get valid results for each of the three comparisons listed above. 
+
+```{r}
+PostHocTest(penguin_aov, method="lsd")
+```
+*** 
+
+## Exercise 
+
+Work with your group to conduct a test for the difference in bill lengths between Gentoo and Chinstrap penguins without using a multiple comparisons adjustement. Recall that testing $H_0: \alpha_{A} - \alpha_{G} = 0$ is equivalent to testing $H_0: \mu_{A} - \mu_{G}=0$. 
+
+### 1 State the null hypothesis in terms of MLR regression coefficients 
+
+First, note that the Adelie species is the reference group, so $\beta_0 = \mu_{A}$. Referencing the ANOVA cheat sheet helps us realize that $\beta_1 = \mu_{A} - \mu_{G}$ and $\beta_2 = \mu_{A} - \mu_{C}$. Hence, $\mu_{G} - \mu_{C} = (\mu_{A} - \beta_1) - (\mu_{A}-\beta_2) = \beta_2 - \beta_1$ and our null is  
+$$H_0: \beta_2 - \beta_1 = 0.$$
+
+### 2 State the alternative hypothesis 
+This is a two sided alternative that 
+$$H_A: \beta_2 - \beta_1 \neq 0.$$
+
+### 3 Determine the conclusion of this two-sided test  
+
+If we this view this as a test for a difference in group means we can calculate the upper and lower bounds of a 95\% CI for the difference in means "by hand" and determine the conclusion of our test depending on whether or not this interval contains zero. Using $\hat{\sigma} = \sqrt{MSE}$ and the formula 
+$$(\bar{y}_{G} - \bar{y}_{C}) \pm \left( t^*\cdot SE(\bar{y}_{G} - \bar{y}_{C})\right), \quad \text{ where } \quad SE(\bar{y}_{G} - \bar{y}_{C}) = \sqrt{\hat{\sigma}\left(\frac{1}{n_G} + \frac{1}{n_C}\right)} $$ 
+and $t^*$ is the $alpha/2^{th}$ quantile from a t-distribution with $n-k$ degrees of freedom. If the confidence interval contains zero, then we would fail to reject the null that $H_0: \mu_G - \mu_C = 0$. 
+
+```{r}
+##By hand approach
+penguins_G <- penguins_complete %>% filter(species=="Gentoo")
+penguins_C <- penguins_complete %>% filter(species=="Chinstrap")
+penguins_A <- penguins_complete %>% filter(species=="Adelie")
+
+alpha = 0.05
+MSE <- (summary(penguin_anova)$sigma)^2
+t_star <- qt(alpha/2, df = (146+119+68)-3, lower.tail=TRUE)
+
+SE_GC <- sqrt(MSE*((1/119)+(1/68)))
+(mean(penguins_G$bill_length_mm) - mean(penguins_C$bill_length_mm)) - (t_star * SE_GC)
+(mean(penguins_G$bill_length_mm) - mean(penguins_C$bill_length_mm)) + (t_star * SE_GC)
+
+
+SE_AC <- sqrt(MSE*((1/146)+(1/68)))
+(mean(penguins_A$bill_length_mm) - mean(penguins_C$bill_length_mm)) - (t_star * SE_AC)
+(mean(penguins_A$bill_length_mm) - mean(penguins_C$bill_length_mm)) + (t_star * SE_AC)
+
+SE_AG <- sqrt(MSE*((1/146)+(1/119)))
+(mean(penguins_A$bill_length_mm) - mean(penguins_G$bill_length_mm)) - (t_star * SE_AG)
+(mean(penguins_A$bill_length_mm) - mean(penguins_G$bill_length_mm)) + (t_star * SE_AG)
+```
+

@@ -1,0 +1,73 @@
+---
+title: "Exam 1"
+subtitle: "STAT 021"
+author: "Swarthmore College"
+date: "2019/10/4"
+output: pdf_document 
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Data")
+options(htmltools.dir.version = FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+\begin{flushright}Name: $\underline{\hspace{5cm}}$ \end{flushright}
+
+
+
+**Instructions:** 
+
+There are seven questions on this exam. The points allotted for each question are given at the end of the problem. Please don't write an entire page response for any of the answers. Rather, answer these questions to the best of your ability with succinct, informative statements or observations. You may or may not use the following formulas and definitions.  
+
+
+
+**Formulas and Definitions**
+Linear model: $Y = \beta_0 + \beta_1 x + \epsilon$  or, equivalently, $E[Y] = \beta_0 + \beta_1 x$.
+
+
+In the model(s) above, if we assume that the mean of $\epsilon$ is $0$ and the variance of $\epsilon$ is some unknown number, $\sigma^2$, then the mean of the random variable $Y$ is $\beta_0 + \beta_1x$ and the variance of $Y$ is $\sigma^2$.
+
+
+Fitted/estimated model: $\hat{y}_{i} = \hat{\beta}_1 + \hat{\beta}_1x_i$
+
+
+In the fitted model above, we solve for the least squares estimates of the parameters using these equations: 
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^n(x_i-\bar{x})}$$ 
+
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}$$
+
+
+Definition of residuals: $\hat{y}_{i} - y_{i} = e_i$
+
+
+Regression model sums of squares: $\sum_{i=1}^{n}(\hat{y}_i-\bar{y})^2$ 
+
+
+Residual sums of squares: $\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$ 
+
+
+Total sums of squares: $\sum_{i=1}^{n}(y_i - \bar{y})^2$ 
+
+
+Relationship among the sums of squares terms: $SS_{tot} = SS_{reg} + SS_{res}$
+
+The sums of squares terms are used to calculate the following statistics: 
+
+$$\hat{\sigma} = \sqrt{\frac{SS_{res}}{n-2}}$$ 
+
+$$R^2 = 1-\frac{SS_{res}}{SS_{tot}} = \frac{SS_{reg}}{SS_{tot}}$$ 

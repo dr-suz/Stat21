@@ -1,0 +1,281 @@
+---
+title: "Class 19"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Nov 12, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+library('kableExtra')
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+## Class 19, Thursday the 12th
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+  
+  - Please respond to the poll in Slack (channel #final-project) about whether you want to do your final project with a randomly assigned group of 3-4 people or if you want to do your final project by yourself. 
+  
+  - Make sure you review the solutions to the [Class 17 worksheet](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class17_files/Class17Worksheet.pdf)
+  
+  - Next Thursday, Nov 19th 
+  
+      - No class! 
+      
+      - Test 2 will be released, same format as before 
+
+      - Instructions for the final project will be released 
+      
+  - Remaining classes are on the 17th, the 1st and the 3rd
+  
+    - Will all be review classes 
+    
+    - Final exam is comprehensive, will also be open book and notes 
+  
+  - If you have questions about Test 1 that I haven't answered yet, please stick around after class so I can address them. 
+  
+  - I will be creating a worksheet with examples about understanding the independence assumption for you, available Monday next week. 
+  
+- Check-in 
+
+- Revising our discussion from last class 
+
+- Comprehension quiz review and clarify HW 6 ambiguities 
+
+- Infographic study guide
+
+- Interpreting MLR coefficients (HW 6 continued example)
+]
+
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+```{r, echo=FALSE, fig.align='right', out.height=500}
+knitr::include_graphics("Figs/real-feel.png")
+```
+]
+
+---
+## Comprehension quiz review 
+
+There was an important .red[mistake] in the wording of **Question 10**. It should have read (and now does):
+
+Suppose we fit two MLR models. Model 1 uses two predictor variables to estimate a quantitative response variable Y and Model 2 uses the same two predictor variables to estimate **the standardized version** of the quantitative response variable.
+
+(Credit to Sherry for noticing this)
+
+
+--
+### Additional questions
+
+What does it mean that multicollinearity brings redundancy into the MLR model?
+
+
+When should we use ANOVA MLR and when should just fit the MLR model? I am not entirely sure what the difference between the two?
+
+---
+## Homework 6 clarifications 
+
+I have edited the wording of Problems 3, 9, and 10. 
+
+From the article: calling for a stop to the use of P values in the conventional, dichotomous way — to decide whether a result refutes or supports a scientific hypothesis.
+
+Why did I make you read this? Because it's important to understand the limitations of statistical conclusions, to understand that statistical conclusions are not definite statements (no matter how small the significance level or how high the confidence).
+
+
+(Disclaimer: I still use the phrase statistically significant, but I try to clarify what is meant by that.)
+
+
+---
+## Review of linear regression 
+### Group work - 15 mins 
+
+You are going to create an info-graphic summarizing SLR and MLR methods using this [worksheet template](https://docs.google.com/document/d/1o4t9lfxnH6UCBKrDomRAxahl7uc_E1OLcJmzQYHGoKY/edit?usp=sharing). 
+
+You can either all work in the same copy of the worksheet together using Google Docs or you can all work on a Zoom whiteboard with a shared screen copy of the worksheet. 
+
+For each of the different settings include the following information (as applicable):
+  - What types of plots are useful and what to they tell us about the model (e.g residual plots, normal probability plots, scatter plots)
+  - What assumptions are necessary (and which ones are needed for inference)
+  - The roles and types of variables (e.g. quantitative response, categorical predictor, ...)
+  - Functions in R and specific requirements for certain variables (e.g. lm, factors)
+  - Parameters of interest (e.g. $\sigma^2$) and their estimates
+
+
+---
+## Review of material 
+### Group work - 15 mins 
+
+Start by discussing filling in the specific information discussed on the previous slide. Take the time to discuss any questions that arise. Then spend the last 3 mins looking over your info-graphic and re-organizing and fill in anything else you think is useful. 
+
+**Note-taker:** You will submit either a screenshot of the final info-graphic or submit the Google doc directly to me over your group's Slack channel at the end of class. (Make sure the settings allow me to access your document!) 
+
+**Presenter:** Be prepared to explain your group's reasoning and/or present any questions that came up when we come together as a class to review. 
+
+**Recorder:** Keep track of the time and alert your group when to move on to the next setting. Save the last 3 mins to have everyone look over the graphic and note any remaining questions. 
+
+**Questioner:** Although everyone can play this role in this activity, it is your responsibility to keep look over the entire info-graphic and ask any questions about missing elements or incorrect statements.
+
+
+
+---
+## Understanding Categorical Predictor Variables 
+### Problem 2 of HW 6 
+
+Build and compare two regression models (one with an interaction term and one without) relating gasoline mileage (as the response) to vehicle weight and the type of transmission. 
+
+
+```{r}
+mileage <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/mileage.txt"), skip=2, col_names = c("car", "mpg", "displacement", "weight", "transmission_type"), cols(transmission_type = col_factor())) %>% na.omit
+head(mileage)
+```
+
+
+---
+## Understanding Categorical Predictor Variables 
+### Problem 2 of HW 6 
+
+**Check:** Is the categorical predictor variable recognized as a *factor* in R? 
+
+If so, then this means R will automatically create $k-1$ indicator variables for the $k$ different levels of this variable. 
+
+
+By default, when using the `factor` function, R chooses the reference category alphabetically. You can change the reference category manually by using the `relevel` function.  
+
+.scroll-small[
+```{r}
+mileage$transmission_type
+
+mileage2 <- mileage %>% mutate(transmission_type_releveled = relevel(transmission_type, ref="M"))
+mileage2$transmission_type_releveled
+```
+]
+
+
+
+---
+## Understanding Categorical Predictor Variables 
+### Problem 2 of HW 6 
+
+**Main effects model with transmission type A as the reference level**
+
+.scroll-output[
+```{r}
+mod1 <- lm(mpg ~ weight + transmission_type, data = mileage)
+summary(mod1)
+```
+
+What is the estimated regression equation?]
+
+---
+## Understanding Categorical Predictor Variables 
+### Problem 2 of HW 6 
+
+**Main effects model with transmission type M as the reference level**
+
+.scroll-output[
+```{r}
+mileage2 <- mileage %>% mutate(transmission_type_releveled = relevel(transmission_type, ref="M"))
+mod2 <- lm(mpg ~ weight + transmission_type_releveled, data = mileage2)
+summary(mod2)
+```
+
+What is the estimated regression equation?]
+
+
+---
+## Understanding Categorical Predictor Variables 
+### Problem 2 of HW 6 
+
+**Interaction effects model with transmission type A as the reference level**
+.scroll-output[
+```{r}
+mod3 <- lm(mpg ~ weight + transmission_type + weight*transmission_type, data = mileage)
+summary(mod3)
+```
+
+What is the estimated regression equation?]
+
+---
+## Understanding Categorical Predictor Variables 
+### Group work (however much time is remaining)
+
+With your group, go through each of the three models and answer the following questions. Here is a [worksheet template](https://docs.google.com/document/d/1eydRZ71ptWH8V4-lIzP4LgKIcTYLM5bG8G0ATvC5DIA/edit?usp=sharing) for you to use.  
+
+1. What is the average effect on gasoline mileage when the transmission is automatic? 
+
+2. What is the average effect on gasoline mileage when the transmission is manual? 
+
+3. What is the average effect of vehicle weight on gasoline mileage?   
+
+4. What is the average effect of vehicle weight on gasoline mileage for automatic transmissions?   
+
+5. What is the average effect of vehicle weight on gasoline mileage for manual transmissions?   

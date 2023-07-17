@@ -1,0 +1,363 @@
+---
+title: "Stat 21 Test 2"
+date: "Due: Dec 7, 2020 by noon ET"
+output:
+  pdf_document: 
+    toc: no
+  header-includes:
+    - \usepackage{booktabs}
+    - \usepackage{longtable}
+    - \usepackage{array}
+    - \usepackage{multirow}
+    - \usepackage{wrapfig}
+    - \usepackage{float}
+    - \usepackage{colortbl}
+    - \usepackage{pdflscape}
+    - \usepackage{tabu}
+    - \usepackage{threeparttable}
+    - \usepackage{threeparttablex}
+    - \usepackage[normalem]{ulem}
+    - \usepackage{makecell}
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+
+This test is due on to be submitted on Gradescope on __December 7__ by __12:00pm ET__. Please use the `#test_questions` channel on Slack to post any clairfication questions. Do not ask questions like "Is [this] the right answer?" 
+
+
+You must submit your solutions as a single __PDF__ document uploaded to __Gradescope__. You may use R markdown to write up your solutions alone or you may use R markdown and hand-written solutions. You must show all of your work, including code input and output. Please make sure each problem is __clearly labeled__ and that any handwritten components (such as pictures or equations) are easily readable in the PDF document. You may want to use a service like CamScanner (https://www.camscanner.com/) to help you upload handwritten pages and Small PDF (https://smallpdf.com/merge-pdf) to merge multiple PDFs into a single document. 
+
+You are permitted to reference all class material and use the internet (though I am not sure it will be very helpful). You are not permitted however, to get assistance from any person online or otherwise.
+
+
++ Your file should contain the code to answer each question in its own code block. Your code should produce plots/output that will be automatically embedded in the output pdf file.
++ Each answer must be supported by written statements and relevant plots.
++ Each problem is worth 50 points for a total of 100 points possible. 
++ In order to knit this document, make sure you have installed the following packages in your version of RStudio: `ggplot2`, `tidyverse`, `gridExtra`, `gcookbook`, `knitr`
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+knitr::opts_chunk$set(fig.align='center') # center aligns images 
+knitr::opts_chunk$set(out.height='400pt') # sets the side of plots
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+#library(gcookbook)
+library(knitr)
+# the packages below are for formatting tables 
+library(kableExtra)
+```
+
+
+Suppose we have randomly surveyed 91 roller coasters across the US. We are interested in investigating the relationship among a set of predictor variables with the quantitative response variable, the speed of the coaster (mph). The quantitative predictor variables we are going to consider include 
+
+  - the length of the track (in feet), 
+
+  - the duration of the ride (in seconds), 
+
+  - the highest climb the ride reaches (in feet), and 
+
+  - the lowest drop the ride reaches (in feet). 
+
+The categorical predictor variables we are going to consider are 
+
+  - the type of track (wooden or steel) and 
+
+  - whether or not the ride has a loop/inversion (1 for yes, 0 for no). 
+
+Use the R code below to import this data set into RStudio. (This code makes sure that there are no missing data entries in the sample.) 
+
+```{r}
+library('tidyverse')
+coasters <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/roller_coasters.txt")) %>%  filter(!is.na(Duration) & !is.na(Inversions)) 
+```
+
+**Note:** For this data set, we are given that the data is a random sample so we can assume that it is representative of all roller coasters in the US. You can also assume that the data is independent for this example. 
+
+## Problem 1 (5 points)
+
+Before fitting a model, the first step is to process your data. Preform any necessary processing steps here and briefly justify each step. .~~We are eventually going to try to determine which predictor variables have the largest effect on coaster speed.~~
+
+
+**Solution** 
+
+```{r}
+coasters2 <- coasters %>% mutate(Inversions_cat = factor(Inversions), ## Step 1
+                                 Track_cat = factor(Track))           ## Step 2
+```
+
+Full credit for students who note that the purpose of Steps 1 and 2 is to make sure that both categorical variables are recognized as factors in R. 
+
+
+## Problem 2 (5 points)
+
+Create a scatter plot matrix for all of the quantitative variables and create box plots for each of the categorical variables (with coaster speed on the vertical axis). Does there appear to be any evidence of multicollinearity among the quantitative predictors?  
+
+
+**Solution** 
+
+For full credit students must have all three plots below. In the matrix of scatterplots they must only display these four quantitative variables (do not give full credit if they included the variable Speed or the categorical predictors in the matrix scatter plot). 
+
+The matrix of scatter plots for the quantitative predictors shows strong evidence of multicolllinearity, especially between the variables Height and Drop. There is also a somewhat strong linear relationship between the variables Length and Duration. The other plots indicate a somewhat positive linear relationship but nowhere near as strong. 
+```{r}
+coasters2 %>% select(c(Height, Drop, Length, Duration)) %>% pairs
+```
+
+```{r}
+ggplot(coasters2, aes(x=Track_cat, y=Speed)) +
+  geom_boxplot()
+```
+
+```{r}
+ggplot(coasters2, aes(x=Inversions_cat, y=Speed)) +
+  geom_boxplot()
+```
+
+
+
+## Problem 3 (5 points)
+
+Write the equation for the estimated MLR model that includes all of the predictor variables. Make sure you clearly define all of your variables including any indicator variables. 
+
+**Solution:**
+
+```{r}
+mod <- lm(Speed ~ Height + Drop + Length + Duration + Inversions_cat + Track_cat, coasters2)
+coasters_std_all <- lm(scale(Speed) ~ scale(Height) + scale(Drop) + scale(Length) + scale(Duration) + Inversions_cat + Track_cat, coasters2)
+coasters_std_resp <- lm(scale(Speed) ~ Height + Drop + Length + Duration + Inversions_cat + Track_cat, coasters2)
+```
+
+$$\text{Average Speed} = 32.23 + 0.07Height + 0.12Drop + 0.002Length - 0.02Duration + 0.87Inversions + 1.99Track,$$
+where $Inversions = \begin{cases} 1, \text{ if ride has a loop/inversion} \\ 0, \text{ otherwise} \end{cases}$ and $Track = \begin{cases}1, \text{ if ride is made of wood}\\ 0, \text{ if ride is made of steel} \end{cases}$.
+
+For full credit they must have the same coefficients (unless they standardized any of the quantitative variables), they must clearly define both indicator variables (what does 1 represent, what does 0 represent) and they must denote that the response variable is the (maximum) speed of the coaster but the regression equation predicts the average (maximum) speed. 
+
+
+
+## Problem 4 (10 points)
+
+Before we can use the model from Problem 3, we need to check some assumptions by investigating the residual plot. Plot the standardized residuals against the fitted values and create a normal probability plot for the standardized residuals. What can you conclude about your estimated MLR model for this data set based on these two plots? 
+
+**Solution:** 
+
+```{r}
+coasters3 <- coasters2 %>% mutate(resids = mod$residuals, 
+                                  fits = mod$fitted.values)
+ggplot(coasters3, aes(x=fits, y=resids)) + 
+  geom_point() + 
+  geom_hline(yintercept = 0) + 
+  labs(title = "Residual plot", x="Fitted values", y="Residuals")
+```
+
+```{r}
+ggplot(coasters3, aes(sample=scale(resids))) + 
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title="Normal probability plot")
+```
+
+We are given that the data is a random, independent sample. We also don't really need to check the zero mean assumption (especially if the response variable has been standardized). 
+
+In the residual plot, we look for evidence of heteroskedasticity and any non-random trends. The residuals are pretty evenly and randomly scattered above and below the horizontal line at zero so the linear model is appropriate. The residuals do seem to change in spread about the line at zero however as the predicted response increases. In particular, the spread is larger for smaller values of speed and becomes more narrow as speed increases. So there is some indication of heteroskedasticity. 
+
+In the normal probability plot, we look for evidence that our residuals are not normally distributed. In the QQ-plot of the standardized residuals above, there is a strong deviation from normality especially in the upper right hand side of the plot. The upper quantiles of the residuals are much larger than we'd expect if they came from a normal distribution. This indicates that the distribution of the random error in the regression model is skewed left. The most important thing to note here is that it does not appear like the normality assumption is reasonable. 
+
+
+## Problem 5 (20 points)
+
+(a) In the summary output for this regression model there are two R-squared values provided. Which R-squared value should we use and why? What does this value represent (in the context of these data)? (10 points)
+
+
+(b) What is $\hat{\sigma}$ based on this model? What does this number represent in the context of these data? (5 points)
+
+
+(c) What is the average difference in the speed of a steel roller coaster versus a wooden roller coaster (given all other input variables are the same)? (5 points)
+
+**Solution:**
+
+(a) We should use the adjusted R squared value (not the multiple R squared value) because this mitigates the artificial increase in R-squared due to adding predictor variables. The R-squared value here represents the proportion of the variability in the maximum speeds of the roller coasers that can be explained by the predictor variables (Height, Drop, Length, Duration, Track materia, and Inversions). The adjusted R-squared value represents the same thing but with a small penalty term to adjust for the fact that there are multiple predictor variables. 
+
+(b)
+```{r}
+summary(mod)
+summary(mod)$sigma
+```
+
+The spread in the maximum speed of the roller coasters is about 3.97 mph. (Must include units and have the correct value). They should also mention that this is not a very good estimate for the variability in coaster speed because of the heteroskedasticity (but this last part is only worth 1 point). 
+
+(c) Given that all other predictor variables are the same, the average difference in the maximum speed of a steel roller coaster and a wooden roller coaster is about 2 mph. (That is, the speed of a wooden roller coaster is about 2 mph faster than a steel roller coaster.)
+
+
+\newpage 
+
+## Problem 6 (10 points)
+
+Use the `filter` function to create a new data set that contains only the rows of data corresponding to roller coasters that do not have any inversions (i.e. loops). 
+
+(a) Write out the estimated regression equation. (4 points)  
+
+(b) Create a residual plot. (4 points) 
+
+(c) Create a normal probability plot for the standardized residuals.(2 points)  
+
+
+**Solution:** 
+```{r}
+coasters_no_inversions <- coasters2 %>% filter(Inversions==0) 
+mod6 <- lm(Speed ~ Track_cat + Height + Drop + Length + Duration, coasters_no_inversions)
+summary(mod6)
+```
+
+```{r}
+coasters_no_inversions2 <- coasters_no_inversions %>% mutate(resids = mod6$residuals,
+                                                             fits = mod6$fitted.values)
+ggplot(coasters_no_inversions2, aes(x=fits, y=resids)) + 
+  geom_point() + 
+  geom_hline(yintercept = 0) + 
+  labs(title = "Residual plot", x="Fitted values", y="Residuals")
+```
+
+```{r}
+ggplot(coasters_no_inversions2, aes(sample=scale(resids))) + 
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title="Normal probability plot")
+```
+
+$$Average Maximum Speed = 32.34 + 2.31Track + 0.11Height + 0.09Drop + 0.001Length - 0.02Duration,$$ where $Track = \begin{cases}1, \text{ if track is made of wood}\\ 0, \text{ if track is made of steel}\end{cases}$ (same requirements as in Problem 3 for full credit for part (a))
+
+\newpage 
+
+## Problem 7 (10 points)
+
+Use the `filter` function to create a new data set that contains only the rows of data corresponding to roller coasters that do have inversions. 
+
+(a) Write out the estimated regression equation. (4 points)  
+
+(b) Create a residual plot. (4 points)
+
+(c) Create a normal probability plot for the standardized residuals. (2 points)
+
+**Solution:** 
+```{r}
+coasters_inversions <- coasters2 %>% filter(Inversions==1) 
+mod7 <- lm(Speed ~ Track_cat + Height + Drop + Length + Duration, coasters_inversions)
+summary(mod7)
+```
+
+```{r}
+coasters_inversions2 <- coasters_inversions %>% mutate(resids = mod7$residuals,
+                                                       fits = mod7$fitted.values)
+ggplot(coasters_inversions2, aes(x=fits, y=resids)) + 
+  geom_point() + 
+  geom_hline(yintercept = 0) + 
+  labs(title = "Residual plot", x="Fitted values", y="Residuals")
+```
+
+```{r}
+ggplot(coasters_inversions2, aes(sample=scale(resids))) + 
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title="Normal probability plot")
+```
+
+$$Average Maximum Speed = 34.16 + 0.15Track - 0.02Height + 0.19Drop + 0.002Length - 0.02Duration,$$ where $Track = \begin{cases}1, \text{ if track is made of wood}\\ 0, \text{ if track is made of steel}\end{cases}$ (same requirements as in Problem 3 for full credit for part (a))
+
+
+\newpage 
+
+## Problem 8 (Table 1 - 5 points, Table 2 - 10 points)
+
+Based on the previous problems, fill out the following tables (by replacing the XX's with the correct numbers). The first table compares the coefficient of determination of the three different models from Problems 3, 6, and 7. The second table compares the confidence intervals and prediction intervals for each of the three models. For the second table, use the input values of:
+
+  - Track = Steel 
+  
+  - Height = 111 ft
+  
+  - Drop = 95 ft
+  
+  - Length = 2555 ft
+  
+  - Duration = 75 s
+  
+  
+
+| Model               |   R squared |   $\hat{\sigma}$ |
+|---------------------|-------------|------------------|
+| MLR - Problem 3     |     0.895      |       3.969         |
+| MLR - Problem 6     |     0.916      |       4.183         |
+| MLR - Problem 7     |     0.794      |       3.496         |
+
+
+
+| Model               | CI for mean response | PI for new response |
+|---------------------|----------------------|---------------------|
+| MLR - Problem 3     | [52.31, 56.69] (Inversions) | [46.31, 62.69] (Inversions) |
+|                     | [50.86, 56.39] (No Inversions) | [45.26, 61.99] (No Inversions) |
+| MLR - Problem 6     |      [50.38, 57.64]        |       [44.81, 63.21]      |
+| MLR - Problem 7     |      [51.66, 57.32]        |       [46.87, 62.10]      |
+
+
+**Solution:** 
+
+Note: if the student used a different confidence level (besides 0.95) that is ok, just make sure that they used the same level for ALL intervals and that the prediction intervals are all wider than the confidence intervals. 
+
+```{r}
+## To find the R-squared values
+summary(mod)$adj.r.squared
+summary(mod6)$adj.r.squared
+summary(mod7)$adj.r.squared
+
+## To find sigma_hat
+summary(mod)$sigma
+summary(mod6)$sigma
+summary(mod7)$sigma
+
+## To find intervals 
+## Problem 3
+new_pt1 <- data.frame(Height = 111, Drop = 95, Length = 2555, Duration = 75, 
+                      Inversions_cat = "0", Track_cat = "Steel")
+predict(mod, new_pt1, interval="confidence", level=0.95)
+predict(mod, new_pt1, interval="predict", level=0.95)
+
+new_pt2 <- data.frame(Height = 111, Drop = 95, Length = 2555, Duration = 75, 
+                      Inversions_cat = "1", Track_cat = "Steel")
+predict(mod, new_pt2, interval="confidence", level=0.95)
+predict(mod, new_pt2, interval="predict", level=0.95)
+
+new_pt <- data.frame(Height = 111, Drop = 95, Length = 2555, Duration = 75, 
+                      Track_cat = "Steel")
+## Problem 6 
+predict(mod6, new_pt, interval="confidence", level=0.95)
+predict(mod6, new_pt, interval="predict", level=0.95)
+
+## Problem 7
+predict(mod7, new_pt, interval="confidence", level=0.95)
+predict(mod7, new_pt, interval="predict", level=0.95)
+```
+
+
+\newpage 
+
+## Problem 9 (20 points)
+
+You've now analyzed this data with two different methods (and three different models). The question I'm sure you've been waiting for is... which analysis should we use and why? Using the information from the previous problems, should we use `Inversions` as a predictor variable in a single MLR model for this data OR should we separate the data and analyze the speed of roller coasters with and without loops separately OR does it even matter? Provide a definite, but succinct answer. (No more than 5 sentences.)
+
+[Write your answer here.]
+
+
+## Extra Credit 
+
+If the response rate for the course evaluation is higher than 85%, everyone will get 2 points added to their grade for this test ;) 

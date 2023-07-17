@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 22</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <script src="class22_files/header-attrs/header-attrs.js"></script>
+    <link href="class22_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class22_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 22
+## Statistical Methods II (Stat 021)
+### Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, April 29, 2021 (updated: 2021-05-04)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- Residual analysis - a better example (10 mins)
+
+- Interaction effects regression models (15 mins)
+
+- Group work - homework 8 (30 mins)
+
+- Housekeeping items and announcements (5 mins)
+
+---
+# Thursday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+&lt;img src="Figs/feelings_wheel.jpg" width="683" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Residual analysis 
+### Residuals vs predictors/regressors 
+
+Suppose we are interested in predicting the amount of time required by a driver to service soft drink vending machines in particular area. This service activity includes stocking the machine with beverage products and minor maintenance or house-keeping. 
+ 
+We suspect that the two most important variables affecting the delivery time `\((Y)\)` are the number of cases of product being stocked `\((x_1)\)` and the distance the driver must walk to the machine `\((x_2)\)`. 
+
+.footnote[Example 3.1 in your textbook]
+
+
+---
+### Residual analysis 
+
+
+&lt;img src="Figs/resid_vs_fitted.png" width="1136" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+### Residuals vs predictors/regressors 
+
+&lt;img src="Figs/resid_vs_predictors.png" width="600" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+## MLR
+
+**Case 1:** All predictors are numerical. 
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \epsilon$$` 
+
+
+**Q1:** What is the interpretation of `\(\beta_3\)`? 
+
+
+
+--
+**Q2:** What if we transform the response? 
+
+
+
+--
+**Q3:**What if we transform a predictor? 
+
+
+---
+## MLR
+### Interaction Effects 
+
+
+Another relationship we may want to capture would allow for an interaction between two or more of the predictor variables.  
+
+
+**Examples**
+
+- As automobiles age, the annual cost-per-mile-driven of keeping them in working order increases, i.e., the effect of mileage on maintenance cost depends on the age of a car. 
+
+- As workers become more experienced, their level of education becomes less of a factor in determining job performance, i.e., the effect of years-of-education on productivity depends on a worker’s experience. 
+
+- Advertising an upcoming sporting event has a more beneficial impact if the visiting team is one of the league leaders, i.e., the effect of advertising on ticket sales depends on the visitor’s league standing. 
+
+- Purchasers of condominiums in a high-rise will pay a premium to be on a lower floor if the condominium has a beach view, and will pay extra to be on an upper floor if the unit has an inland view, i.e., the effect of “floor number” on the market value of a condominium depends on the view from the unit.
+
+
+.footnote[Source: https://www.kellogg.northwestern.edu/faculty/weber/emp/_session_2/interactions.htm]
+
+---
+## MLR
+### Interaction Effects 
+
+
+Another relationship we may want to capture would allow for an interaction between two or more of the predictor variables.  
+
+
+
+**Note** For two predictors to have an interacting effect on a response is not the same thing as one predictor variable being dependent on another predictor. E.g. If cars are selected at random (and not, say, just selected from a sample say of city employees only) then age and annual mileage will vary independently in the cars being studied, but the interaction between age and mileage would still be present.
+
+
+.footnote[Source: https://www.kellogg.northwestern.edu/faculty/weber/emp/_session_2/interactions.htm]
+
+
+---
+## MLR
+### Interaction Effects 
+
+
+**Case 1:** All predictors are numerical. 
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_2 + \epsilon$$` 
+This type of model suggests that the effect of one of the predictors on `\(Y\)` depends on the size of another predictor! 
+
+
+**Q:** What is the average effect on `\(Y\)` if `\(x_1\)` increases by one unit?
+
+
+--
+The answer depends on what the value of `\(x_2\)` is! 
+
+
+
+To see this, plug in `\(x_1=0\)` and simplify the regression model and then plug in `\(x_1=1\)` and simplify the regression model. Then look at the difference in these two equations.
+
+
+---
+## MLR
+### Interaction Effects 
+
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \epsilon$$` 
+
+**Case 2:** Some predictors are categorical and some are numerical. 
+
+Suppose `\(x_1\)` and `\(x_2\)` are indicator variables for a categorical predictor with three levels (A, B, C). Let `\(x_1 = \begin{cases}1, \text{if Level A} \\ 0, \text{otherwise} \end{cases}\)` and `\(x_2 = \begin{cases}1, \text{if Level B} \\ 0, \text{otherwise} \end{cases}\)`. 
+
+A model with an interaction between these two predictor variables (the numerical `\(x_3\)` and the categorical predictor with three levels) looks like 
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3 + \epsilon.$$`
+
+This type of model suggests that the effect of `\(x_3\)` on `\(Y\)` depends on the level of the categorical variable. 
+
+
+---
+## MLR
+### Interaction Effects 
+
+
+**Case 2:** Some predictors are categorical and some are numerical. 
+
+Suppose `\(x_1\)` and `\(x_2\)` are indicator variables for a categorical predictor with three levels (A, B, C). Let `\(x_1 = \begin{cases}1, \text{if Level A} \\ 0, \text{otherwise} \end{cases}\)` and `\(x_2 = \begin{cases}1, \text{if Level B} \\ 0, \text{otherwise} \end{cases}\)`. 
+
+A model with an interaction between these two predictor variables (the numerical `\(x_3\)` and the categorical predictor with three levels) looks like 
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3 + \epsilon.$$`
+
+
+**Q:** What is the average effect on `\(Y\)` if `\(x_3\)` increases by one unit?
+
+
+--
+The answer depends on what `\(x_1\)` and `\(x_2\)` are! 
+
+
+
+To see this, plug in `\(x_3=0\)` and simplify the regression model and then plug in `\(x_3=1\)` and simplify the regression model. Then look at the difference in these two equations.
+
+
+
+
+
+---
+## MLR
+### Interaction Effects 
+
+**Case 2:** Some predictors are categorical and some are numerical. 
+
+Suppose `\(x_1\)` and `\(x_2\)` are indicator variables for a categorical predictor with three levels (A, B, C). Let `\(x_1 = \begin{cases}1, \text{if Level A} \\ 0, \text{otherwise} \end{cases}\)` and `\(x_2 = \begin{cases}1, \text{if Level B} \\ 0, \text{otherwise} \end{cases}\)`. 
+
+A model with an interaction between these two predictor variables (the numerical `\(x_3\)` and the categorical predictor with three levels) looks like 
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3 + \epsilon.$$`
+
+
+**Q:** What is the average effect on `\(Y\)` changing from Level C to Level A?
+
+
+--
+The answer depends on the value of `\(x_3\)`! 
+
+
+Again, to see this, write out the regression model for an individual from Level C and then write out the regression model for an individual from Level A. Then look at the difference in these two equations.
+
+
+---
+## MLR
+### Building a model 
+
+How do we know which terms to include in a regression model? 
+
+
+---
+## Interpreting effect sizes 
+### Group work 
+
+**Instructions:** With your group, work through this [worksheet](https://docs.google.com/document/d/1J7OxVcNIcWcPN_FimEkR6LQxj0AEZdNYzMQhVmzgZz4/edit?usp=sharing) which concerns Problems 1-3 of HW 8. Everyone should make a copy of the worksheet so they can follow along as you work through the questions. You may copy and past the code on the next slide. 
+
+**Recorder** You will be sharing your screen with your group mates as you write the code to solve these questions. Then, share a screenshot of the worksheet and use your stylus to write out the estimated regression equations and work through the steps to answer the questions with your group. 
+
+**Reporter** Make a copy of the worksheet and type your group's answers into your copy of the worksheet. Submit this to me (and your group mates) on Slack when there is one minute left and be prepared to discuss your answers with me when I visit your group.  
+
+**Questioner** Be prepared to annotate the screen to highlight any areas where you have questions or are unclear about the reasoning to an answer. For each question, determine if the answer should be a numeric value or if it will depend on another variable? 
+
+
+---
+## Interpreting effect sizes 
+### Group work 
+
+
+```r
+library("tidyverse")
+mileage &lt;- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/mileage.txt"), 
+                       skip=2, col_names = c("car", "mpg", "displacement", "weight", "transmission_type"), 
+                       cols(transmission_type = col_factor())) %&gt;% na.omit
+## Note that transmission_type is already a factor! 
+head(mileage)
+
+mod1 &lt;- lm(mpg ~ displacement + transmission_type, mileage)
+summary(mod1)
+mod2 &lt;- lm(mpg ~ displacement + relevel(transmission_type, "M"), mileage)
+summary(mod2)
+mod3 &lt;- lm(mpg ~ displacement + transmission_type + displacement*transmission_type, mileage)
+summary(mod3)
+```
+
+---
+### Planning ahead for next week  
+
+- Next week will be largely review 
+  
+  * **Submit HW 8** by 8:00am (EST) on Tuesday (remember I only check Slack on Fridays and Mondays) 
+  
+  * Bonus problems from the homework 
+  
+  * Test 2 review 
+  
+
+- Final Project 
+
+  *  Part 3 is due May 11th
+
+  * I will check Slack M-F for the next two weeks. 
+  
+  * If you have larger questions, I ask that you attend office hours so we can work through the issue in person. 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

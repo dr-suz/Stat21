@@ -1,0 +1,199 @@
+---
+title: "Week 2: Normal RVs"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('ggplot2')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+# Normal Random Variables: Pictures and Code
+
+Here we are going to go over how to find these attributions for a Normally distributed random variable (RV) using R code: 
+
+- density curve/histograms
+
+- critical value
+
+- quantiles
+
+- probabilities (area under the curves)
+
+- standardization/Z-score
+
+
+
+---
+# Normal Random Variables: Pictures and Code
+## Random sample
+
+To generate a random sample from a Normal distribution with mean $3$ and standard deviation $1.5$, we use the   `rnorm` function. Below, I've labeled the sample size of $10$ as `sample_size` and then draw a random sample of that size with the specified parameters: 
+
+```{r}
+sample_size <- 10
+rnorm(sample_size, mean=3, sd=1.5)
+```
+
+This is a *computer simulated* random sample. 
+
+---
+# Normal Random Variables: Pictures and Code
+## Probabilities 
+
+Given a quantile, or observation of a random variable, we can calculate how frequently this value or a smaller value will occur from this Normal distribution  with mean $3$ and standard deviation $1.5$ using the `prnorm` function. The prefix "p" stands for "probability" since this is a lower tailed probability. The example below calculates the probability a Normally distributed RV will be less than or equal to the number `my_quantile`: 
+
+```{r}
+my_quantile <- 3.45
+pnorm(my_quantile, mean=3, sd=1.5, lower.tail=TRUE)
+```
+
+
+
+---
+# Normal Random Variables: Pictures and Code
+## Quantiles 
+
+The *inverse* of the setting on the previous slide is to find a quantile given some probability. Given a lower tailed probability, we can calculate exactly what is the largest number for a Normally distributed RV with mean $3$ and standard deviation $1.5$ that we expect to occur this often using the `qrnorm` function. The prefix "q" stands for "quantile" since. The example below calculates the quantile or upper bound of the values of a Normal RV that occur with probability `my_probability` or less: 
+
+
+```{r}
+my_probability <- 0.75
+qnorm(my_probability, mean=3, sd=1.5, lower.tail=TRUE)
+```
+
+
+
+---
+## Normal/Gaussian Random Variables
+
+These are continuous, quantitative random variables whose sample space is always $S= (-\infty, \infty)$.
+
+$$X \sim N(\mu, \sigma^2)$$
+The mean $(\mu)$ describes the balancing point and center of the distribution. The standard deviation $(\sigma)$ and variance $(\sigma^2)$ measure the width or spread of the histogram.
+
+.center[<img src = "normal_hist-1.png"/>]
+
+
+```{r normal_hist, echo=FALSE, fig.align='center', fig.height=5, eval=FALSE}
+set.seed(101)
+dat <- data.frame(x=rnorm(500))
+ggplot(dat, aes(x=x)) + 
+    geom_histogram(aes(y=..density..),    
+                   bins=20,
+                   colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666")  +
+    scale_x_continuous(name="Quantitative variable", limits=c(-4, 4), breaks=c(-3,-2,-1,0,1,2,3), labels = c("\u03bc - 3 \u03c3","\u03bc-2\u03c3","\u03bc-\u03c3","\u03bc","\u03bc+\u03c3","\u03bc+2\u03c3","\u03bc+3\u03c3")) +
+    scale_y_continuous(name="Density/Relative Frequency", limits=c(0, 0.5))
+
+```
+
+
+---
+## Normal/Gaussian Random Variables
+
+$$X \sim N(\mu, \sigma^2)$$
+
+.center[<img src = "normal_hist2-1.png"/>]
+
+```{r normal_hist2, echo=FALSE, fig.align='center', fig.height=5, eval=FALSE}
+set.seed(101)
+dat <- data.frame(x=rnorm(500))
+ggplot(dat, aes(x=x)) + 
+    geom_histogram(aes(y=..density..),    
+                   bins=20,
+                   colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666")  +
+    scale_x_continuous(name="Quantitative variable", limits=c(-4, 4), breaks=c(-3,-2,-1,0,1,2,3), labels = c("\u03bc - 3 \u03c3","\u03bc-2\u03c3","\u03bc-\u03c3","\u03bc","\u03bc+\u03c3","\u03bc+2\u03c3","\u03bc+3\u03c3")) +
+    scale_y_continuous(name="Density/Relative Frequency", limits=c(0, 0.5))
+
+```
+
+For Normally distributed RVs we have the following rule: $68\%$ of all possible values this RV can take on fall within **one** standard deviation of the mean, $95\%$  of all possible values fall within **two** standard deviations of the mean, and $99.7\%$ of all possible values fall within **three** standard deviation of the mean 
+
+
+
+---
+## Normal/Gaussian Random Variables
+### Standard Normal RV
+
+$$Z \sim N(0,1)$$ 
+
+
+### In R some useful functions for Normal RVs are
+```{r, eval=FALSE}
+rnorm(100, mean=2, sd=0.9)  ## This generates 100 independence random samples from a Normal distribution with mean 2 and variance 0.9^2
+pnorm(1.1, mean=2, sd=0.9, lower.tail=FALSE)  ## This find the probability that a Normally distributed (mean 2, variance 0.9^2) RV take on a value of 1.1 or higher  
+qnorm(0.18, mean=2, sd=0.9, lower.tail=TRUE)  ## this finds the lower 18th percentile for a RV with a Normal distribution (mean 2, variance 0.9^2)
+```
+
+
+---
+## Properties of Normal RVs
+
+
+**1) Linear combinations of Normal RVs**
+If $X \sim N(\mu_{X}, \sigma^2_{X})$ and $Y \sim N(\mu_{Y}, \sigma^2_{Y})$, then for any constant numbers $a,b,$ and $c$, 
+$$aX + bY + c \sim N(\mu_{combined}, \sigma^2_{combinded}), \quad\text{where}$$
+$$\mu_{combined} = a\mu_{X} + b\mu_{Y}+c \quad \text{and} \quad \sigma^2_{combined} = \sigma^2_{X} + \sigma^2_{Y} + Cov(X,Y).$$
+
+
+
+**2) Unique specifications of Normal RVs**
+
+The mean $(\mu)$ and variance $(\sigma^2)$ of a Normal RV completely and uniquely specify a Normal RV. This means if two random variables are both Normally distributed and have the same mean and same variance, then they are from the exact same distribution. 

@@ -1,0 +1,185 @@
+---
+title: "Class 10 - Part 1"
+subtitle: "Simple Linear Regression (SLR)"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Oct 8, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## A simple statistical model 
+
+$$Y\mid x = f(x) + \epsilon$$
+
+- $f$ is a smooth function.
+  
+  - In linear regression, we consider functions with linear coefficients. These coefficients are our model parameters. (I.e. $f$ is just the equation for a line.)
+
+- $x$ is a fixed/known covariate. 
+
+- $\epsilon$ is some random measurement error. Note that, against convention, even though this is a Greek letter, $\epsilon$ represents a **random variable**!
+
+
+---
+## Simple linear regression
+
+
+Statistical convention represents a regression line with a intercept, $\beta_0$, and a slope $\beta_1$ so that we have the following **simple linear regression model**:
+$$Y\mid x = \beta_0 + \beta_1 x + \epsilon.$$
+
+
+- $Y$ is the response (output) variable. We assume that there is some random error associated with our observations of $Y$.
+- $x$ is a predictor (explanatory, covariate, input) variable. We assume there is **no** random error associated with $x$, i.e. that all values of $x$ are fixed, so it's not a random variable.  
+- The behavior of $Y$ is modeled conditional upon the predictor $x$.
+- $\beta_{0}$, $\beta_{1}$ are the regression model coefficients (the intercept and slope, respectively). 
+
+***
+
+Compare this to the the typical algebraic notation for the equation of a line: 
+$$Y = ax + b.$$
+
+
+For more information on interpreting negative intercept values <a href="https://statisticsbyjim.com/regression/interpret-constant-y-intercept-regression/">go here</a>.
+
+---
+## Simple linear regression 
+
+$$Y \mid x = \beta_0 + \beta_1 x + \epsilon.$$
+
+It's called a linear model because $f$ is linear with respect to the coefficients $\beta_{i}$, for $i=1,2$. 
+
+
+
+
+**Question:** Which of the following are linear models? 
+
+1. $Y = \beta_{0} + \beta_{1}x^2 + \epsilon$ 
+
+1. $Y = \sqrt{\beta_{0} + \beta_{1}x} + \epsilon$
+
+---
+## Simple linear regression 
+
+$$Y \mid x = \beta_0 + \beta_1 x + \epsilon.$$
+
+It's called a linear model because $f$ is linear with respect to the coefficients $\beta_{i}$, for $i=1,2$. 
+
+
+
+
+**Question:** Which of the following are linear models? 
+
+1. $Y = \beta_{0} + \beta_{1}x^2 + \epsilon$ (this is!)
+
+1. $Y = \sqrt{\beta_{0} + \beta_{1}x} + \epsilon$ (not this!)
+
+
+
+---
+## Simple linear regression
+
+$$Y \mid x = \beta_0 + \beta_1 x + \epsilon.$$
+
+For now, we are only going to consider the case where $x$ and $Y$ both represent **quantitative, continuous** random variables.
+
+
+We will be generalizing this SLR (simple linear regression) model to cases where 
+
+  - X is a discrete and quantitative variable; 
+  
+  - X is a categorical variable (ANOVA);
+
+  - We have more than just one predictor variable (MLR); 
+
+  - Y is a binary variable (logistic regression) - time permitting.
+  
+
+
+---
+## Simple linear regression
+
+In SLR, the data we observe are pairs $(x_{1},y_{1}), \dots, (x_{n},y_{n})$, of continuous, quantitative variables. 
+
+The model $Y \mid x = \beta_0 + \beta_1 x + \epsilon$ means that we are assuming 
+$$y_{i} = \beta_0 + \beta_1 x_{i} + \epsilon_{i},$$
+for each data point we observe where $\epsilon_{i}$ represents an (unobserved) measurement error associated with our response variable. 
+
+
+---
+## Simple linear regression
+
+$$Y \mid x = \beta_0 + \beta_1 x + \epsilon$$
+
+**Assumptions**
+
+- For estimation: The measurement error has mean $E[\epsilon]=0$ and (unknown) variance $Var[\epsilon]=\sigma^2$ and all measurement errors are independent of each other.
+
+- For inference: If we wish to conduct statistical inference, we must also assume that the measurement error, $\epsilon$, follows a standard normal distribution. 
+
+
+--
+**Question:** What do theses assumptions imply about $Y$? 
+
+
+--
+**Another question:** What if there was no random error in our observations of $Y$? How do we find the line of best fit in this case?
+

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 7</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 7
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/9/16 (updated: 2019-09-16)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+&lt;img src="Figs/kareem_carr_pvalues.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Topics covered in today's lecture
+
+  - Determining normality with Quantile-Quantile (QQ) plots
+  - Simple linear regression
+  
+  
+
+
+
+
+---
+# Research questions for healthcare data 
+
+
+```r
+head(hc)  ##health care data
+```
+
+```
+## # A tibble: 6 x 10
+##   Location  year type  tot_coverage abb   region tot_spending tot_pop
+##   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt; &lt;fct&gt;         &lt;dbl&gt;   &lt;int&gt;
+## 1 Alabama   2013 Empl…      2126500 AL    South         33788  4.76e6
+## 2 Alaska    2013 Empl…       364900 AK    West           7684  7.02e5
+## 3 Arizona   2013 Empl…      2883800 AZ    West          41481  6.60e6
+## 4 Arkansas  2013 Empl…      1128800 AR    South         20500  2.90e6
+## 5 Califor…  2013 Empl…     17747300 CA    West         278168  3.82e7
+## 6 Colorado  2013 Empl…      2852500 CO    West          34090  5.30e6
+## # … with 2 more variables: prop_coverage &lt;dbl&gt;, spending_capita &lt;dbl&gt;
+```
+
+```r
+names(hc)
+```
+
+```
+##  [1] "Location"        "year"            "type"           
+##  [4] "tot_coverage"    "abb"             "region"         
+##  [7] "tot_spending"    "tot_pop"         "prop_coverage"  
+## [10] "spending_capita"
+```
+
+---
+# Research questions for healthcare data 
+
+1. What does the proportion of people covered by healthcare look like across the US? Does it look Normally distributed? 
+
+1. Is there a relationship between healthcare coverage and healthcare spending in the United States?
+
+
+For now, let's restrict our investigation to healthcare coverage provided by employers in the year 2013. We have a total of 52 data points. 
+
+
+.footnote[Source: 
+Kuo, Pei-Lun and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2019, February 14). opencasestudies/ocs-healthexpenditure: Exploring Health Expenditure using State-level data in the United States (Version v1.0.0). Zenodo. http://doi.org/10.5281/zenodo.2565307]
+---
+# How to determine if the population from which you sampled is Gaussian? 
+
+
+&lt;img src="Figs/hcPlot-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+# Normal probability plots
+
+A visually, easier to detect comparison is to look at the &lt;a href="https://en.wikipedia.org/wiki/Quantile"&gt;quantiles&lt;/a&gt; of the observed data and compare them to some hypothetical quantiles of a Gaussian&lt;sup&gt;[1]&lt;/sup&gt; distribution. To do this, we plot the *standardized and ordered* data (from smallest to largest), `$$(x^{(1)}, x^{(2)}, \dots, x^{(n)})$$`
+against `\(E[X^{(i)}],\)` the expected value of the order statistics from a *standard* (mean 0 and s.d. 1) Gaussian distribution. 
+
+
+
+Such **QQ plots (Quantile-quantile plots)** generalize to other distributions as well (e.g. Gamma, Beta, etc). These plots help us answer the question: "Is the distribution of the data similar to a Gaussian (or Gamma, etc) distribution?" 
+
+
+***
+.footnote[[1] Gaussian is just another name for the Normal distribution. (Sometimes it's used because we just the word "normal" so often in English that it can be confusing when talking about Statistics.)]
+
+
+---
+# What are &lt;a href="https://en.wikipedia.org/wiki/Quantile"&gt;quantiles&lt;/a&gt;?
+
+
+R can find the quantiles for any common distribution functions very easily:
+
+
+```r
+?qnorm
+normal_quantiles &lt;- qnorm(p=seq(0,1,0.1), mean=0, sd=1, lower.tail=TRUE)
+t_quantiles &lt;- qt(p=seq(0,1,0.1), df=129, lower.tail=TRUE)
+normal_quantiles; t_quantiles
+```
+
+```
+##  [1]       -Inf -1.2815516 -0.8416212 -0.5244005 -0.2533471  0.0000000
+##  [7]  0.2533471  0.5244005  0.8416212  1.2815516        Inf
+```
+
+```
+##  [1]       -Inf -1.2881487 -0.8444165 -0.5256988 -0.2538702  0.0000000
+##  [7]  0.2538702  0.5256988  0.8444165  1.2881487        Inf
+```
+
+.footnote[Here is a useful guide to all the base R density, distribution, quantile, and random generating functions: http://www.stat.umn.edu/geyer/old/5101/rlook.html]
+
+---
+# Example of finding a sample quantile
+
+Find the number in the following set of data where 20 percent of values fall below it, and 80 percent fall above:
+
+1 3 5 6 9 11 12 13 19 21 22 32 35 36 45 44 55 68 79 80 81 88 90 91 92 100 112 113 114 120 121 132 145 146 149 150 155 180 189 190
+***
+
+**Step 1:** Order the data from smallest to largest. The data in the question is already in ascending order.
+
+
+**Step 2:** Count how many observations you have in your data set. this particular data set has 40 items.
+
+
+**Step 3:** Convert any percentage to a decimal for “q”. We are looking for the number where 20 percent of the values fall below it, so convert that to .2.
+
+
+**Step 4:** Insert your values into the formula:
+
+ith observation `\(= q (n + 1)\)`
+
+ith observation `\(= .2 (40 + 1) = 8.2\)`
+
+
+
+---
+# Example of finding a sample quantile
+
+Find the number in the following set of data where 20 percent of values fall below it, and 80 percent fall above:
+
+1 3 5 6 9 11 12 13 19 21 22 32 35 36 45 44 55 68 79 80 81 88 90 91 92 100 112 113 114 120 121 132 145 146 149 150 155 180 189 190
+***
+
+Or, just use R! Because R can also very easily find sample quantiles. 
+
+
+```r
+?quantile
+my_samp &lt;- c(1, 3, 5, 6, 9, 11, 12, 13, 19, 21, 22, 32, 35, 36, 45, 44, 55, 68, 79, 80, 81, 88, 90, 91, 92, 100, 112, 113, 114, 120, 121, 132, 145, 146, 149, 150, 155, 180, 189, 190)
+quantile(my_samp, probs = 0.2)
+```
+
+```
+##  20% 
+## 17.8
+```
+
+
+.footnote[https://www.statisticshowto.datasciencecentral.com/quantile-definition-find-easy-steps/]
+
+
+---
+# Interpreting Normal probability plots 
+## (I.e. QQ plots for Normality)
+
+Interpretation: A linear relationship close to the diagonal line `\(x=y\)` indicates a close matching of your observed data with a Normal distribution. 
+
+
+For example, let's create a fake data set from a Normal distribution and view a QQ plot for this data (in-class change sample size 50 to 500):
+
+
+```r
+set.seed(100)
+fake_dat &lt;- tibble(observedData = rnorm(n=50,mean=3,sd=1.2))  ##fake ddata that is reprodcible becase I set the random seed
+plot1 &lt;- ggplot(data = fake_dat) +
+         labs(title = "Normal probability plot", 
+              subtitle = "Fake data from a Normal distribution",
+              x = " ") #Here I greate the plot object (and give it a name) 
+
+plot1 + aes(sample=observedData) + stat_qq() + stat_qq_line()  ##this line calls the plot object into view and adds to it a QQ plot of the sample and line.
+```
+
+![](Figs/qqPlotFakeClass7-1.png)&lt;!-- --&gt;
+
+---
+# Interpreting Normal probability plots 
+## (I.e. QQ plots for Normality)
+
+Interpretation: A linear relationship close to the diagonal line `\(x=y\)` indicates a close matching of your observed data with a Normal distribution. 
+
+
+For example, let's create a fake data set from a Normal distribution and view a QQ plot for this data:
+
+![](Figs/qqPlotFakeClass7_2-1.png)&lt;!-- --&gt;
+
+
+---
+# Interpreting Normal probability plots 
+##(I.e. QQ plots for Normality)
+
+Now lets investigate the health care data to see if the proportion of people covered is Normally distributed (over all 52 states).  
+
+
+```r
+plot1 &lt;- ggplot(hc.employer.2013, aes(sample = prop_coverage))
+
+plot1 + stat_qq() + stat_qq_line() + labs(title = "Normal probability plot", subtitle = "Employer health care coverage")
+```
+
+![](Figs/qqPlotHCclass7-1.png)&lt;!-- --&gt;
+
+
+---
+# Interpreting Normal probability plots 
+##(I.e. QQ plots for Normality)
+
+
+&lt;img src="Figs/qqPlotHCclass7_2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+**Q:** What do the deviations in the tails mean? 
+
+---
+# Interpreting Normal probability plots 
+##(I.e. QQ plots for Normality)
+
+
+&lt;img src="Figs/qqPlotTempClass7-1.png" style="display: block; margin: auto;" /&gt;
+
+
+**A:** The most deviation from Normality seems to be that the upper quantiles of the sample are smaller than we'd expect. That means, our data may have *lighter tails* to the right than what we'd expect from a truly Normal distribution. (I.e. the data may be skewed.) Does this make sense? 
+
+
+---
+# QQ plot to test for t-distributed data
+
+Even though a t-distribution has **heavier** tails than a Normal distribution, for illustrative purposes, let's build a QQ-plot that  compares the data to a t-distribution.
+
+
+```r
+deg_of_free = list(df = length(hc.employer.2013$prop_coverage)-1)
+plot2 &lt;- ggplot(hc.employer.2013, aes(sample = prop_coverage))
+plot2 + stat_qq(distribution = qt, dparams = deg_of_free) + #Note: the default option for distribution is "qnorm" and dparas is a list of "0" and "1"
+  stat_qq_line(distribution = qt, dparams = deg_of_free) + 
+  labs(title = "T-distribution probability plot", subtitle = "Employer health care coverage")
+```
+
+&lt;img src="Figs/qqPlotHCclass7_3-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+# Comment about statistical significance 
+
+
+  1. Statistical significance does not equal practical significance. (E.g. if we examine the relationship between height and salary for adults, finding that every additional inch of height has a predictive effect on salary of about &amp;#36;10 per inch, with a standard error of about &amp;#36;2) this isn't as practically useful as say, finding a predictive effect of &amp;#36;10,000 per inch with a standard error of &amp;#36;5000.)
+  
+  1. Changes in statistical significance are not themselves significant. (E.g. the actual difference between a p-value of 0.051 and 0.049 is very small, even though with an `\(\alpha\)` level of `\(0.05\)` they differ in statistical significance.)
+
+
+.footnote[Reading reference: pg 22 Gelman and Hill ]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,316 @@
+---
+title: "Class 4"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/9/9 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+  includes:
+    in header: STteachingMarkdown.sty    
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+#setwd("~/Dropbox/z MyStuff Dropbox/Swat docs/Stat 21/Class3_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.height=4, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("Figs/correlation.png")
+```
+
+.footnote[Source: https://xkcd.com/2029/]
+
+---
+
+# Topics covered in today's lecture
+
+  - Data manipulation in R *tidyverse* 
+  - Answering statistical questions about the body temperature data
+  - Determining normality 
+  - Introduction to R Markdown available on Moodle (more material to come later today)
+
+---
+# A new data set - body temperature
+
+```{r import_data, echo=TRUE, warning=FALSE}
+rm(list = ls())
+#install.packages("tidyverse") ##should also install the dependencies "ggplot2" (for visualizing data) and "margrittr" (for piping)
+library("tidyverse")
+setwd("~/Dropbox/z MyStuff Dropbox/Swat docs/Stat 21/Class2_files")
+read_table2("normtemp_data.txt") 
+```
+
+---
+# Body temperature data
+
+```{r echo=FALSE, warning=FALSE}
+read_table2("normtemp_data.txt") 
+```
+
+
+All of the columns were imported as type "double". Is this what we want?
+
+
+.footnote[https://magazine.amstat.org/blog/2019/03/01/evolutionofvariables/]
+
+
+---
+# Body temperature data
+
+Now we can create a data "object" which we will call *body_temp_dat*.
+
+```{r import_data2, echo=TRUE, warning=FALSE}
+body_temp_dat <- read_table2("normtemp_data.txt", 
+                        col_types = list(col_double(),col_character(),col_double()))
+body_temp_dat %>% head() 
+```
+
+---
+# Useful ways to manipulate data<sup>1</sup>
+
+Commonly used data manipulation functions
+  - *select()*
+  - *filter()*
+  - *mutate()*
+  - *group_by()*
+  - *summarize()*
+  - *count()* 
+
+  
+.footnote[1 https://datacarpentry.org/R-ecology-lesson/03-dplyr.html#selecting_columns_and_filtering_rows]  
+
+---
+# Useful ways to manipulate data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}
+#To select specific columns:
+    body_temp_dat %>% select(Temperature, HeartRate)
+```
+
+---
+# Useful ways to manipulate data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}
+    #...or equivalently
+    body_temp_dat %>% select(-Handedness)
+```
+
+---
+# Useful ways to manipulate data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}    
+#To select specific rows:    
+    body_temp_dat %>% filter(Handedness==1)
+    ```
+
+---
+# Useful ways to manipulate data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}    
+
+#Combine types of selection
+    body_temp_dat %>% filter(Handedness==1) %>% 
+                      select(-Handedness)
+```
+
+---
+# Useful ways to manipulate data
+
+The *mutate()* function allows you to append a new column of data to your original data set. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% filter(Handedness==2) %>%
+                    mutate(CelciusTemp = ((Temperature-32)*5)/9)
+```
+
+---
+# Useful ways to manipulate data
+
+The *group_by()* function groups the data according to different "levels" of a categorical variable of your choice. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% group_by(Handedness) %>%
+                    summarize(mean_temp = mean(Temperature),
+                              standard_dev_temp = sd(Temperature))
+```
+
+
+---
+# Useful ways to manipulate data
+
+The *count()* function provides a table of the total number of individuals within each group of a categorical variable of your choice. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% count(Handedness)
+```
+
+
+---
+# Why are we using piping?
+
+It is very useful when you need to apply many different transformations to your data and don’t want to save the intermediate results or have many opening and closing function parentheses. It is also very useful for cleaning data.
+
+For example, suppose we want to compute the logarithm of the vector `x`, then find the differences between each element and it's subsequent element, then compute the exponential function value of these difference, and finally, round the result to one decimal point. 
+```{r echo=TRUE, warning=FALSE}
+x <- c(0.109, 0.359, 0.63, 0.996, 0.515, 0.142, 0.017, 0.829, 0.907)
+
+round(exp(diff(log(x))), 1)
+```
+
+---
+# Why are we using piping?
+
+Or you can do the same operations much neater using pipes:
+```{r echo=TRUE, warning=FALSE}
+x %>% log() %>%
+    diff() %>%
+    exp() %>%
+    round(1)
+```
+
+Which one is easier to read? Which one is easier for other people (the people who didn't write your code) to read? 
+
+---
+# Visualizing data in R with *ggplot2*
+
+Does the data look normally distributed? 
+
+
+```{r, figDensityClass4, echo=TRUE, warning=FALSE, message=FALSE, fig.height = 3.5, fig.width = 10, fig.align = 'center'}
+body_temp_plot <- ggplot(data=body_temp_dat, aes(Temperature)) 
+                         
+p1 <- body_temp_plot + geom_histogram()  
+p2 <- body_temp_plot + geom_density()
+
+#install.packages("cowplot") ##requires R version >= 3.5.0  
+library("cowplot")
+plot_grid(p1, p2, align = "h", nrow = 1, rel_widths = c(1/2, 1/2))
+```
+
+
+---
+# The most useful statistical summaries 
+
+Measure of "location"
+  
+  - Mean: sometimes this does not exist! 
+  
+  - Median
+  
+  - Mode
+  
+  - Plots! 
+  
+Measures of "spread" (or "scale") 
+  
+  - Standard deviation: sometimes this is infinite! (e.g. Cauchy distribution)
+  
+  - Interquartile range
+  
+  - Minimum and maximum
+  
+  - Plots! 
+
+
+---
+
+# Variance and standard deviation 
+
+  - Standard deviation is a *standard* unit of measurement for Statisticians. Always specify, the standard deviation *of what?*. Otherwise, we have no idea what kind of data we are studying since standard deviation is unit-less! 
+
+  - Variance is just a function of standard deviation. The same rules apply.
+
+  - Standard error is a related concept; it is the standard deviation of the **estimate** for the parameter of interest.<sup>[1]</sup> 
+
+--
+
+
+Standard error gives us a measurement of uncertainty about a parameter and thus is used in constructing confidence intervals for that parameter. 
+
+Standard deviation on the other hand is a property of the data. 
+
+.footnote[[1] https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3148365/
+]
+
+
+---
+# Analyze body temp data
+
+  Is the true population mean really 98.6 degrees F? 
+  
+```{r fig_ttest, echo=TRUE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center'}
+body_temp_plot + geom_density() + 
+                 geom_vline(xintercept=98.6, col="red")
+```
+
+
+---
+# Analyze body temp data
+
+For fun: what does a Cauchy density (green) look like in comparison to the data (black) or to a normal density (blue)? (Remember the Cauchy distribution has no finite mean or standard deviation.) 
+
+```{r fig_bell_distbns, echo=FALSE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center'}
+ggplot() + geom_density(data=body_temp_dat, aes(Temperature)) + 
+                 xlim(80, 120) +
+                 geom_density(aes(rnorm(130, 98, 0.7)), col="blue") +
+                 geom_density(aes(rcauchy(130, 98, 0.7)), col="green")
+```
+
+
+---
+# Analyze body temp data
+
+  Is the true population mean really 98.6 degrees F? 
+  
+```{r fig_true_mean, echo=TRUE, warning=FALSE}
+    t.test(body_temp_dat$Temperature, alternative="two.sided", mu=98.6, conf.level=0.95)
+```
+
+---
+# Analyze body temp data
+
+At what temperature should we consider someone's temperature to be "abnormal"? 
+--
+
+
+To answer this question, we need a measurement of deviation for the temperature data. 
+
+```{r echo=TRUE, warning=FALSE}
+sd(body_temp_dat$Temperature)
+
+var(body_temp_dat$Temperature)
+```
+

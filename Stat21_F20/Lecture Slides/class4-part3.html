@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 4 - Part 3</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class4-part3_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class4-part3_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 4 - Part 3
+## Conditional Probability
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, Sept 17, 2020 (updated: 2020-09-14)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## Probability example
+### Tuberculosis testing 
+
+There is a TB screening test that is administered via a shot in the forearm. After waiting 48 hours, the TB test is declared negative if your arm looks normal (no redness or swelling). This test is about `\(99\%\)` effective. Suppose Bob takes this test but their arm has a severe reaction, indicative of a positive diagnosis. 
+
+
+**Q:** What is the chance that Bob has TB? 
+
+---
+## Probability Review
+
+Rules of Probability
+
+  1. Probabilities must be between zero and one (inclusive).
+  
+  2. The probability of an entire sample space is equal to one.
+  
+  3. The probability that an event, `\(A\)`, occurs is equal to one minus the probability that any other event besides `\(A\)` occurs. 
+
+
+
+The following is true for any events `\(A\)` and `\(B\)` within some sample space:
+
+`$$P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B).$$`
+
+---
+## Conditional Probability 
+
+We can talk about the probability of one event, `\(B\)`, given that another event `\(A\)` is guaranteed to occur. That probability is defined as
+`$$P(B \text{ given } A) = P(B | A) = \frac{P(A \text{ and } B)}{P(A)}.$$`
+
+Another rule of probability is that 
+`$$P(A \text{ and }B) = P(A)P(B|A).$$` 
+
+--
+### Independence 
+
+The following are all equivalent statements 
+
+1. Events `\(A\)` and `\(B\)` are independent 
+
+2. `\(P(A \text{ and } B) = P(A)P(B)\)` 
+
+3. `\(P(B \text{ given } A) = P(B)\)`
+
+
+---
+## Probability example
+### Tuberculosis testing 
+
+Let's define some terms to answer the question: how likely it is that Bob has TB, given that they tested positive for TB? 
+
+Define the following events: 
+
+`\(A =\)` event that Bob has TB
+
+`\(A^C =\)` event that Bob does not have TB
+
+`\(B =\)` event that Bob tests positive for TB 
+
+`\(B^C =\)` event that Bob tests negative for TB 
+
+The probability we want to find to answer the question is: `\(P(A|B)\)`
+
+---
+## Probability example
+### Tuberculosis testing 
+
+According to the CDC, the incidence rate of TB is 5 cases per 100,000 in the US. This means that `\(P(A) = 0.00005\)` and that `\(P(A^C) = 1 - 0.00005=0.99995\)`. 
+
+A false positive occurs when the result of the test is positive but the patient does not actually have TB. A `\(99\%\)` accuracy means that we can expect false-positives to occur at a rate of `\(1\%\)`. 
+
+`$$P(\text{False positive}) = P(A^C|B) = 0.01$$` 
+
+
+--
+Similarly, a false negative occurs when the result of the test is negative but the patient actually does have TB. Suppose the TB test results in a false negative, `\(0.1\%\)` of the time.
+
+`$$P(\text{False negative})= P(A|B^C) = 0.001$$`
+
+---
+## Probability example
+### Tuberculosis testing 
+
+From the properties of conditional probability we know that to calculate `\(P(A|B)\)` we need `\(P(A \text{ and } B)\)` and `\(P(B).\)`
+
+A tree diagram helps us think through how to find these two probabilities... 
+
+
+
+---
+## Probability example
+### Tuberculosis testing 
+
+Putting everything together, we can answer the question: what is the chance that Bob actually has TB given that Bob's TB test is positive? 
+
+`$$P(A|B) = \frac{P(A\text{ and }B)}{P(B)} = \frac{0.00004995}{0.00004995+0.00099995} = 0.00497$$`
+
+Thus the chance that Bob has TB, after testing positive for TB, is less than `\(0.5\%\)`. 
+
+
+
+.footnote[**Disclaimer:** We took some liberties with deriving this calculation. First, we assumed that the probability that Bob actually had TB is equal to the incidence rate. In reality, this probability depends on many more factors, not the least of which is location and proximity to infected individuals. Second, we also assumed the false-negative rate.]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

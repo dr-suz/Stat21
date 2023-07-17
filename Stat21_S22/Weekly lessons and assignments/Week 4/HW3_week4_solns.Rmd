@@ -1,0 +1,305 @@
+---
+title: "Stat 21 Homework 3"
+author: 'Solutions'
+date: 'Due: Sunday, Feb 13th by midnight'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+Use this file as the template for your submission. Do not delete anything from this template unless you are prompted to do so (e.g. where to write your name above, where to write your solutions or code below). Make sure you have installed the following packages in your version of RStudio: `tidyverse`, `knitr` __before__ you attempt to knit this document.
+
+Your completed assignment should be submitted as a single __PDF__ using the link under Week 3 titled "Submit HW 3 to Gradescope". You must use R markdown to write up your solutions. For any homework problems that involve coding in R, you must provide __both__ the code and a written answer interpreting the output within the context of the problem. You are allowed to work with your classmates on this homework assignment but you are expected to write up your own solutions. Every answer must be supported by a written statement unless otherwise specified. *A good rule of thumb is to make sure your answer is understandable to someone who hasn't read the problem question (or code output associated with it).* 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data) 
+```
+
+
+# Part I: Non-R Problems
+
+## Problem 1 
+
+For the data in the table below, find the estimated regression equation by hand. Make sure you show your work. 
+
+| X | Y |
+|--- |--- |
+| 1 | 4 |
+| 3 | 9 |
+| 5 | 8 |
+
+**Solution** estimated equation should be $\hat{y} = x + 4$. student must show work through code or writing out formulas
+
+
+## Problem 2
+
+Suppose we have two random variables $X$ and $Y$. What are the differences among the following assumptions regarding $X$ and $Y$: 
+
+- $X$ and $Y$ are uncorrelated, 
+  
+- $X$ and $Y$ are independent, 
+  
+- $X$ and $Y$ have the same variance, and 
+  
+- $X$ and $Y$ have the same distribution?
+
+**Solution:** 
+
+- uncorrelated means that there is no linear relationship between $X$ and $Y$ 
+
+- independent means that the probability $X$ takes on some value in its sample space is unrelated to the probability that $Y$ takes on some value in its sample space. independent RVs are automatically uncorrelated. 
+
+- same variance means that the dispersion/spread of $X$ and $Y$ are the same, however their location or the probabilities with which the different values occur may differ 
+
+- same distribution means the possible values for $X$ and $Y$ are the same and occur with the exact same probabilities 
+
+
+## Problem 3
+
+Sketch (by hand) residual plots (with predicted response values on the horizontal axis) that show each of the following:  
+  
+  - constant variance and linearity; 
+  
+  - non-constant variance and linearity; 
+  
+  - constant variance and non-linearity;
+  
+  - non-constant variance and non-linearity. 
+  
+You can draw these plots on paper and use CamScanner to take a photograph of your drawings. Once you knit this document to a PDF file, you can then convert your image files to PDF files and merge everything together using a website such as smallpdf.com. 
+
+**Solution:** Solutions may vary but should include clearly labeled residual plots with/without funneling behavior (spread) and/or with/without some patterned behavior (linearity)
+
+
+## Problem 4 
+
+In a few sentences and/or equations, briefly explain the relationship of the sum of squared errors term to the correlation between predictor $X$ and response $Y$. 
+
+**Solution:** SSE is critical for calculating the coefficient of determination ($r^2$ which, for SLR), is just the square of the sample correlation between $X$ and $Y$
+
+
+# Part II: R coding problems
+
+**Make sure you have installed the package `Stat2Data` before you knit this document. It contains the data sets for problems 5 and 6.**
+
+## Problem 5 
+
+Biologists know that the leaves on plants tend to get smaller as temperatures rise. The data set  `LeafWidth` has data on samples of leaves from the species *Dodonaea viscosa* subsp. *angustissima*, which have been collected in a certain region of South Australia for many years. The variable `Width` is the average width, in mm, of leaves, taken at their widest points, that were collected in a given year. 
+
+```{r}
+data("LeafWidth")
+LeafWidth %>% names 
+LeafWidth %>% head 
+```
+
+(a) Fit the regression of `Width` on `Year`. What is the fitted regression model? (Define any symbols that you use.)
+
+(b) Interpret the coefficient of `Year` in the context of this setting. 
+
+(c) What is the predicted width of these leaves in the year 1966? 
+
+**Solution:** 
+
+```{r}
+leafreg <- lm(Width ~ Year, data=LeafWidth)
+leafreg %>% summary 
+```
+
+
+(a) $\hat{y} = 37.72 - 0.028x$ where $\hat{y}$ is the average leave width and $x$ is the year. for full credit, any symbols or abbreviations must be clearly defined. 
+
+(b) As time progresses, each year leaf widths decrease, on average, by 0.018 mm
+
+(c) $37.72 - 0.028(1966) = -17.33mm$, [ COME BACK TO AND NOTE WEIRDNESS]
+
+
+## Problem 6 
+
+The data set `RailsTrails` contains data from a sample of 104 homes that were sold in 2007 in the city of Northampton, Massachusetts. The goal was to see if a home's proximity to a biking trail would relate to its selling price. Perhaps, for example, proximity to the trail would add value to the home. And to see if any such effect has changed over time, the researchers took estimated prices for these homes at four different time points using the website Zillow.com. Here we focus on the estimated price of homes in 2007 using the price in thousands  of 2014 dollars (variable name `Adj2007`). The variable `Distance` measures the distance in miles to the nearest entry point to the rail trail network. 
+
+```{r}
+data("RailsTrails")
+RailsTrails %>% names 
+RailsTrails %>% head 
+```
+
+(a) Create a scatter plot of `Adj2007` vs `Distance` and describe the relationship. 
+
+(b) Fit a SLR model and interpret the results, making a clear interpretation of the slope parameter.  (Define any symbols that you use.)
+
+(c) Report the regression standard error and discuss its meaning. 
+
+(d) Comment on the conditions of the model. 
+
+**Solutions:**
+
+```{r}
+ggplot(data = RailsTrails, aes(x=Adj2007, y = Distance)) + 
+  geom_point() 
+
+railsreg <- lm(Adj2007 ~ Distance, data=RailsTrails)
+railsreg %>% summary
+```
+
+(a) negative trend, not linear, more curved relationship, concave up, but definitely some relationship between the two varbs 
+
+(b) $\hat{y} = 388.2 - 54.43x$ where $\hat{y}$ is the average adjusted price in 2007 dollars and $x$ is the distance to/from nearest rail trail network.  for full credit, any symbols or abbreviations must be clearly defined. slope: on average, the adjusted price of a home decreases by \$54.43 for every additional mile between the home and the nearest rail trail entrance 
+
+(c) $\hat{\sigma} = 92.13$ is an estimate for the spread of the random noise/measurement error in predicting housing prices based on distance from rail trail network.
+
+(d) For full credit must create a residuals plot to assess constant variance (and linearity if not already
+mentioned above) and a normal quantile plot to assess normality. also must mention whether or not
+independence and randomness are reasonable assumptions
+
+
+## Problem 7
+
+The number of pounds of steam used per month at a plant is thought to be related to the average monthly ambient temperature. The past year’s usages (per 1000 lbs) and temperatures follow.
+
+```{r}
+steam_data <- tibble(
+  month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), 
+  temperature = c(21,24,32,47,50,59,68,74,62,50,41,30),
+  usage = c(185.79,214.47,288.03,424.84,454.68,539.03,621.55,675.06,562.03,452.93,369.95,273.98))
+```
+
+(a) Fit a simple linear regression model to the data. (Define any symbols that you use.)
+
+(b) Display the analysis-of-variance table for this model and test for the significance of the regression model. State your null and alternative hypotheses and interpret the conclusion in the context of the problem.  
+  
+(c) Plant management believes that an increase in average ambient temperature of 1 degree will increase average monthly steam consumption by 10,000 lb. Do the data support this statement? 
+
+
+**Solution:**  
+
+```{r}
+steamreg <- lm(usage ~ temperature, data = steam_data)
+steamreg %>% summary
+steamreg %>% anova
+```
+(a) $\hat{y} = -6.33 + 9.21x$ where $\hat{y}$ is the average steam usage per 1000s lbs per month and $x$ is the average monthly temperature.  for full credit, any symbols or abbreviations must be clearly defined.
+
+(b) $H_0: \beta_1 = 0, \quad H_A: \beta_1 \neq 0$ has a p-value of less than $2.2 \times 10^{16} \approx 0$ so at any significance level, we reject the null in favor of the alternative. That is, this data provides evidence that the linear relationship between average temperature and steam usage is non-trivial, or is "significant". this is one indicator of the model fitting the data well. 
+
+(c) based on the regression model, we expect an increase in 1 degree to increase steam consumption by an average of $9.12 \times 1000$ lbs which is close to the estimate from plant management (since $\hat{\sigma} = 4,$ $(10-9.12)/2 \approx 0.44$ is actually within 1 standard deviation)
+
+
+## Problem 8
+
+Install the R package `MVP` before running the code chunk below. 
+
+```{r}
+library('MPV')
+NFL_data <- table.b1 
+NFL_data %>% names 
+```
+Use the code above to read this data into your R library. This data set concerns the performance of the 26 National Football League teams in 1976. It is suspected that the number of yards gained rushing by opponents (variable x8) has an effect on the number of games won by a team (variable y). Fit a simple linear regression model relating games won, y, to yards gained rushing by opponent, x8, and answer the following questions with this model.
+
+(a) Display the analysis-of-variance table for this model and test for the significance of the regression model. State your null and alternative hypotheses and interpret the conclusion in the context of the problem.  
+
+(b) Find and interpret a 95% CI on the slope of the yards gained rushing. 
+
+(c) What percent of the total variability in the number of games won is explained by this model? 
+
+
+**Solution:**  
+
+```{r}
+nflreg <- lm(y ~ x8, data=NFL_data)
+nflreg %>% anova 
+```
+(a)  $H_0: \beta_1 = 0, \quad H_A: \beta_1 \neq 0$ has a p-value of $7.4 \times 10^{-6} \approx 0$ so at any significance level, we reject the null in favor of the alternative. That is, this data provides evidence that the linear relationship between the number of yards gained rushing by opponents and total number of games won by a team is non-trivial, or is "significant". this is one indicator of the model fitting the data well. 
+
+(b) $[-0.0096, -0.0044]$ and must include a correct problem-specific interpretation 
+
+(c) this is the definition of the coefficient of determination
+
+
+***
+
+The data shown below present the average number of surviving bacteria in a canned food product and the minutes of exposure to 300 degree Fahrenheit heat. Use this data to answer Problems 9-10.
+
+```{r}
+bacteria_data <- tibble(bacteria_count = c(175, 108, 95, 82, 71, 50, 49, 31, 28, 17, 16, 11),
+                        minutes_exposure = c(1,2,3,4,5,6,7,8,9,10,11,12))
+```
+
+## Problem 9
+
+Fit a SLR model with the number of bacteria as the response. 
+
+(a) What is the estimated regression equation? (Define any symbols that you use.)
+
+(b) Display the residual plot and calculate the coefficient of determination to comment on the fit of this model. 
+
+(c) Based on this model, what is the average effect on the bacterial growth per each additional minute of exposure? 
+
+**Solution:**  
+
+```{r}
+bacteriareg <- lm(bacteria_count ~ minutes_exposure, data=bacteria_data)
+bacteriareg %>% summary
+
+bacterial_data_all <- bacteria_data %>% mutate(resids = bacteriareg$residuals, fits = bacteriareg$fitted.values)
+
+ggplot(bacterial_data_all, aes(x=fits, y=resids)) + 
+  geom_point()
+```
+
+(a) $\hat{y} = 142.2 - 12.48x$ where $\hat{y}$ is the average bacterial count and $x$ is the minutes of exposure to heat.  for full credit, any symbols or abbreviations must be clearly defined.
+
+(b) $R^2 = 0.85$ which is pretty high indicating good model fit; residual plot however shows that there is an obvious issue with the linearity assumption 
+
+(c) decreases bacterial count by 12.48 on average
+
+
+## Problem 10
+
+Identify an appropriate transformation of this data that can be more appropriately modeled by a linear relationship. (Hint: Transform the response variable by taking the logarithm or taking the inverse and using this transformed data as the new response variable.) 
+
+(a) Write the estimated regression equation for the transformed data. (Define any symbols that you use.)
+
+(b) Fit a SLR model to the transformed data and display the residual plot and the coefficient of determination. Interpret these in relation to the adequacy of this model.
+
+(c) What is the average effect on the bacterial growth per each additional minute of exposure? 
+
+```{r}
+bacteriareg_transformed <- lm(log(bacteria_count) ~ minutes_exposure, data=bacteria_data)
+bacteriareg_transformed %>% summary
+
+bacterial_transformed_all <- bacteria_data %>% mutate(transformed_y = log(bacteria_count),
+                                                      resids = bacteriareg_transformed$residuals, 
+                                                      fits = bacteriareg_transformed$fitted.values)
+
+ggplot(bacterial_transformed_all, aes(x=fits, y=resids)) + 
+  geom_point()
+```
+
+**Solution:** 
+
+(a) $\hat{y} = 5.338 - 0.236x$ where $\hat{y}$ is the average (natural) logarithm of the bacterial count and $x$ is the minutes of exposure to heat. for full credit, any symbols or abbreviations must be clearly defined. 
+
+(b) key point is that residual plot looks much better for the transformed data 
+
+(c) $e^{\hat{\beta}_1}= 0.79$ represents the multiplicative change in $\hat{y}$ for a single unit increase in $x$ 

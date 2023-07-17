@@ -1,0 +1,165 @@
+---
+title: "Stat 21 Homework 10"
+author: ' Name '
+date: 'Due: Tuesday, April 19th by midnight'
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+Use this file as the template for your submission. Do not delete anything from this template unless you are prompted to do so (e.g. where to write your name above, where to write your solutions or code below). Make sure you have installed the following packages in your version of RStudio: `tidyverse`, `knitr` __before__ you attempt to knit this document.
+
+Your completed assignment should be submitted as a single __PDF__ using the link under Week 13 titled "Submit HW 10 to Gradescope". You must use R markdown to write up your solutions. For any homework problems that involve coding in R, you must provide __both__ the code and a written answer interpreting the output within the context of the problem. You are allowed to work with your classmates on this homework assignment but you are expected to write up your own solutions. Every answer must be supported by a written statement unless otherwise specified. *A good rule of thumb is to make sure your answer is understandable to someone who hasn't read the problem question (or code output associated with it).* 
+
+**Additionally**, make sure that when you upload your solutions to Gradescope, you select which pages go correspond with which questions. Also, check to make sure that your knitted homework document is not uploaded as an extra-long single page document. Failure to do these things will result in a penalty on your homework grade. Finally, I strongly recommend that you address and resolve any knitting or R coding issues before Saturday as solutions to any R-coding questions that are not knitted properly will not receive any credit. 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data) ## for the data 
+library(car)       ## for VIF function 
+```
+
+# Part I: Concept problems 
+
+For Problems 1-3 consider the following setting.
+
+A researcher is interested in studying the size of hatchling Ornate Box Turtles based on the state in which they are found. He gathers a random sample of turtles in each of three different states: Nebraska, Oklahoma, and Texas, wondering if the size changes from North to South.
+
+
+## Problem 1
+
+(a) State the appropriate null hypothesis, both in symbols and in words.
+
+(b) What additional information do you need about these three samples in order to conduct ANOVA to determine if there is a statistically significant difference among these three means?
+
+(c) What additional information do you need in order to assess whether the conditions for ANOVA are satisfied?
+
+### Solution to Problem 1 
+
+(a) [Write your answer here]
+ 
+(a) [Write your answer here]
+
+(a) [Write your answer here]
+
+
+
+## Problem 2
+
+Suppose that the sample sizes are 15 for each of the three groups, and also suppose that the standard deviations of the turtle sizes are very similar in the three groups. Assume that all three populations do, in fact, have the same standard deviation. Suppose that the three sample means turn out to be $18.3$, $20.1$, and $22.4mm$.
+
+Without doing any ANOVA F-test calculations, state a value for the standard deviation that would lead you to reject. Explain your answer, as if to a peer who has not taken a statistics course, without resorting to formulas or calculations.
+
+
+### Solution to Problem 2
+
+[Write your answer here]
+
+
+
+## Problem 3
+
+Under the same assumptions as Problem 1, now repeat Problem 1, but state a value for the standard deviation that would lead you to fail to reject.
+
+### Solution to Problem 3
+
+[Write your answer here]
+
+
+
+
+ 
+# Part II: R Problems 
+
+Amyloid (Abeta) is a protein fragment that has been linked to Alzheimer’s disease. Autopsies from a sample of Catholic priests included measurements of Abeta (pmol/g tissue from the posterior cingulate cortex) from three groups: subjects who had exhibited no cognitive impairment before death, subjects who had exhibited mild cognitive impairment, and subjects who had mild to moderate Alzheimer’s disease. The data are in the file Amyloid.
+
+```{r}
+library(Stat2Data)
+data(Amyloid)
+Amyloid %>% head
+```
+
+
+## Problem 4
+
+(a) Report the sample sizes, sample means, and sample standard deviations for each group.
+
+(b) Make parallel boxplots of the data by group. What do these plots indicate about whether an analysis of variance model would be appropriate?
+
+
+### Solution to Problem 4
+
+```{r}
+# Use this space for coding 
+```
+
+
+(a) [Write your answer here]
+
+(b) [Write your answer here]
+
+
+## Problem 5
+
+(a) Transform the data by taking the square root of each observation. Report the sample means and sample standard deviations for each group in the transformed scale.
+
+(b) Make parallel boxplots of the transformed data by group. What do these plots indicate about the amount of Abeta levels in the three groups?
+
+(c) What do the parallel boxplots indicate about whether an analysis of variance model would be appropriate?
+
+(d) Conduct an ANOVA using the transformed data. Interpret the results. What do you conclude about Abeta and cognitive impairment?
+
+```{r}
+# Use this space for coding 
+```
+
+### Solution to Problem 5
+
+(a) [Write your answer here]
+
+(b) [Write your answer here]
+
+(c) [Write your answer here]
+
+(d) [Write your answer here]
+
+
+## Problem 6 
+
+Recall the data from HW 9 on exams administered to firefighters hoping to qualify for promotion to either Lieutenant or Captain in the city fire department. A final score consisting of a 60\% weight for the written exam and a 40\% weight for the oral exam was computed for each person who took the exam. Those people receiving a total score of at least 70\% were deemed to be eligible for promotion. 
+
+In a situation where $t$ openings were available, the people with the top $t+2$ scores would be considered for those openings. A concern was raised, however, that the exams were discriminatory with respect to race and a lawsuit was filed. The data are given in the data file `Ricci`.
+
+```{r}
+library(Stat2Data)
+data(Ricci)
+Ricci %>% head
+```
+
+In HW 9, you discovered that there was at least one significant difference in mean combined score for the three different groups of firefighters who took the promotion exam. Now, use Fisher’s LSD to find the differences that are significant.
+
+### Solution to Problem 6 
+
+```{r}
+# Use this space for coding 
+```
+
+[Write your answer here]

@@ -1,0 +1,264 @@
+---
+title: "Stat 21 Practice Problems"
+author: "Swarthmore 2020"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE} 
+packageurl <- "https://cran.r-project.org/bin/macosx/contrib/4.0/MPV_1.55.tgz"
+install.packages(packageurl, repos=NULL, type="source")
+library('MPV')
+library("tidyverse")
+```
+
+
+## Problem 3.5 
+
+Consider the gasoline mileage data in Table B.3. 
+
+a.  Fit a multiple linear regression model relating gasoline mileage $y$ (miles per gallon) to engine displacement $x_1$  and the number of carburetor barrels $x_6$. 
+
+b.  Construct the analysis-of-variance table and test for significance of regression. 
+
+c.  Calculate $R^2$  and $R_{Adj}^2$ for this model. Compare this to the $R^2$  and $R_{Adj}^2$ for the simple linear regression model relating mileage to engine displacement in Problem 2.4. 
+
+d.  Find a $95\%$ CI for $\beta_1$. 
+
+e.  Compute the $t$ statistics for testing $H_0: \beta_1  =  0$ and $H_0: \beta_6  =  0$. What conclusions can you draw? 
+
+f.  Find a $95\%$ CI on the mean gasoline mileage when $x_1  =  275$ in and $x_6  =  2$ barrels. 
+
+g.  Find a $95\%$ prediction interval for a new observation on gasoline mileage when $x_1  =  257$ in   and $x_6  =  2$ barrels.
+
+
+**Follow up problem (Problem 4.4):**
+
+Consider the multiple regression model fit to the gasoline mileage data in Problem 3.5. 
+
+a.  Construct a normal probability plot of the residuals. Does there seem to be any problem with the normality assumption? 
+
+b.  Construct and interpret a plot of the residuals versus the predicted response. What information is conveyed by this residual plot?
+  
+```{r}
+#y : Miles/gallon 
+#x 6 : Carburetor (barrels) x 1 : Displacement (cubic in.) 
+#x 7 : No. of transmission speeds x 2 : Horsepower (ft-lb) 
+#x 8 : Overall length (in.) x 3 : Torqne (ft-lb) 
+#x 9 : Width (in.) x 4 : Compression ratio 
+#x 10 : Weight (lb) x 5 : Rear axle ratio 
+#x 11 : Type of transmission (A automatic; M manual) 
+#Source :  Motor Trend , 1975.
+gas_data <- table.b3 
+MLR_gas <- lm(y ~ x1 + x6, data = gas_data)
+summary(MLR_gas)
+#confint(MLR_gas, param=x1, level =0.95)
+
+
+new_input <- data.frame(x1 = 275, x6 = 2)
+predict(MLR_gas, new_input, interval="confidence", level=0.99)
+```
+
+\pagebreak 
+
+## Problem 3.7
+
+Consider the house price data in Table B.4. 
+
+a.  Fit a multiple regression model relating selling price to all nine regressors. 
+
+b.  Test for significance of regression. What conclusions can you draw? 
+
+c.  Use t tests to assess the contribution of each regressor to the model. Discuss your findings. 
+
+d.  What is the contribution of lot size and living space to the model given that all of the other regressors are included? 
+
+e.  Is multicollinearity a potential problem in this model?
+
+```{r}
+#y : Sale price of the house/1000 
+#x 1 : Taxes (local, school, county)/1000 
+#x 2 : Number of baths 
+#x 3 : Lot size (sq  ft  ×  1000) 
+#x 4 : Living space (sq  ft  ×  1000) 
+#x 5 : Number of garage stalls 
+#x 6 : Number of rooms 
+#x 7 : Number of bedrooms 
+#x 8 : Age of the home (years) 
+#x 9 : Number of fireplaces 
+#Source :  “Prediction, Linear Regression and Minimum Sum of Relative Errors,” by S. C. Narula and J. F. Wellington, Technometrics , 19 , 1977. Also see “Letter to the Editor,” Technometrics , 22 , 1980.
+house_data <- table.b4 
+MLR_house <- lm(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9, data = house_data)
+```
+
+
+\pagebreak
+
+## Problem 3.13
+
+An engineer studied the effect of four variables on a dimensionless factor used to describe pressure drops in a screen-plate bubble column. Table B.9 summarizes the experimental results. 
+
+a.  Fit a multiple linear regression model relating this dimensionless number to these regressors. 
+
+b.  Test for significance of regression. What conclusions can you draw? 
+
+c.  Use t-tests to assess the contribution of each regressor to the model. Discuss your findings. 
+
+d.  Calculate$ R^2$  and $R_{Adj}^2$ for this model. Compare these values to the$R^2$  and $R_{Adj}^2$ for the multiple linear regression model relating the dimensionless number to $x_2$  and $x_3$ . Discuss your results. 
+
+e.  Find a $99\%$ CI for the regression coefficient for $x_2$  for both models in part d. Discuss any differences.
+
+```{r}
+##y : Dimensionless factor for the pressure drop through a bubble cap 
+##x 1 : Superficial fluid velocity of the gas (cm/s) 
+#x 2 : Kinematic viscosity 
+#x 3 : Mesh opening (cm) 
+#x 4 : Dimensionless number relating the superficial fluid velocity of the gas to the superficial fluid velocity of the liquid 
+#Source :  “A Correlation of Two-Phase Pressure Drops in Screen-plate Bubble Column,” by C. H. Liu, M. Kan, and B. H. Chen, Canadian Journal of Chemical Engineering , 71 , 460–463.
+pressure_data <- table.b9
+MLR_pressure <- lm(y ~ x1 + x2 + x3 + x4, data = pressure_data)
+```
+
+\pagebreak 
+
+## Problem 4.22
+
+Table B.14 contains data on the transient points of an electronic inverter. Using only the regressors, x1, x2, x3, x4, fit a multiple regression model to these data.
+
+a) Investigate the adequacy of the model. 
+
+b)  Suppose that observation 2 was recorded incorrectly. Delete this observation, refit the model, and perform a thorough residual analysis. Comment on the difference in results that you observe.
+
+```{r}
+#y : Transient point (volts) of PMOS-NMOS inverters 
+#x 1 : Width of the NMOS device 
+#x 2 : Length of the NMOS device 
+#x 3 : Width of the PMOS device 
+#x 4 : Length of the PMOS device
+inverter_data <- table.b14
+MLR_inverter <- lm(y ~ x1 + x2 + x3 + x4, data = inverter_data)
+```
+
+\pagebreak 
+
+## Problem 4.27
+
+Consider the fuel consumption data in Table B.18. For the purposes of this exercise, ignore regressor x1. Perform a thorough residual analysis of these data. What conclusions do you draw from this analysis?
+
+**Follow up problem (Problem 5.6):** 
+
+Consider the fuel consumption data in Table B.18. For the purposes of this exercise, ignore regressor x1 . Recall the thorough residual analysis of these data from Exercise 4.27. Would a transformation improve this analysis? Why or why not? If yes, perform the transformation and repeat the full analysis.
+
+
+**Follow up problem (Problem 5.20):**
+  
+The fuel consumption data in Appendix B.18 is actually a subsampling problem. The batches of oil are divided into two. One batch went to the bus, and the other batch went to the truck. Perform the proper analysis of these data.
+  
+```{r warning=FALSE, message=FALSE}
+#y : fuel consumption (g/km) 
+#x 1 : vehicle (0—bus, 1—truck) 
+#x 2 : cetane number 
+#x 3 : density (g/L, 15°C) 
+#x 4 : viscosity (KV, 40°C) 
+#x 5 : initial boiling point (degrees C) 
+#x 6 : final boiling point (degrees C) 
+#x 7 : flash point (degrees C) 
+#x 8 : total aromatics (percent) 
+#Source :  “A Multivariate Statistical Analysis of Fuel-Related Polycyclic Aromatic Hydrocarbon Emis- sions from Heavy-Duty Diesel Vehicles,” by R. Westerholm and H. Li, Environmental Science and Technology , 28 , 965–972.
+fuel_data <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/fuel_consumption.txt")) %>% select(-X10)
+MLR_fuel <- lm(y ~ x2 + x3 + x4 + x5 + x6 + x7 + x8, data = fuel_data)
+```
+
+\pagebreak 
+
+## Problem 5.2
+
+The following table gives the vapor pressure of water for various temperatures:
+```{r}
+p5.2
+```
+
+a) Plot a scatter diagram. Does it seem likely that a straight-line model will be adequate? 
+
+b) Fit the straight-line model. Compute the summary statistics and the resid- ual plots. What are your conclusions regarding model adequacy? 
+
+c) From physical chemistry the Clausius-Clapeyron equation states that $ln(p_v)$ is proportional to $-1/T$. Repeat part b using the appropriate transformation based on this information.
+
+```{r}
+vapor_data <- p5.2
+SLR_vapor <- lm(vapor ~ temp, data = vapor_data)
+```
+
+\pagebreak 
+
+## Problem 7.2
+
+A solid-fuel rocket propellant loses weight after it is produced. 
+
+a) Fit a second-order polynomial that expresses weight loss $y$ as a function of the number of months since production $x$. 
+
+b) Test for significance of regression. 
+
+c) Test the hypothesis $H_0: \beta_2 = 0$. Comment on the need for the quadratic term in this model.
+
+d) Are there any potential hazards in extrapolating with this model?
+
+
+**Follow up problem (Problem 7.3):**
+
+Refer to Problem 7.2. Compute the residuals for the second-order model. Analyze the residuals and comment on the adequacy of the model.  
+
+
+```{r}
+rocket_data <- p7.2
+SLR_rocket <- lm(y~x, data = rocket_data)
+```
+
+
+\pagebreak 
+
+## Problem 8.3
+
+Consider the delivery time data in Example 3.1. In Section 4.2.5 noted that these observations were collected in four cities, San Diego, Boston, Austin, and Minneapolis. 
+
+a.  Develop a model that relates delivery time $y$, to cases $x_1$, distance, $x_2$, and the city in which the delivery was made. Estimate the parameters of the model. 
+
+b.  Is there an indication that delivery site is an important variable? 
+
+c.  Analyze the residuals from this model. What conclusions can you draw regarding model adequacy?
+
+```{r}
+delivery_data <- p8.3 %>% mutate(city = c(rep("SanDiego",7), 
+                                          rep("Boston", 10),
+                                          rep("Austin",6),
+                                          rep("Minneapolis",2)))
+MLR_delivery <- lm(y ~ x1 + x2 + city, data = delivery_data)
+```
+
+\pagebreak 
+
+## Problem 8.6
+
+Consider the National Football League data in Table B.1. Build a linear regression model relating the number of games won to the yards gained rushing by opponents $x_8$ , the percentage of rushing plays $x_7$ , and a modification of the turnover differential $x_5$. Specifically let the turnover differential be an indicator variable whose value is determined by whether the actual turnover differential is positive, negative, or zero. What conclusions can you draw about the effect of turnovers on the number of games won?
+
+```{r}
+#y : Games won (per 14-game season) 
+#x 1 : Rushing yards (season) 
+#x 2 : Passing yards (season) 
+#x 3 : Punting average (yards/punt) 
+#x 4 : Field goal percentage (FGs made/FGs attempted 2season) 
+#x 5 : Turnover differential (turnovers acquired–turnovers lost) 
+#x 6 : Penalty yards (season) 
+#x 7 : Percent rushing (rushing plays/total plays) 
+#x 8 : Opponents’ rushing yards (season) 
+#x 9 : Opponents’ passing yards (season)
+football_data <- table.b1
+MLR_football <- lm(y ~ x8 + x7 + x5, data = football_data)
+```

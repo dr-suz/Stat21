@@ -1,0 +1,85 @@
+---
+title: "Final Project Option 2"
+author: "NAME \n Parts 3 and 4 Grading Rubric"
+output:
+  pdf_document: 
+  toc: no
+urlcolor: blue
+---
+
+# Part 3
+
+## Presentation
+
+- Informative slides **(/20 points)** 
+  
+  * Each slide should not contain more than three full sentences 
+    
+  * Slides may contain images, equations, and/or tables 
+
+- Clearly articulated research question **(/10 points)**
+
+  * Make sure the audience knows what was the question that motivated your research 
+
+- Clearly articulated findings and conclusion **(/10 points)**
+
+  * State any questions or criticisms 
+  
+  * Report any new findings or insights 
+  
+- Deductions for time over 5 mins 1 point for every 5 seconds over **(-0 points)**
+
+- Deductions for time under 3 mins **(-0 points)**
+
+**Total points for presentation: **
+
+
+
+## Paper
+
+- Technical specifications 
+
+  * Page length at least 2 (yes/no)
+  
+  * Four labeled sections: introduction, description, results, conclusion (yes/no)
+  
+  * Total deducted points: **-0 points**
+
+- Introduction and background **(/10 points)**
+
+  * Clearly state your statistical research question(s). 
+
+  * Provide a relevant background information for the data.  
+
+- Analysis: methods and results **(/20 points)**
+
+  * Provide a clear explanation of the data. Identify the observational units and the variables of interest and include any information you can on how the data was obtained.
+
+  * Clearly communicate the technical statistical methods used.
+
+  * Thoroughly discuss the appropriateness of various necessary assumptions for the statistical methods you used.
+
+
+- Discussion and critique **(/20 points)**
+
+  * Clearly communicate the results and conclusions from your statistical analysis. 
+  
+  * Comment on any limitations of your method and how/if those might be remedied in the future.
+
+- References **(/10 points)** 
+
+  * Must be cited appropriately throughout the paper. 
+
+  * Each reference must be cited in a way that anyone can find the source.
+
+  * Must be cited alphabetically. 
+  
+  * At least three peer-reviewed.
+  
+**Total points for paper: **
+
+**Total points for Part 3: **
+  
+  
+# Part 4
+  

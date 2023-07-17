@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 14</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <script src="class14_files/header-attrs/header-attrs.js"></script>
+    <link href="class14_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class14_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 14
+## Statistical Methods II (Stat 021)
+### Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, April 1, 2021 (updated: 2021-04-01)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+
+- Group check-ins (5 mins)
+
+- Announcements about class material (5 mins)
+
+- SLR estimation and inference overview (15 mins)
+
+- SLR practice based on Homework 5 
+
+- Housekeeping items and announcements (10 mins)
+
+---
+# Thursday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+&lt;img src="Figs/feelings_wheel.jpg" width="683" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+### Announcements about class material 
+
+
+- I will change up your **groups** a little bit starting next week based on your responses to the Moodle comp quiz  
+
+- **Test 2** is being pushed back a week 
+  
+  * Released April 15, Due April 17th
+
+- **Final project** has four graded components
+
+  * Preparation - Due April 8th - will be uploaded to Moodle and announced on Slack this weekend 
+  
+  * Proposal - Due April 15th 
+  
+  * Paper and presentation - Due May 6th 
+  
+  * Peer review - Due with final exam 
+
+
+---
+### SLR 
+
+.scroll-output[
+`$$Y \mid x = \beta_0 + \beta_1 x + \epsilon, \quad E(\epsilon)=0 \text{ and } Var(\epsilon)=\sigma^2$$`
+
+
+`$$E(Y \mid x) = \hat{\beta}_0 + \hat{\beta}_1 x$$`
+
+
+Interpretation 
+
+  - Average response not exact 
+  
+  - Residuals as approximations to random measurement error 
+  
+Assumptions about the random measurement error associated with the response variable
+  
+  - Zero mean - is a freebie, why? 
+
+  - Constant variance  
+  
+    * Residual plots - residuals vs fitted values 
+    
+    * Transform the quantitative response or predictor variables if need be 
+  
+  - Independence 
+  
+  - Normally distributed measurement error 
+    
+    * Normal probability plots - of the *standardized* residuals 
+    
+    * Only necessary for *inference* 
+]
+
+
+---
+### SLR 
+
+`$$Y \mid x = \beta_0 + \beta_1 x + \epsilon, \quad E(\epsilon)=0 \text{ and } Var(\epsilon)=\sigma^2$$`
+
+`$$E(Y \mid x) = \hat{\beta}_0 + \hat{\beta}_1 x$$`
+
+Estimation
+
+  - Variance of the random error (and random response)
+  
+  - Average/predicted response per unit increase in predictor 
+
+Inference 
+
+  - Tests for the "significance of the predictor" 
+
+  - Confidence intervals for the coefficients 
+  
+  - Confidence intervals for the mean response (later)
+  
+  - Prediction intervals for an unobserved response (later) 
+  
+---
+## Group work  
+### Part I - Building and interpreting a SLR model 
+
+(Homework 5: Problems 5-10)
+
+The following data set was collected in 2018-2019 and recorded different attributes of skyscrapers in NYC. We are going to investigate how the height (in meters) `\((Y)\)` of a skyscraper depends on the number of stories (i.e. floors) it has `\((x)\)`. 
+
+
+```r
+library('tidyverse')
+skyscrapers &lt;- read_csv(
+                url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/skyscraper_data.csv"))
+head(skyscrapers)
+```
+
+```
+## # A tibble: 6 x 8
+##      ID Building_name    height_meters height_ft floors  year material  purpose 
+##   &lt;dbl&gt; &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   
+## 1     1 30 Hudson Yards           387.      1268     73  2019 concrete… office  
+## 2     2 3 World Trade C…          329.      1079     69  2018 composite office  
+## 3     3 35 Hudson Yards           308.      1010     71  2019 concrete  residen…
+## 4     4 220 Central Par…          290.       952     70  2019 concrete  residen…
+## 5     5 15 Hudson Yards           279.       914     70  2019 concrete  residen…
+## 6     6 The Centrale              245.       803     64  2019 concrete  residen…
+```
+
+
+---
+## Group work  
+### Part I - Building and interpreting a SLR model 
+
+.scroll-output[
+The following code creates a SLR model for this problem and names the model `SLR_sky`.
+
+```r
+SLR_sky &lt;- lm(height_meters ~ floors, skyscrapers)
+SLR_sky
+```
+
+```
+## 
+## Call:
+## lm(formula = height_meters ~ floors, data = skyscrapers)
+## 
+## Coefficients:
+## (Intercept)       floors  
+##     -19.488        4.308
+```
+
+This model contains a lot of different information that is not obvious from the output above:
+
+```r
+names(SLR_sky)
+```
+
+```
+##  [1] "coefficients"  "residuals"     "effects"       "rank"         
+##  [5] "fitted.values" "assign"        "qr"            "df.residual"  
+##  [9] "xlevels"       "call"          "terms"         "model"
+```
+
+
+With your group, interpret the output of `summary(SLR_sky)`. Answer the following questions and submit your responses to me on Slack. 
+
+**Question 1:** 
+
+  (a) Write and interpret the estimated regression equation.
+
+  (b) Find a `\(95\%\)` CI for the estimated effect of the number of floors on the height of the building. (Hint: Use the function `confint(SLR_sky, 'floors', level=0.95)`)
+
+  (c) Identify the estimate of the variance of the random error. 
+
+**Question 2:** 
+
+Which assumptions are required to answer each of the questions above? 
+
+**Question 3:** 
+
+How can you evaluate the independence assumption? 
+]
+
+
+
+---
+## Group work  
+### Part II - Interpreting plots for SLR models  
+
+(Homework 5: Problems 5-10)
+.scroll-output[
+
+The following code creates a scatterplot of the data and fits the linear regression line over it (as well as a confidence bound on the regression line). 
+
+```r
+ggplot(skyscrapers, aes(x=floors ,y=height_meters)) +
+  geom_point() + 
+  geom_smooth(method='lm') + 
+  labs(title="Skyscraper Data", x="Number of floors", y="Height (in m)")
+```
+
+![](Figs/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+]
+
+---
+## Group work  
+### Part II - Interpreting plots for SLR models  
+
+.scroll-output[
+You can extract the residuals and fitted values from your model with the following code: 
+
+```r
+SLR_sky$residuals 
+SLR_sky$fitted.values
+```
+
+Recall you can use the `mutate()` function to add new columns to an existing data object (tibble). 
+
+**Question 1:**
+
+What is the correlation between the variables `floors` and `height_meters`? (Hint: Use the `cor()` function in R.)
+
+**Question 2:**
+
+What is the coefficient of determination? 
+
+**Question 3:**
+
+Use the following code to create a residual plot of the residuals vs the fitted values and interpret. 
+
+
+```r
+ggplot(?, aes(x=?, y=?)) +
+  geom_point() + 
+  labs(title="Residuals vs fitted values", x="Fitted values", y="Residuals") +
+  geom_hline(yintercept=0)
+```
+
+**Question 4:**
+
+Use the following code to create a normal probability plot of the standardized residuals and interpret. 
+
+
+```r
+ggplot(?, aes(sample=?)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal prob plot for the standardized residuals")
+```
+]
+
+---
+### Planning ahead for next week  
+
+- Watch the videos for Week 9 before Tuesday's class.  
+
+  * Confidence intervals, prediction intervals for SLR
+  
+  * Analysis of variance for SLR 
+  
+  * Transforming data for regression models 
+  
+  * Introduce multiple linear regression (MLR)
+
+- Finish and submit HW 5 before Monday, April 5th at 8am EST. 
+
+  * You can skip Problem 8 
+
+  * Remember to select which pages contain solutions for each problem! 
+
+
+---
+### Announcements 
+
+[Math/Stat Career Panel](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/S2021/CareerPanel.pdf)
+
+**What can you do with a math/stat degree?**
+
+
+Come meet Swarthmore math and statistics alumni. Hear about their career experiences and journeys. Ask questions and get valuable advice for your own career!
+
+**Part 1:  Thursday, April 1, 8-9pm**
+https://swarthmore.zoom.us/j/82679149704
+
+Panelists:
+Laura Wilcox, Research Assistant, Federal Reserve Board;
+Zara Williams-Nicholas, Teaching Fellow, Groton School;
+Yichuan Yan, Equity Research Associate, Evercore
+
+**Part 2: Thursday, April 8, 8-9pm**
+https://swarthmore.zoom.us/j/82679149704
+
+Panelists:
+David Chudzicki, Co-founder and CTO, Decision.ai;
+Andy Lee, Founder, BasisBoard;
+Jason Mendoza, Economist, Moody's Analytics;
+Emma Remy, Data Science Analyst, Pew Research Center;
+Anastasia White-Tourrellas, Derivatives Relative Value Trader, Two Sigma
+
+---
+### Another Announcement 
+
+Philadelphia Regional Institute for STEM Educators (PRISE) is hosting a speaker and panel series titled: 
+
+[An Inside-Out Approach to Equity in STEM](http://prnp.org/spring-2021-speaker-series-an-inside-out-approach-to-equity-in-stem/) 
+
+We are taking a systems view of examining how individual identity and organizational culture contribute to activities and impacts which are grounded in producing equitable outcomes for STEM learners. We call this an Inside-Out approach because this ultimately is about Cultural Proficiency which, according to Randall Lindsey is “to be applied to both organizational practices and individual behavior” (Cultural Proficiency: A Manual for School Leaders 4th ed., 2019). Over the three sessions we have assembled an impressive line-up of contributors from the Philadelphia region that represent K-12, higher education, and organizations that support STEM education. During each session, one of the speakers will give an overview of the topic at hand and then will join a panel that will be moderated by Muriel Fox Alim from the National Math and Science Initiative.  The audience will have an opportunity to ask questions during a Q&amp;A period at the end. Although each session stands alone, it is recommended that you attend all three to experience the full impact of the series.  
+
+
+All sessions start at **5:00 pm EST** and end at 6:00 pm EST
+
+**Session Dates:** Tuesday, April 6, 2021; Tuesday, April 20, 2021; Tuesday, May 4, 2021
+
+
+Registration is required.  To register for any or all of the events, please go to HTTP://BIT.LY/PRISE_EQUITYSERIES
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

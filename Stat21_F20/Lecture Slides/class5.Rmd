@@ -1,0 +1,221 @@
+---
+title: "Class 5"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Sept 22, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Class 5 
+### The last week of "review" topics! 
+
+Here's the agenda for today's class: 
+
+- Housekeeping items
+  
+  - HW 2 due Thursday, the 24th by noon ET
+  
+  - HW 3 is available online, is due next Thursday the 1st
+
+  - Please use the free-response question in the comprehension quizzes liberally! .blue[You can ask about particular HW questions here too!] 
+
+- Class 5 topics 
+
+  - Chi-squared example 
+  
+  - Putting it all together so far 
+  
+---
+## Morning check in 
+
+Today we're going to start class by checking in with one another as a group. First, each person is going to use the Zoom annotate feature to put an "X" near the word(s) that most accurately describe how they are feeling this morning. 
+
+Next, you will all take turns and mention 1) one thing about working in a group together that has been really helpful or that you have enjoyed and 2) one thing that hasn't been working very well for you or that you would like to change. Each group member must list one of each. (If you feel like everything's been perfect and you have no suggestions or changes to make - think harder!)
+
+- **Note-taker:** Have the next slide open on your computer and share your screen with your group so they can annotate the slide.  
+
+- **Recorder:** Listen to each of your group member's responses to the above prompts and summarize them in a few words of text on the shared screen using the annotate feature. Please do not write names! 
+
+- **Presenter:** Save a screenshot of your groups slide once it is completed and send it to me on Slack through your group channel. 
+
+- **Questioner:** Make sure everyone has a chance to respond to the prompts and that there are at least a few different comments for the recorder to jot down. 
+ 
+
+---
+## Morning check in 
+### 10 mins
+
+```{r, echo=FALSE, fig.align='left', out.height=500}
+knitr::include_graphics("Figs/wheel_of_emotion.jpeg")
+```
+
+
+---
+## Putting it all together 
+### Which method to use? 
+
+Recall our discussion from Class 4. At the beginning of every problem, make sure you understand the answers to these three questions: 
+
+1. What is the population being studied? What is the unknown population parameter of interest? 
+
+2. How was the sample collected? What distinguishes one observational unit from the next? 
+
+3. What information must been collected for each individual in your sample? What are the variables of interest? Are they categorical or quantitative? 
+
+
+---
+## Putting it all together 
+### Which method to use? 
+
+Thus far we have covered methods to statistically analyze 
+  - proportions (one and two sample);
+  - means (one and two sample, paired and unpaired); and
+  - distributions (chi-square test). 
+
+We use different methods to investigate different types of variables. 
+  - For a **quantitative** variable
+    - Histogram
+    - Calculate the mean, standard deviation/variance 
+  - For a **categorical** variable 
+    - Bar charts  
+    - Calculate proportions, counts
+  - For two variables 
+    - **One quantitative, one categorical** - use box plots to compare the values of the quantitative variable over the different levels of the categorical variable 
+    - **Both quantitative** - use a scatter plot to look for linear trends, calculate the correlation
+    - **Both categorical** - represent the data in a two-way contingency table, chi-square test for independence, ANOVA model (will cover this next week)
+
+---
+## Putting it all together 
+### Which method to use? 
+
+In statistical **hypothesis tests**, the structure of the null hypothesis is something that we can at least pretend we know. It represents the most benign assumption possible, upholds the "status quo". We structure hypotheses this way to protect against Type I errors. 
+  - Type I error - incorrectly rejecting $H_0$ in favor of $H_A$
+  - Type II error - incorrectly failing to reject $H_0$ 
+The logic is similar (at least nominally) to that of the US judicial system. Someone is "innocent until proven guilty". 
+
+In creating **confidence intervals**, we actually get an estimate for the *effect size* of the unknown parameter. This means that rather than merely answering a question of statistical significance, we get a range of possible numbers that the parameter could reasonable take on. This helps us determine *practical significance*, not just statistical significance. There is a relationship between the results of a two-sided hypothesis test and a confidence interval.  
+
+
+---
+## Chi-square Goodness-of-fit 
+
+For this test, we have one categorical variable with $k$ different levels. We are interested in determining the distribution of *counts* of the observational units across all of these $k$ levels. 
+
+| Category      | Observations  |
+|---------------|---------------|
+| Level 1       | 21            |
+| Level 2       | 10            | 
+| Level 3       | 9             | 
+| $\dots$       | $\dots$       | 
+| Level $k$     | 16            | 
+
+
+---
+## Chi-square Goodness-of-fit 
+
+**Moodle Questions:** 
+.scroll-output[
+- What do we mean by "cells of the table"?
+
+  The cells of a contingency table are the elements of the table corresponding to a specific row and column. These cells can hold counts, percentages, or measurements on other variables. 
+- What qualifies as count data? 
+
+  Think "what is being measured"? If the answer is the number of observational units (e.g. individuals, cars, etc), then the data is count/frequency data. 
+
+- It is difficult to decide which is the null hypothesis, and which is the alternative. Can we review what makes a valid null hypothesis? 
+
+  - Why is this not a valid H_0: The number of students absent is uniformly distributed across the categories 0-2 days missed, 3-5 days missed, 6-8 days missed, and 9 or more days missed? Why is the correct answer in terms of proportions? 
+
+    In this question, the "model" we are testing is not a uniform model. The teachers have an idea of what the distribution of absenteeism should look like. 
+
+  - Why is the answer to Q5 the table with mph? 
+
+    The variable mph is measuring the mean miles per hour of the different cars. It is not counting the cars (the observational units).
+]
+
+
+---
+## Examples for Group Discussion 
+### 15 mins
+
+In each of the following situations, state the population of interest, the sample size, what defines one observational unit from another, what is/are the variables being collected. Then state which method/test you would use to answer each question and why. 
+
+Create a copy of this [worksheet](https://docs.google.com/document/d/1JTXlPwwCFacUme2d0uA1x8wK-rwYQcIb5C0UfGdxxSk/edit?usp=sharing) and send it to me via your group Slack channel when complete. 
+
+.scroll-small[
+1. After field tests in 36 high schools over a three-year period, research compared the performances of students taught using a traditional mathematics curriculum to students who were taught using an innovative method developed by the Core Plus Mathematics Project (CPMP). Scores for 320 CPMP students were compared with those of a control group of 273 students in a traditional Math program. Determine if students who learn from the CPMP program have significantly higher mean scores than those in traditional programs. 
+
+2. Data was collected on the average high temperatures in the months of January and July of 2020 for a dozen different cities. Suppose we want to determine if there is a significant difference in the mean temperatures between January and July. 
+
+3. Many drivers of cars that can run on regular gasoline actually buy premium because they think they will get better gas mileage. To test that belief, we use 10 cars in a company fleet in which all the cars run on regular gas. Each car is filled first with either regular or premium gas, decided by a coin toss, and the mileage for that tankful is recorded. Then the mileage is recorded again for the same cars for a tankful of the other kind of gas. Drivers are not aware which type of gas is in the car at any given time. 
+
+4. A Gallup Poll asked 105 US adults if they actively tried to avoid carbohydrates in their diet. The number of positive respondents increased from $20\%$ to $27\%$ over the course of two years. Suppose we want to determine if that is a statistically significant increase. 
+
+5. A consumer magazine plans to poll car owners to see if they are happy enough with their vehicles that they would purchase the same model again. They randomly selected 450 owners of American-made cars and 450 owners of Japanese models and found that $76\%$ of the owners of American cars responded favorably and $78\%$ of the owners of Japanese cars responded favorably. Suppose we want to make a statistical statement quantifying the difference in owner satisfaction of American versus Japanese cars. 
+
+6. The Masterfoods Company claims that yellow candies make up $20\%$ of its milk chocolate M&M's, red another $20\%$, orange, blue, and green $10\%$ each. The rest are brown. Suppose you purchase a bag of plain M&M's and observe 29 yellow ones, 23 red ones, 12 orange, 14 blue, 8 green, and 20 brown. You want to determine if your sample is consistent with the company's stated proportions
+]
+
+
+

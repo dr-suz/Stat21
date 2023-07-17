@@ -1,0 +1,95 @@
+NAME:  Getting What You Pay For: The Debate Over Equity in Public 
+       School Expenditures 
+TYPE:  Census
+SIZE:  50 observations, 8 variables
+
+DESCRIPTIVE ABSTRACT: 
+This dataset contains variables that address the relationship between 
+public school expenditures and academic performance, as measured by the 
+SAT. 
+
+SOURCE: 
+The variables in this dataset, all aggregated to the state level, were 
+extracted from the 1997 _Digest of Education Statistics_, an annual 
+publication of the U.S. Department of Education.  Data from a number of 
+different tables were downloaded from the National Center for Education 
+Statistics (NCES) website (Available at: 
+http://nces01.ed.gov/pubs/digest97/index.html) and merged into a single 
+data file.
+
+VARIABLE DESCRIPTIONS: 
+Columns
+ 1 - 16     Name of state (in quotation marks)
+18 - 22     Current expenditure per pupil in average daily attendance 
+            in public elementary and secondary schools, 1994-95 
+            (in thousands of dollars)
+24 - 27     Average pupil/teacher ratio in public elementary and 
+            secondary schools, Fall 1994
+29 - 34     Estimated average annual salary of teachers in public 
+            elementary and secondary schools, 1994-95 (in thousands of 
+            dollars)
+36 - 37     Percentage of all eligible students taking the SAT, 1994-95
+39 - 41     Average verbal SAT score, 1994-95
+43 - 45     Average math SAT score, 1994-95
+47 - 50     Average total score on the SAT, 1994-95 
+
+The data are aligned and delimited by blanks.  There are no missing 
+values.
+
+SPECIAL NOTES:
+
+While an initial scatterplot shows that SAT performance is lower, on 
+average, in high-spending states than in low-spending states, this 
+statistical relationship is misleading because of an omitted variable. 
+Once the percentage of students taking the exam is controlled for, the 
+relationship between spending and performance reverses to become both 
+positive and statistically significant. 
+
+THE STORY BEHIND THE DATA:  
+I compiled this dataset in response to recent controversy over equity 
+in public school expenditures.  While some argue that the prevailing 
+system of financing local schools is unfair, aggregate data reported in 
+the new media seem to suggest, paradoxically, that school spending and 
+academic performance are statistically unrelated.  My goal was to create 
+a workable dataset that would introduce students to this continuing 
+debate and allow them the opportunity to build their own conclusions 
+upon a base of solid statistical reasoning. 
+
+Additional information about this dataset can be found in the "Datasets
+and Stories" article "Getting What You Pay For: The Debate Over Equity 
+in Public School Expenditures" in the _Journal of Statistics
+Education_ (Guber 1999).
+
+PEDAGOGICAL NOTES:
+
+This exercise is ideally suited for classroom discussion in an
+elementary statistics or research methods course.  It allows students
+to gain experience and confidence in using basic statistical techniques
+such as scatterplots, measures of association and dispersion, and
+linear and multiple regression, while giving them the opportunity to
+examine an issue of substantive importance.
+
+REFERENCES:
+
+Hawkins, J. A. (1994), "Money Matters! But What Difference Does It Make
+to Schools and Students?" _NASSP Bulletin_, 78, 19-26.
+
+Powell, B., and L. C. Steelman (1984), "Variations in State SAT 
+Performance: Meaningful or Misleading?" _Harvard Educational Review_, 
+389-410. 
+
+Powell, B., and L. C. Steelman (1996), "Bewitched, Bothered and 
+Bewildering: The Use and Misuse of State SAT and ACT Scores," _Harvard 
+Educational Review_, 27-59. 
+
+Will, G. F. (September 12, 1993), "Meaningless Money Factor," _The 
+Washington Post_, C7.
+
+SUBMITTED BY:
+Deborah Lynn Guber
+Assistant Professor
+Department of Political Science
+The University of Vermont
+P.O. Box 54110
+Burlington, VT 05405-4110
+dguber@zoo.uvm.edu

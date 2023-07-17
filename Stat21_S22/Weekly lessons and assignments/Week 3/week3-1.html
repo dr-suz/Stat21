@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Week 3: Inference for a single population mean</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="week3-1_files/remark-css/default.css" rel="stylesheet" />
+    <link href="week3-1_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 3: Inference for a single population mean
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## Infterence for a population mean
+### Student's t-distribution
+
+When modeling the behavior of quantitative random variables, we often use Student's T-distribution rather than a Normal distribution. The notation for a RV that follows a T-distribution is: 
+`$$X \sim t_{\nu},$$` 
+where `\(\nu=\)` the degrees of freedom of the distribution. Typically this is some function of the sample size, `\(n\)`. 
+
+The benefit of using the t-distribution is that we do not need to invoke the CLT! 
+
+.blue[As long as the quantitative variable is reasonably symmetric and uni-modal in the values that it takes on within the population of interest, the T-distribution is an appropriate model to use for the sampling mean of this variable.]
+
+
+---
+## Infterence for a population mean
+
+For inference for a population mean `\(\mu\)` (or difference in means, `\(\mu_1 - \mu_2\)`) we don't necessarily need `\(n\)` to be large as long as we can reasonably assume the following about the distribution of the random variable across the entire population: 
+
+  - The distribution of the population is symmetric and 
+  
+  - The distribution of the population is uni-modal. 
+  
+**Question:** How can we determine if these assumptions are reasonable? 
+
+
+--
+Note, we still need to be able to assume that the sample is representative of the population, drawn without bias, and each observation is independent of the others. 
+
+
+
+---
+## Inference for a population mean 
+### Problem setting
+
+Suppose we have data for a single numeric variable, e.g. age or the amount of time to complete a certain task. We assume that our data is a simple random sample (SRS) from a larger population, e.g. all adults over the age of 18 who live in NYC.
+
+
+--
+The sample data values are particular observations of a RV, `\(X\)`, and the *population parameter* we are interested in is `\(\mu = E[X]\)`: the average/mean value of this numeric variable over the entire population of interest. (E.g. The mean amount of time it would take for each adult in NYC to complete a certain tast.)
+
+Recall the definition of the expected value of a RV
+
+`$$\mu = E[X] = \sum_{x \in S} xPr(X=x),$$`
+where `\(S\)` is the sample space of all possible values `\(X\)` might take. 
+
+
+.footnote[(Note for continuous quantitative variables -where fractions and decimal values are possible- the definition above is a little bit different and involves integrating over the sample space rather than summing up discrete elements.)]
+
+
+---
+## Inference for a population mean 
+### Problem setting
+
+**Sample:** A random subset of the population 
+
+`\begin{align}
+x_{obs} &amp;=&amp; \{x_1, x_2, x_3, \dots, x_n\} \\
+ &amp;=&amp; \{1.2, 2.54, 0.87, \dots, 2.11\} \\
+\end{align}`
+
+**Sample size:** `\(n=\)` the number of people who responded to the survey. 
+
+
+After collecting data for our entire sample of `\(n\)` individuals, we can *estimate* the population parameter with the *sample statistic*: 
+`$$\bar{X} = \frac{1}{n}\sum_{i=1}^{n}x_i.$$`
+
+Although it's easy to compute `\(\bar{X}\)`, the statistical question we are generally interested in is: .blue[How close is ] `\(\bar{X}\)` .blue[, to the (unknown) population parameter value,] `\(\mu\)`.blue[?] 
+
+
+---
+## Quick Detour: Variance 
+
+For completeness, let's also review the concept of variance (or standard deviation) for a quantitative variable. 
+
+When talking about the **variance** of a RV over the entire **population**, we denote this parameter by `\(\sigma^2\)` (or `\(\sigma\)` if we are talking about the standard deviation instead). The formula for the population variance is similar to the formula for the population mean, only now we are looking at the mean squared distance from `\(\mu\)`
+`$$\sigma^2 = Var[X] = \sum_{x \in S}\left[(x-\mu)^2Pr(X=x)\right].$$` 
+
+(Again for continuous quantitative RVs the above definition must be adjusted to use integration instead of summation.) 
+
+To *estimate* the population variance with the *sample variance*, we use the formula 
+`$$s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{X})^2.$$`
+
+---
+## Inference for a population mean 
+### Assumptions
+
+To answer the question about how close is `\(\bar{X}\)` to the parameter `\(\mu\)`, we can use CIs or a hypothesis test. Before doing so, we must make sure the following **assumptions** are reasonable! 
+
+1. The values the quantitative variable `\(X\)` can take on, follow roughly a symmetric and uni-modal histogram based on all the data from the entire population. (Since we aren't able to collect data on the entire population, we typically can only check this assumption with a histogram of the observed values of `\(X\)` from our sample of size `\(n\)`.) .blue[For larger sample sizes, we can relax this assumption.]
+
+2. The data is a simple random sample (SRS) from the population of interest. (Are there any dependencies among the data? Does the sample comprise less than `\(10\%\)` of the population? Was the sample collected without bias?)
+
+
+---
+## Inference for a population mean 
+### Confidence interval
+
+A `\((1-\alpha)\times100 \%\)` confidence interval for parameter `\(\mu\)` is: 
+`$$\bar{X}_{obs} \pm \left(t^*_{\alpha/2} \times \sqrt{\frac{s^2}{n}}\right).$$`
+
+In the above, `\(t^*_{\alpha/2}\)` is the **critical value**, the upper `\((1-\frac{\alpha}{2})\%\)` **quantile** of a Student's T RV with `\(\nu = n-1\)` degrees of freedom. 
+
+
+
+**Q:** What is the margin of error? 
+
+
+
+--
+**A:** `\(\left(t^*_{\alpha/2} \times \sqrt{\frac{s^2}{n}}\right)\)`
+
+
+---
+## Inference for a population mean 
+### Confidence interval
+
+If we were to collect more size `\(n\)` simple random samples (SRS) from the same population, we would get slightly different confidence intervals. 
+
+But, .blue[in the long run, with repeated sampling from the same population,] `\((1-\alpha)\times 100\%\)` of those confidence intervals will contain the true population mean, `\(\mu\)`. 
+
+---
+## Inference for a population mean 
+### Confidence interval in R
+
+.scroll-small[
+
+```r
+# Observed numeric data and sample size
+x_obs &lt;- c(3.1, 3.34, 4.2, 2.99, 2.86, 1.57, 4.13, 4.07, 3.66)
+samp_size &lt;- 9
+
+# Compute a 90% CI for the unknown population mean based on the sample above:
+t.test(x_obs, n=samp_size, conf.level=0.90)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  x_obs
+## t = 11.985, df = 8, p-value = 2.165e-06
+## alternative hypothesis: true mean is not equal to 0
+## 90 percent confidence interval:
+##  2.808617 3.840272
+## sample estimates:
+## mean of x 
+##  3.324444
+```
+
+```r
+#To get R to only show the CI we can extract it with the $conf.int appended at the end
+t.test(x_obs, n=samp_size, conf.level=0.90)$conf.int
+```
+
+```
+## [1] 2.808617 3.840272
+## attr(,"conf.level")
+## [1] 0.9
+```
+]
+
+
+---
+## Inference for a population mean 
+### Hypothesis test
+
+To conduct a hypothesis test about the population mean, `\(\mu\)`, we first must identify the null and alternative:
+`\begin{align}
+H_0: \mu = \mu_0 \quad\text{and}\quad &amp;H_A: \mu &gt; \mu_0 \\
+      \text{ or }&amp;H_A: \mu &lt; \mu_0\\
+      \text{ or }&amp;H_A: \mu \neq \mu_0.
+\end{align}`
+
+Then we calculate the test statistic based on the formula
+`$$\text{Test Statistic} = \text{T-score} = \frac{\bar{X} - \mu_{0}}{\sqrt{\frac{s^2}{n}}}.$$`
+
+---
+## Inference for a population mean 
+### Hypothesis test interpretation
+
+The *p-value* of this test is .blue[the probability that a Student's t-distributed RV with] `\(n-1\)` .blue[degrees of freedom is "more extreme"] (in the direction of `\(H_A\)`) .blue[than the observed value of the test statistic calculated from your data set]. 
+
+If the p-value is smaller than the pre-set `\(\alpha\)` value, we conclude that the data provides statistical evidence against `\(H_0\)` in favor of `\(H_A\)`. 
+
+
+
+Note, hypothesis tests in general can never "prove" that the null or the alternative are true! 
+
+
+
+---
+## Inference for a population mean 
+### Hypothesis test in R
+
+Using the same data as before, suppose we want to test 
+`$$H_0: \mu = 3 \quad \text{vs} \quad H_A: \mu &gt; 3.$$` 
+We code for this test in R with:
+
+.scroll-small[
+
+```r
+t.test(x_obs, n=samp_size, alternative= "greater", mu =3.05)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  x_obs
+## t = 0.98937, df = 8, p-value = 0.1757
+## alternative hypothesis: true mean is greater than 3.05
+## 95 percent confidence interval:
+##  2.808617      Inf
+## sample estimates:
+## mean of x 
+##  3.324444
+```
+
+```r
+# To specifically extract the p-value use:
+t.test(x_obs, n=samp_size, alternative= "greater", mu =3.05)$p.value
+```
+
+```
+## [1] 0.1757299
+```
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+---
+title: "Stat 21 Week 8 Worksheet"
+date: "Monday, March 14, 2022"
+output:
+  html_document:
+  code_folding: show
+toc: yes
+toc_float: yes
+urlcolor: blue
+---
+
+# Load relevant packages and create the predictor.   
+  
+```{r}  
+library(tidyverse)
+n <- 100 
+x <- seq(-5, 50, length = n)
+``` 
+
+# Create the response as a linear function of the predictor plus some random error. 
+
+```{r}
+## Error with constant variance, Normally distributed 
+y <- 3*x -1 + rnorm(n, mean = 0, sd = 2)
+
+## Error with constant variance, not Normally distributed 
+#y <- 3*x -1 + ? 
+
+## Error with non-constant variance, Normally distributed 
+#y1 <- 3*x -1 + ? 
+#y2 <- 3*x -1 + ?  
+#y <- c(y1, y2)
+
+## Error with non-constant variance , not Normally distributed 
+#y1 <- 3*x -1 + ?
+#y2 <- 3*x -1 + ?
+#y <- c(y1, y2)
+```
+
+# Fit a SLR model and look at the residuals 
+
+```{r}
+regmod <- lm(y~x)
+my_data <- tibble(response = y, predictor = x, resids = regmod$residuals, fits = regmod$fitted.values)
+``` 
+
+```{r}
+ggplot(my_data, aes(x=fits, y=resids)) + 
+  geom_point() + 
+  labs(title="Residual plot", subtitle="Normal/non-Normal error with constant/non-constant variance") ## Edit the subtitle accordingly 
+```
+
+```{r}
+ggplot(my_data, aes(sample=resids)) + 
+  geom_qq() +
+  geom_qq_line() + 
+  labs(title="Normal quantile plot of residuals", subtitle="Normal/non-Normal error with constant/non-constant variance") ## Edit the subtitle accordingly 
+```

@@ -1,0 +1,20 @@
+Wine Quality of Young Red Wines
+Table B.19 
+Montgomery, Douglas C., et al. Introduction to Linear Regression Analysis, John Wiley & Sons, Incorporated, 2012. 
+
+y : quality rating (20 maximum) 
+x 1 : wine varietal (0— Cabernet Sauvignon, 1— Shiraz) 
+x 2 : pH 
+x 3 : Total SO 2 (ppm) 
+x 4 : color density 
+x 5 : wine color 
+x 6 : polymeric pigment color 
+x 7 : anthocyanin color 
+x 8 : total anthocyanins (g/L) 
+x 9 : degree of ionization of anthocyanins (percent) 
+x 10 : ionized anthocyanins (percent) 
+
+Source : “Wine Quality: Correlations with Colour Density and Anthocyanin Equilibria in a Group of Young Red Wines,” by T. C. Somers and M. E. Evans, Journal of the Science of Food and Agriculture , 25 ,
+
+Montgomery, Douglas C., et al. Introduction to Linear Regression Analysis, John Wiley & Sons, Incorporated, 2012. ProQuest Ebook Central, http://ebookcentral.proquest.com/lib/swarthmore/detail.action?docID=1211887.
+Created from swarthmore on 2019-11-06 12:53:00.

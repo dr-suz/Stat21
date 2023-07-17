@@ -1,0 +1,313 @@
+---
+title: "Class 10"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Oct 8, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Happy Thursday!  
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - HW 4 due Tuesday, the 13th by 6pm ET 
+  
+  - Test 1 will be released online on Thursday, the 15th and due on Gradescope by noon of the 17th
+      
+      - New Slack channel for Test 1 and a new slack channel for general study material
+  
+      - Live OHs (in Zoom): 
+        
+          Friday from 11:00am-12:00pm https://swarthmore.zoom.us/j/89462104560
+    
+      - Online time (in Slack):
+      
+          Thursday 10:00am - 12:00pm 
+      
+          Friday from 1:00pm-2:00pm
+          
+- Test prep
+
+- Typo in Class 9 Part 2  
+
+- ANOVA with penguins data set - post-hoc analysis 
+
+- Data processing in R 
+
+- SLR with diamonds data 
+]
+
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+```{r, echo=FALSE, fig.align='right', out.height=500}
+knitr::include_graphics("Figs/wheel_of_emotion.jpeg")
+```
+]
+
+---
+## Ursula Whitcher W+iMS talk and lunch
+
+.center[** Monday, Oct 12th at 3:30pm ET**
+https://swarthmore.zoom.us/j/95383974526]
+
+```{r, echo=FALSE, fig.align='center', out.height=500}
+knitr::include_graphics("Figs/UrsulaPoster.jpg")
+```
+
+---
+## Math/Stat Speed Networking
+
+.center[**Tuesday, October 13**]
+.center[3:45 - 5:00pm, EDT]
+
+Come learn what the Math/Stat department has to offer! Join us for a virtual "speed-networking" event! Give advice/get advice! Hear from peers about:
+
+-Math and statistics majors and minors
+
+-Courses
+
+-Summer and extracurricular activities
+
+-Career paths
+
+-Personal experiences
+
+
+
+Please preregister [here](https://docs.google.com/forms/d/e/1FAIpQLSenyJVY5FL1-yFO1CvOmIRH1oYt9j67_gk-Bk4QIg7yNCbmoA/viewform) by 12:00pm on Friday, October 9. 
+
+---
+## Study tips 
+
+**Extra credit opportunity:** 
+
+If you make a study guide you can share it with the class! I will pick my top 3 favorites to get extra credit! (Guide must be shared before Wednesday morning next week.) Share in the **new slack channel** called: `study_materials`. (You can still submit stuff after Wednesday morning, it just won't be eligible for extra credit.)
+
+
+
+To prepare for the first test I recommend
+
+  - Going over the homework problems with others;  
+
+  - Reviewing the comprehension quizzes on your own;  
+
+  - Making an outline of the topics covered in each of the lesson slides and videos. 
+
+  
+---
+## ANOVA Table
+
+| Source | Sums of Squares | DF | Mean Square | F-ratio | P-value | 
+|--------|------------------|---|-------------|---------|---------|
+| Treatment | $SS_{trt}= \sum \sum(\bar{y}_{j}-\bar{\bar{y}})^2$ | $K-1$ | $MS_{trt} = \frac{SS_{trt}}{K-1}$ | $\frac{MS_{trt}}{MSE}$ | $Pr(F \geq \frac{MS_{trt}}{MSE})$ | 
+| Error | $SSE=\sum\sum(y_{ij}-\bar{y}_{j})^2$ | $n-K$ | $MSE = \frac{SSE}{n-K}$ |   |  | 
+| Total | $SS_{tot}=SS_{trt}+SSE$  | $n-1$ |   |   |   |
+
+### ANOVA Model
+
+$$y_{ij} = \mu_{j} + \epsilon_{ij} \quad \text{and} \quad  Var[\epsilon]=\sigma^2$$ 
+
+
+---
+## ANOVA with penguins 
+### Group work - 10 mins
+
+With your group, analyze the lines of code below and review how to find the elements of the [ANOVA table worksheet](https://docs.google.com/spreadsheets/d/1VjWLaPq_JW8OucQDhkijlajDn8T8zUTTc6yWlcV14-I/edit?usp=sharing). Then move on to the next slide. 
+
+.scroll-output[
+```{r echo=TRUE, eval=FALSE}
+#install.packages("remotes")
+remotes::install_github("allisonhorst/palmerpenguins") 
+library("palmerpenguins")
+library("tidyverse")
+penguins2 <- penguins %>% 
+  na.omit() %>% ## this is a very useful function that will omit an entire row if any of the column values are missing (NA)
+  mutate(bill_length_standard = (bill_length_mm-mean(bill_length_mm))/sd(bill_length_mm),
+         species_fct = factor(species))
+
+penguins2 %>% group_by(species_fct) %>% 
+              summarize(mean_bill = mean(bill_length_mm),
+              var_bill = var(bill_length_mm),
+              samp_size = length(bill_length_mm))
+```
+
+```{r echo=TRUE, eval=FALSE}
+anova_model <- aov(bill_length_mm ~ species_fct, penguins2)
+summary(anova_model)
+```
+
+]
+
+---
+## ANOVA with penguins
+### Group work - 10 mins
+
+**Q1:** What is the estimated variance of bill length for these penguins? 
+
+
+**Q2:** What is the conclusion of the ANOVA F-test? 
+
+
+**Q3:** Which of the species have different average bill lengths? (Hint: Use the R function `TukeyHSD()` as in Class 9 Part 2 slide #9.)
+
+***
+
+**Note-taker:** Send your group's answers to the two questions above to me in your group's Slack channel at the end of the activity. 
+
+**Presenter:** Be prepared to answer explain your group's answers to the questions above. 
+
+**Recorder:** Keep track of the time and alert your group when it's time to move on.
+
+**Questioner:** Be prepared to ask any lingering questions your group may have about the answers to the questions above. 
+
+
+
+---
+## Data processing in R 
+
+
+- Factors vs character variables in R 
+
+
+- Class 6 Part 2 
+
+
+---
+## SLR 
+### Moodle questions 
+ 
+$$Y \mid x = \beta_0 + \beta_1 x + \epsilon, \quad E[\epsilon]=0 \text{ and } Var[\epsilon]=\sigma^2$$ 
+
+What are the model parameters? What is a parameter? 
+
+What are the quantitative variables? 
+
+What is random? 
+
+What are estimates for the model parameters? 
+  
+---
+## SLR Diamond Data 
+### Group work - 15 mins 
+
+.scroll-output[
+View this data set on the price of diamonds (in Singapore dollars) and their size (in carats). The rings are made with gold of 20 carats purity and are each mounted with a single diamond stone. 
+
+```{r echo=TRUE}
+library("tidyverse")
+diamonds <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/diamond_dat.txt"), skip=2, col_names=c("Carats", "Price"))
+head(diamonds)
+```
+
+
+Complete [this worksheet](https://docs.google.com/document/d/1anJmvd7XYsTOxLYP3ArHzIjxF6kjcXNCoIdkVH418Oo/edit?usp=sharing) with your group. 
+
+
+To get started with the plots, alter the code below to generate the plot you need: 
+```{r eval=FALSE}
+ggplot(diamond, aes()) + 
+                       + 
+  labs(title="XXXXXX", x="XXXX", y="XXXX")
+```
+
+To select a variable within a data object in R, you can use the \$ sign:
+```{r eval=FALSE}
+diamonds$Carats
+diamonds$Price
+```
+]
+
+---
+## SLR Diamond Data
+### Group work - 15 mins
+
+**Discussion Question:**
+
+If we fit a SLR to this data, what is the interpretation of the slope and intercept? 
+
+***
+
+**Note-taker:** You will submit the completed worksheet to me over your group's Slack channel at the end of class. (Please make sure the settings allow me to access your document!) 
+
+**Presenter:** Be prepared to answer questions based on your worksheet when we discuss the worksheet after. 
+
+**Recorder:** Keep track of the time and alert your group when you have 5 mins remaining. At this time I want the questioner to start discussion on the question above.  
+
+**Questioner:** Make sure that your group discusses the question above. Think carefully about the answers and ask why! 
+
+
+
+

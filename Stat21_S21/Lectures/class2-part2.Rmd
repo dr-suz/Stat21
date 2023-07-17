@@ -1,0 +1,188 @@
+---
+title: "Class 2 - Part 2"
+subtitle: "The Central Limit Theorem and Sampling Distributions"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For Week 2 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+
+## The Central Limit Theorem (CLT)
+
+
+> The CLT states that the mean of a random sample has a sampling distribution whose shape can be approximated by a Normal model. The larger the sample, the better the approximation will be.
+
+
+The two conditions necessary for the CLT to hold are 
+
+1. The sample size, $n$, is sufficiently large and 
+
+2. All observations in the sample are independent of one another. 
+
+
+--
+The CLT .blue[is saying] that the means and proportions of random samples drawn from (just about) any population, approximately follow a Normal distribution.
+
+
+--
+The CLT .red[is not saying] that the data from a random sample is Normally distributed as n increases. In fact, as n increases, the data will more closely resemble the population which can have just about any distribution.
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+> In practice, you can never know for sure if an assumption is true, but you can check to see whether the data were collected in a way that makes these assumptions plausible.
+
+
+
+### Assumption 1
+
+The first condition must be dealt with on a case-by-case basis. We have to think critically about what the population may look like and use any previous information that we may have about it. The rule of thumb is: the more data the better (although often you'll hear about 30 observational units as being "large-enough").
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+
+### Assumption 2
+
+The second condition is met if the sample is a simple random sample from the population. We know however, that this condition will never truly be met. Even in carefully controlled experiments, participants are not drawn randomly from the population. This also must be dealt with on a case-by-case basis as we look for potential sources of bias in the sample selection process.
+
+  - When it is not possible for us to draw a sample from a population with replacement, then the sample is going to be somewhat dependent. To check that this natural dependence is not too big of an issue for the CLT to work we need to understand something about the size of the sample relative to the size of the population.
+
+  - 10% condition: We can consider an unbiased sample drawn without replacement as an independent sample if the sample size, n, is less than 10% of the size of the population from which it is being drawn.
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+
+**Formal/statistical definition of independence:**
+
+Let $X$ and $Y$ be two random variables. Let $A$ be any event (or set of events) contained in the *sample space* of $X$ and similarly, let $B$ be any event (or set of events) in the sample space of $Y$. The two random variables $X$ and $Y$ are said to be independent if $$pr(A)\times pr(B) = pr(A \cap B).$$
+
+
+--
+There is another formal definition of independence that incorporates something called **conditional probability**. We will discuss conditional probability more next class. 
+
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+
+**Formal/statistical definition of independence:**
+
+Let $X$ and $Y$ be two random variables. Let $A$ be any event (or set of events) contained in the *sample space* of $X$ and similarly, let $B$ be any event (or set of events) in the sample space of $Y$. The two random variables $X$ and $Y$ are said to be independent if $$pr(A)\times pr(B) = pr(A \cap B).$$
+
+
+**Informal/heuristic definition of independence:** 
+
+Two (or more) random variables (or random events) are independent of one another if knowing the outcome of one random event does not carry any information about what the outcome of the other random event(s) will be. 
+
+
+--
+### Independence and correlation 
+
+If two random variables (or random events) are independent then they are also uncorrelated. However, uncorrelated RVs are .red[not necessarily] independent. 
+
+
+---
+## The Central Limit Theorem (CLT)
+### About the assumptions 
+
+
+### Independence 
+
+
+Understanding dependence and independence is tricky, and more explored thoroughly is advanced stats courses. (Feel free to chat with me about this if you're interested!) As we'll see later in the semester, when we collect more than one variable for each observational unit, we have to be even more careful about possible dependence between two or more different variables. 
+
+The good news is, if we can verify that the data sampled is truly a **simple random sample** from the population of interest, then we can usually establish that the observational units are independent of one another.
+
+Some variables (categorical or quantitative) like time or number of people someone lives with are **inherently dependent** and there's nothing statistically that can be done to change that. 
+
+
+---
+## Consequence of the CLT
+### Sampling distributions
+
+.pull-left[
+**Case 1:** Suppose we have $n$ IID observations from some population where the variable of interest is a (binary) .blue[categorical] variable (e.g. yes/no or on/off).
+
+
+If we encode each of the two levels of the categorical variable as $0$'s and $1$'s, we can compute the point estimate for the probability that an observation from this population is a $1$ (a "success"). The notation for this estimate is $\hat{p}=\frac{1}{n}\sum_{i=1}^{n}x_i$ where each $x_i$ is either a $0$ or $1$.
+
+
+So although the categorical RV of interest is $X \sim Bernoulli(p)$, (under the assumptions of the CLT) the distribution of the sample estimate is: $$\hat{p} = \bar{X} \sim N\left(E[X], \frac{Var[X]}{n}\right).$$]
+
+.push-right[**Case 2:** Suppose we have $n$ IID observations from some population where the variable of interest is a (continuous) .blue[numerical] variable (e.g. age or weight). 
+
+
+We can compute a point estimate for the center of this random variable by calculating the mean:  $\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i$ where each $x_i$ is a number (possibly a decimal) representing the quantity of the numeric variable. 
+
+
+The distribution of the quantitative RV could be many different options such as $X \sim Uniform(a, b)$ or $X \sim \chi^{2}_{\nu}$ or $X \sim t_{\nu}$. As long as the assumptions of the CLT hold, the distribution of the sample estimate is: $$\bar{X} \sim N\left(E[X], \frac{Var[X]}{n}\right)$$]
+
+

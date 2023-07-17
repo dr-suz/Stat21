@@ -1,0 +1,28 @@
+This data set was assembled by Rowan Todd and Mark McNaughton, two students studying Statistics at QUT in a class taught by Dr Margaret Mackisack. For a class project they decided to investigate the effect on football game attendance of various covariates. They collected data involving Saturday Australian Football League (AFL) matches at the Melbourne Cricket Ground (MCG). They looked only at matches during the normal home and away season (i.e. not including finals). They used statistics from all such games in 1993 and 1994 (nineteen relevant matches in 1993 and twenty-two in 1994). The response variable measured was attendance at the MCG, and after consideration, they came up with the following covariates:
+
+Variable		Description
+MCG		Attendance at the MCG in 1000's.
+Temp		Temperature. The forecast maximum temperature on the day of the match, in whole degrees C, found in The Weekend Australian.
+Other		Attendance at other matches in 1000's. The sum of the attendances at other AFL matches in Melbourne and Geelong on the same day as the match in question.
+Members		Membership. The sum of the memberships of the two clubs whose teams were playing the match in question in 1000's.
+Top50		Number of players from the top fifty. The number of players in the top 50 in the AFL who happened to be playing in the match in question.
+Date		Date of the match in the format dd/mm/yy.
+Home		Abbreviation for home team.
+Away		Abbreviation for away team.
+The abbreviations for team names are given below, together with the membership of each club in 1993 and 1994.
+
+Abbrev.	Club Name	Members 93	Members 94
+Victoria:	NM	North Melbourne	6851	10228
+Ess	Essendon	11546	18995
+Carl	Carlton	14445	17914
+Melb	Melbourne	10097	10351
+Gee	Geelong	15500	14107
+Rich	Richmond	9918	8102
+StK	St Kilda	12956	11773
+Haw	Hawthorn	11388	10969
+Foot	Footscray	11478	9258
+Coll	Collingwood	21882	20169
+Other States:	Bris	Brisbane	5750	6154
+Adel	Adelaide	40100	40546
+Syd	Sydney	3097	3322
+WC	West Coast	25779	24258

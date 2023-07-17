@@ -1,0 +1,123 @@
+---
+title: "Class 9"
+subtitle: "Agenda for in-class discussion"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Oct 6, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+# Happy Tuesday!  
+
+Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - HW 4 due Tuesday, the 13th by 6pm ET 
+  
+  - Test 1 will be released online on Thursday, the 15th
+  
+    - Live OHs: 
+    
+    - Online time: 
+
+  - RStudio should be working - if not please LMK ASAP 
+  
+---
+## Check-in 
+  
+  
+
+---
+## Ursula Whitcher 
+### W+iMS talk and lunch
+
+
+---
+## Moodle questions 
+
+ Can we go over the Simpson's Paradox death penalty example? I don't understand the difference between defendants and victims.
+ 
+ Clarify error sum of squares ||| How can we tell when a p- value signifies a change with one variable vs all variables?
+ 
+ I would like more clarificatiioin on the different cells in the ANOVA table
+ 
+  Do you have any sources for more examples of Simpson's Paradox? My last professor used a baseball example, so I wasn't quite interested, but seeing the examples you had were actually really cool.
+  
+  How deep of an understanding should we have of the math table shown in video 1 for this week
+  
+  Is there more specific criteria on when to use an anova test versus multiple t tests? I understand the number of observations for each level should be at least 12, but for the video in class, the anova tests was used when the number of observations was less than 12.
+  
+  Can we talk more about the idea of the random error? I'm having trouble understanding that part of the ANOVA table
+  
+  When discussing the results of the ANOVA test, do we have to talk about the F statistic in particular?
+  
+   can we go over problem 6 answers in this quiz
+   
+   Can we go over how to find the degrees of freedom does the error sum of squares?
+  
+---
+## Exercise 
+### Visualizing data in R
+
+Work with your group to create a color-coded plot ? 

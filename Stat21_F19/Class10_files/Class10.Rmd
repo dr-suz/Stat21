@@ -1,0 +1,318 @@
+---
+title: "Class 10"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/9/23 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class9_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.height=6, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 80%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+```{r, echo=FALSE, fig.align='center', out.height=600}
+knitr::include_graphics("Figs/null_hypothesis.png")
+```
+
+.footnote[https://xkcd.com/1053/]
+
+--
+## Outline for today's class 
+
+
+  - .blue[Estimation] with simple linear regression models
+  
+
+  - Introduction to .blue[inference] with simple linear regression models
+
+    
+  
+---
+## Health care data 
+.scroll-output[
+```{r echo=TRUE, warning=FALSE}
+hc_employer_2013 <- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+head(hc_employer_2013)
+```
+]
+
+
+
+---
+## SLR for health care data 
+
+.scroll-output[
+
+```{r hcRegressionClass9_2, echo=TRUE, warning=FALSE}
+SLR_hc_employer_2013 <- lm(prop_coverage~spending_capita, data=hc_employer_2013)
+summary(SLR_hc_employer_2013)
+```
+]
+
+---
+## Assumptions for estimation with SLR
+
+$$Y = \beta_0 + \beta_1 x + \epsilon$$
+
+1. $E[\epsilon]=0$;
+
+1. $Var[\epsilon]=\sigma^2 < \infty$;
+
+1. Each instance of the random variable $\epsilon$ is independent of any other instance. 
+
+
+--
+Assumption (our model): 
+$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
+
+Observation (our model .blue[estimate]):
+$$y_i = \hat{\beta}_0 + \hat{\beta}_1 x_i + e_i$$
+Note that sometimes we will make use of the notation: $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1x_i$ to denote the **predicted** values of our response variable based on our estimated model. 
+
+
+.footnote[Resource for understanding how we derive the estimates for our model parameters: https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm]
+
+---
+##Checking assumption 1:  zero mean
+
+$$E[\varepsilon]=0$$
+
+
+The mean of the residuals will always be zero because they are calculated based on the regression line we fit. 
+
+```{r hcRegressionClass9_3, echo=TRUE, warning=FALSE}
+SLR_hc_employer_2013 %>% 
+  residuals %>% 
+  mean 
+```
+
+
+
+---
+##Checking assumption 1: zero mean
+
+$$E[\varepsilon]=0$$
+
+
+The mean of the residuals will always be zero because they are calculated based on the regression line we fit. 
+
+```{r hcRegressionClass9_4, echo=FALSE, warning=FALSE, fig.width = 10, fig.align = 'center'}
+hc_employer_2013_all <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc_employer_2013$residuals, fitted_vals = SLR_hc_employer_2013$fitted.values) 
+
+ggplot(hc_employer_2013_all) +
+  geom_point(aes(x=spending_capita, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Per capita health care cost", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+
+
+- If you suspect that the mean of your $Y$ measurement errors is non-zero, you can still ensure that this model assumption is met by **standardizing the data** before you fit a regression curve. 
+
+
+- When we get to MLR (multiple linear regression), it will become more important to standardize the data before fitting a regression line. 
+
+---
+##Checking assumption 2: .red[constant] variance
+
+$$Var[\epsilon]=\sigma^2 < \infty$$
+
+<a href="https://en.wikipedia.org/wiki/Heteroscedasticity">Heteroscedasticity</a> often occurs when there is a large difference among the sizes of the response variable. What we are looking for here is: does our measurement error $(\epsilon)$ vary (increase or decrease) with each new observation $(y_i, x_i)$?
+
+
+  - cross section data 
+  
+  - time series data 
+
+  - econometrics data 
+
+
+1. Example: Income versus money spent on meals.
+
+1. Example: Measuring changing distance of a rocket being launched. 
+
+.footnote[For more reading on heteroscedasticity: http://www.statsmakemecry.com/smmctheblog/confusing-stats-terms-explained-heteroscedasticity-heteroske.html (note that they use the terms independent and dependent variables which is not great but common!)]
+---
+##Checking assumption 2: .red[constant] variance
+
+$$Var[\epsilon]=\sigma^2 < \infty$$
+
+```{r hcRegressionHetero, echo=FALSE, warning=FALSE, fig.width = 10, fig.align = 'center'}
+hc_employer_2013_all <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc_employer_2013$residuals, fitted_vals = SLR_hc_employer_2013$fitted.values) 
+
+plot1 <- ggplot(hc_employer_2013_all) +
+         geom_point(aes(x=spending_capita, y=prop_coverage)) + 
+         labs(title="Scatter plot of data", subtitle="Cost of health care a predictor of proportion of people with coverage",
+         x="Per capita health care cost", y="Proportion of people covered") 
+
+
+plot2 <- ggplot(hc_employer_2013_all) +
+         geom_point(aes(x=spending_capita, y=residuals)) + 
+         labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+         x="Per capita health care cost", y="Residuals") + 
+  geom_hline(yintercept=0)
+
+library("gridExtra")
+grid.arrange(grobs = list(plot1, plot2))
+```
+
+
+---
+##Checking assumption 2: .red[constant] variance
+
+So you have evidence of heteroscedasticity, what now? 
+
+
+--
+It **is OK** to play around with transforming the data $(x_i, y_i)$! So try transforming the response and/or predictor variable to address this problem. 
+
+
+In general, for linear modeling, some heteroscedasticity is not a deal-breaker, there are more severe consequences however for non-linear models (e.g. logit or probit models).
+
+
+--
+**Q:** How do you think heteroscedasticity affects model estimation? 
+
+
+---
+##Checking assumption 3: independence
+
+This assumption is difficult to check. Usually you have to think critically about what are potential sources of error in your measurements of the response variable $Y$.
+
+
+For temporal data, you can check the <a href="">autocorrelation</a>.
+
+
+Otherwise, we can look for linear relationships in scatter plots of the residuals and the predictor variables. If we find evidence of this, we may need to re-consider what predictor variables we include in our model. 
+
+
+---
+## What does the rest of the R ouput mean? 
+
+
+```{r echo=FALSE, warning=FALSE}
+summary(SLR_hc_employer_2013)
+```
+
+
+---
+## What does the rest of the R ouput mean? 
+### The <a href="https://en.wikipedia.org/wiki/Coefficient_of_determination">coefficient of determination</a>
+
+```{r echo=TRUE, warning=FALSE}
+?lm
+?summary
+?summary.lm
+```
+
+**Interpretation:** R squared is a *statistic* that represents a proportion. Specifically, it's the proportion of the variability/dispersion of our observations of $Y$, i.e. $(y_1,\dots,y_n)$, that our linear model can account for.
+
+--
+**Note:** This is the same thing as the <a href="https://en.wikipedia.org/wiki/Correlation_coefficient">correlation</a> **.red[only in the case of SLR]**! 
+
+$$\rho(X,Y) = Corr(X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}$$
+
+
+.footnote[
+We will use the adjusted R squared value in multiple linear regression, where we'll have more than just one predictor variable. Also, as noted above, in multiple linear regression correlation is **not** the same that as $R^2$.]
+
+---
+## What does the rest of the R output mean? 
+### The <a href="https://en.wikipedia.org/wiki/Coefficient_of_determination">coefficient of determination</a>
+
+It is helpful to consider regression terms called the *sums of squares*.
+
+
+$$ \sum_{i=1}^{n}\left( y_i - \bar{y} \right)^2$$
+
+
+--
+$$ \sum_{i=1}^{n}\left( \hat{y}_i - \bar{y} \right)^2$$
+
+
+--
+$$ \sum_{i=1}^{n}\left( y_i - \hat{y}_i \right)^2$$
+
+
+---
+## What does the rest of the R output mean? 
+
+It is helpful to consider regression terms called the *sums of squares*.
+
+
+**Total sum of squares:** (SStot)
+
+$$d\sum_{i=1}^{n}\left( y_i - \bar{y} \right)^2$$
+
+
+**Regression sum of squares:** (SSreg)
+
+$$\sum_{i=1}^{n}\left( \hat{y}_i - \bar{y} \right)^2$$
+
+
+
+**Residual sum of squares/sum square errors:** (SSres or SSE)
+
+
+
+$$\sum_{i=1}^{n}\left( y_i - \hat{y}_i \right)^2 = \sum_{i=1}^n e_i^2$$
+
+
+
+---
+## What does the rest of the R output mean? 
+### The <a href="https://en.wikipedia.org/wiki/Coefficient_of_determination">coefficient of determination</a>
+
+$$R^2 = 1 - \frac{SSres}{SStot}$$
+
+.footnote[This sum of squares notation will be really helpful later when we consider ANOVA models.]

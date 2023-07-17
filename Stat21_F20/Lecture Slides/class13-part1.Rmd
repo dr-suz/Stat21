@@ -1,0 +1,307 @@
+---
+title: "Class 13 - Part 1"
+subtitle: "SLR Example"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Oct 20, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+## Simple linear regression
+
+In SLR, the data we observe are pairs $(x_{1},y_{1}), \dots, (x_{n},y_{n})$, of two continuous, quantitative variables. 
+
+The model $Y \mid x = \beta_0 + \beta_1 x + \epsilon$ means that we are assuming 
+$$y_{i} = \beta_0 + \beta_1 x_{i} + \epsilon_{i},$$
+for each data point we observe where $\epsilon_{i}$ represents an (unobserved) measurement error associated with our response variable. 
+
+
+**Assumptions**
+
+- For estimation: The measurement error has mean $E[\epsilon]=0$ and (unknown) variance $Var[\epsilon]=\sigma^2$ and all measurement errors are independent of each other.
+
+- For inference: If we wish to conduct statistical inference, we must also assume that the measurement error, $\epsilon$, is Normally distributed.
+
+---
+## Health care data
+### SLR Example 
+
+.scroll-output[
+```{r}
+hc_employer_2013 <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_2013_cleaned.txt"))
+names(hc_employer_2013)
+```
+
+```{r}
+SLR_hc <- lm(prop_coverage ~ spending_capita, data = hc_employer_2013)
+summary(SLR_hc)
+```
+**Data Source:** Kuo, Pei-Lun and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2019, February 14). opencasestudies/ocs-healthexpenditure: Exploring Health Expenditure using State-level data in the United States (Version v1.0.0). Zenodo. http://doi.org/10.5281/zenodo.2565307
+]
+
+---
+## Assumptions for .blue[estimation] with SLR
+
+$$Y \mid x = \beta_0 + \beta_1 x + \epsilon$$
+
+1. $E[\epsilon]=0$;
+
+1. $Var[\epsilon]=\sigma^2 < \infty$;
+
+1. Each instance of the random variable $\epsilon$ is independent of any other instance. 
+
+
+--
+Assumption (our model): 
+$$Y \mid x = \beta_0 + \beta_1 x + \epsilon, \quad \text{and }E[\epsilon]=0, \text{ }Var[\epsilon]=\sigma^2$$
+
+Observation (our model .blue[estimate]):
+$$\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$$
+
+$$\hat{\sigma} = \frac{\sum_{i=1}^{n}e_i^2}{n-2}$$
+
+.footnote[Resource for understanding how we derive the estimates for our model parameters: https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm]
+
+---
+## Checking assumption 1:  zero mean
+
+$$E[\varepsilon]=0$$
+
+
+The mean of the residuals will always be zero because they are calculated based on the regression line we fit. 
+
+
+$$\frac{1}{n}\sum_{i=1}^{n}e_{i} = \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)\\
+= \frac{1}{n}\sum_{i=1}^{n}(y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))\\
+= \frac{1}{n}\sum_{i=1}^{n}(y_i - (\bar{y} - \hat{\beta}_1 \bar{x}) - \hat{\beta}_1 x_i)\\
+=\frac{1}{n}\sum_{i=1}^{n}y_i - \frac{1}{n}\sum_{i=1}^{n}\bar{y} + \frac{1}{n}\sum_{i=1}^{n}\hat{\beta}_1\bar{x} - \frac{1}{n}\sum_{i=1}^{n}\hat{\beta}_1 x_i\\
+=\bar{y} - \frac{n}{n}\bar{y} + \frac{n}{n}\hat{\beta}_1\bar{x} - \hat{\beta}_{1}\bar{x}$$
+
+---
+## Health care data
+### Checking assumption 1: zero mean
+```{r}
+summary(SLR_hc)
+```
+
+
+
+---
+## Checking assumption 2: .red[constant] variance
+
+$$Var[\epsilon]=\sigma^2 < \infty$$
+
+It **is OK** to play around with transforming the data $(x_i, y_i)$! So try transforming the response and/or predictor variable to address this problem. 
+
+**Q:** What can we do to address heteroscedasticity? 
+--
+The usual remedy is a transformation of the response variable.
+
+
+Some common *variance stabalizing* transformations are 
+
+- $\sqrt{y_{obs}}$ (can only be used if $Y$ is never negative)
+- $log(y_{obs})$ 
+- [Box-Cox transformation](https://sixsigmastudyguide.com/box-cox-transformation/)
+
+
+
+---
+## Checking assumption 2: .red[constant] variance
+
+Residual plots are a key component in fitting an appropriate regression model. These plots examine the **residuals vs predicted** values in a scatter plot. 
+
+What are we looking for these plots? 
+
+1. Any "trends" in the plot
+  - E.g. negative residuals at small values of $\hat{y}_i$ and positive residuals at large values of $\hat{y}_i$ indicates non-linearity in the data. 
+  - **Q:** What can we do to address non-linearity? 
+
+1. Non-constant spread of the residuals
+  - E.g. More clustered residuals for small $\hat{y}_i$ values and more spread out residuals for large $\hat{y}_i$, looks like "funneling". 
+  
+
+
+.footnote[<a href="https://data.princeton.edu/wws509/notes/c2s9
+">Here</a> is my source for the interpretations above. You may find this source helpful for further reading on regression diagnostics (although you are not responsible for knowing all the material that is mentioned here).]
+
+---
+## Health care data
+### Checking assumption 2: .red[constant] variance
+
+.scroll-output[
+```{r class13-0, fig.align = 'center'}
+hc_resid_data <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc$residuals, 
+                               fitted_vals = SLR_hc$fitted.values) 
+
+ggplot(hc_resid_data, aes(x=fitted_vals, y=residuals)) +
+  geom_point() + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Fitted values (proportion covered)", y="Residuals") + 
+  geom_hline(yintercept=0) 
+```
+]
+
+
+---
+## Health care data
+### Checking assumption 2: .red[constant] variance
+
+.scroll-output[
+```{r class13-1, fig.align = 'center'}
+hc_resid_data <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc$residuals, 
+                               fitted_vals = SLR_hc$fitted.values) 
+
+ggplot(hc_resid_data, aes(x=fitted_vals, y=residuals, label = Location)) +
+  geom_point() + 
+  geom_text() + 
+  labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people with coverage",
+       x="Fitted values (proportion covered)", y="Residuals") + 
+  geom_hline(yintercept=0) 
+```
+]
+
+---
+## Checking assumption 3: independence
+
+This assumption is difficult to check. Usually you have to think critically about what are potential sources of error or patterns in your measurements of the response variable $Y$.
+
+**Ask:** Is the value for $X$ and $Y$ I observe for one individual by itself able to give me any information on what the value of $X$ and $Y$ are for any other individual? 
+
+
+--
+## Health care data
+### Checking assumption 3: independence
+
+
+
+---
+## Assumptions for .blue[inference] with SLR
+
+$$Y \mid x = \beta_0 + \beta_1 x + \epsilon$$
+
+1. $E[\epsilon]=0$;
+
+1. $Var[\epsilon]=\sigma^2 < \infty$;
+
+1. Each instance of the random variable $\epsilon$ is independent of any other instance. 
+
+1. The random error, $\epsilon$ is normally distributed.  
+
+
+Normal probability plots of the **standardized residuals** help us check Assumption 4. 
+
+
+Guide to interpreting QQ plots: 
+
+  - If the data is curved, this indicates a skewed distribution
+
+      - Downward concavity corresponds to negative Skewness (long tail to the left) 
+
+      - Upward concavity indicating positive skewness. 
+
+  - An S-shape indicates heavy tails, or an excess of extreme values, relative to the Normal distribution.
+
+
+---
+## Health care data
+### Checking assumption 4: normal residuals
+
+.scroll-output[
+```{r class13-2, echo=TRUE, fig.align = 'center'}
+hc_resid_data2 <- hc_resid_data %>% 
+                        mutate(std_residuals = (residuals-mean(residuals))/sd(residuals))
+
+ggplot(hc_resid_data2, aes(sample=std_residuals)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal probability plot of standardized residuals", subtitle="Cost of health care a predictor of proportion of people with coverage")
+```
+]
+
+
+```{r class13-3, echo=FALSE, eval=FALSE}
+hc_resid_data2 <- hc_resid_data %>% 
+                        mutate(std_residuals = (residuals-mean(residuals))/sd(residuals))
+
+QQplot1 <- ggplot(hc_resid_data2, aes(sample=std_residuals)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title="Normal probability plot of standardized residuals", subtitle="Cost of health care a predictor of proportion of people with coverage")
+
+hc_data3 <- ggplot_build(QQplot1)$data[[1]]
+hc_data3$Location <- hc_resid_data2$Location[order(hc_resid_data2$std_residuals)]
+
+ggplot(hc_data3, aes(x=theoretical, y=sample, label=Location)) + 
+  geom_text() + 
+  geom_abline() + 
+  xlim(-3,3) + ylim(-3,3)
+```
+
+
+
+---
+## For further reading 
+
+Introduction to Linear Regression Analysis, Fifth Edition by Montgomery, Peck, and Vining 
+
+
+- Chapter 1
+- Chapter 2, sections 1, 2, 5, 6
+- Chapter 5, section 2 

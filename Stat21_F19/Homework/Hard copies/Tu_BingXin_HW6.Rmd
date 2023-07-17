@@ -1,0 +1,122 @@
+---
+title: "Stat 021 Homework 6"
+author: "Bing Xin Tu"
+date: "Due: Friday, Nov. 8, 12:00pm"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages("tidyverse")
+library(tidyverse) 
+#install.packages("magrittr")
+library(magrittr)
+```
+
+
+```{css, echo=FALSE}
+.red{color: #ce151e;}
+```
+
+
+**Q0)** To help you with some programming tools you will need on your final project, please complete the R *swirl* tutorial on writing functions. 
+
+Swirl tutorial completed. 
+
+
+**Q1)** Read the data uploaded to Moodle called "mileage.csv". This data describles the gasoline mileage performance for $32$ automobiles. Use this data to answer the following questions. Before fitting any models make sure the data is being correctly read into R. 
+
+```{r Q1, echo=TRUE, warning=FALSE}
+
+car_data <- read_csv("~/Google Drive Swat/Swat docs/Stat 21/Homework/mileage.csv",
+                     col_names = c("Car", "mpg", "displacement", "weight", "transmission_type"),
+                                cols(col_character(), col_double(), col_double(), col_double(), col_factor()))
+car_data = as.tibble(car_data)
+car_data = car_data[c(-1,-2),]
+
+#standardizes data and fct_infreq makes transmission type A the default
+car_data_standard <- car_data %>% 
+                     mutate_at(vars("displacement", "weight"), funs(scale)) %>%
+                     mutate(transmission_type = fct_infreq(transmission_type)) 
+
+head(car_data_standard)
+
+```
+
+a) Build a linear regression model relating gasoline mileage, $y$  to engine displacement $x_1$  and the type of transmission, $x_2$. (Note that transmission type is a binary categorical variable.) Does the type of transmission significantly affect the mileage performance? Justify your answer. (4 points)  
+
+```{r Q1a, echo=TRUE, warning=FALSE}
+        
+MLR_car_standard <- lm(mpg ~ displacement + transmission_type, data = car_data_standard)
+
+summary(MLR_car_standard)
+
+```
+Based on the regression output, we can see that the type of transmission does not significantly affect the mileage performance. Based on the summary of the regression output, we can see that the p-value for transmission is at 0.818. If we are using an alpha value of 0.05, then we fall to reject the null, meaning the transmission type of the car does not significantly affect its mileage.
+
+
+b) Modify the model developed in part a to include an interaction between engine displacement and the type of transmission. What is the average effect on gasoline mileage when the engine is automatic? What is the average effect on gasoline mileage when the engine is manual? (4 points)
+
+```{r Q1b, echo=TRUE, warning=FALSE}
+
+#avg effect on gasoline mileage including interaction terms
+MLR_car_interaction <- lm(mpg ~ displacement +
+                         transmission_type +
+                         displacement*transmission_type, data = car_data_standard)
+
+summary(MLR_car_interaction)
+
+
+#car_data_standardA <- car_data %>% 
+#                     mutate_at(vars("displacement", "weight"), funs(scale)) %>%
+#                     mutate(transmission_fctA = fct_rev(transmission_type)) 
+
+#MLR_car_interactionA <- lm(mpg ~ displacement +
+#                         transmission_fctA +
+#                         displacement*transmission_fctA, data = car_data_standardA)
+
+#summary(MLR_car_interactionA)
+
+```
+The average effect on gasoline mileage when the engine is automatic is 19.44 - 4.11$x_1$. This means that we expect gasoline mileage to change on average of 19.44 - 4.11$x_1$ miles when the transmission type of the car is automatic.
+
+The average effect on gasoline mileage when the engine is manual is 9.67 - 13.67$x_1$. This means that we expect gasoline mileage  to change on average of 9.67 - 13.67$x_1$ miles when the transmission type of the car is manual. 
+
+
+c) Build a linear regression model relating gasoline mileage, $y$, to vehicle weight $x_3$  and the type of transmission $x_2$ . Does the type of transmission significantly affect the mileage performance? Justify your answer. (4 points)
+
+```{r Q1c, echo=TRUE, warning=FALSE}
+        
+MLR_weight_trans <- lm(mpg ~ weight +
+                         transmission_type, data = car_data_standard)
+
+summary(MLR_weight_trans)
+
+```
+Based on the regression output, we can see that the type of transmission does not significantly affect the mileage performance. Based on the summary of the regression output, we can see that the p-value for transmission is at 0.07. If we are using an alpha value of 0.05, then we fall to reject the null, meaning the transmission type of the car does not significantly affect its mileage.
+
+
+d) Modify the model developed in part c to include an interaction between vehicle weight and the type of transmission. What is the average effect on gasoline mileage when the transmission is automatic? What is the average effect on gasoline mileage when the transmission is manual? (4 points)
+
+```{r Q1d, echo=TRUE, warning=FALSE}
+
+#avg effect on gasoline mileage including interaction terms 
+MLR_weight_trans_int <- lm(mpg ~ weight +
+                         transmission_type +
+                         weight*transmission_type, data = car_data_standard)
+
+summary(MLR_weight_trans_int)
+
+```
+The average effect on gasoline mileage when the engine is automatic is 18.66 - 2.09$x_1$. This means that we expect gasoline mileage to change on average of 18.66 - 2.09$x_1$ miles when the transmission type of the car is automatic.
+
+The average effect on gasoline mileage when the engine is manual is 13.61 - 11.96$x_1$. This means that we expect gasoline mileage  to change on average of 13.61 - 11.96$x_1$ miles when the transmission type of the car is manual.
+
+
+e) Based off of the results for parts (a)-(d), what terms do you think should be included in the final regression model and why? (4 points)
+
+Based off of the results for parts (a)-(d), I think displacement and weight should be included as quantitative variables in the model. This is because for all four regressions, the outputs of these two variables have shown to have a statistically significant effect on mileage. In addition, while transmission type does not seem to have a significant effect on mileage in three of the four models ran, I would still consider adding this categorical binary variable as its interaction with other variables have significant effects. Thus, it is imperative to include the weight and transmission interaction with transmission type in our final model because both interaction terms have yielded statistically significant effects on mileage, seen in models b and d. 
+
+
+

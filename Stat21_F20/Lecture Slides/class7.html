@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 7</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class7_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class7_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 7
+## Agenda for in-class discussion
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, Sept 29, 2020 (updated: 2021-03-04)
+
+---
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## Some non-class related announcements
+
+### First...
+Congrats to Swarthmore mathematics **Professor Ralph Gomez** for being recognized in the annual Lathisms calendar for prominent mathematicians! 
+
+[Lathisms](https://www.lathisms.org/about) was founded in 2016 in order to showcase the contributions of Latinx and Hispanic mathematicians during Hispanic Heritage Month, which is celebrated in the United States from September 15 and October 15 every year.
+
+Check out his bio [here](https://www.lathisms.org/calendar-2020/ralph-r-gomez).  
+
+
+--
+### Second...
+.blue[**Be prepared to VOTE!**] Check the deadline for registration in your state [here](https://www.businessinsider.com/voter-registration-deadlines-by-state-2020-8). 
+
+---
+
+## Class 7
+### Introducing ANOVA
+
+Here's the agenda for today's class: 
+
+- Housekeeping items - I'm getting the feeling that we all could use a little break... 
+  
+  - HW 3 is Due Thursday.
+  
+  - HW 4 will be posted at the beginning of next week. 
+  
+  - There will be no new videos for Class 8, but there will be a comprehension quiz. 
+
+- Class 7 topics 
+
+  - Measures of spread/variability 
+
+  - Homework problem
+  
+  - Penguin data for chi-square and ANOVA analysis. 
+  
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+&lt;img src="Figs/wheel_of_emotion.jpeg" height="500" style="display: block; margin: auto 0 auto auto;" /&gt;
+]
+
+  
+---
+## Warm-up practice 
+### Homework problem 8
+
+Ever since Lou Gehrig developed amyotrophic lateral sclerosis (ALS), this deadly condition has been commonly known as Lou Gehrig's disease. Some believe that ALS is more likely to strike athletes or the very fit. Columbia University neurologist Lewis P Rowland recorded personal histories of 431 patients he examines between 1992 and 2002. He diagnosed 280 as having ALS, `\(38\%\)` of them had been varsity athletes. The other 151 had other neurological disorders, and only `\(26\%\)` of them had been varsity athletes. 
+
+(a) Is there evidence that ALS is more common among athletes? Support your answer with an appropriate statistical procedure.
+
+(b) Is this an experiment or an observational study? Does this affect the conclusion you drew in part (a)? 
+
+|   | Random Assignment | No Random Assignment | 
+|---|--------------------|---------------------|
+| **Random Sampling** | Correlation indicates causal conclusion; Can generalize to the population   | Correlation only, no causation; Can generalize to the population  |
+| **No Random Sampling** | Correlation indicates causal conclusion; Cannot generalize beyond the sample  | Correlation only, no causation; Cannot generalize beyond the sample | 
+
+
+---
+## Properties of Expectation and Variance 
+
+Suppose we have two random variables, `\(X\)` and `\(Y\)`. Regardless of the distribution of either random variable, we find the sample estimates for the mean, variance, and covariance with the following formulas. 
+
+- `\(E[X]=\)` sum of the possibilities `\(\times\)` the probabilities 
+- `\(Var[X]=\)` average distance from each data point to the mean
+- `\(Cov[X,Y]=\)` strength of a linear relationship between `\(X\)` and `\(Y\)` 
+
+**Properties of expectation:** `\(E[aX \pm bY] = aE[X] \pm bE[Y]\)` 
+
+**Properties of variance:** `\(Var[aX \pm bY] = a^2Var[X] + b^2Var[Y] \pm 2Cov[X,Y]\)` 
+
+.blue[But], if `\(X\)` and `\(Y\)` are independent, then `\(Cov[X,Y]=0\)`! 
+
+
+--
+**Q:** From the information above, what is the consequence for standard deviation? 
+
+
+---
+## Penguin data
+
+.scroll-output[
+
+```r
+#install.packages("remotes")
+#remotes::install_github("allisonhorst/palmerpenguins") 
+library("palmerpenguins")
+penguins2 &lt;- penguins %&gt;% 
+             na.omit() %&gt;% ## this is a very useful function that will omit an entire row if any of the column values are missing (NA)
+             mutate(bill_length_standard = (bill_length_mm-mean(bill_length_mm))/sd(bill_length_mm))
+head(penguins2)
+```
+
+```
+## # A tibble: 6 x 9
+##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
+##   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt; &lt;fct&gt;
+## 1 Adelie  Torge…           39.1          18.7              181        3750 male 
+## 2 Adelie  Torge…           39.5          17.4              186        3800 fema…
+## 3 Adelie  Torge…           40.3          18                195        3250 fema…
+## 4 Adelie  Torge…           36.7          19.3              193        3450 fema…
+## 5 Adelie  Torge…           39.3          20.6              190        3650 male 
+## 6 Adelie  Torge…           38.9          17.8              181        3625 fema…
+## # … with 2 more variables: year &lt;int&gt;, bill_length_standard &lt;dbl&gt;
+```
+]
+---
+## Penguin data
+
+- There are nine variables in the `penguins2` data set. Which of these variables would you treat as categorical? 
+
+- What does the variable `bill_length_standard` represent? 
+
+
+```
+## tibble [333 × 9] (S3: tbl_df/tbl/data.frame)
+##  $ species             : Factor w/ 3 levels "Adelie","Chinstrap",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ island              : Factor w/ 3 levels "Biscoe","Dream",..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ bill_length_mm      : num [1:333] 39.1 39.5 40.3 36.7 39.3 38.9 39.2 41.1 38.6 34.6 ...
+##  $ bill_depth_mm       : num [1:333] 18.7 17.4 18 19.3 20.6 17.8 19.6 17.6 21.2 21.1 ...
+##  $ flipper_length_mm   : int [1:333] 181 186 195 193 190 181 195 182 191 198 ...
+##  $ body_mass_g         : int [1:333] 3750 3800 3250 3450 3650 3625 4675 3200 3800 4400 ...
+##  $ sex                 : Factor w/ 2 levels "female","male": 2 1 1 1 2 1 2 1 2 2 ...
+##  $ year                : int [1:333] 2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...
+##  $ bill_length_standard: num [1:333] -0.895 -0.822 -0.675 -1.334 -0.858 ...
+##  - attr(*, "na.action")= 'omit' Named int [1:11] 4 9 10 11 12 48 179 219 257 269 ...
+##   ..- attr(*, "names")= chr [1:11] "4" "9" "10" "11" ...
+```
+
+
+---
+## Chi-square test of homogeneity or independence 
+
+**Moodle Q:** In a chi-squared test of homogeneity, I'm still having trouble determining which categorical variable is the one we're interested in the distribution of. 
+
+**A:** If the groups/levels of one of the categorical variables are NOT independent (like years for example) use test of homogeneity. The groups/levels within each of the categorical variables must be independent for a test of independence. 
+
+
+---
+## Penguin data
+### Group work (15 mins)
+
+.scroll-output[**Instructions:** Work with your group to do the following: 
+
+1. Write a question for this data set that can be answered with a chi-square test of independence.
+
+1. Write a question for this data set that can be answered with a chi-square test of homogeneity.
+
+1. Write a question for this data set that can be answered with an ANOVA test. 
+
+Clearly state the null and alternative hypotheses. If your group finishes early, load the data set into your working R library and  perform the two chi-square tests in RStudio.
+
+
+**Note-taker:** Open the Google doc [worksheet](https://docs.google.com/document/d/15VyphvEZsHkTFZgXagBzacMGoJMHDH3G0gtUWKqf0fc/edit?usp=sharing) to part 1 and share your screen with the class. You will  annotate the screen with the Zoom whiteboard to answer the prompts and take a screenshot of your group's results to send over your group's Slack channel at the end of your discussion.
+
+**Presenter:** Be prepared to explain your group's answers and reasoning when we come together as a class to discuss the prompts above. 
+
+**Recorder:** Keep track of the time and alert your group when to move on to the next bullet point. (Allot for approximately 4 minutes per bullet point.)
+
+**Questioner:** If your group reaches a consensus early, push back with additional questions or ask for another example.]  
+ 
+
+---
+## Penguin data
+### Normal probability plot
+
+
+&lt;img src="Figs/class7.1-1.png" style="display: block; margin: auto;" /&gt;
+
+What conclusions can we draw from this normal probability plot? (**Note:** Standardizing data makes it unitless!)
+
+---
+## Penguin data
+### Normal probability plot
+
+
+&lt;img src="Figs/class7.11-1.png" style="display: block; margin: auto;" /&gt;
+
+
+**Moodle Q:** What's the significance of the slope in a Normal probability plot?
+
+
+**A:** There is none! (It's just there to make the plot easier to read since the line highlights where the horizontal and vertical variables are equal.)
+
+
+---
+## Penguin data
+### Normal probability plot
+
+&lt;img src="Figs/class7.2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+Compare the normal probability plot on the previous slide to the histogram of the standardized bill length data. Which is easier to interpret? 
+
+
+--
+When it comes to visualizing data, the more plots you can explore, the better! 
+
+
+---
+## ANOVA 
+### Equal variances
+
+One necessary assumption for an ANOVA test is that the variance of the quantitative variable (say, bill length) is approximately the same across the different levels of the categorical variable (say, island). 
+
+
+**Moodle Q:** How do we detect systematic changes in the spread versus random fluctuation?
+
+
+--
+**A:** [S]omething done systematically is typically done explicitly and intentionally. Systemic problems are often under the surface and unseen to people, far more extensive than any one action... (Source: Dictionary.com) 
+
+The key is that we are looking for patterns! For example, do groups with larger means tend to also have larger variances? Or maybe groups with larger means tend to have smaller variances and groups with smaller means have larger variances. Either of these situations is indicative of systematic sages in the variability of the data. 
+
+---
+## ANOVA with Penguins Data
+### Group work - 10 mins
+
+.scroll-output[Here are the box plots for the bill length (in mm) of penguins on each of the three different islands. What are some noteworthy attributes of these plots? Can you predict the result of the ANOVA test for a difference in mean bill length across the three different islands?    
+
+&lt;img src="Figs/class7.3-1.png" style="display: block; margin: auto;" /&gt;
+
+
+**Note-taker:** Open the Google doc [worksheet](https://docs.google.com/document/d/15VyphvEZsHkTFZgXagBzacMGoJMHDH3G0gtUWKqf0fc/edit?usp=sharing) to part 2 and share your screen with the class. You will annotate the screen with the Zoom whiteboard to answer the prompts and take a screenshot of your group's results to send over your group's Slack channel at the end of your discussion.
+
+**Presenter:** Be prepared to explain your group's answers and reasoning when we come together as a class to discuss the prompts above. 
+
+**Recorder:** Keep track of the time and alert your group when to move on to the next question. (I recommend saving 3 minutes at the end for the second question.)
+
+**Questioner:** If your group reaches a consensus early, push back with additional questions or ask for another example.]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

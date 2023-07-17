@@ -1,0 +1,73 @@
+name,league,rank,prev_rank,off,def,spi
+Stoke City,English League Championship,77,73,1.8,1,64.3
+Aston Villa,English League Championship,112,111,1.6,1,60.3
+West Bromwich Albion,English League Championship,118,116,1.7,1.2,59.2
+Middlesbrough,English League Championship,123,124,1.6,1,58.3
+Brentford,English League Championship,127,137,1.6,1.1,57.7
+Swansea City,English League Championship,140,141,1.6,1.1,56.2
+Leeds United,English League Championship,174,186,1.5,1.2,51.9
+Hull City,English League Championship,182,174,1.5,1.3,50.5
+Sheffield United,English League Championship,184,185,1.3,1.1,50.3
+Derby County,English League Championship,188,170,1.4,1.2,49.8
+Norwich City,English League Championship,190,197,1.5,1.3,49.5
+Preston North End,English League Championship,193,195,1.3,1.1,49.2
+Millwall,English League Championship,195,189,1.4,1.2,49.2
+Bristol City,English League Championship,203,205,1.4,1.3,48.4
+Nottingham Forest,English League Championship,217,212,1.3,1.2,47
+Birmingham,English League Championship,218,214,1.4,1.3,46.9
+Sheffield Wednesday,English League Championship,223,223,1.4,1.4,46.3
+Queens Park Rangers,English League Championship,237,227,1.3,1.4,45.4
+Bolton,English League Championship,289,290,1.2,1.4,41.2
+Wigan,English League Championship,305,313,1.2,1.5,40.3
+Reading,English League Championship,309,311,1.2,1.4,40.1
+Ipswich Town,English League Championship,312,320,1.1,1.4,39.9
+Blackburn,English League Championship,314,318,1.2,1.4,39.9
+Sunderland,English League One,374,364,1.1,1.6,35.2
+Rotherham United,English League Championship,377,366,1.1,1.5,35.1
+Barnsley,English League One,402,424,1.1,1.6,32.7
+Scunthorpe,English League One,442,434,1,1.7,29.3
+Peterborough United,English League One,450,481,1,1.8,28.9
+Charlton Athletic,English League One,464,471,0.8,1.6,27.1
+Southend United,English League One,469,466,0.9,1.8,26.7
+Doncaster Rovers,English League One,474,492,0.8,1.7,26.1
+Portsmouth,English League One,477,485,0.8,1.7,25.7
+Blackpool,English League One,480,467,0.8,1.7,25.4
+Milton Keynes Dons,English League Two,481,480,0.9,1.9,25.3
+Gillingham,English League One,488,500,0.8,1.8,24.6
+Fleetwood Town,English League One,493,509,0.8,1.7,23.7
+Oldham Athletic,English League Two,494,484,0.9,1.9,23.7
+Plymouth Argyle,English League One,497,490,0.8,1.9,23.4
+Shrewsbury Town,English League One,504,495,0.7,1.7,22.8
+Rochdale,English League One,510,488,0.7,1.9,21.4
+Luton Town,English League One,512,514,0.7,1.8,21.3
+Coventry City,English League One,513,511,0.7,1.8,21.3
+AFC Wimbledon,English League One,515,512,0.6,1.7,20.7
+Burton Albion,English League One,516,507,0.8,2,20.6
+Bristol Rovers,English League One,518,510,0.7,1.9,20.5
+Accrington Stanley,English League One,524,542,0.7,2,19.1
+Wycombe Wanderers,English League One,527,513,0.7,1.9,18.9
+Oxford United,English League One,528,521,0.7,2,18.8
+Exeter City,English League Two,531,545,0.7,2,18.6
+Walsall,English League One,532,541,0.6,1.9,18.5
+Mansfield Town,English League Two,534,534,0.7,2,18.4
+Lincoln City,English League Two,535,547,0.7,2,18.4
+Bradford City,English League One,536,523,0.6,1.9,18.4
+Bury,English League Two,537,532,0.6,1.9,18.1
+Northampton Town,English League Two,541,543,0.7,2.1,17.9
+Crewe Alexandra,English League Two,550,548,0.7,2.3,15.1
+Forest Green Rovers,English League Two,555,555,0.6,2.3,13.2
+Notts County,English League Two,556,553,0.5,2.2,13.2
+Swindon Town,English League Two,557,552,0.6,2.4,12.5
+Carlisle United,English League Two,559,559,0.4,2.1,12.1
+Cambridge United,English League Two,560,561,0.5,2.3,11.8
+Stevenage,English League Two,561,564,0.5,2.3,11.6
+Tranmere Rovers,English League Two,563,563,0.4,2.2,10.3
+Crawley Town,English League Two,564,560,0.5,2.4,10.1
+Colchester United,English League Two,566,572,0.2,1.9,9.3
+Yeovil Town,English League Two,569,573,0.3,2.4,8.3
+Cheltenham Town,English League Two,570,569,0.4,2.5,8.3
+Port Vale,English League Two,572,567,0.3,2.4,8
+Newport County,English League Two,573,574,0.2,2.2,7.6
+Macclesfield,English League Two,574,568,0.3,2.4,7.5
+Grimsby Town,English League Two,575,576,0.3,2.4,7
+Morecambe,English League Two,576,575,0.2,2.3,6.2

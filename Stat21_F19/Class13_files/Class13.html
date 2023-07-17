@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 13</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class13_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class13_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 13
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/9/30 (updated: 2019-10-23)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+&lt;img src="Figs/extrapolating.png" width="615" height="600" style="display: block; margin: auto;" /&gt;
+
+---
+## For Exam 1: 
+### Note some small changes from our class 9 notes.
+
+~~Some simple ANOVA problems~~
+
+All review material 
+
+All SLR material
+
+Sums of squares terms
+
+No formula sheet or calculator will be needed
+
+Review class on Wednesday, Oct 2nd
+
+
+
+Office Hours: today and tomorrow from 2-3:30pm 
+
+
+
+---
+## A new example - restaurant tips
+Suppose we are interested in the question: do people tip more generously when ordering an expensive meal?
+
+
+```r
+require(Lock5Data)
+data(RestaurantTips)
+SLR_tips = lm(Tip ~ Bill, data = RestaurantTips)
+
+RestaurantTips %&gt;% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatterplot of the data and the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+```
+
+.footnote[Source: http://pages.stat.wisc.edu/~larget/stat302/regression.R]
+
+---
+## Another example - restaurant tips
+
+
+&lt;img src="Figs/unnamedClass13_2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Restaurant tips example
+
+
+
+
+```r
+RestaurantTips %&gt;% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm")+
+                     labs(title="Scatterplot of the data and the regression line",
+                          subtitle="Superimposed 95% CI bounds on the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+```
+
+---
+## Restaurant tips example
+
+
+&lt;img src="Figs/unnamedClass13_4-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Restaurant tips example
+
+
+
+```r
+RestaurantTipsv2 = data.frame(RestaurantTips, predict(SLR_tips, interval="prediction"))
+RestaurantTipsv2 %&gt;% ggplot(aes(x=Bill,y=Tip)) +
+    geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3) +
+    geom_smooth(method="lm",se=FALSE) +
+    geom_point() +
+   labs(title="Scatterplot of the data and the regression line",
+        subtitle="Superimposed 95% prediction bounds on the regression line",
+        x="Cost of the bill", y="Amount tipped")
+```
+
+---
+## Restaurant tips example
+
+&lt;img src="Figs/unnamedClass13_6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+## Confidence and prediction intervals 
+
+It can be really illuminating to look at the mathematical formulas for calculating these two types of intervals. In either case, suppose we have some new values of our predictor variable, `\(x_{new}\)` and we are interested in confidence and prediction intervals for the response.
+
+
+For confidence intervals of the **average response**: 
+`$$\hat{y} \pm t_{\alpha/2, n-2}SE(\hat{y})$$`
+where `\(SE(\hat{y}) = \sum_{i=1}^{n}(y_i - \bar{y})(x_i - \bar{x})\sqrt{\frac{1}{n} + \frac{(x_{new}-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}\)`
+
+For confidence intervals of the **predicted response**: 
+`$$\hat{y}_{new} \pm t_{\alpha/2, n-2}SE(\hat{y}_{new})$$`
+where `\(SE(\hat{y}_{new}) = \sum_{i=1}^{n}(y_i - \bar{y})(x_i - \bar{x})\sqrt{1 + \frac{1}{n} + \frac{(x_{new}-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}\)`
+
+
+---
+## Confidence and prediction intervals 
+
+The prediction interval is designed to cover a “moving target”, the random future value of `\(y\)`, while the confidence interval is designed to cover the “fixed target”, the average (expected) value of `\(Y\)`, `\(E(Y)\)`.
+
+
+--
+**Q:** What is the statistical relationship driving this difference in the standard errors?
+
+
+--
+**A:** This is actually another example of a special property of the variance function! Namely, that for any independent and identically distributed random variables `\(Y_1\)` and `\(Y_2\)` we have
+`$$Var(Y_1 - Y_2) = Var(Y_1) + Var(Y_2).$$`
+
+
+
+&lt;a href="https://www.youtube.com/watch?feature=player_embedded&amp;v=qVCQi0KPR0s"&gt;This&lt;/a&gt; is a 10 minute video going through another example of the difference between confidence intervals and prediction intervals. For more on the distinction between prediction intervals and confidence intervals go &lt;a href="https://stats.stackexchange.com/questions/16493/difference-between-confidence-intervals-and-prediction-intervals"&gt;here&lt;/a&gt;.
+
+
+---
+## Confidence intervals and prediction intervals in R 
+
+Now let's go back to the health care data set. 
+
+
+```r
+new_hc_data = data.frame(spending_capita = 45000)
+```
+
+
+```r
+predict(SLR_hc_employer_2013, new_hc_data, interval="confidence", level = 0.95) 
+```
+
+```
+##         fit       lwr       upr
+## 1 0.5077787 0.4924869 0.5230705
+```
+
+```r
+predict(SLR_hc_employer_2013, new_hc_data, interval="predict", level = 0.95) 
+```
+
+```
+##         fit       lwr      upr
+## 1 0.5077787 0.3976564 0.617901
+```
+
+
+
+---
+## Confidence intervals and prediction intervals 
+
+```r
+CI_bounds &lt;- as_tibble(predict(SLR_hc_employer_2013, hc_employer_2013, interval="confidence", level = 0.95)) 
+PI_bounds &lt;- as_tibble(predict(SLR_hc_employer_2013, hc_employer_2013, interval="predict", level = 0.95))
+
+
+new_hc_data &lt;- bind_cols(hc_employer_2013,CI_bounds,PI_bounds[,2:3]) %&gt;%     
+               as.tibble(.name_repair="universal")
+## note the prediction interval bounds at the one's with "1" appended to the name
+
+ggplot(new_hc_data, aes(x=spending_capita,y=prop_coverage)) + 
+  ylim(0,1) + 
+  geom_ribbon(aes(ymin=lwr1, ymax=upr1, fill='prediction'),alpha=0.3) +  
+  geom_smooth(method="lm", se=TRUE, aes(fill='confidence'), alpha=0.3) +
+  geom_point() +
+  labs(title="Scatterplot of the data and the regression line",
+       subtitle="Confidence and prediction intervals",
+       y='Proportion of people covered',
+       x='Per capita spending')
+```
+
+
+---
+## Confidence intervals and prediction intervals 
+&lt;img src="Figs/pred_and_conf_ints_class13-1.png" width="700" height="500" style="display: block; margin: auto;" /&gt;
+
+---
+## Good questions from Piazza - 1
+
+HW 3 Q 3 part b:  What are: the equation of the regression line, the value of the standard deviation of height, and the value of R-squared?
+  &gt; Which is the "right" way to find the estimated standard deviation of the errors (and also the response)? (credit: Mehra)
+
+
+```r
+sd(hc_employer_2013$prop_coverage)
+```
+
+```
+## [1] 0.05417658
+```
+
+The function above produces a summary statistic of our data that informs us about how spread out the observed data is. It is **not** an estimate of the standard deviation of the random error. Based on our observed proportion of people covered in each state we calculate:
+`$$sd(y_{obs}) = \sqrt{\frac{\sum_{i=1}^{n}(y_i-\bar{y})^2}{n-1}}$$`
+
+---
+## Good questions from Piazza - 1
+
+HW 3 Q 3 part b:  What are: the equation of the regression line, the value of the standard deviation of height, and the value of R-squared?
+  &gt; Which is the "right" way to find the estimated standard deviation of the errors (and also the response)? (credit: Mehra)
+  
+
+```r
+SLR_hc2013_summary$sigma
+```
+
+```
+## [1] 0.05426788
+```
+The function here however is calculating an estimate for the spread of our random measurement error:
+`$$\hat{\sigma} = \sqrt{\frac{SS_{res}}{n-2}} = \sqrt{\frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)}{n-2}}$$`
+
+---
+## Good questions from Piazza - 1
+
+Let's look at the restaurant data now too. 
+
+.scroll-output[
+
+```r
+SLR_tips %&gt;% summary
+```
+
+```
+## 
+## Call:
+## lm(formula = Tip ~ Bill, data = RestaurantTips)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.3911 -0.4891 -0.1108  0.2839  5.9738 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.292267   0.166160  -1.759   0.0806 .  
+## Bill         0.182215   0.006451  28.247   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.9795 on 155 degrees of freedom
+## Multiple R-squared:  0.8373,	Adjusted R-squared:  0.8363 
+## F-statistic: 797.9 on 1 and 155 DF,  p-value: &lt; 2.2e-16
+```
+
+```r
+sd(RestaurantTips$Tip)
+```
+
+```
+## [1] 2.420857
+```
+
+Here we see an even larger difference between these two different statistics.] 
+
+---
+## Good questions from Piazza - 1
+
+
+```r
+sd(RestaurantTips$Tip)
+```
+
+```
+## [1] 2.420857
+```
+
+---
+## Good questions from Piazza - 2
+
+HW 3 Q3 part e: Test the hypothesis that `\(\hat{\beta}_1 = 0\)` at an `\(\alpha = 0.05\)` significance level. State your null and alternative hypotheses and report the test statistic and p-value (and/or rejection region). Interpret, in the context
+of the problem, the results of this test.
+  &gt; Am I supposed to use the t.test function or the cor.test function? (credit: Major)
+
+
+---
+## Good questions from Piazza - 2
+
+.scroll-output[
+
+```r
+##t-test - two sided, compare to alpha/2
+SLR_hc2013_summary
+```
+
+```
+## 
+## Call:
+## lm(formula = prop_coverage ~ spending_capita, data = hc_employer_2013)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.12870 -0.04341  0.00710  0.03711  0.09344 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      5.137e-01  1.027e-02  50.030   &lt;2e-16 ***
+## spending_capita -1.319e-07  1.446e-07  -0.912    0.366    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.05427 on 49 degrees of freedom
+## Multiple R-squared:  0.01669,	Adjusted R-squared:  -0.003373 
+## F-statistic: 0.8319 on 1 and 49 DF,  p-value: 0.3662
+```
+
+```r
+slope_t_value &lt;- SLR_hc2013_summary$coefficients[2,3]
+pt(abs(slope_t_value), length(hc_employer_2013$prop_coverage)-1, lower.tail=FALSE)
+```
+
+```
+## [1] 0.1830498
+```
+]
+
+---
+## Good questions from Piazza - 2
+
+
+```r
+##correlation test 
+cor.test(~prop_coverage+spending_capita, data=hc_employer_2013)
+```
+
+```
+## 
+## 	Pearson's product-moment correlation
+## 
+## data:  prop_coverage and spending_capita
+## t = -0.91209, df = 49, p-value = 0.3662
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.3908719  0.1517822
+## sample estimates:
+##       cor 
+## -0.129206
+```
+In simple linear regression, since we only have one predictor variable, testing the correlation between `\(x\)` and `\(y\)` is the same thing as testing whether or not the slope coefficient, `\(\hat{\beta}_1\)`, is zero. However, it's important to note that the equality of these tests **only** hold in SLR.
+
+---
+## Revisiting the meaning of the sums of squares terms
+### In linear regression, what causes the response variable to vary?
+
+In fitting our model we break the sources of variability in `\(y\)` into two components:
+
+  1) The variation in `\(x\)` values. (deterministic) We measure this variation using the regression line by considering: `\((\hat{y}_i – \bar{y} )\)`.
+
+  2) Individual variation of `\(y\)` about a line. (random) We measure this variation using the residuals: `\(y_i – \hat{y}_i\)`.
+
+
+--
+Thus the overall variability in `\(Y\)` is the total of these two individual sources: 
+
+  .center[Total variation in Y = variation due to x + variation NOT due to x]
+
+
+Source    | Sums of sqs  | Deg of free. | Mean square | F-statistic
+--------- | ------------ | ------------ | ----------- | ----------- 
+Model     | `\(\sum_{i=1}^{n}(\hat{y}_i-\bar{y})^2\)` | `\(1\)`   | `\(MSReg=\frac{SS_{reg}}{1}\)` | `\(F=\frac{MSReg}{MSE}\)`
+Residuals | `\(\sum_{i=1}^{n}(\hat{y}_i - y_i)^2\)` | `\(n-2\)` | `\(MSE=\frac{SSE}{n-2}\)`   | 
+
+---
+## Checking model assumptions
+
+In SLR, we can plot residuals vs X or plot residuals vs predicted but it is better to get in the habit of plotting ** residuals vs predicted** because this is what we use in multiple linear regression.  
+
+
+What are we looking for these plots? 
+
+1. Any "trends" in the plot
+  - E.g. negative residuals at small values of `\(\hat{y}_i\)` and positive residuals at large values of `\(\hat{y}_i\)` indicates non-linearity in the data. 
+  - **Q:** What can we do to address non-linearity? 
+
+1. Non-constant spread of the residuals
+  - E.g. More clustered residuals for small `\(\hat{y}_i\)` values and more spread out residuals for large `\(\hat{y}_i\)`, looks like "funneling". 
+  
+
+**Q:** What can we do to address heteroscedasticity? 
+--
+The usual remedy is a transformation of the response.
+
+
+.footnote[&lt;a href="https://data.princeton.edu/wws509/notes/c2s9
+"&gt;Here&lt;/a&gt; is my source for the interpretations above. This is helpful to check out tor further reading on regression diagnostics (although we are not covering all the material that is mentioned here).]
+
+
+---
+## Checking for normality 
+
+Normal probability plots of the **residuals** help us check whether the combination of all the residuals is Normally distributed. 
+
+
+Guide to interpreting QQ plots: 
+
+  - If the data is curved, this indicates a skewed distribution
+
+      - Downward concavity corresponds to negative Skewness (long tail to the left) 
+
+      - Upward concavity indicating positive skewness. 
+
+  - An S-shape indicates heavy tails, or an excess of extreme values, relative to the Normal distribution.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

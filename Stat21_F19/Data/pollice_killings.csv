@@ -1,0 +1,468 @@
+age,gender,raceethnicity,year,state,cause,armed,pop,share_white,share_black,share_hispanic,nat_bucket,pov,urate
+16,Male,Black,2015,AL,Gunshot,No,3779,60.5,30.5,5.6,3,14.1,0.097686375
+27,Male,White,2015,LA,Gunshot,No,2769,53.8,36.2,0.5,1,28.8,0.065723794
+26,Male,White,2015,WI,Gunshot,No,4079,73.8,7.7,16.8,3,14.6,0.166293142
+25,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,4343,1.2,0.6,98.8,3,11.7,0.124827269
+29,Male,White,2015,OH,Gunshot,No,6809,92.5,1.4,1.7,4,1.9,0.063549832
+29,Male,White,2015,AZ,Gunshot,No,4682,7,7.7,79,1,58,0.073651452
+22,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,5027,50.8,0.3,44.2,4,17.2,0.131461131
+35,Male,Hispanic/Latino,2015,CA,Gunshot,Non-lethal firearm,5238,8.6,0.2,84.1,4,12.2,0.094346979
+44,Male,White,2015,TX,Gunshot,Firearm,4832,14.6,17.7,66.3,1,37.7,0.140832976
+31,Male,White,2015,MI,Gunshot,Other,3795,63.6,7.7,26.5,2,18.4,0.174167417
+76,Male,White,2015,CA,Gunshot,Knife,2786,51.4,0.9,44.9,3,9.2,0.041085271
+40,Male,White,2015,CA,Gunshot,No,9429,67.3,0.6,12.9,5,4.4,0.057580779
+NA,Male,Hispanic/Latino,2015,TX,Gunshot,No,11228,7.5,32.1,53.3,3,18.1,0.073771857
+31,Male,White,2015,IN,Gunshot,Firearm,3413,83.7,7.6,3.1,2,13.1,0.054470101
+23,Male,White,2015,IN,Gunshot,Non-lethal firearm,5573,64,23.5,7.5,2,26,0.067321178
+39,Male,Hispanic/Latino,2015,TN,Gunshot,Firearm,6315,37.5,27,24.7,1,36.3,0.088225858
+25,Female,Black,2015,GA,Gunshot,Vehicle,1997,30.5,58.4,6.4,3,42.4,0.229482072
+54,Male,Hispanic/Latino,2015,VA,Gunshot,Firearm,3651,52.2,16.2,15.7,2,20.5,0.011916111
+24,Female,White,2015,CA,Gunshot,Firearm,5286,44.8,6.9,16.5,4,11.6,0.040850588
+57,Male,Black,2015,CA,Death in custody,No,5740,31.3,7.5,15.2,5,6.4,0.063268366
+21,Male,Hispanic/Latino,2015,CA,Gunshot,Vehicle,4303,28.3,5.1,58.1,4,12.7,0.115890508
+42,Male,Black,2015,NE,Death in custody,No,5213,92.3,2.3,2.9,3,10.3,0.035221496
+21,Male,Hispanic/Latino,2015,KS,Gunshot,Other,4149,40.3,10.7,41.4,1,36.5,0.178185745
+36,Male,White,2015,CA,Gunshot,Firearm,6460,17.8,4.4,76.4,2,24.4,0.262976968
+26,Male,White,2015,OK,Gunshot,Firearm,3348,77.7,0.9,9.7,1,20.3,0.011335013
+49,Male,White,2015,OR,Gunshot,Firearm,5824,78.1,2.2,15.1,2,24.8,0.131158917
+54,Male,White,2015,NH,Gunshot,Firearm,4521,94,1.8,1.9,4,5.4,0.087385483
+26,Male,White,2015,CA,Gunshot,Firearm,3202,7.7,6,77.9,3,17.4,0.098980204
+48,Male,Black,2015,FL,Gunshot,Firearm,6172,86.2,7.4,6.5,2,18.2,0.176148796
+33,Male,Hispanic/Latino,2015,TX,Gunshot,Firearm,4160,6,3.4,89.9,1,58.1,0.14461316
+21,Male,Hispanic/Latino,2015,CA,Gunshot,Knife,7886,56.6,1.2,35.9,3,24.1,0.17323741
+41,Male,Black,2015,MA,Gunshot,Firearm,4924,1.6,66.4,35.2,1,41.3,0.22039801
+48,Male,Black,2015,TN,Gunshot,Vehicle,4228,0.6,98.6,0,2,18.9,0.218520333
+36,Male,Black,2015,AL,Gunshot,Knife,6018,89.9,4.3,1.4,4,8.9,0.063658099
+41,Male,Hispanic/Latino,2015,GA,Gunshot,Firearm,5601,93.7,0.6,5.1,3,9.5,0.133676093
+29,Male,Black,2015,PA,Gunshot,Knife,2742,42,12.3,37.1,2,9.3,0.206855081
+27,Male,Black,2015,GA,Gunshot,No,3305,60.1,9.5,13.7,4,18.6,0.170409511
+45,Male,White,2015,GA,Gunshot,Firearm,4838,65.1,23.7,6.3,2,27.8,0.11037302
+32,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,2584,4.3,3.4,89.6,1,37.4,0.123766135
+35,Male,Hispanic/Latino,2015,WA,Gunshot,Firearm,6747,16.5,0.9,78.7,1,35.9,0.131743119
+36,Male,Black,2015,AR,Gunshot,Firearm,3245,53.7,44.4,1.8,1,15.6,0.055732484
+35,Male,Black,2015,GA,Taser,Knife,4947,94.1,2.4,2.6,2,20.5,0.150121065
+40,Male,Hispanic/Latino,2015,OK,Gunshot,Vehicle,5887,33.9,2.6,56.6,1,25.1,0.142746615
+18,Male,White,2015,FL,Gunshot,Firearm,5004,83.9,4,5.5,3,17.1,0.115461847
+34,Female,White,2015,IA,Gunshot,Firearm,4465,72.1,14.5,6.8,1,26.3,0.105963791
+39,Male,Hispanic/Latino,2015,CA,Gunshot,Knife,8623,4.2,0.2,93.9,3,20.6,0.123624444
+21,Male,Hispanic/Latino,2015,TX,Gunshot,Other,3013,3.3,11.7,84.7,1,36.2,0.109816972
+62,Male,Black,2015,GA,Struck by vehicle,No,3580,5.1,85.1,6.2,1,41.4,0.23108747
+43,Female,White,2015,NC,Gunshot,Firearm,5876,59.9,31.7,2.9,1,28.7,0.195510204
+44,Male,White,2015,NM,Gunshot,Firearm,5203,15.8,0.3,81.5,2,25.8,0.076500588
+29,Male,White,2015,OK,Gunshot,Firearm,4601,39.3,0.1,1.7,2,19.1,0.042686101
+35,Male,Black,2015,DC,Gunshot,Firearm,2664,60.6,7.8,10.5,5,11.9,0.019665683
+50,Male,White,2015,FL,Gunshot,Knife,8874,57,17.7,19.8,2,14.1,0.080136986
+18,Male,Black,2015,OH,Gunshot,Firearm,2182,0,98.9,0.1,1,32.8,0.204280156
+25,Male,White,2015,TX,Gunshot,Firearm,6701,74.9,0.8,22.8,4,10.2,0.047407913
+31,Male,White,2015,ID,Gunshot,Knife,9680,89,0,8.1,4,9.5,0.095137421
+29,Male,Black,2015,CA,Gunshot,Firearm,2860,70.7,4.5,15.5,4,13.2,0.12679524
+49,Male,White,2015,OR,Gunshot,Firearm,5057,79.7,1.4,14.5,3,21.6,0.150479846
+23,Male,NA,2015,CA,Gunshot,Firearm,4179,2,1.1,96.6,2,16.3,0.125765426
+45,Male,White,2015,CO,Gunshot,Knife,3880,69.7,0.1,28,4,7.7,0.044583333
+26,Male,Black,2015,CA,Taser,Firearm,3078,1.9,47.3,45.9,2,23.6,0.214183381
+35,Male,White,2015,KS,Gunshot,Knife,3770,94.9,0.6,3.2,4,9.5,0.041356877
+34,Male,White,2015,OR,Gunshot,Non-lethal firearm,4689,93.2,0.3,2.2,4,5,0.110323438
+46,Male,Asian/Pacific Islander,2015,HI,Gunshot,No,1392,43,7.7,1,4,14.4,0.055155875
+29,Male,Black,2015,KY,Gunshot,Knife,10220,86.2,6.4,3.9,4,8.6,0.053564237
+39,Male,Black,2015,FL,Taser,Firearm,4828,73.2,6,14.4,2,7.8,0.081150488
+28,Male,Asian/Pacific Islander,2015,CA,Gunshot,Knife,3568,12.2,18.9,48.3,1,50.7,0.348008386
+51,Male,Hispanic/Latino,2015,AZ,Gunshot,Knife,3035,46,0.9,51.3,2,25.8,0.103244838
+67,Male,White,2015,KY,Gunshot,Firearm,2422,95.9,0,0,1,34.2,0.312611012
+53,Male,White,2015,FL,Gunshot,Firearm,5102,94.4,0.5,2.9,4,10.6,0.099182004
+25,Male,Black,2015,MI,Gunshot,No,2560,0,98.4,1,1,46.3,0.258064516
+30,Male,Black,2015,FL,Gunshot,Knife,2621,18.1,67.5,11.5,1,47.4,0.155444722
+24,Male,Hispanic/Latino,2015,TX,Gunshot,No,4049,6.5,31.8,58.6,1,40.9,0.062886598
+35,Male,White,2015,CA,Taser,Firearm,2367,40.7,1.4,35.8,1,32.2,0.214501511
+43,Male,Black,2015,CA,Gunshot,Vehicle,5222,18,54.9,23,1,79.2,0.439590444
+24,Male,White,2015,SC,Gunshot,Firearm,5304,71.5,20.2,3.9,2,14.4,0.095290859
+29,Male,White,2015,AZ,Gunshot,Firearm,3357,41,1.7,53.4,4,10.9,0.107042254
+38,Male,Black,2015,KY,Gunshot,Firearm,3548,88.7,3,1.7,4,10.9,0.032068063
+31,Male,White,2015,AR,Gunshot,No,3886,67.2,21.7,10,2,18.2,0.092469018
+36,Male,White,2015,OR,Gunshot,Other,7687,61.8,6.4,15.4,2,31,0.138262782
+23,Male,White,2015,GA,Gunshot,Firearm,18168,52.5,36.5,4.4,4,12.2,0.050383481
+38,Male,White,2015,VA,Gunshot,Firearm,6987,78.2,5.4,14.2,3,11.6,0.103721571
+53,Male,White,2015,WV,Gunshot,No,3292,94.9,3.7,0.3,2,14.4,0.13483871
+24,Male,White,2015,UT,Gunshot,Knife,6457,62.7,0.3,28.3,2,20.5,0.071107364
+26,Male,White,2015,TX,Gunshot,Firearm,10229,32.9,15,48.3,3,19.4,0.068076536
+28,Male,Black,2015,MO,Gunshot,Firearm,4377,82.8,4.9,5.3,2,36.2,0.034616881
+34,Female,White,2015,GA,Gunshot,Knife,3520,63.6,7.7,21.4,3,14.8,0.140276302
+28,Male,Black,2015,FL,Gunshot,Firearm,11284,31.8,51,12,2,20,0.149261335
+40,Male,Black,2015,MD,Taser,Firearm,3121,3.8,81.2,6.1,2,19.9,0.159026599
+51,Male,Black,2015,NY,Gunshot,No,4941,1.5,83.1,15.6,2,20.1,0.106880138
+44,Male,White,2015,NE,Gunshot,Firearm,4293,87.8,0,10.3,3,16.5,0.025311025
+25,Male,Hispanic/Latino,2015,TX,Gunshot,Firearm,4917,8.5,0.4,89.6,1,21.5,0.144497608
+56,Male,White,2015,AZ,Gunshot,Knife,8205,69.3,2.8,17.8,4,3,0.079104478
+37,Male,Hispanic/Latino,2015,WA,Gunshot,Firearm,3531,51.6,11,18.4,2,18,0.131736527
+58,Male,White,2015,FL,Gunshot,Firearm,11794,62.5,15.8,15.9,3,9.4,0.12539185
+39,Male,White,2015,NE,Gunshot,Firearm,2314,55.5,6.4,36,1,30.5,0.093378608
+37,Male,Hispanic/Latino,2015,AZ,Gunshot,No,3887,49.2,0.1,49.8,2,15.7,0.188067445
+35,Male,Black,2015,NJ,Gunshot,Knife,4904,23.7,54.6,7,4,10.9,0.1
+26,Male,Black,2015,MD,Gunshot,Firearm,1625,17.4,75.7,0,1,51,0.309882747
+47,Male,Black,2015,OK,Taser,Firearm,1812,43.6,4.9,36,1,33.4,0.203271028
+31,Male,Black,2015,MD,Taser,Firearm,1970,41.5,52.6,3.1,1,46.7,0.348777349
+60,Male,White,2015,SC,Gunshot,No,5787,65.4,32.1,1.5,2,18.4,0.148903424
+32,Male,Black,2015,IL,Gunshot,No,2023,40.4,44,10.4,2,26.9,0.166843783
+45,Male,White,2015,ID,Gunshot,Non-lethal firearm,3481,88.9,0.1,6.4,1,42.4,0.091570649
+42,Male,Hispanic/Latino,2015,FL,Gunshot,Firearm,5059,75.3,13.7,10.5,2,14.3,0.155357805
+17,Male,White,2015,CO,Gunshot,Firearm,2291,74,1.3,20.3,1,25.7,0.079276773
+22,Male,Hispanic/Latino,2015,TX,Gunshot,Firearm,3864,20.4,9.8,70.7,1,26.2,0.131071191
+33,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,4934,5.7,6.1,88.5,1,50.6,0.151145038
+18,Male,White,2015,NC,Gunshot,No,5100,88.2,8.5,1.4,4,8.5,0.038598999
+39,Male,White,2015,MI,Taser,Firearm,4596,94.1,3.2,1.5,4,11.2,0.145936982
+59,Male,White,2015,PA,Gunshot,Firearm,4487,92.2,2.9,5.9,4,7.4,0.034010601
+33,Male,White,2015,OK,Taser,Firearm,4745,44.7,25,1.9,1,34.7,0.11886697
+58,Male,White,2015,OH,Gunshot,Firearm,2991,94.3,3.9,1.1,2,8.7,0.037341299
+58,Male,White,2015,NY,Gunshot,No,4968,95.7,0,2,3,12.9,0.158176944
+47,Male,White,2015,LA,Struck by vehicle,Firearm,3403,51.3,47.8,0.9,1,43.1,0.192203083
+41,Male,White,2015,CT,Taser,Other,4066,76.8,2.1,8.8,4,8.3,0.071680376
+64,Male,White,2015,CA,Struck by vehicle,Firearm,4225,22.5,1.8,64.6,3,7.3,0.068592058
+45,Male,White,2015,CA,Gunshot,Firearm,4791,9.5,0,33.9,4,24.3,0.11815301
+53,Female,White,2015,KS,Gunshot,Firearm,4643,87.1,1.8,3.4,4,6.3,0.035865793
+24,Male,White,2015,NC,Gunshot,Knife,6056,54.9,22,19.1,1,26.7,0.116172169
+48,Male,Black,2015,LA,Gunshot,Firearm,4232,10.8,86.4,2.6,2,38.3,0.057540884
+29,Male,Black,2015,FL,Gunshot,No,6074,3.2,94.4,5,1,26.9,0.160730056
+40,Male,Hispanic/Latino,2015,NY,Death in custody,Firearm,5169,0.9,19.5,71.9,1,36.7,0.176021554
+34,Male,White,2015,CA,Gunshot,Vehicle,5029,47.3,6.7,29,4,10.8,0.056382146
+21,Male,Black,2015,NY,Gunshot,Firearm,8222,28.9,22.8,39.6,4,4.4,0.109368376
+26,Male,White,2015,FL,Gunshot,NA,3536,52.2,5.1,41.5,2,17.4,0.102382486
+45,Male,Black,2015,TX,Gunshot,Firearm,4044,0.4,84.8,14,1,40.1,0.172051696
+25,Male,Black,2015,LA,Gunshot,Firearm,3085,19,46.1,28.8,1,39.4,0.018193225
+17,Male,White,2015,MI,Gunshot,Non-lethal firearm,3751,96.1,0.1,3.1,4,8.5,0.090425532
+24,Male,Black,2015,CA,Gunshot,Other,6461,23.6,3,49.1,4,9.1,0.107110979
+42,Male,Black,2015,AZ,Gunshot,Knife,4542,86.8,0.3,10.5,3,10,0.024411135
+29,Male,Black,2015,CA,Gunshot,Firearm,5072,37.5,5,54.3,3,20.7,0.175749894
+42,Male,Black,2015,GA,Gunshot,Knife,2156,54.9,42.7,0.6,1,19.3,0.111002921
+30,Male,Black,2015,VA,Taser,Firearm,6106,55,22.1,14.9,3,14.8,0.0509487
+29,Male,Black,2015,IN,Gunshot,Firearm,2733,76.2,0,19.9,2,21.8,0.087258687
+39,Male,Black,2015,NY,Taser,Firearm,5335,9.3,81.6,13.5,1,44.5,0.125672372
+63,Male,White,2015,IL,Gunshot,Non-lethal firearm,3721,83.5,9,1.1,3,11.3,0.104347826
+49,Male,White,2015,MS,Gunshot,Firearm,6604,94.3,4.7,0.1,2,22.9,0.105180534
+41,Male,Black,2015,SC,Gunshot,Firearm,3700,70.6,24.1,1.5,2,26,0.131529264
+27,Male,Black,2015,IN,Gunshot,Other,7499,21.5,53,20.9,2,28.9,0.121461408
+30,Male,White,2015,MA,Gunshot,No,5994,91.1,2.1,3.4,5,1.8,0.058623619
+60,Male,White,2015,TX,Gunshot,Knife,8023,25.2,17.5,53.5,2,15.4,0.09619801
+77,Male,Black,2015,AL,Gunshot,No,3708,22.2,77.8,1.5,1,37.5,0.145048815
+19,Male,NA,2015,AZ,Gunshot,No,5206,65,0.9,30.3,2,21.7,0.216194332
+37,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,5950,15.6,5.8,66,4,7.6,0.160571809
+54,Male,Black,2015,MD,Gunshot,Firearm,3070,11.3,86.4,0,3,10.1,0.067278287
+29,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,2886,48.3,8.1,38.4,1,32,0.216848674
+30,Male,Black,2015,TX,Gunshot,No,4775,34.7,16.3,14.6,3,9.2,0.092148913
+24,Male,Hispanic/Latino,2015,NJ,Gunshot,Knife,6844,43,18.6,23.5,3,11.1,0.032626816
+21,Male,White,2015,AZ,Gunshot,Firearm,5206,65,0.9,30.3,2,21.7,0.216194332
+44,Male,Black,2015,OK,Gunshot,Firearm,3300,52.2,23.8,10.1,2,26.7,0.080686695
+40,Male,White,2015,AZ,Gunshot,Firearm,5269,68.6,0,23.6,3,16.3,0.059301769
+32,Male,White,2015,OK,Gunshot,Knife,4681,84.1,0.3,3.8,4,18,0.053372149
+22,Male,Hispanic/Latino,2015,TX,Gunshot,Knife,5921,7.9,2.1,83.7,4,17.8,0.05323741
+43,Male,White,2015,AZ,Gunshot,Firearm,3082,20.6,5.9,71.2,1,39.9,0.12
+52,Male,Hispanic/Latino,2015,CA,Gunshot,Knife,7528,12.6,3.5,77,3,23.2,0.135651629
+27,Male,Hispanic/Latino,2015,CA,Gunshot,No,9699,0.5,0.2,96.3,2,25.7,0.065989848
+34,Male,White,2015,NM,Gunshot,Vehicle,4356,67.9,0,27.1,3,12.5,0.078817734
+20,Male,White,2015,TX,Gunshot,No,6613,84.7,4.4,7.5,2,16.3,0.133622126
+25,Male,Black,2015,MD,Gunshot,Firearm,6493,11.1,75.1,11.3,1,23.4,0.206338726
+24,Male,Black,2015,NY,Gunshot,Knife,4074,63.1,0.5,6.5,4,11,0.082673703
+20,Male,NA,2015,CA,Gunshot,Firearm,4863,46.4,6.1,24.4,4,11.3,0.086558761
+46,Male,White,2015,AL,Gunshot,Firearm,4720,66.2,30.9,0.1,2,20.1,0.078163166
+42,Male,White,2015,CA,Gunshot,Firearm,4284,70.2,1.3,23.3,3,23.6,0.086389961
+43,Male,White,2015,NV,Gunshot,Firearm,4726,39.3,27.1,22.1,2,19.9,0.163898117
+41,Male,Black,2015,TX,Gunshot,No,4412,21.2,19,57.8,5,14.6,0.081424936
+59,Male,White,2015,MO,Gunshot,No,4411,34.2,57.3,1.1,3,14.1,0.138454667
+25,Male,Black,2015,MD,Death in custody,Firearm,3544,0.1,99.4,0,1,39.1,0.254367575
+42,Male,White,2015,CA,Gunshot,Firearm,2674,56.7,9.1,24,1,23,0.090163934
+64,Male,White,2015,FL,Gunshot,Firearm,1911,66.2,28.5,3.8,1,36.6,0.091334895
+22,Male,White,2015,MA,Struck by vehicle,NA,3396,90,9.3,0,4,7.7,0.096795291
+24,Male,White,2015,OK,Gunshot,Knife,5383,86.9,0.7,2.9,5,1.3,0.049786629
+63,Male,White,2015,OK,Gunshot,No,2650,69.1,0.8,2.6,1,20.4,0.086882453
+56,Male,White,2015,CA,Gunshot,No,4040,80.6,0.6,10.5,5,7.5,0.057553957
+60,Male,White,2015,IN,Gunshot,No,6460,96.3,0.3,0.2,2,20.1,0.075280112
+54,Male,White,2015,AL,Gunshot,Firearm,6971,82.8,15,0.4,3,8.3,0.073079325
+37,Male,Black,2015,OK,Gunshot,No,5823,57.8,7.4,20.3,1,31.3,0.04467354
+22,Male,White,2015,FL,Gunshot,Firearm,12351,74.2,10.8,9.1,4,15.8,0.108825481
+39,Male,White,2015,IN,Taser,Firearm,7338,61.4,24.2,10.7,4,8.8,0.086255656
+45,Male,White,2015,FL,Gunshot,Knife,4239,84.3,4.6,6,2,19.2,0.114788437
+57,Male,White,2015,GA,Gunshot,No,3422,89,8.6,1.9,3,6.6,0.066384181
+42,Male,White,2015,WV,Gunshot,Firearm,3255,99.6,0.2,0,2,13.3,0.093187661
+41,Male,Black,2015,OH,Gunshot,Firearm,0,NA,NA,NA,NA,NA,NA
+19,Male,Hispanic/Latino,2015,CA,Gunshot,No,4424,4,9.5,68.2,1,42,0.171334432
+26,Male,Black,2015,OK,Gunshot,Knife,3754,33.1,3,52.5,1,37.4,0.12745682
+34,Male,White,2015,MS,Gunshot,No,6466,97.3,0.8,0.3,1,16.1,0.096869245
+69,Male,White,2015,KY,Struck by vehicle,No,2143,94.2,3.4,1.1,1,45.4,0.205128205
+64,Female,Asian/Pacific Islander,2015,NJ,Struck by vehicle,No,3358,44.1,18.9,32.7,3,19.4,0.100585418
+35,Male,Asian/Pacific Islander,2015,TX,Gunshot,No,7538,4.6,35.9,35.9,2,28.3,0.104712042
+40,Male,Black,2015,NC,Gunshot,No,2929,33.2,62.2,2.8,1,24.6,0.195104392
+19,Male,Black,2015,MO,Gunshot,Firearm,1325,0.2,99.8,0,1,37.6,0.507614213
+27,Male,Hispanic/Latino,2015,IL,Gunshot,No,2665,86.2,9.8,1,1,31.2,0.203891051
+37,Male,Hispanic/Latino,2015,FL,Gunshot,Firearm,2537,16,10.6,72.4,1,30.7,0.153279786
+17,Male,White,2015,MI,Gunshot,Knife,1404,69.6,6.6,19.9,1,40,0.260663507
+39,Male,Black,2015,FL,Gunshot,Firearm,732,56.7,34.3,7.1,1,54.2,0.305194805
+74,Male,Black,2015,NC,Gunshot,Firearm,4049,33.3,43.7,22.3,1,33.7,0.19297235
+42,Male,White,2015,UT,Gunshot,Firearm,3745,87.2,0.1,5,2,18.3,0.03653323
+47,Male,White,2015,TX,Gunshot,No,4447,42,27.1,29.9,1,34.8,0.097790055
+43,Male,White,2015,SC,Gunshot,Knife,8668,85.5,11,0.7,5,4,0.092042385
+46,Male,White,2015,CO,Gunshot,No,2892,94.4,0,4.2,4,7.7,0.041666667
+44,Male,White,2015,NY,Gunshot,Firearm,4696,96.5,0.7,1.6,4,9.5,0.09765625
+31,Male,White,2015,TN,Gunshot,Other,3636,36.5,57.6,0.3,2,15.4,0.139391056
+47,Male,White,2015,MO,Gunshot,Firearm,4911,96.8,0.2,0.8,3,16.4,0.065677966
+41,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,3524,73.8,2.5,17.7,5,8.6,0.066012002
+43,Male,White,2015,OK,Struck by vehicle,Vehicle,2712,63.2,21.4,4.7,1,21.1,0.119248218
+40,Male,NA,2015,OR,Gunshot,Non-lethal firearm,5737,89.6,0,4.1,2,20.2,0.187595323
+32,Male,Black,2015,CO,Gunshot,Firearm,6851,62.2,1.6,28.7,3,12.4,0.08035982
+31,Male,Black,2015,LA,Gunshot,Vehicle,1862,5.4,93.1,1.3,1,48.4,0.27734375
+20,Male,White,2015,WA,Gunshot,Firearm,8196,79.4,0.3,17.1,3,17.4,0.12704918
+20,Female,Black,2015,NC,Gunshot,Firearm,2986,8.4,88,5.8,1,68.2,0.422321429
+33,Male,White,2015,FL,Gunshot,No,7471,70.9,19.6,7.1,3,14.1,0.108317215
+22,Male,Black,2015,LA,Gunshot,Other,678,9.9,68.6,20.6,1,57.1,0.20361991
+41,Male,White,2015,NM,Gunshot,No,6941,58.6,0,40.4,2,17.6,0.061612903
+41,Male,Black,2015,NJ,Struck by vehicle,No,8810,35.3,19.7,29.2,5,9.3,0.066434996
+32,Male,White,2015,NC,Gunshot,Knife,5938,62.5,27.2,8.4,1,17.2,0.089311334
+16,Male,White,2015,MD,Gunshot,Firearm,5437,38,53,3.2,2,11.3,0.115929459
+29,Male,Black,2015,CA,Gunshot,Knife,4296,72.5,1.2,19.3,3,11.6,0.092623405
+42,Male,White,2015,OH,Gunshot,NA,2993,62.8,32.1,1.9,2,13.4,0.063731932
+29,Male,Black,2015,FL,Gunshot,NA,8033,14,60,26.6,2,28.1,0.11313083
+47,Male,White,2015,CA,Gunshot,Firearm,1354,28.7,17.7,48.7,1,46.2,0.132231405
+53,Male,Black,2015,VA,Gunshot,Other,4523,39.3,59.4,0,2,25.7,0.105973025
+18,Male,Black,2015,IL,Gunshot,No,1781,1,95,0.7,2,24.9,0.191593353
+47,Male,White,2015,KY,Death in custody,Firearm,6740,99.4,0.2,0,1,33.2,0.096566524
+34,Male,White,2015,UT,Gunshot,No,4748,83.3,2.2,8.7,4,7.7,0.018841912
+36,Male,White,2015,GA,Gunshot,Firearm,6084,56.8,34,4.4,3,8.1,0.140740741
+63,Male,White,2015,HI,Struck by vehicle,Firearm,7883,51.1,0.4,6.1,4,7.3,0.110093792
+36,Male,White,2015,FL,Gunshot,No,6993,64.1,8.1,24.7,5,7.9,0.063364345
+27,Male,Black,2015,SC,Gunshot,Firearm,6384,59.9,34,2,1,24.1,0.151768733
+28,Male,Black,2015,FL,Gunshot,Vehicle,4498,56.5,35.1,2.9,2,32.6,0.133175195
+33,Male,Black,2015,OH,Gunshot,No,4419,71,21,3.6,1,26,0.145665323
+32,Male,Black,2015,SC,Gunshot,No,2875,85.7,9.4,2.7,4,16.6,0.044805195
+42,Male,White,2015,PA,Gunshot,Knife,3436,60.3,8.8,25.7,3,11.3,0.072277228
+31,Male,White,2015,PA,Gunshot,Firearm,4923,87.3,1.2,9.2,4,13.9,0.030340815
+17,Female,Hispanic/Latino,2015,CO,Gunshot,Firearm,4293,38.8,43.2,13.7,3,11.8,0.096314908
+28,Female,NA,2015,AZ,Gunshot,Firearm,6202,87.4,0,10.4,2,20.9,0.151329243
+24,Male,White,2015,LA,Gunshot,Firearm,4302,50.9,31.2,7.9,1,26.4,0.082046758
+71,Male,NA,2015,AR,Gunshot,Firearm,2979,67.9,29.8,1.3,1,32.9,0.137774413
+51,Male,Black,2015,TX,Gunshot,No,5506,40.2,12.6,44.2,1,36.1,0.140606992
+28,Male,Hispanic/Latino,2015,AZ,Gunshot,Other,4579,30.6,11.5,44.4,2,39.7,0.149219467
+53,Male,White,2015,TN,Gunshot,Firearm,3307,97.1,0.5,0.9,5,1.1,0.021902017
+54,Male,White,2015,NV,Gunshot,No,3042,90,0,6.7,3,13.6,0.116955446
+45,Male,White,2015,MS,Gunshot,Firearm,5683,20.6,74.2,2.2,1,31.4,0.091877986
+33,Male,White,2015,FL,NA,Other,3522,90.5,5.1,2.2,3,15.2,0.114509804
+48,Male,White,2015,MT,Gunshot,Firearm,3238,75.4,1.6,6.5,2,21.6,0.170554692
+34,Male,White,2015,NM,Gunshot,Firearm,3404,63.9,3.7,26.6,3,7.3,0.050728277
+23,Male,Hispanic/Latino,2015,KS,Gunshot,Knife,4020,45,34.2,15.7,2,24.1,0.106899903
+35,Male,White,2015,CA,Gunshot,Firearm,5651,71.2,0,23.6,2,16,0.119515253
+33,Male,Hispanic/Latino,2015,AK,Gunshot,Knife,2619,50.4,11.7,10.2,3,18.4,0.096503497
+32,Male,White,2015,AZ,Gunshot,Firearm,2732,59.2,1.4,24.3,5,7.1,0.067204301
+52,Male,White,2015,OH,Gunshot,Firearm,5977,89.3,4.9,0.5,4,15.3,0.085316847
+30,Male,White,2015,NY,Gunshot,No,6081,1.5,16.6,36.3,1,42,0.086378738
+23,Male,White,2015,CA,Gunshot,Firearm,6230,32.9,18.3,39.2,3,15,0.102047449
+35,Male,White,2015,AR,Gunshot,Knife,4227,79.9,4.4,10.4,3,22.6,0.07388664
+42,Male,Black,2015,TX,Death in custody,No,5947,41.5,9.1,37.7,1,36.4,0.106456044
+37,Male,White,2015,FL,Gunshot,No,3660,67.9,30,0.1,2,16,0.129227053
+56,Male,Hispanic/Latino,2015,TX,Gunshot,No,4966,24.3,4.9,67.2,1,29.3,0.087265136
+36,Male,Hispanic/Latino,2015,CA,Gunshot,Disputed,4759,34.1,24.5,26,3,23.5,0.160147262
+27,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,13987,5.1,2.7,80,3,20.1,0.151374509
+30,Male,White,2015,WI,Gunshot,Firearm,4716,76.9,8.5,4,1,13.6,0.08816521
+31,Male,White,2015,IL,Gunshot,Firearm,2680,79.9,3.8,10.3,3,11.5,0.095054592
+46,Male,White,2015,FL,Gunshot,Firearm,3748,29.6,13.1,56,1,35.2,0.127546072
+51,Male,White,2015,OK,Gunshot,Firearm,2808,76.4,1.7,3.5,1,21.5,0.159594096
+72,Male,NA,2015,GA,Gunshot,Firearm,7956,14.9,24.9,34.2,4,14.1,0.099892819
+28,Male,White,2015,CA,Death in custody,Knife,3859,31.8,9.3,48.6,3,11.8,0.176044568
+63,Male,White,2015,AZ,Gunshot,Firearm,6257,63.1,9.4,18.8,3,13,0.05121876
+28,Male,White,2015,CA,Gunshot,Firearm,5153,27.6,0.7,26.2,5,6.6,0.120577121
+33,Male,Hispanic/Latino,2015,AZ,Gunshot,Knife,5442,52.8,1.8,41.3,3,13.4,0.118041583
+24,Male,Hispanic/Latino,2015,TX,Gunshot,Knife,1363,46.9,1,51.7,2,26,0.043478261
+27,Male,White,2015,IL,Gunshot,Firearm,4792,82.7,8.9,3.2,1,22.4,0.085856304
+24,Male,Native American,2015,AZ,Gunshot,Firearm,5808,4.3,0.3,2.7,1,48.9,0.262736536
+28,Male,White,2015,MN,Gunshot,Firearm,4264,37.7,22.7,10.9,3,18.1,0.106712565
+28,Male,White,2015,FL,Gunshot,Firearm,26826,79.1,4.6,9.2,5,4.6,0.054535801
+17,Male,Black,2015,IL,Gunshot,Firearm,3111,26.6,40.7,26.2,3,19.1,0.273263434
+46,Female,White,2015,CA,Gunshot,Vehicle,4082,83.3,1.5,10.9,4,6.6,0.065811966
+52,Male,Black,2015,NY,Death in custody,Firearm,3535,45.7,21.4,28.2,4,9.1,0.059414226
+39,Male,Black,2015,CO,Gunshot,Vehicle,3219,37.7,17.2,42.1,3,20.3,0.1340882
+49,Female,White,2015,AZ,Gunshot,Non-lethal firearm,3803,38.6,9.1,52.8,1,17.6,0.104332953
+30,Male,Black,2015,TX,Gunshot,No,5863,61.9,20.5,18.4,4,6,0.039571006
+51,Male,White,2015,AZ,Gunshot,No,3817,75.3,3.5,14.3,3,13,0.107897153
+16,Male,Black,2015,FL,Gunshot,Firearm,4294,5.2,93.6,0.7,1,36.4,0.232041049
+18,Male,White,2015,OK,Gunshot,Non-lethal firearm,3014,68,17.4,6.4,2,33.3,0.105769231
+22,Male,Hispanic/Latino,2015,AZ,Gunshot,No,4378,60.2,4,30.3,3,8.5,0.069218871
+40,Male,Black,2015,GA,Gunshot,Firearm,8081,67.6,26.3,4.3,2,17,0.136045259
+61,Male,White,2015,ME,Gunshot,Knife,3045,97.2,0.3,0.6,2,17.9,0.115207373
+52,Male,White,2015,DE,Gunshot,Firearm,13561,64.4,24.6,5.2,4,6.4,0.063839559
+51,Male,White,2015,IN,Gunshot,Firearm,6142,61.8,29.3,6,2,15.1,0.125633232
+36,Male,Black,2015,NJ,Gunshot,Firearm,4702,75.3,1.1,17.3,4,4.5,0.096800997
+36,Male,White,2015,UT,Gunshot,No,7753,79.9,0,10.8,4,12.4,0.03559965
+59,Male,White,2015,SC,Gunshot,No,3276,71,17.6,2.7,5,14.5,0.100581395
+17,Female,White,2015,TX,Gunshot,Firearm,4045,44.8,34.1,19.7,1,27.4,0.13706706
+18,Male,White,2015,MI,Gunshot,No,3088,92.3,1.3,5.7,4,6,0.091408935
+41,Male,White,2015,TX,Gunshot,Other,1683,90.5,0.6,7.6,3,10.3,0.075596817
+33,Male,Native American,2015,AK,Death in custody,Knife,5733,25.5,11.1,13.6,2,20.2,0.129310345
+25,Male,Black,2015,FL,Gunshot,Firearm,4945,5.9,83,9.5,3,8.2,0.116955017
+23,Male,Black,2015,MO,Gunshot,No,3641,28.5,59.4,6.1,1,38.7,0.201671309
+47,Male,Black,2015,PA,Gunshot,Firearm,4667,34.5,59.4,1.4,1,30.5,0.102179837
+58,Male,White,2015,NC,Gunshot,Firearm,5006,91.8,5.1,1.5,2,14.8,0.095274683
+47,Male,White,2015,OR,Gunshot,No,4978,69.3,0,19.8,3,8.8,0.135547919
+34,Male,Black,2015,MD,Gunshot,Firearm,3715,1.6,92.7,5.1,5,3.5,0.120465116
+28,Male,White,2015,MT,Gunshot,Firearm,7864,87.5,0.1,3.3,4,9.5,0.049460432
+37,Male,Black,2015,WA,Death in custody,No,4502,75.4,8.6,4.9,1,24.4,0.099949006
+87,Male,White,2015,NY,Struck by vehicle,Firearm,3947,91,0.6,0.8,3,6.5,0.133264463
+39,Male,Asian/Pacific Islander,2015,CO,Gunshot,Firearm,4630,92.7,0.1,1.6,5,7.7,0.051483733
+27,Male,Hispanic/Latino,2015,CA,Gunshot,Knife,4192,44.7,0,41.7,4,14.7,0.164906988
+35,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,4371,2.4,2,72,1,50.6,0.157422081
+36,Male,Black,2015,IN,Gunshot,Vehicle,1471,1.4,87.2,4.5,1,38.2,0.224820144
+24,Male,Black,2015,MN,Gunshot,Vehicle,2391,18.9,42.3,5.4,1,48.9,0.223255814
+26,Male,Black,2015,NE,Gunshot,No,4283,56.4,31.8,4.4,2,18.7,0.095988539
+34,Male,Black,2015,VA,Gunshot,Firearm,7340,19.2,75.3,4.8,3,10.8,0.09905795
+51,Male,White,2015,MO,Gunshot,Other,2917,69.4,4.4,3.5,1,69.4,0.028318584
+49,Male,White,2015,OR,Gunshot,Firearm,4083,62,0.4,31.7,1,33.8,0.238070806
+41,Male,White,2015,IL,Gunshot,Firearm,5199,49.7,16.5,26.3,1,39.1,0.19002079
+54,Male,White,2015,OK,Gunshot,No,3954,80.7,0.7,1.4,3,8.9,0.098895582
+36,Male,Black,2015,TN,Gunshot,Firearm,6876,39.8,7,50.1,1,34.3,0.112596554
+26,Male,Black,2015,FL,NA,Firearm,3441,5.8,92.8,2.5,1,51.4,0.294452347
+35,Male,Asian/Pacific Islander,2015,CA,Gunshot,Firearm,3140,32.8,7.8,35.5,2,29.1,0.235502122
+22,Male,Black,2015,GA,Death in custody,Other,5502,47.5,28.2,22.6,1,30.1,0.119607843
+27,Male,White,2015,TN,Gunshot,Other,4517,88.5,9.9,0.7,1,18.1,0.140121439
+42,Male,White,2015,CA,Gunshot,Firearm,5372,62.1,7.1,15.5,3,31.1,0.107025846
+32,Male,White,2015,CA,Gunshot,Other,5731,73.5,0.9,11.8,5,8.6,0.050441655
+32,Male,White,2015,MI,Gunshot,Other,3021,94.7,0.9,3.4,4,3.3,0.069385271
+25,Male,White,2015,AZ,Gunshot,Firearm,2485,71.7,2.3,9.8,2,20.5,0.059773829
+26,Female,Black,2015,CA,Gunshot,No,3172,16.1,2.6,70.9,4,8.9,0.086549063
+53,Male,White,2015,KY,Gunshot,No,2911,97.2,1.3,0,2,18.7,0.088392857
+26,Male,White,2015,ID,Gunshot,Knife,5726,74.9,2.3,12,1,29.6,0.117797332
+40,Male,White,2015,KY,Gunshot,Non-lethal firearm,8064,90,1.8,2.3,3,15.4,0.053853296
+55,Male,White,2015,NC,Taser,Firearm,5329,9.7,89.1,0,1,31.5,0.251207729
+29,Male,White,2015,MO,Gunshot,No,7585,97.1,1.1,0.3,3,12,0.138111888
+31,Male,White,2015,MO,Gunshot,No,2816,93.4,2,1.3,1,26.5,0.166007905
+19,Male,White,2015,HI,Struck by vehicle,Knife,4189,15,0.4,11.1,4,5.4,0.045591398
+57,Male,NA,2015,CA,Taser,Firearm,4466,87.2,0.2,3.6,1,28.2,0.108664773
+40,Male,White,2015,PA,Gunshot,Knife,6530,77.2,17.8,3.7,2,11.2,0.110402355
+35,Male,White,2015,DE,Gunshot,Firearm,4480,40.1,45.6,3.1,2,15.5,0.137201979
+35,Male,White,2015,NY,Gunshot,Firearm,4865,65.6,11.1,19.8,3,12.6,0.151676206
+39,Male,Hispanic/Latino,2015,CO,Gunshot,Firearm,4129,33.3,0.7,61.8,1,42.7,0.121156494
+37,Male,White,2015,GA,Gunshot,No,5456,78,15.7,2.6,5,3,0.050305914
+36,Male,Hispanic/Latino,2015,TX,Gunshot,Firearm,2377,3.2,0,96.8,1,33.1,0.063807531
+62,Male,White,2015,WA,Gunshot,Knife,5169,58.2,9.8,24.8,2,19.1,0.11381323
+43,Female,Black,2015,CA,Gunshot,Firearm,5062,23.3,0.9,68,3,11.2,0.119982921
+32,Male,White,2015,WA,Death in custody,Knife,2150,79,4.1,9.4,1,27.4,0.133171913
+34,Male,Asian/Pacific Islander,2015,TX,Gunshot,Vehicle,4775,34.7,16.3,14.6,3,9.2,0.092148913
+37,Male,Black,2015,CO,Gunshot,No,6415,26.2,24,41,2,23.9,0.172646427
+37,Female,Black,2015,VA,Taser,No,7408,58.6,17.8,7.9,5,5.6,0.016203704
+33,Male,White,2015,LA,Gunshot,Knife,1977,95.9,2,0,2,18.5,0.02987013
+35,Male,White,2015,OK,Gunshot,No,6888,73.5,5.6,4.5,2,14.1,0.08040201
+40,Male,White,2015,MA,Gunshot,No,3776,83.3,2.2,6.6,2,16.7,0.134320175
+21,Male,Black,2015,CA,Gunshot,Firearm,5931,14.5,4.5,7.9,5,1.5,0.056978002
+30,Male,White,2015,IA,Gunshot,Firearm,3687,49.7,13.6,32.2,1,31.3,0.127948113
+23,Male,Black,2015,GA,Gunshot,Knife,3574,37,45.7,10.6,3,6.9,0.033260234
+26,Male,Native American,2015,AZ,Gunshot,No,4829,16.3,12,55.4,1,57.1,0.206933333
+39,Female,White,2015,WY,Gunshot,Firearm,8988,94.4,0.9,3.1,5,8.7,0.04654387
+33,Male,Black,2015,TX,Taser,Vehicle,4542,46.4,5.3,43.2,4,5.2,0.047184774
+34,Female,Black,2015,NJ,Struck by vehicle,Firearm,8810,35.3,19.7,29.2,5,9.3,0.066434996
+37,Male,Black,2015,LA,Gunshot,Firearm,1345,2.1,84.2,5.4,1,54.6,0.324444444
+26,Male,Hispanic/Latino,2015,CO,Gunshot,Firearm,5747,42.6,3.2,52.9,2,22.1,0.171932403
+24,Male,Hispanic/Latino,2015,CA,Gunshot,No,3040,41.8,8.7,8.8,4,25.5,0.103303862
+25,Male,White,2015,CA,Gunshot,Other,7323,5.9,14.5,62.7,2,29.4,0.265224111
+31,Male,Black,2015,CA,Gunshot,Knife,9738,15.7,1.6,69.1,3,22.4,0.123324397
+49,Male,White,2015,MA,Gunshot,Firearm,3902,94.5,0.2,0.2,4,4.7,0.093385214
+59,Male,White,2015,CA,Gunshot,No,8960,28.1,7.1,32.9,5,6,0.138940153
+50,Male,Hispanic/Latino,2015,TX,Gunshot,No,7556,23.5,1.3,72.3,2,24.5,0.053399923
+37,Male,White,2015,CA,Gunshot,Firearm,7099,10.6,23,7.8,5,5.6,0.108266073
+28,Male,White,2015,SC,Gunshot,Other,6309,69.7,16.6,3.3,3,9.7,0.077569308
+26,Male,Hispanic/Latino,2015,TX,Gunshot,Firearm,2802,29.8,25.3,34.5,3,6.3,0.094994312
+23,Male,Black,2015,CA,Gunshot,Firearm,4866,7.2,1.9,83.4,2,32.2,0.083946344
+32,Male,Black,2015,NJ,Death in custody,Firearm,7621,5.1,21.3,77.8,2,34.3,0.11842919
+24,Male,White,2015,MN,Gunshot,Knife,6185,86.7,3.3,3.1,5,6.9,0.049067982
+42,Male,White,2015,OK,Gunshot,Firearm,4908,76.8,8.5,7.3,1,34,0.066425993
+34,Male,White,2015,KS,Taser,Firearm,1990,1.1,60.3,37.2,1,45.3,0.258571429
+68,Male,White,2015,MN,Gunshot,Other,4836,61.7,9.8,16.3,3,8.7,0.112132353
+31,Male,Black,2015,TX,Gunshot,Firearm,4321,19.6,3.5,74.1,1,26.7,0.08373079
+83,Male,White,2015,OK,Gunshot,No,5410,82.8,1,5.2,4,8,0.066806576
+35,Male,White,2015,PA,Gunshot,Firearm,4017,37.4,10.7,47.7,1,36.6,0.139742873
+29,Male,Hispanic/Latino,2015,TX,Gunshot,Firearm,3679,24.2,5.6,70.2,3,21.7,0.074115665
+50,Male,Black,2015,NY,Taser,Firearm,1271,0.6,95.6,3.9,1,49.9,0.259259259
+56,Male,NA,2015,CA,Gunshot,Firearm,6657,72.8,0.3,26.3,4,11.5,0.113105925
+43,Male,White,2015,TX,Gunshot,Firearm,6033,47.6,0.3,50.6,3,10,0.064629434
+38,Male,White,2015,KS,Gunshot,Firearm,5378,89.6,3.4,4.5,2,10.4,0.045649073
+63,Male,Black,2015,LA,Gunshot,Disputed,0,NA,NA,NA,NA,NA,NA
+27,Male,Black,2015,MD,Gunshot,Firearm,1610,58.6,25.5,10,5,3.2,0.095238095
+36,Male,White,2015,WA,Gunshot,Firearm,4284,73.6,0,24.2,2,20.5,0.0830373
+55,Male,White,2015,OR,Gunshot,Knife,2186,85.8,0.5,6,3,16,0.138248848
+36,Male,White,2015,CA,Gunshot,Firearm,3921,36.3,2.3,59.8,3,23.1,0.117837838
+68,Male,White,2015,TX,Gunshot,No,6016,62.3,6.1,30,3,8.6,0.051835853
+61,Male,White,2015,TX,Gunshot,No,7456,53.3,6.4,34.6,4,11.5,0.081466763
+46,Male,White,2015,VA,Gunshot,No,3721,82.5,10.5,0.4,1,21.8,0.083866837
+47,Male,White,2015,LA,Gunshot,Firearm,5375,86.8,1.5,10.6,4,10.8,0.065487392
+26,Male,White,2015,OH,Gunshot,Vehicle,4430,95.5,0,0,3,18.2,0.177073171
+37,Male,Black,2015,CA,Gunshot,No,2666,27.6,5.5,46.4,5,7.4,0.081118881
+22,Male,Hispanic/Latino,2015,CA,Gunshot,Knife,4315,49,2.5,22.5,4,11.2,0.11952862
+18,Male,Hispanic/Latino,2015,FL,NA,Knife,2355,75.2,1.5,21.7,3,16.4,0.081262592
+39,Male,Hispanic/Latino,2015,CA,Gunshot,No,5158,1.7,0,94.3,1,38.5,0.218400688
+49,Male,White,2015,MS,Gunshot,Other,2923,9.9,85.3,4.8,1,47.1,0.127254509
+23,Male,Black,2015,OK,Gunshot,Firearm,3300,52.2,23.8,10.1,2,26.7,0.080686695
+47,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,4932,30.1,1.4,66.5,3,18.8,0.078510317
+32,Male,Black,2015,TX,Gunshot,Knife,6118,47.3,8.8,43.7,3,18.4,0.12814412
+45,Male,Black,2015,IL,Gunshot,No,4279,9.5,67,21.7,1,30.2,0.212271153
+51,Male,White,2015,TX,Gunshot,Knife,3999,2.3,0.8,97.1,2,17.4,0.057938719
+31,Male,Hispanic/Latino,2015,TX,Gunshot,Vehicle,5917,68.9,10.7,10.7,5,2.9,0.06846473
+54,Male,White,2015,WA,Death in custody,Firearm,6747,16.5,0.9,78.7,1,35.9,0.131743119
+31,Male,White,2015,AZ,Gunshot,Firearm,6001,80.9,0.2,11.9,2,16.2,0.149595213
+23,Male,Hispanic/Latino,2015,CA,Gunshot,Knife,3755,13,10.4,61.1,1,39.3,0.122121424
+29,Male,Hispanic/Latino,2015,NV,Gunshot,No,4993,8.5,6.3,84.5,2,22.9,0.140275387
+28,Male,Hispanic/Latino,2015,AZ,Gunshot,Firearm,4579,30.6,11.5,44.4,2,39.7,0.149219467
+31,Male,Black,2015,MN,Gunshot,No,2459,57.8,15.5,2.2,3,10.6,0.108108108
+24,Male,Hispanic/Latino,2015,TX,Gunshot,Firearm,5449,4.8,0.4,94.8,1,30.2,0.118733509
+27,Male,White,2015,TX,Gunshot,No,8776,67,1.5,19.7,5,7.3,0.069404151
+57,Male,White,2015,CA,Gunshot,Firearm,4026,8.5,0,27.3,2,17.1,0.115249119
+39,Male,NA,2015,NJ,Gunshot,Non-lethal firearm,5447,86.7,0.8,9.2,5,5.3,0.097529259
+38,Male,White,2015,MI,Gunshot,Firearm,5543,81.1,8.6,2.7,4,7.1,0.071646341
+34,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,7914,58.6,2.8,19.2,5,6.8,0.085368162
+39,Male,White,2015,AL,Gunshot,Other,5791,86.3,2.1,0,2,17,0.168279344
+20,Male,Black,2015,IL,Gunshot,Firearm,3362,14.3,38.8,44.9,1,37.5,0.152272727
+35,Male,White,2015,AZ,Gunshot,No,2747,54.5,0,42.3,3,19.5,0.078651685
+36,Male,White,2015,NJ,Gunshot,Firearm,7010,65.8,11.3,21.1,3,15.2,0.135890272
+38,Male,Asian/Pacific Islander,2015,HI,Taser,No,403,26.1,13.4,2,1,20.1,0.231788079
+33,Male,White,2015,CA,Gunshot,Firearm,7371,49.5,10.9,36.1,4,19.2,0.090909091
+57,Male,Asian/Pacific Islander,2015,MN,Taser,Firearm,3081,37.8,28.2,8.9,2,23,0.101226994
+38,Male,Black,2015,AL,Gunshot,Firearm,3681,44.4,22.4,28.9,2,23.2,0.052918942
+72,Male,White,2015,CO,Gunshot,Firearm,2868,66.6,8,21,2,16.8,0.109414758
+37,Female,White,2015,AZ,Gunshot,No,1548,45.5,3.1,40.8,1,31.2,0.138238573
+47,Male,White,2015,WA,Gunshot,Knife,2758,58,11.3,15.6,2,24.5,0.12909699
+43,Male,White,2015,MS,Taser,No,7590,77.3,16.9,2.9,2,11,0.098382749
+37,Male,White,2015,WI,Gunshot,Firearm,6145,71.5,2.6,18.7,1,26.6,0.109457093
+75,Male,White,2015,NJ,Gunshot,Knife,1753,42.2,20.6,24.9,5,14.3,0.075431034
+21,Male,Black,2015,OK,Gunshot,Firearm,1925,36.9,43.4,1.5,1,51.8,0.094752187
+20,Male,Black,2015,MI,Gunshot,Firearm,3501,5.7,92.4,1.3,1,53.8,0.181212525
+29,Male,Black,2015,OH,Taser,Firearm,2326,49.4,40,4.7,1,40.3,0.177252585
+37,Male,Black,2015,MD,Gunshot,Knife,3737,77.4,14.6,7.6,3,4.5,0.134502924
+41,Male,Black,2015,OK,Taser,Firearm,3630,68.7,5.5,5.6,3,7.5,0.068774265
+22,Male,Black,2015,FL,Gunshot,Knife,5246,1.8,79.2,20.8,1,42.5,0.289340102
+23,Male,Black,2015,MO,Gunshot,Knife,7671,7.5,92.5,0,1,25.1,0.268621236
+64,Male,Black,2015,OH,Gunshot,No,1548,49.8,43.7,3.5,1,39.8,0.448074679
+34,Male,Black,2015,MO,Gunshot,Firearm,2150,1,98.6,0.2,1,50.8,0.299757282
+49,Male,White,2015,UT,Gunshot,Firearm,11719,89.4,2.2,7.5,5,4.4,0.046353872
+32,Male,Asian/Pacific Islander,2015,CA,Gunshot,Knife,3416,5.7,0,80.8,4,13.8,0.015197568
+25,Male,Black,2015,TX,Gunshot,Other,3394,19.9,0.6,79,1,44.1,0.081601232
+39,Female,White,2015,NE,Gunshot,Firearm,2646,88,2.6,4,4,5.5,0.028415961
+53,Male,NA,2015,WA,Gunshot,Non-lethal firearm,4347,68.7,5.3,18.1,2,18.4,0.064193168
+27,Male,White,2015,NM,Gunshot,Firearm,6462,72.1,0.9,19.5,3,8.4,0.066055046
+36,Male,White,2015,CA,Gunshot,Firearm,2886,48.3,8.1,38.4,1,32,0.216848674
+20,Male,Black,2015,CO,Gunshot,Firearm,2024,41.3,0.6,55.3,1,26.6,0.12590799
+39,Male,White,2015,IL,Gunshot,Firearm,3565,78.5,0.4,20.9,3,14,0.053739612
+19,Male,Black,2015,WI,Gunshot,Firearm,6145,90.7,1.3,5.5,3,13.3,0.055254849
+34,Male,White,2015,TX,Taser,Knife,4177,56.9,28.6,8.5,2,24.3,0.197698745
+36,Male,White,2015,MS,Gunshot,Firearm,4980,72.2,25.9,0.3,3,15.5,0.055140187
+34,Male,White,2015,OK,Gunshot,Firearm,2032,72.5,0,1.1,2,20.7,0.05624297
+31,Male,White,2015,ID,Gunshot,No,10818,89.5,0,8.4,4,9.6,0.06899401
+45,Male,Black,2015,WI,Gunshot,Non-lethal firearm,2657,77.5,3.1,15,4,11,0.065342729
+34,Male,White,2015,NE,Gunshot,NA,5459,74.8,8.8,4.2,2,19.9,0.055735771
+NA,Male,NA,2015,TX,Gunshot,Other,6852,87.2,1.8,10.4,3,17.9,0.058573298
+NA,Female,NA,2015,TX,Gunshot,Knife,6852,87.2,1.8,10.4,3,17.9,0.058573298
+NA,Male,White,2015,NY,Gunshot,Firearm,6852,87.2,1.8,10.4,3,17.9,0.058573298
+31,Male,Hispanic/Latino,2015,TX,Gunshot,No,5065,25,31.9,40.1,2,12.5,0.023561091
+28,Male,Hispanic/Latino,2015,CA,Gunshot,Firearm,3862,0.3,37,60.3,1,33.7,0.066431095
+57,Male,White,2015,NY,Gunshot,Firearm,4164,78.5,6.5,4.8,5,1.9,0.045
+29,Male,Black,2015,VA,Gunshot,Other,4996,87.4,10,0,3,6.6,0.028934368
+50,Male,Black,2015,SC,Gunshot,Knife,4110,15.8,65.2,18.6,1,44.1,0.215909091
+40,Male,White,2015,TX,Gunshot,NA,4074,89.2,0.9,6,5,11.2,0.027574564
+35,Male,Hispanic/Latino,2015,TX,Taser,NA,3507,94.8,0,2.5,4,4,0.034519957
+53,Male,White,2015,AL,Gunshot,No,4547,84.7,1.4,7.7,5,3,0.035916061
+59,Male,NA,2015,NJ,Gunshot,Non-lethal firearm,5065,64.3,16.9,4.9,4,7.3,0.14086629
+18,Male,Black,2015,VA,Gunshot,No,1640,40.9,53.8,0,1,35.2,0.152046784
+28,Male,Native American,2015,WA,Taser,Firearm,4154,74.5,0.4,20.2,2,27.3,0.133650291
+52,Male,White,2015,NC,Gunshot,Firearm,3850,83.2,10.1,0.3,2,28.5,0.256149733
+38,Female,Black,2015,CA,Gunshot,Firearm,2544,21.7,24.9,37.1,4,23.9,0.069601428
+48,Male,NA,2015,CA,Gunshot,Firearm,5177,23.1,4,12.3,5,6.1,0.0809121

@@ -1,0 +1,52 @@
+NAME: BeefDemand.txt
+TYPE: Regression, Residual Analysis, Transformation
+SIZE: 36 observations, 10 variables
+DESCRIPTIVE ABSTRACT:
+The dataset consists of a few variables that may influence the demand for Beef in the United States.  It provides an example of the influence of inflation in monetary time series data as well as providing some interesting statistical features in building demand models in regression.
+
+SOURCES: 
+CPI source: http://www.ers.usda.gov/data/sdp/view.asp?f=livestock/89007/
+Beef consumption per capita source: http://www.ers.usda.gov/Data/FoodConsumption/Spreadsheets/mtredsu.xls
+Chicken retail price: http://www.ers.usda.gov/data/sdp/view.asp?f=livestock/89007/
+Beef retail price source: http://www.ers.usda.gov/data/sdp/view.asp?f=livestock/94006/
+88~94 Disposable personal income pc: http://www.census.gov/prod/1/gen/95statab/income.pdf
+95~01 Disposable personal income pc: http://www.ccps.virginia.edu/.../statistical_abstract/Download_files/ Section12download/12_10IncomeDisposable.xls  
+
+VARIABLE DESCRIPTIONS:
+Year: calendar year
+ChickPrice: Chicken Retail Price in cents per pound
+BeefPrice: Beef Retail Price in cents per pound
+BeefConsump: Beef Consumption per capita in pounds
+CPI: Consumer Price Index (CPI) for food
+DPI: Disposable Personal Income per capita in dollars  
+RealChickPrice: Inflation-adjusted Chicken Retail Price in cents per pound
+RealBeefPrice: Inflation-adjusted Beef Retail Price in cents per pound
+RealDPI: Inflation-adjusted Disposable Personal Income per capita in dollars  
+(RDPI-Mean)^sq: The square of the difference between Inflation-adjusted Disposable Personal Income per capita and its mean
+
+The ASCII file, BeefDemand.txt, is tab delimited.  The first three of the last four variables are derived from their counterparts by dividing their values by the respective CPI and multiplying by 100.  The last variable is derived by its description.
+SPECIAL NOTES:
+Although these data are historical, they are real and offer opportunities to discuss features that are often only given as abstract concepts.  The data are easily understood and can be referenced in a concurrent or subsequent microeconomics course.
+STORY BEHIND THE DATA:
+Cross-discipline examples are not only useful but serve to broaden students’ appreciation and understanding.  Building a demand function in a quantitative course provides an example for elasticity computations either directly or in in an economics course.
+PEDAGOGICAL NOTES:
+A typical session would start with a discussion of what types of things might influence the demand for beef in the US.  The data set contains nominal prices, which are unadjusted for inflation. One way to adjust for the effects of inflation is to convert nominal prices into real prices by dividing the nominal price by the consumer price index for that year as a number. In so doing, the values are on a “constant ruler”, namely in constant 1982-1984 dollars and cents.  This can be done by the students or the results given and discussed. 
+
+Economic theory would suggest a relationship between the beef consumption per capita and the inflation-adjusted beef price per pound with an increase in beef price per pound corresponding to a decrease in consumption.  The scatter plot shows no relationship!  However, there are other economic variables that influence the demand for beef such as prices of substitutes and complements, as well as, disposable income.  
+
+Regression analysis including inflation-adjusted chicken price as well as inflation-adjusted beef price shows the effect of increasing beef price while holding chicken price fixed is in accordance with economic theory.  
+
+When inflation-adjusted disposable income is added to the regression its coefficient is small in magnitude and its p-value is large.  A discussion of how a change in units changes the magnitude of the coefficient without changing its p-value can be informative for some students.  
+
+An examination of the scatterplot of the residuals vs. the inflation-adjusted disposable income shows a somewhat quadratic relationship with vertex close to the mean inflation-adjusted disposable income of 11061.  Incorporating the transformed variable (inflation-adjusted disposable income – mean inflation-adjusted disposable income) squared, not only provides a more representative statistical model but also supports an appropriate economic interpretation.  
+
+The coefficient of (inflation-adjusted disposable income – mean inflation-adjusted disposable income) squared is negative indicating that when inflation-adjusted beef and chicken prices are held constant and the inflation-adjusted disposable income is much less than average, beef consumption decreases since beef isn’t as affordable so consumers eat more pasta, beans, rice, etc.  While when inflation-adjusted beef and chicken prices are held constant and the inflation-adjusted disposable income is much more than average, beef consumption also decreases since consumers eat more exotic foods such as pheasant, lobster, etc.  Once the form of the demand function has been finalized, we have an example for which point elasticity of demand, income elasticity of demand, and cross price elasticity can be computed.
+REFERENCES:
+The submitter acknowledges the contributions of John D, McKenzie, Jr. and Lidija Polutnik and thanks them for their input.
+SUBMITTED BY:
+David P. Kopcso
+Mathematics and Science Division
+Babson College
+231 Forest St
+Wellesley, MA 02457
+Kopcso@babson.edu

@@ -1,0 +1,253 @@
+---
+title: "Class 12"
+subtitle: "Statistical Methods II (Stat 021)"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, March 23, 2021 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- Conducting the ANOVA F-test (by hand and with R)
+
+- Post-hoc analysis (Tukey HSD)
+
+- Review Test 1
+
+- Housekeeping items and announcements (5 mins)
+
+---
+# Tuesday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+```{r, echo=FALSE, fig.align='center', out.height=500}
+knitr::include_graphics("Figs/feelings_wheel.jpg")
+```
+
+
+---
+## ANOVA Assumptions
+### Penguin data 
+
+.scroll-output[**Pre-process the data:** Make sure the variable type of `bill_length_standard` is *dbl* and the variable type of `island` is *fct*. Also make sure there are no missing values for either of these variables. (*Hint:* Use the `mutate()` and `factor()` functions to create a new column in the `penguins2` data set.)
+
+```{r}
+#install.packages("remotes")
+#remotes::install_github("allisonhorst/palmerpenguins") 
+library("palmerpenguins")
+library("tidyverse")
+penguins2 <- penguins %>% 
+             na.omit() %>% ## this is a very useful function that will omit an entire row if any of the column values are missing (NA)
+             mutate(bill_length_standard =  (bill_length_mm-mean(bill_length_mm))/sd(bill_length_mm))  ## or bill_length_standard = scale(bill_length_mm)
+head(penguins2)
+```
+]
+
+
+---
+## ANOVA F-test
+### Calculations by hand
+
+R will automatically create the following ANOVA table for you. 
+
+| Source | Sums of Squares | DF | Mean Square | F-ratio | P-value | 
+|--------|------------------|---|-------------|---------|---------|
+| Treatment | $SS_{trt}= \sum_{j}(\bar{y}_{j}-\bar{\bar{y}})^2$ | $K-1$ | $MS_{trt} = \frac{SS_{trt}}{K-1}$ | $\frac{MS_{trt}}{MSE}$ | $Pr(F \geq \frac{MS_{trt}}{MSE})$ | 
+| Error | $SSE=\sum_{i}\sum_{j}(y_{ij}-\bar{y}_{j})^2$ | $n-K$ | $MSE = \frac{SSE}{n-K}$ |   |  | 
+| Total | $SS_{tot}=SS_{trt}+SSE$  | $n-1$ |   |   |   |
+
+
+Behind the scenes, R calculates...
+
+$$\text{Test Statistic} = F-statistic = \frac{MS_{trt}}{MSE},$$
+and then computes the p-value. 
+
+The **p-value** is the probability that a **F-distributed RV** with numerator degrees of freedom $K-1$ and denominator degrees of freedom $n-K$ takes on the observed F-ratio or a larger number. 
+
+
+
+
+
+
+---
+## ANOVA F-test
+### Table calculations by hand for penguin data
+
+With your group, use R to help you fill in the elements of this [ANOVA table](https://docs.google.com/spreadsheets/d/11h69MB-laxreeEQLLQfPqm3gLQ29wOvZhFBdg0PdQXk/edit?usp=sharing) for the `penguins2` data set below. You may use the following code to get started.
+
+.scroll-output[
+```{r }
+penguins2 %>% group_by(island) %>% 
+              summarize(mean_bill = mean(bill_length_mm),
+              var_bill = var(bill_length_mm),
+              samp_size = length(bill_length_mm))
+```
+]
+
+
+---
+## ANOVA F-test
+### Table calculations by hand for penguin data
+
+
+To calculate the SSE, fill in the question marks in the code below:
+```{r eval=FALSE}
+n = length(penguins2$bill_length_mm)
+SSE = 0
+for(i in 1:n){
+  if(penguins2$island[i]=="?"){SSE = SSE + (penguins2$bill_length_mm[i] - ? )^2}
+  if(penguins2$island[i]=="?"){SSE = SSE + (penguins2$bill_length_mm[i] - ? )^2}
+  if(penguins2$island[i]=="?"){SSE = SSE + (penguins2$bill_length_mm[i] - ? )^2}
+}
+SSE
+```
+
+
+---
+## ANOVA F-test
+### Letting R do the calculations
+
+```{r echo=TRUE}
+penguin_model <- lm(bill_length_mm ~ island, penguins2)
+anova(penguin_model)
+```
+
+
+---
+## ANOVA
+### Post-Hoc Analysis 
+
+Often when we conduct an ANOVA F-test for the difference in means, we don't want to end our investigation there. Typically, we are interested in answering the more specific question *which* of the group means differ? 
+
+If we apply an unpaired (independent groups) t-test for the difference in means for every pair of groups, we run into the multiple testing problem. There are many statistical methods for adjusting the p-value of these pairwise tests to address this issue including
+
+  - Bonferroni's correction;
+  
+  - Benjamini-Hochberg (BH) adjustment; and
+
+  - Tukey's honest significance difference (HSD).
+  
+---
+## ANOVA
+### Post-Hoc Analysis 
+
+```{r}
+#install.packages('mosaic')
+library('mosaic')
+TukeyHSD(penguin_model)
+```
+
+
+---
+## More examples of ANOVA
+### Group work 
+
+**Instructions:** 
+
+- Go to: https://guides.tricolib.brynmawr.edu/
+
+- Enter in JSTOR in the search bar 
+
+- Log in to your Swarthmore account and click on "advanced search" 
+
+- Enter "one way anova" as the keyword and "1-way" as the secondary keywork and then select "articles" as the item type.  
+
+- Select a discipline/journal filter of interest to you. 
+
+
+With your group:
+
+1. Identify the response and predictor variables. 
+
+1. What are likely some causes of measurement error in the response variable? 
+
+1. Do the assumptions of independence seem likely to be met? 
+
+
+**Hand in:** Send me a message on Slack answering the above questions for at least one article. 
+
+---
+### Planning ahead for next week  
+
+- Next week  
+
+  * Simpson's paradox
+  
+  * Experimental design 
+  
+  * Simple linear regression 
+
+
+### Announcements 
+
+Tuesday, March 23, 4-5 pm
+In Person: Science Center Courtyard (outside the Math/Stat Lounge)
+On Zoom: https://swarthmore.zoom.us/j/88615356706
+
+Come visit in person with friends, professors, and dogs. Or join on zoom with your own pets. Relax with us and celebrate the start of spring break!!!
+
+RSVP here. Attendance may be limited due to social distancing restrictions.

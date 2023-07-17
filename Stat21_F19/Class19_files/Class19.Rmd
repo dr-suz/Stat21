@@ -1,0 +1,197 @@
+---
+title: "Class 19"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/10/23 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+```{r, comic18, echo=FALSE, fig.align='center', out.height=450}
+knitr::include_graphics("Figs/nice_to_emeet_you.png")
+#https://www.explainxkcd.com/wiki/index.php/Category:Statistics
+```
+
+.footnote[Soure: https://www.xkcd.com/2196/]
+
+---
+## The multiple linear regression (MLR) model
+
+Linear regression assumes the following model: 
+
+$$Y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon_i$$ 
+
+
+Our fitted model is therefore: 
+
+$$\hat{y}_{i} = E[Y_i | x_{i1}, x_{i2}, \dots, x_{ip}] = \hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_2 x_{i2} + \dots + \hat{\beta}_p x_{ip}$$
+
+
+Now we have 
+  
+  - an intercept
+  
+  - $p$ different slopes for $p$ predictor variables 
+  
+  - $i=1, \dots, n$ is our sample size/number of observational units
+  
+
+
+**For today's class:** we are only going to set up a MLR model where are variables of interest are numerical. 
+
+
+
+--
+**Note:** When statisticians talk about "big data", we're talking about situations where the number of parameters of interest, $p$, is much larger than the number of observations, $n$. Think about fitbit data for example, so many variables for just one individual. 
+
+
+---
+## MLR with only numerical predictor variables 
+### Public school data
+
+.scroll-output[
+```{r SAT19_import}
+SAT_data <- read_table2("sat.dat.clean.txt", 
+                        col_names = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot"), cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+head(SAT_data)  ##note: please dont print out entire data sets in your HW solutions! 
+```
+]
+
+---
+## MLR with only numerical predictor variables 
+### Public school data
+
+**Step 1: View the data/variables and view pairwise scatterplots of the data**
+
+Basically, we don't know what we expect to see in any particular plot, but we are looking for "clues" that might indicate some sort of relationship (linear or otherwise). This also helps us get a feel for multidimensional extrapolation which can be difficult to visualize without viewing actual plots. 
+
+
+In SLR we only looked at a scatter plot of the single numerical predictor and the single numerical response. Now however, we want to look at the relationships
+
+  - between each of the numerical predictor variables with the numerical response and 
+
+  - among the numerical predictor variables themselves. 
+
+
+
+.footnote[For MLR plots: <a href="https://cran.r-project.org/web/packages/ggiraphExtra/vignettes/ggPredict.html">ggPredict()</a> and <a href="https://plot.ly/r/getting-started/"> plotly</a>.]
+
+
+---
+## Public school data
+### Step 1 
+
+.scroll-output[
+```{r SAT19_scatter}
+SAT_data %>% select(-State) %>% pairs(pch=16) 
+```
+]
+
+
+---
+## Public school data
+### Step 1 
+
+.scroll-output[
+```{r SAT19_scatter2}
+SAT_data %>% select(-c(State, SAT_verbal, SAT_math)) %>% pairs(pch=16) 
+```
+]
+
+---
+## MLR with only numerical predictor variables 
+### Public school data
+
+**Step 2: Fit a linear model and plot the residuals by the predicted response** 
+
+.scroll-small[
+```{r SAT19_analysis1}
+MLR_SAT1 <- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio, data = SAT_data)
+summary(MLR_SAT1)
+```
+]
+
+---
+## Public school data
+### Step 2 
+
+```{r }
+MLR_SAT1_sum <- summary(MLR_SAT1)
+names(MLR_SAT1); names(MLR_SAT1_sum)
+```
+
+---
+## Public school data
+### Step 2 
+
+.scroll-output[
+```{r SAT19_residual1}
+residual_plot_data <- SAT_data %>% 
+                      mutate(residuals = MLR_SAT1_sum$residuals,
+                             fitted_vals = MLR_SAT1$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+
+ggplot(residual_plot_data) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores",
+       x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+]

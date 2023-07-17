@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 11 - Part 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="class11-part1_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="class11-part1_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 11 - Part 1
+## Simple Linear Regression (SLR)
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, Oct 13, 2020 (updated: 2020-10-09)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## Problem set-up
+### Simple linear regression (SLR)
+
+The **population** we are sampling from must have a continuous, quantitative variable that we are primarily interested in as a response variable. For SLR, we explore the relationship between another continuous, quantitative predictor variable and this response. 
+
+**Model** We assume the relationship between the predictor and response is a linear one `\(Y \mid x = \beta_0 + \beta_1 x + \epsilon\)`, where `\(\epsilon\)` is a RV  with `\(E[\epsilon]=0\)` and `\(Var[\epsilon]=\sigma^2\)`. 
+
+On average, this means `$$E[Y \mid x] = \beta_0 + \beta_1 x.$$`  
+
+**Sample** The sample must be representative of the population and consists of paired data points `\((x_1, y_1), (x_2, y_2), \dots, (x_n, y_n)\)`. We visualize the data with a **scatter plot**. It can be useful to change up the limits of the x- and y-axes when plotting the data. 
+
+---
+## Problem set-up
+### Simple linear regression (SLR)
+
+**Estimates** for this model are based on the data, representing the "line of best fit". Sample-dependent estimates for the model parameters are found by minimizing the distance between the regression line and the y-values of the observed data set. 
+
+`$$min_{\beta_0, \beta_1} \sum_{i=1}^{n}\left(y_i - [\beta_0 + \beta_1 x_i]\right)^2.$$`
+
+`$$\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$`
+`$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_{1}\bar{x}$$`
+
+---
+## Problem set-up
+### Simple linear regression (SLR)
+
+
+The **predicted/fitted values** `\(\hat{y}_{i}\)` are the y-values that result from plugging the observed x-values in to the estimated regression equation
+`$$\hat{y}_i = \hat{\beta}_{0} + \hat{\beta}_{1} x_i.$$`
+
+The **residuals** are the difference between the observed y-values and the predicted y-values:
+`$$e_i = \hat{y}_i - y_i.$$`
+
+`$$\hat{\sigma}^2 =\frac{\sum_{i-1}^{n}e_i^2}{n-2}$$`
+
+
+---
+## SLR Example
+### Restaurant tips
+
+
+```r
+#install.packages("Lock5Data")
+require(Lock5Data)  ## this is similar to the library() function but it attaches the names of the data sets contained in the package Lock5Data 
+data(RestaurantTips)
+head(RestaurantTips)
+```
+
+```
+##    Bill   Tip Credit Guests Day Server PctTip
+## 1 23.70 10.00      n      2   f      A   42.2
+## 2 36.11  7.00      n      3   f      B   19.4
+## 3 31.99  5.01      y      2   f      A   15.7
+## 4 17.39  3.61      y      2   f      B   20.8
+## 5 15.41  3.00      n      2   f      B   19.5
+## 6 18.62  2.50      n      2   f      A   13.4
+```
+
+---
+## SLR Example
+### Restaurant tips
+
+&lt;img src="class11-part1_files/figure-html/unnamed-chunk-3-1.png" height="450" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+## Problem set-up
+### Assumptions for estimation
+
+`$$Y\mid x = \beta_0 + \beta_1 x + \epsilon$$`
+
+1. `\(E[\epsilon]=0\)`;
+
+1. `\(Var[\epsilon]=\sigma^2 &lt; \infty\)`;
+
+1. Each instance of the random variable `\(\epsilon\)` is independent of any other instance. 
+
+
+
+--
+All of these assumptions have to do with the random variable `\(\epsilon\)`. We never actually observe any instances of `\(\epsilon\)`, the best thing we have are the observed residuals. (But note that these residuals treat our estimates of the model parameters (slope and intercept) as if they are definitely correct, in reality, this was just an informed guess.)
+
+If we wish to conduct inference, then we also need a **fourth assumption**: The random variable `\(\epsilon\)` is normally distributed. 
+
+
+We will discuss how to check these assumptions in the next video. 
+
+---
+## Fitting the model 
+
+### In R 
+
+```r
+#SLR_model &lt;- lm(Response ~ Predictor, data = DataObject)
+#summary(SLR_model)
+```
+
+### Interpretation 
+
+`\(\hat{\beta}_0\)` may not have a meaningful interpretation in the context of the problem but in general it must always be included in a regression model anyway. The only time you would not include an intercept term is if you know for certain that the regression model must pass through the origin.
+
+`\(\hat{\beta}_1\)` is the slope and as such means that for every unit increase in `\(x\)`, on average we expect a `\(\hat{\beta_1}\)` unit increase in `\(Y\)`.
+
+`\(\hat{\sigma}^2\)` is the estimated variance of the random error `\(\epsilon\)` (it is therefore also the estimated variance of the random variable `\(Y\)`).
+
+
+---
+## Fitting the model 
+
+.scroll-output[
+### Interpretation 
+
+**Correlation:** For any two quantitative variables, we can measure the strength of their linear relationship by calculating their correlation. Recall correlation is the standardized (to lie between -1 and 1) version of the covariance:
+`$$Cor(X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}.$$`
+For a sample of data, we calculate the sample correlation with the formula:
+`$$r_{x,y} = \frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i-\bar{x})^2}\sqrt{\sum_{i=1}^{n}(y_i-\bar{y})^2}}.$$`
+In R, the function we can use instead is
+
+```r
+cor(data_object$xvarb, data_object$yvarb)
+```
+
+
+**R-squared:** This is called the *coefficient of determination*. In SLR, where we only have one predictor variable, this is just the sample correlation squared. So whereas sample correlation contains direction information (can be positive or negative), R-squared is always between 0 and 1 and only indicates the strength of the linear relationship.]
+
+
+
+---
+## SLR Example
+### Restaurant tips
+
+.scroll-output[
+
+```r
+SLR_tips &lt;- lm(Tip ~ Bill, data = RestaurantTips)
+summary(SLR_tips)
+```
+
+```
+## 
+## Call:
+## lm(formula = Tip ~ Bill, data = RestaurantTips)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.3911 -0.4891 -0.1108  0.2839  5.9738 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.292267   0.166160  -1.759   0.0806 .  
+## Bill         0.182215   0.006451  28.247   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.9795 on 155 degrees of freedom
+## Multiple R-squared:  0.8373,	Adjusted R-squared:  0.8363 
+## F-statistic: 797.9 on 1 and 155 DF,  p-value: &lt; 2.2e-16
+```
+
+
+```r
+SLR_tips2 &lt;- lm(PctTip ~ Bill, data = RestaurantTips)
+summary(SLR_tips2)
+```
+
+```
+## 
+## Call:
+## lm(formula = PctTip ~ Bill, data = RestaurantTips)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.9927 -2.3096 -0.6455  1.4679 25.5335 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 15.50965    0.73956   20.97   &lt;2e-16 ***
+## Bill         0.04881    0.02871    1.70   0.0911 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.36 on 155 degrees of freedom
+## Multiple R-squared:  0.01831,	Adjusted R-squared:  0.01197 
+## F-statistic:  2.89 on 1 and 155 DF,  p-value: 0.09112
+```
+
+```r
+(cor(RestaurantTips$PctTip, RestaurantTips$Bill))^2
+```
+
+```
+## [1] 0.01830543
+```
+]
+
+
+---
+## SLR Example
+### Restaurant tips
+
+
+
+```r
+plot1 &lt;- RestaurantTips %&gt;% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatter plot of the data and the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+plot2 &lt;- RestaurantTips %&gt;% ggplot(aes(x=Bill,y=PctTip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatter plot of the data and the regression line",
+                          x="Cost of the bill", y="Percentage tipped")
+library("gridExtra") # This package allows you to combine multiple plots in a single picture
+grid.arrange(grobs = list(plot1, plot2), ncol=2)  ## I've given the plots names in the code above and now I am using the grid.arrange() function to list these two plots side-by-side (in two columns)
+```
+
+
+---
+## SLR Example
+### Restaurant tips
+
+&lt;img src="class11-part1_files/figure-html/unnamed-chunk-9-1.png" height="450" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

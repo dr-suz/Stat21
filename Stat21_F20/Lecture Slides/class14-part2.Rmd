@@ -1,0 +1,145 @@
+---
+title: "Class 14 - Part 2"
+subtitle: "Estimating the Error Variance"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Oct 22, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+hc_employer_2013 <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_data.txt")) 
+  #read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_2013_cleaned.txt")) 
+colnames(hc_employer_2013) <- c("Location", "TotalHealthSpending", "TotalUninsured", 
+                                "TotalPop", "spending_capita", "prop_uninsured")
+
+SLR_hc <- lm(prop_uninsured ~ spending_capita, hc_employer_2013)
+#SLR_hc_pwr <- lm(prop_uninsured^(1/4) ~ spending_capita, hc_employer_2013)
+
+#hc_resid_data <- hc_employer_2013 %>% 
+#                        mutate(residuals = SLR_hc$residuals, 
+#                               fitted_vals = SLR_hc$fitted.values,
+#                               residuals_pwr = SLR_hc_pwr$residuals,
+#                               fitted_vals_pwr = SLR_hc_pwr$fitted.values) 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## What does the rest of the R output mean? 
+### Residual standard error and it's degrees of freedom
+
+Recall that $\sigma$ is also a model parameter that we don't know and must estimate. 
+
+
+$$\hat{\sigma} = \text{Residual standard error} =  \sqrt{\frac{SSres}{n-2}} = \sqrt{MSE}$$
+
+--
+The *residual degrees of freedom* are $n-2$, where we are subtracting $2$ because *SSres* is computed after we have estimated two model parameters, $\beta_0$ and $\beta_1$. 
+
+
+```{r}
+df.residual(SLR_hc)
+dim(hc_employer_2013)
+```
+
+---
+## What does the rest of the R output mean? 
+### Residual standard error and it's degrees of freedom
+
+To extract this estimate for $\sigma$ from the model use: 
+```{r}
+SLR_hc_summary <- SLR_hc %>% summary
+SLR_hc_summary$sigma
+```
+
+
+
+---
+## What does the rest of the R output mean? 
+### Residual standard error and it's degrees of freedom
+
+To see that $\hat{\sigma} = \text{Residual standard error} =  \sqrt{\frac{SSres}{n-2}}$,
+look at the following output: 
+
+```{r}
+anova(SLR_hc)
+```
+
+
+.footnote[<a href="https://campus.datacamp.com/courses/correlation-and-regression/model-fit?ex=3">Here</a> is a useful R tutorial that helps to explain what *residual standard error* is.] 
+
+
+
+---
+## What does the rest of the R output mean? 
+### Residual standard error and it's degrees of freedom
+
+.scroll-output[
+```{r class14-2, fig.align='center'}
+hc_resid_data <- hc_employer_2013 %>% 
+                        mutate(residuals = SLR_hc$residuals, 
+                               fitted_vals = SLR_hc$fitted.values) 
+
+ggplot(hc_resid_data) +
+         geom_point(aes(x=fitted_vals, y=residuals)) + 
+         labs(title="Residual plot", subtitle="Cost of health care a predictor of proportion of people uninsured",
+         x="Fitted values", y="Residuals") + 
+  geom_hline(yintercept=0)
+```
+
+
+A **really good** summary of what the R output of a linear model means can be found <a href="https://stats.stackexchange.com/a/5138/77371 ">here</a>. 
+
+**Q:** If there is evidence of heteroscedasticity, how will that affect the quality of our estimate, $\hat{\sigma}^2$? 
+]

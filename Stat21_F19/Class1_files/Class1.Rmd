@@ -1,0 +1,355 @@
+---
+title: "Class 1"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/9/2 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+  extra_dependencies: ["xcolor"]
+---
+
+
+# Introduction to Stat 21  
+
+### Tell me about yourself
+
+1. Registration full name 
+1. Preferred name and pronouns if different from registration info
+1. What kinds of data are you interested in investigating? 
+1. Access to a laptop that they can bring in to class? 
+1. What is your programming experience (R or otherwise)? 
+1. Why are you taking this course? (If it’s because it is a major/minor requirement, why are you pursuing the major/minor?) 
+
+
+---
+#Directions for installing R and R Studio:
+
+1. Download R from http://cran.us.r-project.org/.
+
+  - Choose your operating system.
+  
+  - Select the latest release version of R to install. 
+
+1. After R is installed, download RStudio (the free version) from https://www.rstudio.com/products/rstudio/download/ 
+  
+  - Again, make sure you download the correct installer for your operating system. 
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+rm(list=ls())
+library(tidyverse)
+library(gridExtra)
+library(broom)
+
+#setwd("~/Dropbox/z MyStuff Dropbox/Swat docs/Stat 21/Class1_files")
+
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(fig.height=4, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+#setwd("~/Dropbox/z MyStuff Dropbox/Swat docs/Stat 21/Class1_files")
+BeefTable <- read_table2("BeefDemand.txt", col_names = TRUE) 
+```
+
+---
+# Statistical methods overview
+
+What you are expected to already have familiarity with (left) and what you will learn in this class (right):
+
+.pull-left[
+1. Common probability distributions;
+
+1. Different types of random variables (discrete/continuous);
+
+1. How to conduct statistical inference (i.e. hypothesis tests and confidence intervals)
+
+]
+
+.pull-right[
+1. Using R to clean and examine data and to fit models;
+
+1. Using R Markdown to present your homework results;
+
+1. Fit and interpret regression models to quantitative and/or qualitative variables; 
+
+1. Develop your own R package to analyze data 
+
+]
+
+Book reference for today's lecture: Ch 2 Gelman and Hill 
+
+---
+# A (non-exhaustive) review of key statistical terms
+
+.pull-left[
+**Populations**
+
+1. Parameters
+
+1. Fixed<sup>*</sup>
+]
+
+
+.pull-right[
+**Samples**
+
+1. Estimators
+
+1. Randomness
+
+1. Statistics 
+]
+
+<span class="footnote"> &#42; I think my initial presentation of the distinctions between populations and samples was a little comfusing. In traditional (<a href="https://en.wikipedia.org/wiki/Frequentist_inference">frequentist</a>) statistical inference we are interested in population parameters which are fixed (**not** random). Sample estimators on the other hand, are random, because the sample is selected **at random**.</span>
+
+---
+# Critical Questions for Every Statistical Analysis
+
+For every data set you analyze, make sure you can answer the following four questions before conducting **any** statistical analysis:
+1. What are the observational units?
+--
+
+
+  - **Observational units** are your data points. This could be individuals (e.g people, animals), samples of a chemical substance, or any other objects being studied (e.g. tires, plants). The group of observational units that we use for statistical analysis is referred to as the *sample*. Often I will shorten the phrase to **observations** rather than **observational units**.
+
+---
+# Critical Questions for Every Statistical Analysis
+
+<ol start="2">
+
+<li>What are the variables in this study, what type of variables are they, and which roles do they each play?</li>
+--
+
+<ul>
+  <li><b>Qualitative variables</b> represent things that can be categorized (e.g. color of cars, zip codes, political party).</li>
+  
+  <li><b>Quantitative variables</b> have a natural ordering (e.g. low/medium/high, age, disagree/sommewhat disagree/neighter agree nor disagree/somewhat agree/agree).</li>
+</ul>
+</ol>
+
+
+---
+# Critical Questions for Every Statistical Analysis
+
+<ol start="2">
+
+<li>What are the variables in this study, what type of variables are they, and which roles do they each play?</li>
+
+
+<ul>
+  <li><b>Discrete variables</b> take on a finite (or <a href="https://en.wikipedia.org/wiki/Countable_set">countably infinite</a>) number of different possible values.</li>
+  
+  <li><b>Continuous variables</b> can take on an <a href="https://en.wikipedia.org/wiki/Uncountable_set">uncountably infinite</a> number of different possible values.</li>
+</ul>
+</ol>
+
+--
+Find examples of the following:
+- A discrete, qualitative variable
+- A discrete, quantative variable
+- A continuous, quantative variable
+- A continuous, qualitative variable 
+
+---
+# Critical Questions for Every Statistical Analysis
+
+<ol start="2">
+
+<li>What are the variables in this study, what type of variables are they, and which roles do they each play?</li>
+
+
+<ul>
+  <li><b>Discrete variables</b> take on a finite (or <a href="https://en.wikipedia.org/wiki/Countable_set">countably infinite</a>) number of different possible values.</li>
+  
+  <li><b>Continuous variables</b> can take on an <a href="https://en.wikipedia.org/wiki/Uncountable_set">uncountably</a> infinite number of different possible values.</li>
+</ul>
+</ol>
+
+Find examples of the following:
+- A discrete, qualitative variable
+- A discrete, quantative variable
+- A continuous, quantative variable
+- <strike>A continuous, qualitative variable</strike> <font color="red">Not possible!</font>  
+
+
+---
+# Critical Questions for Every Statistical Analysis
+
+<ol start="2">
+
+<li>What are the variables in this study, what type of variables are they, and which roles do they each play?</li>
+
+
+<ul>
+  <li><b>Predictor variables</b> variable(s) are sometimes called "independent variables".</li>
+  
+  <font color="red"><b>Don't do this!</b></font> 
+  
+  
+  The word <i>independent</i> has a <a href="https://en.wikipedia.org/wiki/Independence_(probability_theory)">special definition</a> in Statistics. 
+  
+  
+  <li><b>Response variables</b> variable(s) are sometimes called "dependent variables" but again, don't do this for the same reason as above. </li>
+</ul>
+</ol>
+
+---
+# Critical Questions for Every Statistical Analysis
+
+<ol start="3">
+<li>Is the study observational or is it an experiment?</li>
+--
+
+<ul>
+  <li><b>Observational Studies</b> are ones in which you merely observe the  observational units, i.e., you simply record the data you are interested in collecting (e.g. measure the height of growing children).</li>
+
+  <li><b>Experiments</b> are studies in which you both act on and observe the observational units (e.g. measure the height of growing children while regularly feeding some of them vitamins and others no vitamins.) In an experiment you will have observational units that are randomly assigned a particular treatment, and those which are not assigned a treatment (called controls).</li> 
+</ul>
+</ol>
+
+---
+# Critical Questions for Every Statistical Analysis
+
+<ol start="4">
+
+<li>Does the study use random sampling, random assignment, both or neither?</li>
+--
+<ul>
+  <li><b>Random sampling</b> a sample from a population where all individuals within the population have the same chance of being selected. If your sample is <i>truely</i> random, then it is representative of the population.</li>
+  <b>Note:</b> It is very rare to have a truely random sample, but good statistical practice means (1) coming as close to truely random sample collection process as possible and (2) transparancy in your results when true randomness was not possilbe. 
+
+  <li><b>Random assignment</b> is used in experimental studies to assign observational units to a treatment or to a control group. In random assignment, each observational unit has equal chance of being selected for one (or more) treatment group(s) or the control group.</li> 
+</ul>
+</ol>
+
+
+---
+# Critical Questions for Every Statistical Analysis
+
+<ol start="4">
+
+<li>Does the study use random sampling, random assignment, both or neither?</li>
+
+   <ul><li><b>Examples</b></li></ul>
+   
+An Experimental Study of Collective Deliberation." J.K. Goeree and L. Yariv. <i>Econometrica</i> (2011).</li> 
+ 
+
+The goal is to study situations in which groups of people determine a collective outcome (e.g. elections, juries).The sample of people in this study totaled to 549 people. Each person was paid for their participation in the study. 
+
+
+Is this a random sample? 
+</ol>
+
+---
+# Critical Questions for Every Statistical Analysis
+  
+<ol start="4">
+
+<li>Does the study use random sampling, random assignment, both or neither?</li>
+
+   <ul><li><b>Examples</b></li></ul>
+   
+Here the observational units are broken into treatment and control groups based on whether or not their group will be allowed to deliberate. They also wanted to account for other factors as well such as controlling how common/conflicting individuals were within each group and how the decision was to be made (e.g. simple mjority, two-thrids majority) within each group. 
+
+
+FYI the conclusions were that the ability to participate in deliberation reduces the differences among outcomes for various decision-making processes.  
+</ol>
+
+
+--
+To Netflix for an example of non-randomn sampling! 
+
+
+S2 E20 11:42 - 12:08 
+
+
+
+---
+# Looking ahead
+
+By the end of the semester you will be able to import and analyse real data such as the following: 
+
+
+This data set consists of a few variables that may influence the **demand for Beef** in the United States.<sup>[1]</sup> We want to build a sensible economic and statistical regression model to describe how the demand changes with respect to other related variables.
+
+
+.footnote[
+[1] http://jse.amstat.org/v22n1/kopcso/BeefDemandDoc.txt ]
+
+---
+# US Beef Consumption Analysis from the 80s
+
+## A look at the data
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+BeefTable2 <- BeefTable %>% rename('RDPI_transformed' = '(RDPI-Mean)^sq' )
+head(BeefTable2)
+```
+
+**Note:** Data sets should always come with a description (e.g. Read Me) file. It is good practice to always look at both the raw data file and the data description file first. 
+
+---
+# US Beef Consumption Analysis from the 80s
+
+## A look at the data
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+BeefTable2 <- BeefTable %>% rename('RDPI_transformed' = '(RDPI-Mean)^sq' )
+head(BeefTable2)
+```
+
+**One more note:** Get into the habit of having each data observation in each row and each of the variables in a column. This is the way we will define all of our data sets in the class (and this is also common practice). 
+
+---
+# US Beef Consumption Analysis from the 80s
+
+## A regression model
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+BeefFinalMod <- lm(BeefConsump ~ Year +
+                    RealChickenPrice + 
+                    RealBeefPrice +
+                    RDPI_transformed, data=BeefTable2) 
+
+BeefResiduals <- summary(BeefFinalMod)$residuals
+tidy(BeefFinalMod)
+```
+
+**Note:** The model output contains *estimates* and *statistics*. What's the difference between the two? 
+
+---
+# US Beef Consumption Analysis from the 80s
+
+**Eventually** you will be able to produce and interpret plots such as this one. This is a residual plot that illustrates the magnitude of the difference between *observed* beef consumption each year and the *predicted* beef consumption from a multiple regression model. 
+
+## A residual plot
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center'}
+#options(scipen=999)
+#theme_set(theme_bw())
+BeefPredicted <- predict(BeefFinalMod)
+
+BeefTable3 <- tibble(BeefPredicted, BeefResiduals, 
+                     BeefConsump = BeefTable2$BeefConsump,
+                     Year = BeefTable2$Year) 
+  
+ggplot(BeefTable3, aes(x = Year, y = BeefConsump)) +
+  geom_segment(aes(xend = Year, yend = BeefPredicted),
+               alpha = .2) +
+  geom_point(aes(color = abs(BeefResiduals), size = abs(BeefResiduals))) + 
+  scale_color_continuous(low = "black", high = "red") +
+  guides(color = FALSE, size = FALSE) +  
+  geom_point(aes(y = BeefPredicted), shape = 1) +
+  theme_bw() + 
+  labs(x = "Year", y = "Beef Consumption") #+
+#  scale_y_continuous(breaks=seq(0, 200, 10), labels = function(x){abs(x)})
+
+```
+
+
+
+
+

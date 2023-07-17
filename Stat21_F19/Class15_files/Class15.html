@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 15</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class15_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class15_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 15
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/10/7 (updated: 2019-10-07)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## ANOVA - analysis of variance
+
+  &gt; Once upon a time, a psychologist conducted a survey and gathered considerable amounts of data. However, as is the case many times, the data sat on the shelf gathering dust. But, one year, the psychologist decided to resurrect the data. Not being exactly sure of what to do though, the data was given to a few students to play with and summarize. Well, as you might expect, one student did it one way, another student did it another way, and a third student even did it entirely different from the other two. Because of this, the psychologist suddenly became interested in a new research question and proclaimed:
+
+  &gt; "How goes this VARIANCE OF ANALYSIS?"
+
+
+.footnote[Credit: Dennis Roberts of Penn State] 
+
+---
+## What are we learning? 
+### Big picture 
+
+&lt;img src="Figs/class15pic.png" width="600" height="400" style="display: block; margin: auto;" /&gt;
+  
+---
+## Mammal sleeping data 
+
+Suppose we are interested in the amount of sleep an animal gets depending on the order it belongs to. 
+
+&lt;img src="Figs/taxonomicrank.png" width="300" height="200" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Mammal sleeping data 
+
+
+```r
+library("ggplot2")
+data(msleep)
+names(msleep)
+```
+
+```
+##  [1] "name"         "genus"        "vore"         "order"       
+##  [5] "conservation" "sleep_total"  "sleep_rem"    "sleep_cycle" 
+##  [9] "awake"        "brainwt"      "bodywt"
+```
+
+```r
+summary(msleep$order)
+```
+
+```
+##    Length     Class      Mode 
+##        83 character character
+```
+
+
+
+
+---
+## Mammal sleeping data 
+
+
+```r
+head(msleep)
+```
+
+```
+## # A tibble: 6 x 11
+##   name  genus vore  order conservation sleep_total sleep_rem sleep_cycle
+##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Chee… Acin… carni Carn… lc                  12.1      NA        NA    
+## 2 Owl … Aotus omni  Prim… &lt;NA&gt;                17         1.8      NA    
+## 3 Moun… Aplo… herbi Rode… nt                  14.4       2.4      NA    
+## 4 Grea… Blar… omni  Sori… lc                  14.9       2.3       0.133
+## 5 Cow   Bos   herbi Arti… domesticated         4         0.7       0.667
+## 6 Thre… Brad… herbi Pilo… &lt;NA&gt;                14.4       2.2       0.767
+## # … with 3 more variables: awake &lt;dbl&gt;, brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;
+```
+
+```r
+msleep2 &lt;- msleep %&gt;% 
+           mutate(order_cat = fct_infreq(order)) %&gt;%
+           select(order_cat, sleep_total)
+```
+
+
+.footnote[Source: https://forcats.tidyverse.org/]
+
+---
+## Mammal sleeping data 
+.scroll-output[
+
+```r
+glimpse(msleep2)
+```
+
+```
+## Observations: 83
+## Variables: 2
+## $ order_cat   &lt;fct&gt; Carnivora, Primates, Rodentia, Soricomorpha, Artioda…
+## $ sleep_total &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3…
+```
+
+```r
+msleep2 
+```
+
+```
+## # A tibble: 83 x 2
+##    order_cat    sleep_total
+##    &lt;fct&gt;              &lt;dbl&gt;
+##  1 Carnivora           12.1
+##  2 Primates            17  
+##  3 Rodentia            14.4
+##  4 Soricomorpha        14.9
+##  5 Artiodactyla         4  
+##  6 Pilosa              14.4
+##  7 Carnivora            8.7
+##  8 Rodentia             7  
+##  9 Carnivora           10.1
+## 10 Artiodactyla         3  
+## # … with 73 more rows
+```
+
+```r
+summary(msleep2$order_cat)
+```
+
+```
+##        Rodentia       Carnivora        Primates    Artiodactyla 
+##              22              12              12               6 
+##    Soricomorpha         Cetacea      Hyracoidea  Perissodactyla 
+##               5               3               3               3 
+##      Chiroptera       Cingulata Didelphimorphia   Diprotodontia 
+##               2               2               2               2 
+##  Erinaceomorpha     Proboscidea    Afrosoricida      Lagomorpha 
+##               2               2               1               1 
+##     Monotremata          Pilosa      Scandentia 
+##               1               1               1
+```
+]
+
+---
+## Mammals sleeping data 
+
+.scroll-output[
+
+```r
+SLR_msleep &lt;- lm(sleep_total ~ order_cat, data=msleep2)
+SLR_msleep
+```
+
+```
+## 
+## Call:
+## lm(formula = sleep_total ~ order_cat, data = msleep2)
+## 
+## Coefficients:
+##              (Intercept)        order_catCarnivora  
+##                 12.46818                  -2.35152  
+##        order_catPrimates     order_catArtiodactyla  
+##                 -1.96818                  -7.95152  
+##    order_catSoricomorpha          order_catCetacea  
+##                 -1.36818                  -7.96818  
+##      order_catHyracoidea   order_catPerissodactyla  
+##                 -6.80152                  -9.00152  
+##      order_catChiroptera        order_catCingulata  
+##                  7.33182                   5.28182  
+## order_catDidelphimorphia    order_catDiprotodontia  
+##                  6.23182                  -0.06818  
+##  order_catErinaceomorpha      order_catProboscidea  
+##                 -2.26818                  -8.86818  
+##    order_catAfrosoricida       order_catLagomorpha  
+##                  3.13182                  -4.06818  
+##     order_catMonotremata           order_catPilosa  
+##                 -3.86818                   1.93182  
+##      order_catScandentia  
+##                 -3.56818
+```
+]
+
+
+
+
+---
+## Mammals sleeping data 
+
+
+```r
+anova(SLR_msleep)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: sleep_total
+##           Df  Sum Sq Mean Sq F value   Pr(&gt;F)    
+## order_cat 18 1196.71  66.484  9.9566 2.04e-12 ***
+## Residuals 64  427.35   6.677                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+
+---
+## Recall in SLR
+
+  .center[Total variation in Y = variation due to predictor x + variation due to everything else]
+
+
+Source    | Sums of sqs  | Deg of free. | Mean square | F-statistic
+--------- | ------------ | ------------ | ----------- | ----------- 
+Model     | `\(\sum_{i=1}^{n}(\hat{y}_i-\bar{y})^2\)` | `\(1\)`   | `\(MSReg=\frac{SS_{Reg}}{1}\)` | `\(F=\frac{MSReg}{MSE}\)`
+Residuals | `\(\sum_{i=1}^{n}(\hat{y}_i - y_i)^2\)` | `\(n-2\)` | `\(MSE=\frac{SSE}{n-2}\)`   | 
+
+
+---
+## ANOVA and SLR compared
+
+In ANOVA models, we are doing the same thing, only now our predictor variable is a **qualitative/categorical** variable! 
+
+
+--
+For an ANOVA problem, our statistical question is often: Do these different groups of experimental units vary in their response values? 
+
+
+--
+Assumptions (regarding the random error in our continuous, quantitative response):
+
+1. `\(E[\epsilon]=0\)`
+
+1. Homogeneity of variance (i.e. `\(Var(\epsilon)=\sigma^2\)`)
+
+    - Levene's test
+
+1. Each `\(\epsilon\)` is independent of any other random error. 
+
+---
+## Constant variance assumption for ANOVA
+### Levene's test
+
+
+Note: The null hypothesis here is that all group variances are equal. So we **want** to "fail to reject"! 
+
+
+```r
+library("car")
+leveneTest(SLR_msleep)
+```
+
+```
+## Levene's Test for Homogeneity of Variance (center = median)
+##       Df F value Pr(&gt;F)
+## group 18  1.2837 0.2287
+##       64
+```
+
+--
+Note: This is also an F-test but it is not the same one from before! 
+This F-test is looking at the ratio of the sum of squared variances *within* a particular category to the sum of squared variances *between* any two categories.  
+
+---
+## ANOVA notation
+
+Observed data: 
+`$$( \boldsymbol{x}_{obs}, \boldsymbol{y}_{obs}) = (x_1, y_1), \dots, (x_n,y_n)$$`
+But now each `\(x_i\)` for `\(i = 1,\dots,n\)` are one of a finite number of possible options (e.g. color, high/medium/low, species, etc). 
+
+So we will denote this data according to the number of different possible group options, which we'll call `\(k\)`.
+
+For `\(k=1\)` we have observations `\(y_{1,1}, \dots, y_{1, n_1}\)`
+
+For `\(k=2\)` we have observations `\(y_{2,1}, \dots, y_{2, n_2}\)`
+
+
+For `\(k=3\)` we have observations `\(y_{3,1}, \dots, y_{3, n_3}\)`
+
+
+`\(\dots\)` 
+
+
+For `\(k=K\)` we have observations `\(y_{K,1}, \dots, y_{K, n_K}\)`
+
+
+--
+Hence our hypothesis of interest is:
+
+`$$H_0: \mu_1 = \mu_2 = \dots = \mu_k \\ H_1: \text{ Not all }\mu_i \text{ are equal, for }i=1,\dots,k$$`
+
+
+
+
+---
+## Some additional resources 
+
+
+On degrees of freedom: 
+https://statisticsbyjim.com/hypothesis-testing/degrees-freedom-statistics/
+
+
+
+On factors within the *tidyverse*: https://r4ds.had.co.nz/factors.html
+https://peerj.com/preprints/3163.pdf
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

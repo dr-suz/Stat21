@@ -1,0 +1,235 @@
+<html> 
+<head> <title>Journal of Statistics  Education, V4N3: Chu</title></head>      
+<body bgcolor="#ffffff">
+
+<h1>Diamond Ring Pricing Using Linear Regression</h1>
+
+<p>   Singfat Chu
+<br>   National University of Singapore
+
+
+<p><cite>Journal of Statistics Education</cite> v.4, n.3 (1996)
+
+
+<p>      Copyright (c) 1996 by Singfat Chu, all rights reserved.
+         This text may be freely shared among individuals, but
+         it may not be republished in any medium without express
+         written consent from the author and advance
+         notification of the editor.</p>
+<hr>
+
+<p><strong>Key Words</strong>:  Extrapolation; Interpretation of intercept;
+Model-building; Transformations.
+
+<p> <h2>Abstract</h2>
+
+<p>      Data presented in a newspaper advertisement
+         suggest the use of simple linear regression to
+         relate the prices of diamond rings to the weights
+         of their diamond stones.  The intercept of the
+         resulting regression line is negative and
+         significantly different from zero.  This finding
+         raises questions about an assumed pricing mechanism
+         and motivates consideration of remedial actions.
+
+<p>
+<h1>1. Introduction</h1>
+
+
+<p>1    Linear regression is covered in many introductory statistics
+     courses.  The availability of statistical software makes it
+     a popular topic with students.  However, students often fail
+     to criticise the suitability of their fitted model.
+
+<p>2    One example that I have used to illustrate this point
+     concerns the relationship between the price and diamond
+     caratage of ladies' diamond rings.  The application has
+     significant mundane appeal to students who may be
+     contemplating the purchase of such jewelry.
+
+
+<p><h1>2. The Dataset</h1>
+
+
+<p>3    The source of the data is a full page advertisement placed
+     in the <cite>Straits Times</cite> newspaper issue of February 29, 1992,
+     by a Singapore-based retailer of diamond jewelry.
+
+<p>4    The advertisement contained pictures of diamond rings and
+     listed their prices, diamond content, and gold purity.  Only
+     20K ladies' rings, each mounted with a single diamond stone,
+     were considered for this study.  20K rings are made with
+     gold of 20 carat purity.  (Pure gold is rated as 24K.)
+
+<p>5    There were 48 such rings of varying designs.  The weights of
+     the diamond stones ranged from 0.12 to 0.35 carats (a one
+     carat diamond stone weighs 0.2 gram) and were priced between
+     $223 and $1086.  The jewelry store adopted a fixed-price
+     policy.
+
+<p>6    I distribute photocopies of the advertisement to pairs of
+     students and ask them to use the data to uncover, interpret,
+     and comment on a plausible mechanism for pricing the diamond
+     rings.
+
+<p>
+<h1>3. How Is Jewelry Priced?</h1>
+
+<p> 7    In Singapore, the pricing of gold jewelry is simple.  The
+      price equals the current market value of the gold content
+      (i.e., weight times the going rate per gram of gold) plus a
+      craftsmanship fee.
+
+<p> 8    However, the pricing of other jewelry like diamond rings is
+      more complicated because they are not as standardized as
+      gold jewelry.  The price of diamond jewelry depends on the
+      four C's:  caratage, cut, colour, and clarity of the diamond
+      stone.  A good cut gives a diamond more sparkle.  Colourless
+      diamonds are the most prized.  A flawless diamond has
+      maximum clarity because the passage of light is unimpeded
+      through the stone.  Cut, colour, and clarity are subjective
+      factors and are very hard for the layman to gauge.
+
+<p>
+<h1>4. Assumptions and Results</h1>
+
+<p> 9    Students find it reasonable to assume that they are dealing
+      with &quot;commercial grade&quot; jewelry intended for the mass
+      market.  Such jewelry is similar in terms of design, gold
+      weight, and the diamond qualities of cut, colour, and
+      clarity.  Therefore, the carat size of the diamond stones
+      becomes the obvious factor to use in pricing the rings.
+
+<p>10    Examination of a scatter plot of the data suggests the
+      viability of a simple linear regression (SLR) model; see 
+      <a href="#Fig1">Figure 1</a>.  The
+      fitted regression model is Estimated price = -259.63 +
+      3721.02 (carats).  The fit is excellent as indicated by an
+      R² of 0.978.  The t-statistics for the intercept and slope
+      coefficients are -14.99 and 45.50, respectively.
+
+<p>11    Students invariably employ an SLR model.  They also perform
+      residual analysis, and, finding nothing unusual, they are
+      satisfied with the regression fit.
+
+<p>12    In their reports, the students commonly point out
+
+<ul>
+<p><li> the viability of the SLR model as ascertained by the
+          R² value and the statistical significance of the slope
+          coefficient,</li>
+
+<p><li> the interpretation of the slope as the average imputed
+          value per carat of diamond stones within the restricted
+          range considered, and</li>
+
+<p><li> the usefulness of the regression fit for predicting the
+          price of diamond rings within this restricted range.</li>
+</ul>
+
+<p>13    Many students point out that extrapolation of the regression
+      line for bigger diamond stones would not be advisable as
+      these stones are rarer and command a different price range.
+      A few students mention that they find the negative intercept
+      puzzling because it suggests that a zero-carat diamond ring
+      has a negative economic value!
+
+<p>
+<h1>5. Discussion</h1>
+
+<p>14    Upon returning the assignments, I follow up on the remarks
+      about the negative intercept and ask the students whether
+      this warrants remedial action.  Our presumed pricing
+      mechanism implies that the intercept represents the value of
+      the gold content plus a craftsmanship fee.  Thus, it should
+      be non-negative.  Three lines of thought have emerged during
+      the discussions.</p>
+<blockquote>
+      Thought 1: No remedial action is required.  The model
+          applies only to the restricted range of the data.
+          Extrapolation to a zero-weight stone (i.e., to the
+          intercept) is dangerous because the underlying pricing
+          mechanism may be piecewise linear or even nonlinear.
+          Thus the possibility that the true intercept is
+          non-negative cannot be excluded.</blockquote>
+<blockquote>
+      Thought 2: Remedial action is required.  One proposal is to
+          force the regression line through the origin.  Some
+          students, however, do not buy the idea that the gold
+          content and craftsmanship fee are freebies.  A computer
+          demonstration reveals that the fit is quite poor.</blockquote>
+<blockquote>
+      Thought 3: Remedial action is required, and data
+          transformations may be entertained.  Suitable models
+          that are intrinsically linear and have a non-negative
+          intercept include $y = A x^B \epsilon$ and
+          $y = \exp(A + Bx + \epsilon)$.  For the latter model,
+          ln(price) is regressed on diamond caratage using
+          standard SLR technology.  Our attempt at fitting that
+          model turned out to be unsatisfactory; the residuals
+          scattered along a dome pattern, cycling from negative
+          to positive and back to negative as the carat size
+          increased.  This led us to consider the model
+          $y = \exp(A + Bx + Cx² + \epsilon)$.  This proved to
+          be an adequate model; the residuals scattered randomly,
+          and the adjusted R² was 0.97.  The estimated fit was
+          ln(price) = 3.89 + 14.86 (carats) - 17.54 (carats²).
+          The anti-log of the intercept is $49.  This is a
+          reasonable figure for the value of the gold content and
+          the craftsmanship fee.  Figure 1 shows this model after
+          back-transforming price from the log scale.</blockquote>
+<p>
+<hr>
+<p>
+<a name="Fig1">Figure 1.  Linear and Quadratic Regression Models.  The solid
+line is the least-squares line.  The dashed line shows the quadratic regression
+of ln(price) on carats after back-transforming price from the log scale.</a>
+<p>
+<a href="chu01.gif">
+<img src="chu01.icon.gif" align="bottom" WIDTH="213" HEIGHT="151">Figure 1 (2.6K GIF)</a>
+<p>
+<hr>
+<p>
+<h1>6. Conclusion</h1>
+
+<p>15    This paper illustrates model-building in linear regression.
+      It is shown that a possibly counter-intuitive negative
+      intercept may be avoided by using a multiplicative or
+      exponential regression model.  These regression models are
+      intrinsically linear, and they are estimated using standard
+      linear regression technology after a suitable transformation
+      of the data.
+
+<p>
+<h1>7. Getting the Data</h1>
+
+<p>16  The file <a href="../datasets/diamond.dat.txt">diamond.dat.txt</a>
+contains the raw data.  The file
+<a href="../datasets/diamond.txt">diamond.txt</a> is a
+documentation file containing a brief description of the
+dataset.
+</p>
+<hr>
+<p>
+<h1>Appendix - Key to Variables in diamond.dat.txt</h1>
+
+<pre>
+Columns
+ 6 -  8  Size of diamond in carats
+16 - 19  Price of ring in Singapore dollars
+</pre>
+Values are aligned and delimited by blanks.  There are no missing values.
+<p>
+<hr>
+<p>
+      Singfat Chu<br>
+      Department of Decision Sciences<br>
+      National University of Singapore<br>
+      10 Kent Ridge Crescent<br>
+      Singapore 119260<br>
+      <address>fbachucl@nus.sg</address>
+</p>
+<hr>
+<a href="../toc.html#1996">Return to Table of Contents</a> | <a href="../index.html">Return to the JSE Home Page</a>
+</body>
+</html>

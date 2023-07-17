@@ -1,0 +1,187 @@
+---
+title: "Week 3: Importing and visualizing data"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+library("tidyverse") ## We must do this every time we start a new R session. 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+# Creating a tibble of data
+
+Think of data in terms of a spreadsheet (or matrix) where 
+
+  - Rows are the observations,
+  
+  - Columns are the different variable names.
+
+.scroll-output[
+```{r echo=TRUE, fig.align='center'}
+## Data object (in this example we're looking at miles per hour and number of passengers)
+car_data <- tibble(mph = c(22, 35, 20, 25, 24, 20, 34, 31, 30, 32, 33, 25, 29, 24),
+                  passengers = c(1, 1, 3, 2, 5, 2, 1, 1, 2, 1, 3, 1, 1, 2)) 
+car_data
+```
+]
+
+
+
+---
+## Plotting in the `tidyverse`
+### Scatterplot and plot basics
+
+.scroll-output[
+The components for building a plot in the `tidyverse` pack are:
+
+  - the data object (typically a `tibble` or `data.frame`), 
+  
+  - the plot initialization page (where you reference the data object and orient the axes), and then 
+  
+  - the plot itself (histogram, density curve, box plot, etc). 
+
+
+```{r echo=TRUE, eval=FALSE}
+## Plot initialization (aes() stands for aesthetics)
+ggplot(car_data, aes(x=passengers, y=mph)) +
+  
+## The actual plot (a scatterplot in this example)
+         geom_point()
+```
+]
+
+
+---
+## Plotting in the `tidyverse`
+### Scatterplot and plot basics
+
+```{r echo=FALSE, fig.align='center', fig.height=5}
+## Plot initialization (aes() stands for aesthetics)
+ggplot(car_data, aes(x=passengers, y=mph)) +
+  
+## The actual plot (a scatterplot in this example)
+         geom_point()
+```
+
+---
+## Plotting in the `tidyverse`
+### Scatterplot and plot basics
+
+.scroll-output[
+
+We finish the plot by adding labels and trimming the x and y axes with the `xlim` and `ylim ` functions. 
+
+```{r echo=TRUE, eval=FALSE}
+## Plot initialization (aes() stands for aesthetics)
+ggplot(car_data, aes(x=passengers, y=mph)) +
+  
+## The actual plot (a scatterplot in this example)
+         geom_point() + 
+         ylim(10,40) + xlim(0,6) + 
+         labs(title="Scatterplot") + xlab("Number of passengers") + ylab("Miles per hour")
+  
+```
+]
+
+
+---
+## Plotting in the `tidyverse`
+### Scatterplot and plot basics
+
+```{r echo=FALSE, fig.align='center', fig.height=5}
+## Plot initialization (aes() stands for aesthetics)
+ggplot(car_data, aes(x=passengers, y=mph)) +
+  
+## The actual plot (a scatterplot in this example)
+         geom_point() + 
+         ylim(10,40) + xlim(0,6) + 
+         labs(title="Scatterplot") + xlab("Number of passengers") + ylab("Miles per hour")
+  
+```
+
+---
+## Plotting in the `tidyverse`
+### Histograms
+
+.scroll-output[
+
+Often, to visualize a single numeric variable, we create a histogram. 
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(car_data, aes(x=mph)) +
+         geom_histogram(bins=5) +
+         labs(title="Histogram") + 
+         xlab("Miles per hour") + 
+         ylab("Count")
+```
+]
+
+
+---
+## Plotting in the `tidyverse`
+### Histograms
+
+```{r echo=FALSE, eval=TRUE, fig.align='center', fig.height=5}
+ggplot(car_data, aes(x=mph)) +
+         geom_histogram(bins=5) +
+         labs(title="Histogram") + 
+         xlab("Miles per hour") + 
+         ylab("Count")
+```
+

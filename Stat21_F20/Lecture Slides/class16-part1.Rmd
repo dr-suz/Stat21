@@ -1,0 +1,335 @@
+---
+title: "Class 16 - Part 1"
+subtitle: "MLR with categorical predictors"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Thursday, Oct 28, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+library('scatterplot3d')
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+
+## ANOVA model review
+
+In an ANOVA model, the predictor variable is categorical. Recall we write 
+$$Y_{j}  = \mu_{j} + \epsilon$$
+
+where $j = 1,\dots, k$ and $k$ is the number of levels in the categorical predictor. 
+***
+
+**Assumptions:**
+
+1. $E[\epsilon]=0$
+
+1. Homogeneity of variance (i.e. $Var(\epsilon)=\sigma^2$)
+
+1. The random errors $\epsilon$ are all independent. 
+
+1. The random errors, $\epsilon$ are Normally distributed. (Only necessary for inference.)
+
+
+
+
+---
+## Simple Linear Regression model review
+
+In an SLR model, the both the predictor variable and the response variable are quantitative and we write the relationship between the two variables as
+$${Y} \mid x  = \beta_0 + \beta_{1}x + \epsilon.$$
+
+***
+
+**Assumptions:**
+
+1. $E[\epsilon]=0$
+
+1. Constant variance (i.e. $Var(\epsilon)=\sigma^2$)
+
+1. The random errors $\epsilon$ are all independent.  
+
+1. The random errors, $\epsilon$ are Normally distributed. (Only necessary for inference.)
+
+
+
+
+---
+## Indicator varables
+
+An indicator/dummy variable is one that can only take on one of two possible values. This is purely a notational scheme for representing different levels of some categorical variable. 
+
+If we have a variable with $k$ unique categories, we only need to define $k-1$ indicator variables to uniquely identify each data point as belonging to one category. 
+
+E.g.) Suppose a mechanical engineer needs to determine if the effective life $(Y)$ of a lathe (a type of cutting tool) changes for the different sizes $(x)$ small, medium, and large. 
+
+```{r, lathe, echo=FALSE, fig.align='center', out.height=300}
+knitr::include_graphics("Figs/lathe.png")
+```
+
+
+---
+## Indicator varables
+### Lathe life example
+
+
+We can define two indicator variables for tool size by letting
+$$x_1 = \begin{cases}1, \text{ if small tool}\\ 0, \text{ if not small tool} \end{cases}\\
+x_2 = \begin{cases}1, \text{ if medium tool}\\ 0, \text{ if not medium tool} \end{cases}$$
+
+
+Suppose the first few rows of the data set look like...
+
+| Tool life | Tool Size |
+|-----------|-----------|
+| 12.2 | large | 
+| 10.1 | large | 
+| 15.6 | small |
+| 14.0 | medium| 
+
+---
+## Indicator varables
+### Lathe life example
+
+
+
+We can define two indicator variables for tool size by letting
+$$x_1 = \begin{cases}1, \text{ if small tool}\\ 0, \text{ if not small tool} \end{cases}\\
+x_2 = \begin{cases}1, \text{ if medium tool}\\ 0, \text{ if not medium tool} \end{cases}$$
+
+
+We can re-code the data in terms of the indicator variables! 
+
+| Tool life | $x_1$ | $x_2$ |
+|-----------|-------|-------|
+| 12.2 | 0 | 0 | 
+| 10.1 | 0 | 0 | 
+| 15.6 | 1 | 0 |
+| 14.0 | 0 | 1 | 
+
+
+---
+## ANOVA as a MLR
+### Lathe life example
+
+
+$$Y \mid (x_1, x_2) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \epsilon,$$
+
+where 
+$$x_1 = \begin{cases}1, \text{ if small tool}\\ 0, \text{ if not small tool} \end{cases}\\
+x_2 = \begin{cases}1, \text{ if medium tool}\\ 0, \text{ if not medium tool} \end{cases}.$$
+
+
+For small tools: $Y \mid (x_1, x_2) = \beta_0 + \beta_1 + \epsilon$ 
+
+For medium tools: $Y \mid (x_1, x_2) = \beta_0 + \beta_2 + \epsilon$ 
+
+For large tools: $Y \mid (x_1, x_2) = \beta_0 +  \epsilon$ 
+
+
+---
+## ANOVA as a MLR
+### Lathe life example
+
+
+$$Y \mid (x_1, x_2) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \epsilon,$$
+
+where 
+$$x_1 = \begin{cases}1, \text{ if small tool}\\ 0, \text{ if not small tool} \end{cases}\\
+x_2 = \begin{cases}1, \text{ if medium tool}\\ 0, \text{ if not medium tool} \end{cases}.$$
+
+
+For small tools: $Y \mid (x_1, x_2) = \beta_0 + \beta_1 + \epsilon = \mu_{small} + \epsilon$ 
+
+For medium tools: $Y \mid (x_1, x_2) = \beta_0 + \beta_2 + \epsilon = \mu_{medium} + \epsilon$ 
+
+For large tools: $Y \mid (x_1, x_2) = \beta_0 +  \epsilon = \mu_{large} + \epsilon$ 
+
+
+
+---
+## ANOVA as a MLR in general 
+
+Suppose we have a categorical predictor variable with $k$ different groups. Let $Y$ be the continuous response variable. The ANOVA model for these two variables is:
+$$Y \mid (x_1, x_2, \dots, x_{k-1}) = \beta_0 + \beta_1 x_{1} + \beta_2 x_{2} + \cdots + \beta_{k-1}x_{k-1} + \epsilon, \text{ where}$$
+$$x_{j} = \begin{cases} 1, \text{ if individual is from category j} \\
+	0, \text{ otherwise}
+	\end{cases}$$
+and $j=1,\dots, k-1$. Whatever level of the categorical variable is indicated by setting all dummy variables to zero is called the **reference group**. 	
+	
+Since $\beta_3$ (for example) is zero for any individual not in level 3, the coefficient $\beta_3$ represents the average change in $Y$ that we expect to see if a data point were to switch categories from the reference group to the third level.  
+
+
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+Let's build an ANOVA model for determining how the scientific order of a mammal is related to the number of hours it sleeps each night. Remember, it's really important to make sure that R recognizes the categorical variable as a variable of class type *factor*.
+
+.scroll-small[
+```{r}
+library("tidyverse")
+data(msleep)
+msleep2 <- msleep %>% 
+           mutate(order_cat = order %>% fct_infreq()) %>%
+           select(order_cat, sleep_total)
+head(msleep2)
+```
+]
+
+
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+By default, R chooses the **reference category** alphabetically. Since we used the *fct_infreq()* function from the *forcats* package, we instead told R to use the category with the most observational units as the reference level. 
+
+.scroll-small[
+```{r }
+msleep2 %>% count(order_cat)
+```
+]
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+If we wanted the reference category to be the factor with the fewest number of observational units we can modify the data with the *fct_rev()* function and then re-fit the model. Similarly, if we wanted the reference category to be a specific factor level we could coerce this using the function *fct_recode()*.  
+
+.scroll-small[
+```{r}
+msleep3 <- msleep %>%
+           mutate(order_cat = order %>% fct_infreq() %>% fct_rev()) %>% 
+           select(order_cat, sleep_total)
+msleep3 %>% count(order_cat)
+```
+]
+
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+.scroll-output[
+```{r}
+## Fit an ANOVA model using the aov() function 
+ANOVA_mammals <- aov(sleep_total ~ order_cat, data=msleep2)
+ANOVA_mammals
+``` 
+
+
+```{r}
+## Fit an ANOVA model using the lm() function
+SLR_mammals <- lm(sleep_total ~ order_cat, data=msleep2)
+SLR_mammals
+```
+]
+
+
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+Compare the following output. What is the same? What is different?
+
+.scroll-output[
+```{r}
+## Summary of the aov() model
+summary(ANOVA_mammals)
+``` 
+
+```{r}
+## Summary of the lm() model
+summary(SLR_mammals)
+```
+]
+
+
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+.scroll-output[
+```{r msleep_class16}
+ggplot(msleep2, aes(x=order_cat, y=sleep_total)) + 
+  geom_count(col="tomato3", show.legend=F) +  ## This part plots the counts of observations relative to the dot size and uses a red/tomato color theme 
+  labs(subtitle="Sleeping time for different mammals", 
+       y="Total hours slept", 
+       x="Mammal order", 
+       title="Counts Plot") + 
+  theme(axis.text.x = element_text(angle = 90))  ## This part rotates the labels of the different categories by 90 degrees
+```
+]
+
+---
+## ANOVA in R 
+### Mammal sleeping data 
+
+.scroll-output[
+```{r msleep_class16-2}
+ggplot(msleep2, aes(x=order_cat, y=sleep_total)) + 
+  geom_boxplot() +
+  labs(subtitle="Sleeping time for different mammals", 
+       y="Total hours slept", 
+       x="Mammal order", 
+       title="Counts Plot") + 
+  theme(axis.text.x = element_text(angle = 90))
+```
+]

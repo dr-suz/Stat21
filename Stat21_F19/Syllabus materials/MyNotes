@@ -1,0 +1,43 @@
+Notes after 2019 fall Stat21: 
+
+1. For review classes, go through this problem: https://askgoodquestions.blog/2019/07/15/2-my-favorite-question/
+2. On terminology: Until very recently, I always said quantitative rather than numerical.  But now I have decided that just as many of us have retired qualitative in favor of categorical, we can keep things simpler and more consistent by abandoning quantitative for numerical.
+3. find some real examples of assumptions violated or ok 
+4. Add chi-squared test (intro stats stuff with categorical variables) to review material
+5. Defer specific degrees of freedom questions until MLR maybe 
+6. It IS important to emphasize the conditional nature of linear models, don't ignore that (residual plots, normality, estimate of the conditional std dev of the response not the marg) 
+7. If introducing ANOVA before MLR, only do the cell means version and figure out how to get r to display the cell means OR maybe just hold off on ANOVA models until MLR is already introduced (SLR -> MLR all numerical -> MLR all categorical (ANOVA) -> MLR both
+8. HW 6 jumped the gun, it covered MLR with interactions between categorical and numerical predictors but we had only started to get to MLR with both types of main effects. Deadline was extended 
+9. Class 25 lecture was weak 
+10. On Moodle, can host html files but must also upload all image files and set html as the "main" file
+11. Create an 8th HW assignment to cover material in Class 32-33 lectures
+
+------------------Notes from books-------------------------------------------------
+Ch 9 A bag of Tricks Multiple regression 
+***
+find published example from social science journal, ask how the regression results would have to differ in order to change the conclusion of the paper (or wine example) 
+
+Adding more predictors
+  - first check SLR and see if the slope is statistically sig. (t test or CI)
+  - consider other lurking variables, including them in the model is also called "controling for" these variables, interpretation of all else constant 
+  - MLR output focus on: coefficient estimates, standard errors of coefficient estimates, R squared, root mean squared error 
+  - Compare and contrast SLR to MLR results and then to MLR with interaction
+  
+  
+  - log transfomations 
+  
+  - creating a better exam investigation with class participation and grades on exam 1
+  
+  
+final project - Step by step guide for fitting a linear regression model 
+
+
+
+Ch 12 Data Analysis and Regression by Mosteller and Turkey 
+***
+
+
+
+
+Ch 13 Data Analysis and Regression by Mosteller and Turkey 
+***

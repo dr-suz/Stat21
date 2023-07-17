@@ -1,0 +1,48 @@
+﻿ID,Building_name,height_meters,height_ft,floors,year,material,purpose
+1,30 Hudson Yards,386.6,"1,268",73,2019,concrete_steel,office
+2,3 World Trade Center,328.9,"1,079",69,2018,composite,office
+3,35 Hudson Yards,307.8,"1,010",71,2019,concrete,residential
+4,220 Central Park South,290.2,952,70,2019,concrete,residential
+5,15 Hudson Yards,278.6,914,70,2019,concrete,residential
+6,The Centrale,244.8,803,64,2019,concrete,residential
+7,111 Murray Street,241.4,792,58,2018,concrete,residential
+8,520 Park Avenue,237.9,781,54,2018,concrete,residential
+9,50 West,237.3,779,64,2018,concrete,residential
+10,55 Hudson Yards,237.1,778,51,2018,concrete,office
+11,19 Dutch Street,231,758,63,2018,concrete,residential
+12,ARO,224.8,738,62,2018,concrete,residential
+13,100 East 53rd Street,216.7,711,61,2018,concrete,residential
+14,277 Fifth Avenue,205,673,55,2018,concrete,residential
+15,Eagle Lofts,182.2,598,55,2018,concrete,residential
+16,3 Jackson Park,177.1,581,54,2018,concrete,residential
+17,Summit New York,169.5,556,42,2018,concrete,residential
+18,The Edition Times Square,157.3,516,42,2019,concrete_steel,hotel
+19,1 Jackson Park,152.6,501,45,2018,concrete,residential
+20,ALTA LIC,147.7,485,44,2018,concrete,residential
+21,Aliz Hotel Times Square,144.5,474,42,2018,concrete,hotel
+22,2 Jackson Park,143.4,471,43,2018,concrete,residential
+23,685 1st Avenue,139.9,459,42,2019,concrete,residential
+24,606 West 57th Street,134.1,440,42,2018,concrete,residential
+25,200 East 59th Street,132.7,435,34,2018,concrete,residential
+26,The Greenpoint,132.2,434,39,2018,concrete,residential
+27,One Waterline Square,130.8,429,36,2019,concrete,residential
+28,One Gotham Center,130.3,427,27,2019,concrete,office
+28,Three Gotham Center,130.3,427,27,2019,concrete,office
+30,Hudson Commons,127.7,419,25,2019,steel,office
+31,515 West 36th Street,127.4,418,38,2018,concrete,residential
+32,Moxy Chelsea,125,410,35,2019,concrete,hotel
+33,390 Madison Avenue,122.9,403,32,2018,steel,office
+34,Two Waterline Square,121,397,38,2019,concrete,residential
+35,The Kent,119.6,392,28,2018,concrete,residential
+36,Three Waterline Square,119.2,391,34,2019,concrete,residential
+37,Moxy Hotel,111,364,30,2018,concrete,hotel
+38,New York University Langone  Medical Center,109.4,359,21,2018,steel,hospital
+39,The Eagle,105.5,346,32,2018,concrete,residential
+40,Marriott AC Hotel,105,344,33,2018,concrete,hotel
+41,37 Blue Slip,103.6,340,30,2018,concrete,residential
+42,The NOMA,96,315,25,2018,concrete,residential
+43,Marriott Courtyard Hotel,95.1,312,29,2018,concrete,hotel
+44,565 Broome SoHo,88.4,290,25,2019,concrete,residential
+45,The Essex,86.9,285,25,2018,concrete,residential
+46,220 Central Park South Villa,83.5,274,18,2018,concrete,residential
+47,Pestana NY East,83.2,273,27,2019,concrete,hotel

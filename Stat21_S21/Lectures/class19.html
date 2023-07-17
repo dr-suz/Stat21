@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 19</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <script src="class19_files/header-attrs/header-attrs.js"></script>
+    <link href="class19_files/remark-css/default.css" rel="stylesheet" />
+    <link href="class19_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 19
+## Statistical Methods II (Stat 021)
+### Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, April 20, 2021 (updated: 2021-04-20)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins (5 mins)
+
+- Discussion about Test 2 and Part 1 of your Final Project (15 mins)
+
+- Homework 6 Problem 7 (15+ mins)
+
+- Multiple linear regression (10 mins)
+
+- Homework 7 (15+ mins)
+
+- Housekeeping items and announcements (5 mins)
+
+---
+# Tuesday check-in 
+
+- Send me a screenshot of your check-in markers on Slack
+
+- [Fill out the group roles for today's class](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing) 
+
+&lt;img src="Figs/feelings_wheel.jpg" width="683" height="500" style="display: block; margin: auto;" /&gt;
+
+---
+## Discussion about Test 2 and Part 1 of your Final Project  
+
+
+---
+## Homework 6
+### Problem 7 
+
+The data shown below present the average number of surviving bacteria in a canned food product and the minutes of exposure to 300 degree Fahrenheit heat. Identify an appropriate transformed model for these data. 
+
+.scroll-output[
+
+```r
+bacteria_data &lt;- tibble(bacteria_count = c(175, 108, 95, 82, 71, 50, 49, 31, 28, 17, 16, 11),
+                        minutes_exposure = c(1,2,3,4,5,6,7,8,9,10,11,12))
+```
+]
+
+
+
+
+---
+## Homework 6
+### Problem 7 
+
+.scroll-output[
+(a) Fit a SLR model to the transformed data and display the residual plot and calculate the coefficient of determination to comment on the adequacy of this model.
+
+
+```r
+bacteria_data2 &lt;- bacteria_data %&gt;% mutate(log_count = log(bacteria_count))
+mod &lt;- lm(log_count ~ minutes_exposure, bacteria_data2)
+summary(mod)
+```
+
+```
+## 
+## Call:
+## lm(formula = log_count ~ minutes_exposure, data = bacteria_data2)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.184303 -0.083994  0.001453  0.072825  0.206246 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       5.33878    0.07409   72.05 6.47e-15 ***
+## minutes_exposure -0.23617    0.01007  -23.46 4.49e-10 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.1204 on 10 degrees of freedom
+## Multiple R-squared:  0.9822,	Adjusted R-squared:  0.9804 
+## F-statistic: 550.3 on 1 and 10 DF,  p-value: 4.489e-10
+```
+
+```r
+mydata_all &lt;- bacteria_data2 %&gt;% mutate(mod_residuals = mod$residuals,
+                                        mod_fitted = mod$fitted.values)
+
+ggplot(mydata_all, aes(x=mod_fitted, y=mod_residuals)) + 
+  geom_point() + 
+  labs(title="Residual plot",
+       y='Residuals',
+       x='Fitted Values')
+```
+
+![](Figs/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+The coefficient of determination is `\(0.9804\)` (or `\(0.9822\)` is also acceptable). The residual plot is shown below. With a coefficient of determination so close to one and with a residual plot that shows evenly scattered residuals, without any discernible pattern or funneling, we conclude that the linear model is appropriate for this transformed data.] 
+
+---
+## Homework 6
+### Problem 7 
+
+
+
+(b) What is the average effect on the bacterial growth per each additional minute of exposure? 
+
+The average effect on the *logarithm* of bacterial growth per each additional minute of exposure is `\(-0.236\)`. This means that the average effect on bacterial growth is `\(e^{-0.236}=0.790\)` since `\(ln(a) = b\)` is equivalent to `\(a = e^{b}\)`, where `\(e\)` is Euler's number and `\(ln\)` is the natural logarithm (i.e. `\(log\)` base `\(e\)`). Therefore, if `\(-0.236\)` is the amount that the natural logarithm of the counts changes for an increase in time, then `\(e^{-0.236}=0.790\)` is the amount that the counts of bacteria change for an increase in time. 
+
+
+
+--
+**Q:** What can you do if you need more support going over the solutions to these homework problems? 
+
+
+--
+**A:** Come to office hours!!  
+
+  * If you are struggling to keep up with the homework or projects, please make use of this time! 
+  
+  * I can help you debug R issues and we can work through homework questions together. 
+
+
+---
+# Multiple linear regression (MLR)
+
+General model for `\(p\)` predictor variables
+
+`$$Y \mid (x_1, x_2, \dots, x_p) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \epsilon$$`
+
+where the following assumptions are made about the random noise, `\(\epsilon\)`
+
+  - `\(E(\epsilon)=0\)` and more importantly, `\(Var(\epsilon)=\sigma^2\)`;
+  
+  - All errors are independent of one another; 
+  
+  - The error is normally distributed (only necessary for *inference*). 
+
+---
+# Multiple linear regression (MLR)
+
+## Measuring the model adequacy 
+
+  - Overall F-test 
+
+  - Adjusted R-squared 
+
+  - (Standardized) Residual Plot 
+  
+  
+--
+## Incorporating categorical predictors 
+
+  - A one-way ANOVA model is really just a MLR model that has `\(k-1\)` predictor variables! 
+  
+  - A categorical predictor variable with `\(k\)` levels will require `\(k-1\)` dummy/indicator variables to fully represent this variable in the regression model. 
+
+
+---
+# Multiple linear regression (MLR)
+## Looking ahead to next week 
+
+What are some potential issues with MLR models? 
+
+  * Multicollinearity 
+  
+  * Hidden extrapolation 
+  
+How can we generalize these models even further? 
+
+  * Incorporate interaction terms 
+  
+  * Fit higher-order polynomial terms 
+
+---
+# Homework 7 
+## Problems 1-2
+
+The director of admissions of a small college selected 120 students at random from the new freshman class in a study to determine whether a student's grade point average (GPA) at the end of the freshman year `\((Y)\)` can be predicted from the ACT test score `\((X_1)\)` and from a binary categorical indicator of whether or not the student had chosen a major field of concentration at the time their application was submitted. The categorical predictor variable is coded so that 
+`$$X_2 = \begin{cases}0, \quad \text{if the major field was undecided} \\ 1, \quad  \text{if the student had indicated a major field of concentration at the time of application} \end{cases}.$$`
+
+.scroll-small[
+
+```r
+library("tidyverse")
+admissions &lt;- read.csv(url(
+              "http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/admissions_data.csv"))
+head(admissions)
+```
+
+```
+##     GPA ACT major
+## 1 3.897  21     0
+## 2 3.885  14     1
+## 3 3.778  28     0
+## 4 2.540  22     1
+## 5 3.028  21     0
+## 6 3.865  31     1
+```
+]
+
+
+---
+# Homework 7 
+## Problems 1-2
+
+**Instructions:** With your group, answer the following questions about a MLR fit to this data. Hand in either a screenshot of your answers or the text for your answers to me in a group Slack message. Make sure to mark your progress in the [Group Progress Checker](https://docs.google.com/spreadsheets/d/1d34JxqXQON6MyIEjN5ugkByCeTuGTTb_ovvPfSAca_g/edit?usp=sharing). (Do not call me into your Zoom breakout room!)
+
+**Problem 1:** Explain the interpretation of each of the regression model coefficients within the context of this data:
+`$$Y_i \mid x_{1,i}, x_{2,i} = \beta_0 + \beta_1 x_{1,i} + \beta_2 x_{2,i} + \epsilon_i,$$`
+where 
+`$$x_{2,i} = \begin{cases}0, \quad \text{if student i is undecided} \\ 1, \quad  \text{if student i indicated a major field of concentration at the time of application} \end{cases},$$`
+and `\(E(\epsilon_i)=0\)`, `\(Var(\epsilon_i) = \sigma^2\)`, and all the errors are independent. 
+
+
+**Problem 2:** Fit the regression model from Problem 1 and state the estimated regression equation. 
+
+---
+### Planning ahead for next class  
+
+- Prepare for Thursday's class 
+
+  * Comprehension quiz for week 11 
+  
+  * Read through HW 7 
+  
+  * Read through the instructions for Part 2 of your Final Project
+
+- Regarding your final project and test 3
+
+  * You will automatically lose 10 points for every day your submission is late 
+  
+  * No exceptions! 
+
+
+---
+### Announcements 
+
+**Math/Stat Department Dresden Memorial Lecture by Professor Sarah Koch** 
+
+Sarah Koch is an Associate Professor of Mathematics at the University of Michigan. Her research combines topology, algebraic geometry, and complex analysis in the field of complex dynamics, at once an ancient field asking basic questions about what happens when you repeat an operation over and over, and at the same time, a very modern one, whose beautiful Julia and Mandelbrot sets are illustrated on many a screensaver today.
+
+.scroll-small[
+**Wednesday, April 21, 8:00-9:00pm** Dresden Lecture
+
+What is the shape of a polynomial? 
+We will work with the complex numbers and discuss how one might understand the geometry or "shape" of a given (complex) polynomial function. There will be many pictures and movies in this talk.
+
+**Friday, April 23, 3:00-4:00pm** Dresden Presentation and Q&amp;A
+
+Math Circles: a bundle of outreach
+One of my favorite parts of being a mathematician is sharing math with other people. I have been extensively involved in outreach since I arrived at the Michigan Math Department in 2013. I have led Math Circle sessions for middle schoolers, high schoolers, and math teachers. In 2018, I was on my way to Dearborn, Michigan to lead a Math Circle session with one of my colleagues. Something happened during that trip that changed my life. I would love to tell you about it!
+
+**Friday, April 23, 4:10-4:40pm** AWM/W+iMS Virtual Tea with Speaker
+]
+
+Zoom Link for Dresden Lecture/Presentation and Q&amp;A https://swarthmore.zoom.us/j/92417771543 
+
+This event will be recorded and posted on Math/Stat Dept. 2020-2021 Colloquium Schedule   
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

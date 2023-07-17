@@ -1,0 +1,215 @@
+---
+title: "Class 15 - Part 2"
+subtitle: "MLR Example"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Oct 26, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+
+#rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+library('scatterplot3d')
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## MLR with only numerical predictor variables 
+### Public school SAT data
+
+.scroll-output[
+```{r}
+SAT_data <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/public_school_sat.txt"), col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+colnames(SAT_data) = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot")
+SAT_data <- SAT_data %>% mutate(prop_taking_SAT = PropnStu/100) %>% select(-PropnStu)
+
+head(SAT_data)  ##note: please dont print out entire data sets in your HW solutions!
+names(SAT_data)
+```
+]
+
+---
+## Public school SAT data
+### What are the factors affecting SAT scores? 
+
+```{r echo=FALSE, class15_SLR, fig.align='center', out.height=400}
+ggplot(SAT_data) +
+  geom_point(aes(x=PerPupilSpending, y=SAT_tot)) + 
+  labs(title="Public school SAT scores", subtitle = "Predictor: Per Pupil Spending",
+       x="Per Pupil Spending (in thousands of dollars)", y="Total SAT Score") +
+  xlim(2.5,10) + ylim(800, 1200)
+```
+
+---
+## Public school SAT data
+### First: Visualize 2D plots for every pair of predictors 
+
+.scroll-output[
+```{r class15_scatter, fig.align='center'}
+SAT_data %>% select(-State) %>% pairs(pch=16) 
+```
+]
+
+
+---
+## Public school SAT data
+### First: Visualize 2D plots for every pair of predictors 
+
+.scroll-output[
+```{r class15_scatter2, fig.align='center'}
+SAT_data %>% select(-c(State, SAT_verbal, SAT_math)) %>% pairs(pch=16) 
+```
+]
+
+---
+## Public school SAT data
+### Second: Fit a linear regression model and plot the residuals
+
+.scroll-output[
+```{r}
+MLR_SAT <- lm(SAT_tot ~ PerPupilSpending + StuTeachRatio, data = SAT_data)
+summary(MLR_SAT)
+```
+]
+
+---
+## Public school SAT data
+### Second: Fit a linear regression model and plot the residuals
+
+.scroll-output[
+```{r class15_3dplot2, echo=FALSE, fig.align='center', out.height=400}
+library("scatterplot3d")
+require("scatterplot3d")
+plot3d <- scatterplot3d(SAT_data$PerPupilSpending, 
+                        SAT_data$StuTeachRatio, 
+                        SAT_data$SAT_tot,
+                        angle=55, scale.y=0.7, pch=16, color ="red",
+                        main ="3D Regression Plane",
+                        xlab="Per Pupil Spending (in thousands)", 
+                        ylab="Student-teacher Ratio", 
+                        zlab="Total SAT Score")
+plot3d$plane3d(MLR_SAT, lty.box = "solid")
+#plot3d$points3d(residual_plot_data2$PerPupilSpending, 
+#                residual_plot_data2$StuTeachRatio, 
+#                residual_plot_data2$fitted_vals, col="blue", type="h", pch=16)
+```
+]
+
+---
+## Public school SAT data
+### Second: Fit a linear regression model and plot the residuals
+
+.scroll-output[
+```{r class15_resid, echo=FALSE, fig.align='center', out.height=400}
+SAT_resid_data <- SAT_data %>% 
+                  mutate(residuals = MLR_SAT$residuals,
+                         fitted_vals = MLR_SAT$fitted.values) 
+ggplot(SAT_resid_data) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores",
+       x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0) + ylim(-200,200)
+```
+]
+
+---
+## Public school SAT data
+### Second: Fit a linear regression model and plot the residuals
+
+
+```{r eval=FALSE}
+SAT_resid_data <- SAT_data %>% 
+                  mutate(residuals = MLR_SAT$residuals,
+                         fitted_vals = MLR_SAT$fitted.values) 
+ggplot(SAT_resid_data) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores",
+       x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0) + ylim(-200,200)
+```
+
+
+
+
+```{r echo=FALSE, eval=FALSE}
+MLR_SAT_trans <- lm(SAT_tot ~ log(PerPupilSpending) + StuTeachRatio, data = SAT_data)
+SAT_resid_data_trans <- SAT_data %>% 
+                  mutate(residuals = MLR_SAT_trans$residuals,
+                         fitted_vals = MLR_SAT_trans$fitted.values) 
+ggplot(SAT_resid_data_trans) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot", subtitle="Public school SAT scores",
+       x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0) + ylim(-200,200)
+```
+
+
+
+```{r class15_resid3, echo=FALSE, fig.align='center', eval=FALSE}
+MLR_SAT_trans <- lm(SAT_tot ~ log(PerPupilSpending) + StuTeachRatio, data = SAT_data)
+SAT_resid_data_trans <- SAT_data %>% 
+                  mutate(residuals = MLR_SAT_trans$residuals,
+                         fitted_vals = MLR_SAT_trans$fitted.values) 
+trans_plot <- ggplot(SAT_resid_data_trans) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot for transformed per pupil spending",
+       x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0) + ylim(-200,200)
+reg_plot <- ggplot(SAT_resid_data) +
+  geom_point(aes(x=fitted_vals, y=residuals)) + 
+  labs(title="Residual plot for untransformed data",
+       x="Predicted SAT Scores", y="Residuals") + 
+  geom_hline(yintercept=0) + ylim(-200,200)
+
+grid.arrange(grobs=list(reg_plot, trans_plot), ncol=2)
+```

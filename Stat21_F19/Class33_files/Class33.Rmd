@@ -1,0 +1,271 @@
+---
+title: "Class 33"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/12/2 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+ 
+```{r, comic32, echo=FALSE, fig.align='center', out.height=500}
+knitr::include_graphics("Figs/compiling.png")
+```
+
+
+
+
+
+.footnote[https://xkcd.com/303/]
+
+
+---
+## Addressing collinearity with VIFs
+
+Suppose we have a MLR with $j=1,\dots,p$ predictor variables:
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1x_1 + \cdots + \hat{\beta}_px_p.$$
+We can compute the *variance inflation factor* for each of the predictor variable by
+$$VIF_j = \frac{1}{1-R^2_{j}},$$
+where $R^2_{j}$ is the R-squared value for the regression model that uses all other predictor variables in a model to predict the $j^{th}$ variable as the response:
+$$x_j = \hat{\beta_0} + \hat{\beta_1}x_1 + \cdots + \hat{\beta}_{j-1}x_{j-1} + \hat{\beta}_{j+1}x_{j+1} + \cdots + \hat{\beta}_p x_p.$$
+
+
+---
+## Variance inflation factors 
+
+
+  - Help us measure how severely inflated the standard errors of our estimated coefficients are;
+    
+
+  - Are just functions of an $R^2$ value, thus they are estimates; 
+
+
+  - Only make sense in the context of variables *with* a natural ordering, treat categories as continuous numerical variables. 
+    
+
+
+---
+## Variance inflation factors in R 
+
+```{r, echo=FALSE}
+wines <- read_csv("~/Google Drive Swat/Swat docs/Stat 21/Data/red_wines.csv", skip = 1, col_names = TRUE)
+```
+.scroll-output[
+Let's start by just blindly fitting a model with all predictor variables. (Don't do this in practice! This is for illustrative purposes only!)
+```{r}
+#install.packages("car")
+library("car")
+
+wine_full_MLR <- lm(y~x1+x2+x3+x4+x5+x6+x7+x8+x9+x10, data=wines)
+#vif(wine_full_MLR)
+alias(wine_full_MLR)
+
+wine_reduced_MLR <- lm(y~x1+x2+x3+x4+x5+x7+x8+x9+x10, data=wines)
+#vif(wine_reduced_MLR)
+alias(wine_reduced_MLR)
+
+wine_reduced_MLR2 <- lm(y~x1+x2+x3+x4+x5+x7+x8+x9, data=wines)
+vif(wine_reduced_MLR2)
+```
+]
+
+---
+## Variance inflation factors in R 
+### Interpreting the results 
+
+Recall that the standard errors (and hence the variances) of the estimated regression coefficients are inflated when multicollinearity is present. 
+
+The square root of the VIF indicates how much larger the standard error for that particular coefficient increases compared to if the corresponding predictor variable had $0$ correlation to all other predictor variables in the model.
+
+
+**Guidelines for interpreting VIFs:**
+
+  - A VIF of 1 means that there is no correlation among the $j^{th}$ predictor and the remaining predictor variables (so $SE(\hat{\beta}_j)$) is not inflated at all. 
+  
+  - VIFs exceeding 4 "warrant further investigation" 
+  
+  - VIFs exceeding 10 are signs of serious multicollinearity that needs to be corrected. 
+
+
+---
+## Variance inflation factors in R 
+### Interpreting the results 
+
+Can you tell from the summary output that this linear model has a problem with collinearity? 
+
+.scroll-small[
+```{r}
+wine_reduced_MLR2 <- lm(y~x1+x2+x3+x4+x5+x7+x8+x9, data=wines)
+vif(wine_reduced_MLR2)
+
+summary(wine_reduced_MLR2)
+```
+]
+
+
+---
+## Variance inflation factors in R 
+
+**Interpreting the results** 
+
+You **can** tell however, from the matrix of scatter plots. 
+
+```{r matx32, echo=FALSE, fig.align='center', fig.height=6}
+wines %>% select(y, x1, x2, x3, x4, x5, x7, x8, x9) %>% pairs(pch=16) 
+```
+
+
+---
+## Variance inflation factors in R 
+### What to do  
+
+.scroll-output[
+```{r}
+###Rather than this...
+wine_reduced_MLR2 <- lm(y~x1+x2+x3+x4+x5+x7+x8+x9, data=wines)
+vif(wine_reduced_MLR2)
+
+## Do this... 
+wine_numerical_predictors <- lm(y~x2+x3+x4+x5+x7+x8+x9, data=wines)
+vif(wine_numerical_predictors)
+```
+]
+
+
+
+---
+## Probably not great as a variable selection method... 
+### Principle component analysis 
+
+**Principle component analysis (PCA)** is a mathematical method that reduces the dimension of a linear regression problem where the number of predictor variables ( $p$ ) is huge (e.g. genetic data). It works through eigenvalue decomposition which requires linear algebra so the details are beyond the scope of this class.
+
+
+To use PCA you need to standardize the predictor variables and make sure they are all uncorrelated. (So this is a method to consider if you have a very large number of predictors even after addressing multicollinearity.)
+
+
+PCA looks at special linear combinations of the predictor variables to select a lower dimensional ( $<p$ ) set of "features" while still capturing as much "information" from the data as possible.
+
+
+**Note:** Interpreting the "principle components" that explain most of the variation in the response variable can be difficult to interpret in the context of the original predictor variables. 
+
+
+.footnote[Resources: I found that [4] and [5] have very helpful summaries of PCA. ]
+
+
+---
+## Variable selection methods
+
+**Principle component analysis of wine data**
+
+.scroll-output[
+```{r}
+PCA_wine_varbs <- wines %>% 
+                  dplyr::select(x2, x3, x4, x8, x9) %>% 
+                  mutate_all(scale) %>% 
+                  prcomp()
+summary(PCA_wine_varbs) 
+```
+]
+
+---
+## Variable selection methods
+
+**Principle component analysis of wine data**
+
+.scroll-output[
+```{r}
+wine_PCA_var <- (PCA_wine_varbs$sdev)^2
+wine_PCA_propn <- wine_PCA_var/sum(wine_PCA_var)
+plot(wine_PCA_propn, main="Scree plot", xlab="Principal Component", ylab="Proportion of variance explained", type="b") 
+```
+]
+
+```{r echo=FALSE, eval=FALSE}
+biplot(PCA_wine_varbs, scale = 0)
+```
+
+
+---
+## References
+
+[1] https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/
+
+
+[2] https://www.stat.cmu.edu/~cshalizi/mreg/15/lectures/21/lecture-21.pdf
+
+
+[3] http://onlinestatbook.com/2/tests_of_means/pairwise.html
+
+
+[4] Statistical Methods in Psychology Journals: Guidelines and Explanation by Leland Wilkinson and the Task Force on Statistical Inference. (1999) American Psychological Association. 54:8.
+
+
+https://www.apa.org/pubs/journals/releases/amp-54-8-594.pdf
+
+
+[CW: mentions of child sexual abuse and treats gender as a binary variable]
+
+
+[5] https://liorpachter.wordpress.com/2014/05/26/what-is-principal-component-analysis/
+
+
+[6] https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c
+  
+
+

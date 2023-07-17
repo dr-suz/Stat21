@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 33</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class33_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class33_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 33
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/12/2 (updated: 2019-12-09)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+ 
+&lt;img src="Figs/compiling.png" width="551" height="500" style="display: block; margin: auto;" /&gt;
+
+
+
+
+
+.footnote[https://xkcd.com/303/]
+
+
+---
+## Addressing collinearity with VIFs
+
+Suppose we have a MLR with `\(j=1,\dots,p\)` predictor variables:
+`$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1x_1 + \cdots + \hat{\beta}_px_p.$$`
+We can compute the *variance inflation factor* for each of the predictor variable by
+`$$VIF_j = \frac{1}{1-R^2_{j}},$$`
+where `\(R^2_{j}\)` is the R-squared value for the regression model that uses all other predictor variables in a model to predict the `\(j^{th}\)` variable as the response:
+`$$x_j = \hat{\beta_0} + \hat{\beta_1}x_1 + \cdots + \hat{\beta}_{j-1}x_{j-1} + \hat{\beta}_{j+1}x_{j+1} + \cdots + \hat{\beta}_p x_p.$$`
+
+
+---
+## Variance inflation factors 
+
+
+  - Help us measure how severely inflated the standard errors of our estimated coefficients are;
+    
+
+  - Are just functions of an `\(R^2\)` value, thus they are estimates; 
+
+
+  - Only make sense in the context of variables *with* a natural ordering, treat categories as continuous numerical variables. 
+    
+
+
+---
+## Variance inflation factors in R 
+
+
+.scroll-output[
+Let's start by just blindly fitting a model with all predictor variables. (Don't do this in practice! This is for illustrative purposes only!)
+
+```r
+#install.packages("car")
+library("car")
+
+wine_full_MLR &lt;- lm(y~x1+x2+x3+x4+x5+x6+x7+x8+x9+x10, data=wines)
+#vif(wine_full_MLR)
+alias(wine_full_MLR)
+```
+
+```
+## Model :
+## y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10
+## 
+## Complete :
+##     (Intercept) x1    x2    x3    x4    x5    x6    x8    x9   
+## x7      0           0     0     0     0     1    -1     0     0
+## x10     0           0     0     0     0  1/50 -1/50     0     0
+```
+
+```r
+wine_reduced_MLR &lt;- lm(y~x1+x2+x3+x4+x5+x7+x8+x9+x10, data=wines)
+#vif(wine_reduced_MLR)
+alias(wine_reduced_MLR)
+```
+
+```
+## Model :
+## y ~ x1 + x2 + x3 + x4 + x5 + x7 + x8 + x9 + x10
+## 
+## Complete :
+##     (Intercept) x1   x2   x3   x4   x5   x7   x8   x9  
+## x10    0           0    0    0    0    0 1/50    0    0
+```
+
+```r
+wine_reduced_MLR2 &lt;- lm(y~x1+x2+x3+x4+x5+x7+x8+x9, data=wines)
+vif(wine_reduced_MLR2)
+```
+
+```
+##         x1         x2         x3         x4         x5         x7 
+##   1.970605   4.092086   4.513202 603.518791 915.402653  59.565614 
+##         x8         x9 
+##   7.930630  36.170717
+```
+]
+
+---
+## Variance inflation factors in R 
+### Interpreting the results 
+
+Recall that the standard errors (and hence the variances) of the estimated regression coefficients are inflated when multicollinearity is present. 
+
+The square root of the VIF indicates how much larger the standard error for that particular coefficient increases compared to if the corresponding predictor variable had `\(0\)` correlation to all other predictor variables in the model.
+
+
+**Guidelines for interpreting VIFs:**
+
+  - A VIF of 1 means that there is no correlation among the `\(j^{th}\)` predictor and the remaining predictor variables (so `\(SE(\hat{\beta}_j)\)`) is not inflated at all. 
+  
+  - VIFs exceeding 4 "warrant further investigation" 
+  
+  - VIFs exceeding 10 are signs of serious multicollinearity that needs to be corrected. 
+
+
+---
+## Variance inflation factors in R 
+### Interpreting the results 
+
+Can you tell from the summary output that this linear model has a problem with collinearity? 
+
+.scroll-small[
+
+```r
+wine_reduced_MLR2 &lt;- lm(y~x1+x2+x3+x4+x5+x7+x8+x9, data=wines)
+vif(wine_reduced_MLR2)
+```
+
+```
+##         x1         x2         x3         x4         x5         x7 
+##   1.970605   4.092086   4.513202 603.518791 915.402653  59.565614 
+##         x8         x9 
+##   7.930630  36.170717
+```
+
+```r
+summary(wine_reduced_MLR2)
+```
+
+```
+## 
+## Call:
+## lm(formula = y ~ x1 + x2 + x3 + x4 + x5 + x7 + x8 + x9, data = wines)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.8952 -0.7626  0.2315  0.4999  2.0991 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) -12.20843   14.61153  -0.836   0.4120  
+## x1           -0.84577    0.58596  -1.443   0.1624  
+## x2            7.41839    3.51235   2.112   0.0457 *
+## x3            0.01046    0.00857   1.220   0.2347  
+## x4           -1.94732    2.22110  -0.877   0.3897  
+## x5            3.46135    4.30407   0.804   0.4295  
+## x7            1.43382    1.81263   0.791   0.4370  
+## x8          -11.42517    7.88120  -1.450   0.1606  
+## x9           -0.10802    0.22040  -0.490   0.6287  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.171 on 23 degrees of freedom
+## Multiple R-squared:  0.6753,	Adjusted R-squared:  0.5624 
+## F-statistic:  5.98 on 8 and 23 DF,  p-value: 0.0003399
+```
+]
+
+
+---
+## Variance inflation factors in R 
+
+**Interpreting the results** 
+
+You **can** tell however, from the matrix of scatter plots. 
+
+&lt;img src="Figs/matx32-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Variance inflation factors in R 
+### What to do  
+
+.scroll-output[
+
+```r
+###Rather than this...
+wine_reduced_MLR2 &lt;- lm(y~x1+x2+x3+x4+x5+x7+x8+x9, data=wines)
+vif(wine_reduced_MLR2)
+```
+
+```
+##         x1         x2         x3         x4         x5         x7 
+##   1.970605   4.092086   4.513202 603.518791 915.402653  59.565614 
+##         x8         x9 
+##   7.930630  36.170717
+```
+
+```r
+## Do this... 
+wine_numerical_predictors &lt;- lm(y~x2+x3+x4+x5+x7+x8+x9, data=wines)
+vif(wine_numerical_predictors)
+```
+
+```
+##         x2         x3         x4         x5         x7         x8 
+##   3.834363   3.482089 543.612369 772.538568  54.406020   7.355703 
+##         x9 
+##  27.849239
+```
+]
+
+
+
+---
+## Probably not great as a variable selection method... 
+### Principle component analysis 
+
+**Principle component analysis (PCA)** is a mathematical method that reduces the dimension of a linear regression problem where the number of predictor variables ( `\(p\)` ) is huge (e.g. genetic data). It works through eigenvalue decomposition which requires linear algebra so the details are beyond the scope of this class.
+
+
+To use PCA you need to standardize the predictor variables and make sure they are all uncorrelated. (So this is a method to consider if you have a very large number of predictors even after addressing multicollinearity.)
+
+
+PCA looks at special linear combinations of the predictor variables to select a lower dimensional ( `\(&lt;p\)` ) set of "features" while still capturing as much "information" from the data as possible.
+
+
+**Note:** Interpreting the "principle components" that explain most of the variation in the response variable can be difficult to interpret in the context of the original predictor variables. 
+
+
+.footnote[Resources: I found that [4] and [5] have very helpful summaries of PCA. ]
+
+
+---
+## Variable selection methods
+
+**Principle component analysis of wine data**
+
+.scroll-output[
+
+```r
+PCA_wine_varbs &lt;- wines %&gt;% 
+                  dplyr::select(x2, x3, x4, x8, x9) %&gt;% 
+                  mutate_all(scale) %&gt;% 
+                  prcomp()
+summary(PCA_wine_varbs) 
+```
+
+```
+## Importance of components:
+##                           PC1    PC2    PC3     PC4     PC5
+## Standard deviation     1.5522 1.1355 1.0217 0.45854 0.21708
+## Proportion of Variance 0.4818 0.2579 0.2088 0.04205 0.00942
+## Cumulative Proportion  0.4818 0.7397 0.9485 0.99058 1.00000
+```
+]
+
+---
+## Variable selection methods
+
+**Principle component analysis of wine data**
+
+.scroll-output[
+
+```r
+wine_PCA_var &lt;- (PCA_wine_varbs$sdev)^2
+wine_PCA_propn &lt;- wine_PCA_var/sum(wine_PCA_var)
+plot(wine_PCA_propn, main="Scree plot", xlab="Principal Component", ylab="Proportion of variance explained", type="b") 
+```
+
+![](Figs/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+]
+
+
+
+
+---
+## References
+
+[1] https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/
+
+
+[2] https://www.stat.cmu.edu/~cshalizi/mreg/15/lectures/21/lecture-21.pdf
+
+
+[3] http://onlinestatbook.com/2/tests_of_means/pairwise.html
+
+
+[4] Statistical Methods in Psychology Journals: Guidelines and Explanation by Leland Wilkinson and the Task Force on Statistical Inference. (1999) American Psychological Association. 54:8.
+
+
+https://www.apa.org/pubs/journals/releases/amp-54-8-594.pdf
+
+
+[CW: mentions of child sexual abuse and treats gender as a binary variable]
+
+
+[5] https://liorpachter.wordpress.com/2014/05/26/what-is-principal-component-analysis/
+
+
+[6] https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

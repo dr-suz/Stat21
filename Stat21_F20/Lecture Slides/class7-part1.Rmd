@@ -1,0 +1,241 @@
+---
+title: "Class 7 - Part 1"
+subtitle: "Quantiles and Normality"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Sept 29, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+
+## How to determine if the population from which you sampled is normal? 
+
+```{r import_data_class7_1, echo=TRUE, warning=FALSE}
+body_temp_dat <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class3_files/F2019/normtemp_data.txt"))
+body_temp_dat %>% head() 
+```
+We first try to visualize the data. Typically we plot our response variable as a histogram and/or fit a density curve. 
+
+---
+## How to determine if the population from which you sampled is normal? 
+
+```{r bodyTempPlot, echo=FALSE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center'}
+ggplot(data=body_temp_dat, aes(Temperature)) + 
+           geom_histogram(bins=15) +
+               #  xlim(80, 120) +
+                 #geom_density(aes(rnorm(130, 98, 0.7)), col="blue") +
+                 #geom_density(aes(rcauchy(130, 98, 0.7)), col="green") + 
+                 labs(title="Histogram of Body Temperatures") + 
+                 xlab("Temperature") + ylab("Frequency")
+```
+ 
+
+```{r geyserData, echo=FALSE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center', include=FALSE}
+#install.packages("MASS")
+library("MASS")
+data(geyser)
+head(geyser)
+
+
+ggplot() + geom_density(data=geyser, aes(duration)) +  xlim(0, 10)
+
+```
+
+
+---
+## Standardizing Data 
+
+If we are given a set of quantitative data, $x_{obs} = \{ x_1, x_2, \dots, x_n \}$, we can find the sample mean, $\bar{x}$, and variance, $s^2$. 
+
+We could also linearly transform this data using the formula
+$$z_i = \frac{x_i-\bar{x}}{s}$$
+so that we have a new set of standardized data $z_{obs} = \{z_1, z_2, \dots, z_n \}.$ We call this data *standardized* because now 
+$$\bar{z} = \frac{1}{n}\sum_{i=1}^{n} z_{i}= 0 \text{ and } s^2_{z}= \frac{1}{n-1}\sum_{i=1}^{n}(z_{i}-\bar{z})^2 =1.$$
+
+This is a useful technique we will revisit throughout the semester in various contexts. 
+
+
+
+---
+## QQ Plots
+### Normal probability plots
+
+A visually, easier to detect comparison is to look at the <a href="https://en.wikipedia.org/wiki/Quantile">quantiles</a> of the observed data and compare them to some hypothetical quantiles of a Gaussian<sup>[1]</sup> distribution. To do this, we plot the *standardized and ordered* data (from smallest to largest), $$(z^{(1)}, z^{(2)}, \dots, z^{(n)})$$
+against $E[Z^{(i)}],$ the expected value of the order statistics from a *standard* (mean 0 and s.d. 1) normal distribution. 
+
+
+
+Such **QQ plots (Quantile-quantile plots)** generalize to other distributions as well (e.g. T, Gamma, Beta, etc). These plots help us answer the question: "Is the distribution of the data similar to a normal (or T, chi-squar, etc) distribution?" 
+
+
+***
+.footnote[[1] Gaussian is just another name for the Normal distribution. (Sometimes it's used because we just the word "normal" so often in English that it can be confusing when talking about Statistics.)]
+
+
+---
+## What are <a href="https://en.wikipedia.org/wiki/Quantile">quantiles</a>?
+
+.scroll-output[R can find the quantiles for any common distribution functions very easily:
+
+```{r findQuantiles, echo=TRUE, warning=FALSE}
+?qnorm
+normal_quantiles <- qnorm(p=seq(0,1,0.1), mean=0, sd=1, lower.tail=TRUE)
+t_quantiles <- qt(p=seq(0,1,0.1), df=129, lower.tail=TRUE)
+normal_quantiles; t_quantiles
+```
+]
+
+.footnote[Here is a useful guide to all the base R density, distribution, quantile, and random generating functions: http://www.stat.umn.edu/geyer/old/5101/rlook.html]
+
+---
+## Example of finding a sample quantile
+
+Find the number in the following set of data where 20 percent of values fall below it, and 80 percent fall above:
+
+1 3 5 6 9 11 12 13 19 21 22 32 35 36 45 44 55 68 79 80 81 88 90 91 92 100 112 113 114 120 121 132 145 146 149 150 155 180 189 190
+***
+
+**Step 1:** Order the data from smallest to largest. 
+
+**Step 2:** Count how many observations you have in your data set. this particular data set has 40 items.
+
+**Step 3:** We are looking for the number where 20 percent of the values fall below it, so find the $(40\times0.2)=8^{th}$ smallest number in the ordered data set. 
+
+The $20^{th}$ quantile is the number 13. 
+
+
+
+---
+## Example of finding a sample quantile
+
+Find the number in the following set of data where 20 percent of values fall below it, and 80 percent fall above:
+
+1 3 5 6 9 11 12 13 19 21 22 32 35 36 45 44 55 68 79 80 81 88 90 91 92 100 112 113 114 120 121 132 145 146 149 150 155 180 189 190
+***
+
+Or, just use R! Because R can also very easily find sample quantiles. 
+
+```{r findQuantiles2, echo=TRUE, warning=FALSE}
+my_samp <- c(1, 3, 5, 6, 9, 11, 12, 13, 19, 21, 22, 32, 35, 36, 45, 44, 55, 68, 79, 80, 81, 88, 90, 91, 92, 100, 112, 113, 114, 120, 121, 132, 145, 146, 149, 150, 155, 180, 189, 190)
+quantile(my_samp, probs = 0.2, type=3)  ##there are several ways to calculate a quantile but this is the one that we are using
+```
+
+
+---
+## Interpreting normal probability plots 
+### (I.e. QQ plots for normality)
+
+.scroll-output[Interpretation: A linear relationship close to the diagonal line $x=y$ indicates a close matching of your observed data with a Normal distribution. 
+
+
+For example, let's create a fake data set from a Normal distribution and view a QQ plot for this data:
+
+```{r qqPlotFakeClass6, echo=TRUE, warning=FALSE, results='hide'}
+set.seed(100)
+fake_dat <- tibble(observedData = rnorm(n=50,mean=3,sd=1.2))  ##fake data that is reprodcable becase I set the random seed
+fake_dat <- fake_dat %>% 
+            mutate(standardData = (observedData-mean(observedData))/sd(observedData))
+
+ggplot(data = fake_dat, aes(sample=standardData)) + ##not we specify the sample rather than an X or Y axis 
+  stat_qq() + 
+  stat_qq_line()  +
+  labs(title = "Normal probability plot", 
+       subtitle = "Fake data from a normal distribution") 
+```
+]
+
+
+---
+## Interpreting normal probability plots 
+### (I.e. QQ plots for normality)
+
+.scroll-output[
+Now lets investigate the body temperature data again. 
+
+```{r qqPlotTempClass6_@, echo=FALSE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center'}
+body_temp_dat <- body_temp_dat %>% 
+                 mutate(standardTemp = (Temperature - mean(Temperature))/sd(Temperature))
+ggplot(body_temp_dat, aes(sample = standardTemp)) + 
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title = "Normal probability plot", subtitle = "Body temp data")
+```
+
+
+This matches pretty well with the theoretical quantiles of a normal distribution. 
+
+**Q:** What behavior do you need to look out for?  
+
+**A:** Deviations in the tails! If the lower quantiles of the sample are smaller than we expect and/or the upper quantiles of the sample are higher than we expect, that means our data has *heavier tails* than a normal distribution. 
+]
+
+```{r qqPlotTempClass6.2, echo=TRUE, warning=FALSE, fig.height = 4, fig.width = 10, fig.align = 'center', include=FALSE}
+deg_of_free = list(df = length(body_temp_dat$Temperature)-1)
+ggplot(body_temp_dat, aes(sample = standardTemp)) + 
+  stat_qq(distribution = qt, dparams = deg_of_free) + #Note: the default option for distribution is "qnorm" and dparams is a list of "0" and "1"
+  stat_qq_line(distribution = qt, dparams = deg_of_free) + 
+  labs(title = "QQ Plot for a T-distribution", subtitle = "Body temp data")
+```
+
+
+
+

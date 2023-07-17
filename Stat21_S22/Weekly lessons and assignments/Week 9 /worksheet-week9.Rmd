@@ -1,0 +1,108 @@
+---
+title: "Stat 21 Week 9 Worksheet"
+date: "Monday, March 21, 2022"
+output:
+  html_document:
+  code_folding: show
+toc: yes
+toc_float: yes
+urlcolor: blue
+---
+
+Forty-six mountains in the Adirondacks of upstate New York are known as the High Peaks, with elevations near or above 4000 feet. A goal for hikers in the region is to become a "46er" by scaling each of these peaks. The data below contains information on the elevation (in ft) of each peak along with data on typical hikes including the ascent (in ft), round-trip distance (in mi), difficulty ration (on a scale from 1-7 where 7 is the most difficult), and expected trip time (in hr). 
+
+
+```{r}  
+library(tidyverse)
+library(Stat2Data)
+data(HighPeaks)
+HighPeaks %>% head
+``` 
+
+# Question 1
+
+Create and interpret a scatter plot of $Y=Time$ versus $X_1 = Elevation$. 
+
+```{r}
+#ggplot(HighPeaks, aes(x=?, y=?)) + 
+#  geom_point() + 
+#  labs(title="Title?", x="x label?", y = "y label?")
+```
+
+
+**Answer:** [Write your answer here]
+
+## Question 2 
+
+Consider a MLR using $X_1 = Elevation$ and $X_2 = Length$ to predict $Y=Time$. Assess the importance of each predictor together and separately. 
+
+```{r}
+mod1 <- lm(Time ~ Elevation, HighPeaks) 
+mod2 <- lm(Time ~ Length, HighPeaks)
+mod3 <- lm(Time ~ Elevation + Length, HighPeaks)
+
+## use this additional space to keep coding
+```
+
+
+**Answer:** [Write your answer here]
+
+## Question 3 
+
+Construct an added variable plot to see the effect of adding $X_1=Elevation$ to a model that contains only $X_2=Length$ to predict $Y=Time$. Does this plot indicate there is information in $X_1$ that is useful for predicting $Y$, given that $X_2$ is included in the model? Are there any unsual points indicated in this added variable plot? 
+
+```{r}
+#added_varb_plot_data <- tibble(res1 = ?$residuals, res2 = ?$residuals)
+#ggplot(added_varb_plot_data, aes(x=res2, y=res1)) + 
+#  geom_point() + 
+#  geom_abline(intercept=0) + 
+#  geom_text(label=rownames(added_varb_plot_data), nudge_y = -5) + 
+#  labs(title="Added variable plot", x="Residuals for regressing ? on ?",y="Residuals for regressing ? on ?")
+```
+
+**Answer:** [Write your answer here]
+
+
+## Question 4 
+
+Write the estimated regression equation for a MLR model of your choice for this data and report the adjusted $R^2$ value and interpret the residuals vs fitted values plot. 
+
+```{r}
+#mymod <- lm(? ~ ?, HighPeaks)
+#summary(mymod)$adj.r.squared
+
+#mymod_data <- HighPeaks %>% mutate(resids = mymod$residuals,
+#                                   fits = mymod$fitted.values)
+
+#ggplot(?, aes(x=?, y=?)) + 
+#  geom_point() + 
+#  labs(title="Residuals vs fitted values", x= "Fitted values", y="Residuals")
+```
+
+
+**Answer:** [Write your answer here]
+
+## Question 5 
+
+Calculate the studentized residuals for each data point in your model from Q4. Are there any data points that stand out as unusual? If so, identify these observation(s).  
+
+```{r}
+# mymod_data2 <- mymod_data %>% mutate(student_resids = rstudent(?))
+# mymod_data2$student_resids %>% sort 
+```
+
+**Answer:** [Write your answer here]
+
+## Question 6 
+
+
+Calculate the leverage for each data point in your model from Q4. Are there any values that are unduly high? If so, identify these observation(s).  
+
+
+```{r}
+# mymod_data2 <- mymod_data %>% mutate(leverage = hatvalues(?))
+# mymod_data2$leverage %>% sort 
+```
+
+
+**Answer:** [Write your answer here]

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 35</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class35_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class35_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 35
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/12/9 (updated: 2019-12-09)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+ 
+&lt;img src="Figs/data_sci_map.png" width="825" height="600" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Logistic regression 
+
+Logistic regression is basically the same as multiple linear regression with **one difference**: the response variable in logistic regression is binary. 
+
+
+Thus the assumption we need for inference is no longer that `\(\espilon\)` is Normally distributed but instead is that `\(\epsilon\)` follows a Bernoulli distribution.
+
+
+Everything else however (e.g. the interpretations of residual plots, the influence of strong multicollinearity, etc) are all the same as with MLR! 
+
+
+Logistic regression works by using what's called the *logit function*. 
+
+
+---
+## Logistic regression 
+### Logit function 
+
+Suppose `\(p \in (0,1)\)` is some probability and some binary random variable, `\(Y\)`, takes on the value `\(Y=1\)` with probability `\(p\)` and takes the value `\(Y=0\)` with probability `\((1-p)\)`. 
+
+
+The **odds ratio** (i.e. the ratio of the chance of a success divided by the chance of a failure) is defined as 
+`$$OR = \frac{p}{1-p}.$$`
+
+
+The logit function is simply the logarithm of the odds ratio:
+`$$logit(p) = log\left(\frac{p}{1-p} \right).$$`
+
+
+---
+## Logistic regression 
+### Visualising the Odds Ratio and Logit functions 
+
+&lt;img src="Figs/logitplot35-1.png" width="700" height="450" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Logistic regression 
+
+Rather than model the binary response, `\(Y\)`, as a linear function of some predictor variables, logistic regression models the probability that `\(Y=1\)` as a linear function of some predictor variables. 
+
+If `\(Y \sim \text{Bernoulli}(p)\)`, we know that `\(E[Y]= 1(p) + 0(1-p) = p\)`. 
+
+
+So with `\(p=Pr[Y=1 \mid x_1, \dots, x_p]\)`, logistic regression fits the model
+`$$log\left( \frac{p}{1-p}\right)= \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p$$`
+or, equivalently, 
+`$$p = \frac{1}{1+e^{-\left(\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p\right)}}.$$`
+
+---
+## Generalized linear models 
+
+Logistic regression is a special case of what is called *generalized linear regression methods*. 
+
+Rather than fit the equation of a line (or plane in multiple dimensions)
+`$$Y \mid x_1, \dots, x_p = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \epsilon,$$`
+generalized linear regression models fit
+`$$Y \mid x_1, \dots, x_p = f(x_1, x_2, \dots, x_p) + \epsilon$$`
+where `\(f\)` can potentially be any other function of the predictor variables. 
+
+
+---
+## Logistic regression in R 
+### Titanic data 
+
+
+```r
+?glm
+
+# logit_mod &lt;- glm( response ~ predictors, family=binomial(link='logit'), data = mydata)
+# summary(logit_mod)
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

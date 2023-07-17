@@ -1,0 +1,42 @@
+NAME: US INTERSTATE SYSTEM I
+TYPE: Census
+SIZE: 99 observations , 5 variables (3 numeric, 2 character)
+
+DESCRIPTIVE ABSTRACT:
+This dataset consists of a listing of all US interstate
+highways, treating the highway as the sampling unit.
+
+SOURCE:
+Rand McNally - 1993 Business Traveler's Road Atlas and Guide
+to Major Cities.
+
+VARIABLE DESCRIPTIONS:
+Interstate #            Columns 1-2
+Number of states        Columns 4-5
+Approximate miles       Columns 7-10
+Southern or Western end Columns 12-34
+Northern or Eastern end Columns 36-57
+
+SPECIAL NOTES:
+The miles are approximate, as author read them off maps using
+guide markers provided along highways.
+
+STORY BEHIND THE DATA:
+Author, who is very interested in maps, geography, and U.S.
+transportation system had a lot of free time one weekend. He
+knew of no source that provided such information. Other datasets
+were also created at the same time.
+
+PEDAGOGICAL NOTES:
+While this data may be more suited for cocktail parties than
+the classroom, it does allow a teacher to use some actual data
+when teaching concepts of descriptive statistics, such as graphical
+and numeric descriptions of a set of measurements. After having
+taught many classes and using the terms 'suppose we have the following
+measurements ...', the author vowed to get more interesting data.
+
+SUBMITTED BY:
+Larry Winner
+Department of Statistics, University of Florida
+103 Griffin/Floyd Hall, Gainesville, FL 32611
+winner@stat.ufl.edu

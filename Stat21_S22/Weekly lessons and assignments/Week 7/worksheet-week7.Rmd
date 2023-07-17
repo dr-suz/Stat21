@@ -1,0 +1,159 @@
+---
+title: "Stat 21 Week 7 Worksheet"
+author: " Group name "
+date: "Wednesday, March 2, 2022"
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+This worksheet is to be completed in class as a group. Take a minute to have everyone introduce themselves and then choose who will play the role of **recorder** and **reporter**. The recorder is responsible for completing this worksheet and emailing the .Rmd file to your professor with the subject **"Stat 21: Week 7 Worksheet"**. Make sure everyone's name is included at the top of this document! The reporter is responsible for taking note of your answers and any questions that come up to share them with Prof. Suzy or the Muse when they stop by to check in on your group. Other groups members are responsible for keeping the discussion on-task and providing possible solutions or sharing questions with the group. 
+
+For this assignment, I suggest that you choose the recorder to be whoever last ate cereal for breakfast and choose the reporter to be whoever hasn't had cereal for breakfast in the longest time (or ever). 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)       
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+```
+
+***
+
+The data set called `MBLStandings2016` contains many different variables for Major League Baseball teams from the 2016 regular season. We are going to explore a few different models for the response variable `WinPct`, the winning percentages for each of the 30 teams. Each group has been instructed to fit a particular type of model. Please complete the following four modeling steps for your assigned model.  
+
+```{r}
+library(Stat2Data)
+data("MLBStandings2016")
+head(MLBStandings2016)
+```
+
+We are going to include the categorical predictor `League` in each model we consider in class. We need to verify that R understands this to be a categorical variable by checking that the type of programming variable is `factor` or `fct`. 
+
+```{r}
+MLBStandings2016$League %>% class 
+```
+
+Since this column is already a factor type, we don't have to do anything else and we can include this predictor variable in our model in the usual way. 
+
+If the output from the above code chunk was anything besides `factor`, then we would have to use the `mutate` function to add on a new column to our data set that is specifically a `factor` column. For example: 
+
+```{r}
+MLBStandings2016_edit <- MLBStandings2016 %>% mutate(League_fct = factor(League))
+MLBStandings2016_edit %>% head 
+```
+
+The R function `I()` is useful when fitting **higher order polynomial terms**. The model below includes only a fourth order polynomial terms (an no main effects): 
+
+```{r}
+mod_ex1 <- lm(WinPct ~ I(BattingAverage^4), MLBStandings2016)
+mod_ex1 %>% summary
+```
+
+
+There are several ways to include **interaction terms**. I recommend using the `:` rather than `*` to indicate a term is the product of two others. The model below includes an interaction effect only (and no main effects). 
+
+```{r}
+mod_ex2 <- lm(WinPct ~ Runs:Hits, MLBStandings2016)
+mod_ex2 %>% summary 
+```
+
+
+# Step 1: Choose 
+
+**Q1** What are the names of the two predictor variables we have chosen to use in our models? 
+
+[Write your answer to Q1 here.]
+
+**Q2** Write out the form for the regression model that you are fitting below. Make sure this model includes the error term! 
+
+[Write your answer to Q2 here.]
+
+
+
+# Step 2: Fit
+
+Fit your model to predict win percentage below.
+```{r}
+#regmod <- lm(?~?, data=?)
+#regmod %>% summary
+```
+
+**Q3:** What is the estimated regression model for this data? (Make sure this model does NOT include an error term!)
+
+[Write your answer to Q3 here.]
+
+
+
+# Step 3: Assess 
+
+Use the space below to assess your model. Summarize your assessment at the end of this section. In addition to assessing the regression model conditions, also look for influential data points and for evidence of multicollinearity. The code chunk below will help you to create a new data object that contains your model's fitted values, residuals, standardized residuals. 
+
+```{r}
+#MLB_all <- MLBStandings2016 %>% mutate(fits = regmod$fitted.values,
+#                                       resids = regmod$residuals,
+#                                       sresids = rstandard(regmod))
+```
+
+The code outlines for various plots and assessments are provided below. 
+
+```{r}
+## Matrix of scatterplots 
+library("GGally") ## Make sure the package "GGally" is installed before attempting to run this code! 
+#ggpairs(MLBStandings2016[ ,c(?,?,?)], colour="gray20") ## replace the ?'s with the column numbers corresponding to your predictor variables
+```
+
+```{r}
+## Residual plot with points labeled
+
+#ggplot(?, aes(x=?, y=?)) + 
+#  geom_point() + 
+#  labs(title="Residual plot",x="Fitted values", y="Standardized residuals") + 
+#  geom_hline(yintercept=0)
+```
+
+```{r}
+## Normal quantile plot 
+
+#ggplot(?, aes(sample=?)) + 
+#  geom_qq() + 
+#  geom_qq_line() + 
+#  labs(title="Normal quantile plot", x="Theoretical quantiles", y="Standardized residual quantiles") 
+```
+
+```{r}
+## Variance inflation factors for each predictor 
+
+library("car") ## Make sure the package "car" is installed before attempting to run this code! 
+#regmod %>% vif
+```
+
+
+**Q4** Summarize your model assessment here. Make sure you address all six regression conditions: linearity, zero mean, constant variance, independence, normality, and randomness. 
+
+[Write your answer to Q4 here.]
+
+
+
+# Step 4: Use 
+
+**Q5** After hearing about the other groups' models, which model do you think is most appropriate for this data? Write out the complete regression model for your group's final choice and explain why it is favorable. Also, comment on whether or not this model should be used for estimation or prediction only or if it is also informative for inferential questions. 
+
+[Write your answer to Q5 here.]
+
+
+

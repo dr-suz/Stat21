@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 29</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class29_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class29_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 29
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/11/15 (updated: 2019-11-21)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## Today's topics
+
+- Discussion on types of collinearity
+
+- Finish up with .blue[estimation] for MLR models
+
+
+&lt;img src="Figs/spurious_cor2.png" width="800" style="display: block; margin: auto;" /&gt;
+
+.footnote[https://www.tylervigen.com/spurious-correlations]
+
+---
+## Wine data example 
+### Recall the wine quality data we looked into last class
+
+.scroll-output[
+
+```r
+wine &lt;- read_csv("~/Google Drive Swat/Swat docs/Stat 21/Data/red_wines.csv", 
+                 skip=1, col_names = TRUE, cols(x1 = col_character()))
+wine &lt;- wine %&gt;% mutate(type = fct_inorder(x1, ordered=TRUE))  
+head(wine)
+```
+
+```
+## # A tibble: 6 x 12
+##       y x1       x2    x3    x4    x5    x6    x7    x8    x9   x10 type 
+##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;ord&gt;
+## 1  19.2 0      3.85    66  9.35  5.65  2.4   3.25  0.33    19 0.065 0    
+## 2  18.3 0      3.73    79 11.2   6.95  3.15  3.8   0.36    21 0.076 0    
+## 3  17.1 0      3.88    73  9.4   5.75  2.1   3.65  0.4     18 0.073 0    
+## 4  17.3 0      3.86    99 12.8   7.7   3.9   3.8   0.35    22 0.076 0    
+## 5  16.8 0      3.98    75  8.55  5.05  2.05  3     0.49    12 0.06  0    
+## 6  16.5 0      3.85    61 10.3   6.2   2.5   3.7   0.38    20 0.074 0
+```
+]
+
+
+---
+## Wine data example
+
+Before, we modeled the wine quality as a linear function of three predictor variables: (1) the degree of ionization of anthocyanins, (2) the pH level, (3) the type of wine and discussed the performance of several different MLRs. 
+
+- Response variable - `\(y\)`, wine quality from 0-20
+
+- Predictor variable - `\(w\)` (type), dummy variable for wine type, categorical (0=Cabernet Sauvignon, 1=Shiraz)
+
+- Predictor variable - `\(x_2\)`, pH level, numerical (0-14, 7 being neutral)
+
+- Predictor variable - `\(x_9\)`, percent of ionization, numerical (0-100 %)
+
+
+Recall we didn't see a strong indication of collinearity between the numerical predictor variables. 
+
+
+---
+## Wine data example
+### Fitting a MLR model 
+
+Without doing any hypothesis testing or statistical inference we can also examine model fit with **residual plots**! 
+
+
+Recall the assumptions needed to fit a linear regression model: 
+
+[1.] `\(E[\epsilon]=0\)`
+
+[2.] `\(Var[\epsilon]= \sigma^2\)`
+
+[3.] All `\(\epsilon\)` are independent of each other  
+
+
+Residual plots help us understand how reasonable assumption 2 seems to be for our model(s).
+
+
+
+---
+## Wine data example - model 1
+
+Lets look at a residual plot for the regression model: 
+`\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 w_i + \hat{\beta}_2 x_{2,i} + \hat{\beta}_3 x_{9,i},\)` 
+
+
+where `\(y_i=\)` quality score for observation `\(i\)`, `\(x_2=\)`pH level for observation `\(i\)`, `\(x_9 =\)`percent of ionization for observation `\(i\)`, and 
+`$$w_i = \begin{cases} 1, \text{ if observation }i \text{ is a Shiraz} \\ 0, \text{ otherwise} \end{cases}.$$`
+.scroll-small[
+
+```r
+MLR_wine1 &lt;- lm(y ~ type + x2 + x9, data=wine)
+MLR_wine1_sum &lt;- summary(MLR_wine1)
+residual_plot_data1 &lt;- wine %&gt;% 
+                       mutate(residuals = MLR_wine1_sum$residuals,
+                              fitted_vals = MLR_wine1$fitted.values)
+ggplot(residual_plot_data1, aes(x=fitted_vals, y=residuals)) +
+  geom_segment(aes(x=fitted_vals, xend=fitted_vals , y=rep(0, length(residuals)), yend = residuals)) + 
+  geom_point(aes(color=abs(residuals), size=abs(residuals))) + 
+  scale_color_continuous() +  
+  guides(color = FALSE, size = FALSE) +  
+  geom_hline(yintercept=0) +
+  labs(title="Fancy residual plot", subtitle="First MLR model for wine data",
+       x="Predicted quality score", y="Residuals")
+```
+]
+
+---
+## Wine data example - model 1
+
+&lt;img src="Figs/class29firstA-1.png" height="500" style="display: block; margin: auto;" /&gt;
+
+---
+## Wine data example - model 1
+
+Lets compare to a not-so-fancy residual plot: 
+
+.scroll-output[
+
+```r
+MLR_wine1 &lt;- lm(y ~ type + x2 + x9, data=wine)
+MLR_wine1_sum &lt;- summary(MLR_wine1)
+residual_plot_data1 &lt;- wine %&gt;% 
+                       mutate(residuals = MLR_wine1_sum$residuals,
+                              fitted_vals = MLR_wine1$fitted.values)
+ggplot(residual_plot_data1, aes(x=fitted_vals, y=residuals)) +
+#  geom_segment(aes(x=fitted_vals, xend=fitted_vals , y=rep(0, length(residuals)), yend = residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0) +
+  labs(title="Residual plot", subtitle="First MLR model for wine data",
+       x="Predicted quality score", y="Residuals")
+```
+]
+
+
+---
+## Wine data example - model 1
+
+`\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 w_i + \hat{\beta}_2 x_{2,i} + \hat{\beta}_3 x_{9,i},\)`
+
+&lt;img src="Figs/class29firstB-1.png" height="450" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Wine data example - model 2
+
+`\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_{2,i} + \hat{\beta}_2 x_{9,i},\)`
+
+&lt;img src="Figs/class29second-1.png" height="450" style="display: block; margin: auto;" /&gt;
+
+---
+## Wine data example - model 3
+
+`\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 w_i + \hat{\beta}_2 x_{2,i} + \hat{\beta}_3 x_{9,i} + \hat{\beta}_4(w_i \times x_{2,i})\)`
+
+&lt;img src="Figs/class29third-1.png" height="450" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Wine data example - model 4
+
+`\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 w_i + \hat{\beta}_2 x_{2,i} + \hat{\beta}_3 x_{9,i} + \hat{\beta}_4(w_i \times x_{9,i})\)`
+
+&lt;img src="Figs/class29fourth-1.png" height="450" style="display: block; margin: auto;" /&gt;
+
+---
+## Wine data example - model 5
+`\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 w_i + \hat{\beta}_2 x_{2,i} + \hat{\beta}_3 x_{9,i} + \hat{\beta}_4(x_{2,i} \times x_{9,i})\)`
+
+&lt;img src="Figs/class29fifth-1.png" height="450" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Wine example 
+### Class discussion
+
+**Q:** Given all of the estimation properties that we have considered for each of these five models, which model do you think looks the best so far? 
+ 
+ 
+ 
+--
+ **A:** Model 5 looks the best in terms of having constant error variance and highest adjusted R-squared value. 
+
+
+---
+## Wine data example
+
+For the remainder of class, we are (somewhat arbitrarily) going to restrict our attention to the following two models:
+
+
+Main effects model (model 1): 
+`$$\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 w_i + \hat{\beta}_2 x_{2,i} + \hat{\beta}_3 x_{9,i}$$`
+
+
+Interaction effects model (model 4): 
+`$$\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 w_i + \hat{\beta}_2 x_{2,i} + \hat{\beta}_3 x_{9,i} + \hat{\beta}_4w_{i} x_{9,i}.$$`
+
+
+---
+## Wine data example
+### The fitted regression models based on our data 
+
+The coefficients for each of our models are: 
+
+.scroll-output[
+
+```r
+MLR_wine1 &lt;- lm(y ~ type + x2 + x9, data=wine)
+MLR_wine1_sum &lt;- summary(MLR_wine1)
+MLR_wine1_sum$coefficients[,1] 
+```
+
+```
+## (Intercept)      type.L          x2          x9 
+##  -3.6355183  -0.6321974   4.2058558   0.2075131
+```
+
+```r
+MLR_wine4 &lt;- lm(y ~ type + x2 + x9 + type*x9, data=wine)
+MLR_wine4_sum &lt;- summary(MLR_wine4)
+MLR_wine4_sum$coefficients[,1] 
+```
+
+```
+## (Intercept)      type.L          x2          x9   type.L:x9 
+## -4.30730729  0.64508965  4.38915182  0.20967752 -0.08939138
+```
+]
+
+
+---
+## Wine data example
+### The fitted regression models based on our data 
+
+In fact, we can also look at the standard error's associated with each model coefficient. (This is still .blue[estimation] not .red[inference]! ... .red[in contrast to something I may have indicated earlier...]
+
+.scroll-small[
+
+```r
+MLR_wine1_sum$coefficients[,1:2] 
+```
+
+```
+##               Estimate Std. Error
+## (Intercept) -3.6355183 7.24447878
+## type.L      -0.6321974 0.32448753
+## x2           4.2058558 1.88535751
+## x9           0.2075131 0.04017667
+```
+
+```r
+MLR_wine4_sum$coefficients[,1:2] 
+```
+
+```
+##                Estimate Std. Error
+## (Intercept) -4.30730729 7.05729636
+## type.L       0.64508965 0.85156620
+## x2           4.38915182 1.83696017
+## x9           0.20967752 0.03909352
+## type.L:x9   -0.08939138 0.05535442
+```
+]
+
+
+---
+## Wine data example
+### The fitted regression models based on our data 
+
+**Q1:** What would happen here if `\(x_2\)` and `\(x_9\)` were highly correlated? 
+
+
+--
+**A1:** The standard errors for these two coefficients would be much larger. 
+
+
+--
+**Q2:** Based on this output, which variable seems to have the greatest effect on wine quality?
+
+
+---
+## Wine example 
+
+From the previous output, it's difficult to tell which variable has the largest relative effect on the wine quality. To make the answer to this question more obvious, let's standardize the .red[numerical predictor variables]. 
+
+.scroll-small[
+
+```r
+wine_standard &lt;- wine %&gt;% mutate_at(vars("x2", "x9"), list(scale)) 
+
+MLR_wine1_standard &lt;- lm(y ~ type + x2 + x9, data=wine_standard)
+MLR_wine1_standard_sum &lt;- summary(MLR_wine1_standard)
+MLR_wine1_standard_sum$coefficients[,1:2] 
+```
+
+```
+##               Estimate Std. Error
+## (Intercept) 15.4058789  0.2256492
+## type.L      -0.6321974  0.3244875
+## x2           0.5096093  0.2284424
+## x9           1.1913253  0.2306528
+```
+
+```r
+MLR_wine4_standard &lt;- lm(y ~ type + x2 + x9 + type*x9, data=wine_standard)
+MLR_wine4_standard_sum &lt;- summary(MLR_wine4_standard)
+MLR_wine4_standard_sum$coefficients[,1:2]
+```
+
+```
+##               Estimate Std. Error
+## (Intercept) 15.4648317  0.2224525
+## type.L      -0.6427049  0.3156209
+## x2           0.5318187  0.2225783
+## x9           1.2037511  0.2244345
+## type.L:x9   -0.5131927  0.3177877
+```
+]
+
+
+
+---
+## Wine example 
+
+For the model built with the unitless predictor variables, what are the estimated effect sizes? Which variables seem to be the most important based on what we've looked at so far?
+
+
+Main effects model: `\(\hat{y}_i = 15.41 - 0.63 w_i + 0.51 x_{2,i} + 1.19 x_{9,i}\)`
+
+
+Interaction effects model: `\(\hat{y}_i = 15.46 - 0.64 w_i + 0.53 x_{2,i} + 1.20 x_{9,i} - 0.51 w_{i} x_{9,i}\)`
+
+
+.red[**Note:**] The coefficients of these models are very similar. This means that if we compare the overall fit of each model, the overall F test will probably produce the same results. Essentiall, this is an example where we see that the only real improvement in model fit (seen in the adjusted R squared value) is simply due to the fact that we've added more predictor terms (the interaction effect). 
+
+
+--
+**Q2:** What is the average difference in wine quality between a Cabernet and a Shiraz based on each of these two models? 
+
+
+--
+**A2:** Let's work through this on the board.
+
+
+--
+**Q3:** What is the average effect on wine quality when the pH of the wine drops by 3 points? 
+
+
+--
+**A3:** We'll also work through this on the board. Note that to answer this question, we have to first de-convert the coefficient of interest back into it's original units! 
+
+
+
+---
+## Wine example 
+### Does standardizing the predictors affect the R-squared values?
+
+.center[.blue[**No!**]]
+
+
+.pull-left[
+**Model 1** 
+
+
+```r
+MLR_wine1_standard_sum$adj.r.squared
+```
+
+```
+## [1] 0.4887429
+```
+
+```r
+MLR_wine1_sum$adj.r.squared
+```
+
+```
+## [1] 0.4887429
+```
+]
+
+.push-right[
+**Model 4**
+
+
+```r
+MLR_wine4_standard_sum$adj.r.squared
+```
+
+```
+## [1] 0.516507
+```
+
+```r
+MLR_wine4_sum$adj.r.squared
+```
+
+```
+## [1] 0.516507
+```
+]
+
+---
+## Wine example 
+### Does standardizing the predictors affect the residual plot of the main effects model? 
+
+
+&lt;img src="Figs/class29model1A-1.png" width="400" /&gt;
+
+---
+## Wine example 
+### Does standardizing the predictors affect the residual plot of the main effects model? 
+
+&lt;img src="Figs/class29model1B-1.png" width="400" /&gt;
+
+
+---
+## Wine example 
+### Does standardizing the predictors affect the residual plot of the interaction model? 
+
+&lt;img src="Figs/class29model4A-1.png" width="400" /&gt;
+
+---
+## Wine example 
+### Does standardizing the predictors affect the residual plot of the main effects model? 
+
+&lt;img src="Figs/class29model4B-1.png" width="400" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

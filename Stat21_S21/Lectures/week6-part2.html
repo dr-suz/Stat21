@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 6 - Part 2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="week6-part2_files/remark-css/default.css" rel="stylesheet" />
+    <link href="week6-part2_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 6 - Part 2
+## Analysis of Variance (ANOVA) Introduction
+### Suzanne Thornton
+### Swarthmore College
+### For class in Week 5 (updated: 2021-03-13)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+
+## ANOVA Setting
+### Comparing the means of more than two groups
+
+An ANOVA, or analysis of variance, problem is one where we are interested in the relationship between two variables but one variable is categorical and the other is quantitative. 
+
+**Population:** The population of interest is divided into independent groups according to the different levels of a categorical variable. We are interested in how the means of the quantitative variable differ according to the different levels of the categorical variable. 
+
+**Sample:** The sample of data is a pair of points for each observational unit:
+`$$( \boldsymbol{x}_{obs}, \boldsymbol{y}_{obs}) = (x_1, y_1), \dots, (x_n,y_n),$$`
+where for `\(i = 1,\dots,n\)`, each `\(y_i\)` is some number, representing the value of the quantitative variable and each `\(x_i\)` is one of a finite number of possible levels representing the value of the categorical variable (e.g. low/medium/high, treatment group).  
+
+---
+## ANOVA Setting
+### Visually understanding the setting 
+
+&lt;img src="Figs/class7-ANOVA.png" height="450" style="display: block; margin: auto;" /&gt;
+
+ 
+---
+## ANOVA Setting
+### Comparing the means of more than two groups
+
+
+Suppose the categorical variable has `\(k\)` different levels.
+
+For `\(k=1\)` we have observations `\(y_{1,1}, \dots, y_{1, n_1}\)`
+
+For `\(k=2\)` we have observations `\(y_{2,1}, \dots, y_{2, n_2}\)`
+
+For `\(k=3\)` we have observations `\(y_{3,1}, \dots, y_{3, n_3}\)`
+
+`\(\dots\)` 
+
+For `\(k=K\)` we have observations `\(y_{K,1}, \dots, y_{K, n_K}\)`
+
+---
+## ANOVA Setting
+### Comparing the means of more than two groups
+
+
+Suppose the categorical variable has `\(k\)` different levels.
+
+For `\(k=1\)` we have observations `\(y_{1,1}, \dots, y_{1, n_1}\)` `\(\rightarrow \bar{y}_{1}\)`
+
+For `\(k=2\)` we have observations `\(y_{2,1}, \dots, y_{2, n_2}\)` `\(\rightarrow \bar{y}_{2}\)`
+
+For `\(k=3\)` we have observations `\(y_{3,1}, \dots, y_{3, n_3}\)` `\(\rightarrow \bar{y}_{3}\)`
+
+`\(\dots\)` 
+
+For `\(k=K\)` we have observations `\(y_{K,1}, \dots, y_{K, n_K}\)` `\(\rightarrow \bar{y}_{K}\)`
+
+
+
+---
+## Quick Detour
+### A simple statistical model 
+
+`\(Y\mid (X = x) = f(x) + \epsilon\)`
+
+- `\(f\)` is a smooth function
+  
+  - In linear regression, we consider functions with linear coefficients. These are our model parameters. 
+
+- `\(\epsilon\)` is some random measurement error, this is what we model with a RV.
+
+- The variable `\(X\)` is called the predictor (or explanatory or independent) variable and the variable `\(Y\)` is the response (or dependent) variable. We typically model `\(Y\)` conditioned upon the predictor variable. 
+
+  
+---
+## Quick Detour
+### A simple statistical model 
+
+`\(Y\mid (X = x) = f(x) + \epsilon\)`
+
+- `\(f\)` is a smooth function
+  
+  - In linear regression, we consider functions with linear coefficients. These are our model parameters. 
+
+- `\(\epsilon\)` is some random measurement error, this is what we model with a RV.
+
+- The variable `\(X\)` is called the predictor (or explanatory ~~.red[or independent]~~) variable and the variable `\(Y\)` is the response ~~.red[(or dependent)]~~ variable. We typically model `\(Y\)` conditioned upon the predictor variable. 
+   
+
+---
+## The ANOVA Model
+
+In an ANOVA model, the predictor variable, `\(X\)`, is categorical and the response variable, `\(Y\)`, is a continuous, quantitative variable. We can describe the relationship between the two variables with the formula
+`$$Y_{i,j}  = \mu_{i} + \epsilon_{i,j},$$`
+
+where `\(k\)` is the number of categories and `\(i = 1,\dots, k\)` and `\(j = 1, \dots, n_{i}\)` and `\(\sum_{i=1}^{k}n_i = n\)`. 
+
+
+
+The null and alternative hypotheses for an ANOVA test are
+
+`$$H_0: \mu_1 = \mu_2 = \dots = \mu_k \\ H_A: \text{ Not all }\mu_i \text{ are equal, for }i=1,\dots,k$$`
+---
+## ANOVA Assumptions
+
+1. Independence 
+    - The groups of the categorical variables must be independent of one another
+    - The data collected within each group must be independent too. That is, the data must be drawn independently and randomly from the same homogeneous population.  
+2. Equal Variance (homogeneity of variance)
+    - Side by side box plots are a useful visual tool to check this assumption. 
+    - Look out for drastic changes in the widths of the box plots.
+    - Systematic differences are more important than seeminly random differences in the spread.  
+3. Normal Population 
+    - This assumptions is only necessary if we wish to draw inferential conclusions!
+    - In inference problems for ANOVA, the normal model must be reasonable for each of the different groups of data. 
+    - Side by side box plots for extreme skewedness. Or look at a normal probability plot for each level of the categorical variable.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

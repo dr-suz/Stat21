@@ -1,0 +1,147 @@
+---
+title: "Class 21"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/10/28 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+.center[Today we're going to take some time to go over this comic...
+
+https://www.explainxkcd.com/wiki/index.php/882:_Significant]
+
+```{r, comic20, echo=FALSE, fig.align='center', out.height=400}
+knitr::include_graphics("Figs/green_jelly.png")
+```
+
+---
+## Miscelaneous items 
+
+  - Review of HW 4
+
+  - Estimator vs estimate point of view 
+  
+  - Hidden extrapolation
+  
+
+---
+## Visualizing MLR models
+### SAT data - two numeric predictor variables 
+
+.scroll-output[
+```{r SAT21_setup}
+SAT_data <- read_table2("sat.dat.clean.txt", 
+                        col_names = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot"), cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+
+MLR_SAT2 <- lm(SAT_tot ~ PerPupilSpending + StuTeachRatio, data = SAT_data)
+MLR_SAT2_sum <- summary(MLR_SAT2)
+
+residual_plot_data2 <- SAT_data %>% 
+                       mutate(residuals = MLR_SAT2_sum$residuals,fitted_vals = MLR_SAT2$fitted.values) %>%
+                      select(-c(State, SAT_verbal, SAT_math))
+```
+]
+
+---
+## Visualizing MLR models
+```{r SAT21_3Dplot, echo=FALSE}
+library("scatterplot3d")
+require("scatterplot3d")
+#scatterplot3d(residual_plot_data2$PerPupilSpending, residual_plot_data2$StuTeachRatio, residual_plot_data2$SAT_tot,
+ #              angle=55, scale.y=0.7, pch=16, color ="red",
+ #                       main ="3D Regression Plane",
+ #                       sub="SAT data",
+ #                       xlab="Per pupil spending", 
+ #                       ylab="Student-teacher ratio", 
+ #                       zlab="SAT score")
+
+plot3d <- scatterplot3d(residual_plot_data2$PerPupilSpending, 
+                        residual_plot_data2$StuTeachRatio, 
+                        residual_plot_data2$SAT_tot,
+                        angle=55, scale.y=0.7, pch=16, color ="red",
+                        main ="3D Regression Plane",
+                        sub="SAT data",
+                        xlab="Per pupil spending", 
+                        ylab="Student-teacher ratio", 
+                        zlab="SAT score")
+MLR_SAT2 <- lm(residual_plot_data2$SAT_tot ~ residual_plot_data2$PerPupilSpending + residual_plot_data2$StuTeachRatio)
+plot3d$plane3d(MLR_SAT2, lty.box = "solid")
+
+#plot3d$points3d(residual_plot_data2$PerPupilSpending, residual_plot_data2$StuTeachRatio, residual_plot_data2$fitted_vals, col="blue", type="h", pch=16)
+```
+---
+## Visualizing MLR models
+```{r SAT21_3Dplot2, echo=FALSE}
+plot3d <- scatterplot3d(residual_plot_data2$PerPupilSpending, 
+                        residual_plot_data2$StuTeachRatio, 
+                        residual_plot_data2$SAT_tot,
+                        angle=55, scale.y=0.7, pch=16, color ="red",
+                        main ="3D Regression Plane",
+                        sub="SAT data",
+                        xlab="Per pupil spending", 
+                        ylab="Student-teacher ratio", 
+                        zlab="SAT score")
+MLR_SAT2 <- lm(residual_plot_data2$SAT_tot ~ residual_plot_data2$PerPupilSpending + residual_plot_data2$StuTeachRatio)
+plot3d$plane3d(MLR_SAT2, lty.box = "solid")
+plot3d$points3d(residual_plot_data2$PerPupilSpending, residual_plot_data2$StuTeachRatio, residual_plot_data2$fitted_vals, col="blue", type="h", pch=16)
+```

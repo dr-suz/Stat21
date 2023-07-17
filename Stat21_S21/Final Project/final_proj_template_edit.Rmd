@@ -1,0 +1,51 @@
+---
+title: "Stat 21 Final Project Part 1"
+author: '[Your name here]'
+date: 'Due: April 15th'
+output:
+  word_document: default
+  bookdown::pdf_book: null
+link-citations: yes
+bibliography: references.bib
+---
+
+```{asis, directions=TRUE}
+To include mathematical equations in your document, write in between two dollar signs. Make sure there is no space after the first dollar sign or before the last one. 
+
+E.g. \$this is good\$  but  \$ this is bad \$.
+  
+If you want the equation to be centered and on it's own line, then put it in between four dollar signs 
+
+\begin{center}\$\$like this\$\$.\end{center}
+
+If you are using an offline version of RStudio, you need to make sure you have LateX installed on your computer as well. Without this, you will not be able to produce neat mathematical equations in your document.  
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE) 
+knitr::opts_chunk$set(echo=TRUE) 
+
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+## Introduction 
+
+Introduce your recipe here. Cite your historical source in this section. [@historical]
+
+
+## Methods 
+
+Copy and past the instructions for making the recipe here. Cite the source for this recipe in this section. [@recipe]
+
+
+## Conclusion 
+
+Write a two sentence conclusion summarizing why someone would want to make this recipe. 
+
+## Bibliography 

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Class 28</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class28_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class28_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 28
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/11/13 (updated: 2019-11-13)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## Todays topics 
+
+
+Spurrious correlations 
+
+Estimation and prediction with MLR models
+
+
+&lt;img src="Figs/spurious_cor.png" width="800" style="display: block; margin: auto;" /&gt;
+
+.footnote[https://www.tylervigen.com/spurious-correlations]
+
+
+
+---
+## Wine data example 
+
+.scroll-output[
+
+```r
+wine &lt;- read_csv("~/Google Drive Swat/Swat docs/Stat 21/Data/red_wines.csv", skip=1, col_names = TRUE, cols(x1 = col_character()))
+head(wine)
+```
+
+```
+## # A tibble: 6 x 11
+##       y x1       x2    x3    x4    x5    x6    x7    x8    x9   x10
+##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  19.2 0      3.85    66  9.35  5.65  2.4   3.25  0.33    19 0.065
+## 2  18.3 0      3.73    79 11.2   6.95  3.15  3.8   0.36    21 0.076
+## 3  17.1 0      3.88    73  9.4   5.75  2.1   3.65  0.4     18 0.073
+## 4  17.3 0      3.86    99 12.8   7.7   3.9   3.8   0.35    22 0.076
+## 5  16.8 0      3.98    75  8.55  5.05  2.05  3     0.49    12 0.06 
+## 6  16.5 0      3.85    61 10.3   6.2   2.5   3.7   0.38    20 0.074
+```
+
+```r
+wine &lt;- wine %&gt;% mutate(type = as_factor(x1))  ##Note the use of as_factor() rather than fct_infreq()
+head(wine)
+```
+
+```
+## # A tibble: 6 x 12
+##       y x1       x2    x3    x4    x5    x6    x7    x8    x9   x10 type 
+##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;
+## 1  19.2 0      3.85    66  9.35  5.65  2.4   3.25  0.33    19 0.065 0    
+## 2  18.3 0      3.73    79 11.2   6.95  3.15  3.8   0.36    21 0.076 0    
+## 3  17.1 0      3.88    73  9.4   5.75  2.1   3.65  0.4     18 0.073 0    
+## 4  17.3 0      3.86    99 12.8   7.7   3.9   3.8   0.35    22 0.076 0    
+## 5  16.8 0      3.98    75  8.55  5.05  2.05  3     0.49    12 0.06  0    
+## 6  16.5 0      3.85    61 10.3   6.2   2.5   3.7   0.38    20 0.074 0
+```
+
+```r
+#let's just double check the levels of our factor variable
+wine$type
+```
+
+```
+##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+## Levels: 0 1
+```
+]
+
+
+---
+## Wine data example
+
+
+Let's consider modeling the wine quality as a linear function of three predictor variables: (1) the degree of ionization of anthocyanins, (2) the pH level, (3) the type of wine. 
+
+- Response variable - y, wine quality from 0-20
+
+- Predictor variable - type, wine type as a factor, categorical (0=Cabernet Sauvignon, 1=Shiraz)
+
+- Predictor variable - x&lt;sub&gt;2&lt;/sub&gt;, pH level, numerical (0-14, 7 being neutral)
+
+- Predictor variable - x&lt;sub&gt;9&lt;/sub&gt;, percent of ionization, numerical (0-100 %)
+
+
+First step (after making sure the data is read into R correctly)?
+
+
+---
+## Wine data example
+
+
+Let's consider modeling the wine quality as a linear function of three predictor variables: (1) the degree of ionization of anthocyanins, (2) the pH level, (3) the type of wine. 
+
+- Response variable - y, wine quality from 0-20
+
+- Predictor variable - type, wine type as a factor, categorical (0=Cabernet Sauvignon, 1=Shiraz)
+
+- Predictor variable - x&lt;sub&gt;2&lt;/sub&gt;, pH level, numerical (0-14, 7 being neutral)
+
+- Predictor variable - x&lt;sub&gt;9&lt;/sub&gt;, percent of ionization, numerical (0-100 %)
+
+
+First step (after making sure the data is read into R correctly)? 
+
+.center[.blue[**Plot the data**!]] 
+
+
+---
+## Wine data example
+.scroll-output[
+
+```r
+wine %&gt;% select(y,x2,x9) %&gt;% pairs(labels=c("Quality","pH","% Ionization"),pch=16) 
+```
+
+![](Figs/plot28bw-1.png)&lt;!-- --&gt;
+]
+
+What can we do to visualize the data according to different levels of the categorical predictor? 
+
+
+---
+## Wine data example
+
+.scroll-output[
+
+```r
+wine %&gt;% 
+  select(y,x2,x9) %&gt;%
+  pairs(col=c("red","blue")[wine$type], pch=16, labels=c("Quality","pH","% Ionization"), main="Wine data by type") 
+```
+
+![](Figs/plot28color-1.png)&lt;!-- --&gt;
+]
+
+
+---
+## Wine data example
+### Fitting a MLR model 
+
+Now let's (without looking at the individual t-tests!) examine some possible relationships among the predictors and the response. 
+
+.scroll-output[
+
+```r
+# Correlations among all possible pairs of numerical variables
+cor(wine$x2, wine$x9)
+```
+
+```
+## [1] -0.0489386
+```
+
+```r
+cor(wine$y, wine$x2)
+```
+
+```
+## [1] 0.2774707
+```
+
+```r
+cor(wine$y, wine$x9)
+```
+
+```
+## [1] 0.6170341
+```
+]
+
+---
+## Wine data example
+### Fitting a MLR model 
+
+Now let's (without looking at the individual t-tests!) examine some possible relationships among the predictors and the response. 
+
+
+**Q1:** Is there any evidence of collinearity? 
+
+
+--
+**A1:** Not among the predictor variables. **Furthermore**, if we're just looking at problems of .blue[estimation], then collinearity is not something to be concerned about. When we move on to inference however, this becomes a more important issue. 
+
+
+
+--
+**Q2:** Is it possible to have collinearity with a categorical predictor variable? 
+
+
+--
+**A2:** In short, yes, and there are some different measures of correlation to use in this case. We may get into these later but it's not our emphasis right now because it is a concept that is difficult to define, let alone to understand. 
+
+
+
+---
+## Wine data example
+### Fitting a MLR model 
+
+Let's consider a few different possible models based on their adjusted R-squared values. 
+
+
+.scroll-small[
+
+```r
+# Adjusted R squared values for a few different possible MLR models
+summary(lm(y ~ type + x2 + x9, data=wine))$adj.r.squared
+```
+
+```
+## [1] 0.4887429
+```
+
+```r
+summary(lm(y ~ x2 + x9, data=wine))$adj.r.squared
+```
+
+```
+## [1] 0.4394532
+```
+
+```r
+summary(lm(y ~ type + x2 + x9 + type*x2, data=wine))$adj.r.squared
+```
+
+```
+## [1] 0.4870301
+```
+
+```r
+summary(lm(y ~ type + x2 + x9 + type*x9, data=wine))$adj.r.squared
+```
+
+```
+## [1] 0.516507
+```
+
+```r
+summary(lm(y ~ type + x2 + x9 + x2*x9, data=wine))$adj.r.squared
+```
+
+```
+## [1] 0.5324475
+```
+
+**Q:** What model would you choose given the info on this slide and on the previous one? 
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

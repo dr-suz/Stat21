@@ -1,0 +1,217 @@
+---
+title: "Week 5 - Part 2"
+subtitle: "Data Manipulation in the tidyverse"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Week 5 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+#     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Data Import from URL 
+### Body temperature data
+
+Let's look at a data set on some peoples' body temperatures, heart rate, and which is their dominant hand (1=right and 0=left.) 
+
+```{r import_data2, echo=TRUE, warning=FALSE}
+body_temp_dat <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class3_files/F2019/normtemp_data.txt"))
+body_temp_dat %>% head() 
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Useful functions to manipulate data<sup>1</sup>
+
+Commonly used data manipulation functions available in the `tidyverse` package are
+  - *select()*
+  - *filter()*
+  - *mutate()*
+  - *group_by()*
+  - *summarize()*
+  - *count()* 
+  
+  
+These functions are especially handy when you have categorical data because it easy to create tables of cell counts. 
+
+  
+.footnote[1 https://datacarpentry.org/R-ecology-lesson/03-dplyr.html#selecting_columns_and_filtering_rows]  
+
+---
+## Data Manipulation in the `tidyverse`
+### Why are we using piping?
+
+Before we look at how to use each of these functions in R, we're going to introduce another R operator function called the *pipe*.
+
+It is very useful when you need to apply many different transformations to your data and don’t want to save the intermediate results or have many opening and closing function parentheses. It is also very useful for cleaning data.
+
+For example, suppose we want to compute the logarithm of the vector `x`, then find the differences between each element and it's subsequent element, then compute the exponential function value of these difference, and finally, round the result to one decimal point. 
+```{r echo=TRUE, warning=FALSE}
+x <- c(0.109, 0.359, 0.63, 0.996, 0.515, 0.142, 0.017, 0.829, 0.907)
+round(exp(diff(log(x))), 1)
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Why are we using piping?
+
+Or you can do the same operations much neater using pipes:
+```{r echo=TRUE, warning=FALSE}
+x %>% log() %>%
+    diff() %>%
+    exp() %>%
+    round(1)
+```
+
+Which one is easier to read? Which one is easier for other people (the people who didn't write your code) to read? 
+
+Pipes (`%>%`), unlike assignment operators (`<-`), are read from left to right. It's easy enough to keep track of this, just follow the direction of the carrots! 
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}
+#To select specific columns:
+    body_temp_dat %>% select(Temperature, HeartRate)
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}
+    #...or equivalently
+    body_temp_dat %>% select(-Handedness)
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}    
+#To select specific rows:    
+    body_temp_dat %>% filter(Handedness==1)
+    ```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+These R functions are helpful with cleaning and organizing data, especially when some data are missing.  
+
+```{r echo=TRUE, warning=FALSE}    
+
+#Combine types of selection
+    body_temp_dat %>% filter(Handedness==1) %>% 
+                      select(-Handedness)
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+The *mutate()* function allows you to append a new column of data to your original data set. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% filter(Handedness==2) %>%
+                    mutate(CelciusTemp = ((Temperature-32)*5)/9)
+```
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+The *mutate()* function is allows us to append a new variable to the original data set and which can be helpful for making sure that any categorical variables are factors in R. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% mutate(Handedness_fct = factor(Handedness))
+```
+
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+The *group_by()* function groups the data according to different "levels" of a categorical variable of your choice. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% group_by(Handedness) %>%
+                    summarize(mean_temp = mean(Temperature),
+                              standard_dev_temp = sd(Temperature))
+```
+
+
+---
+## Data Manipulation in the `tidyverse`
+### Body temperature data
+
+The *count()* function provides a table of the total number of individuals within each group of a categorical variable of your choice. 
+
+```{r echo=TRUE, warning=FALSE}
+  body_temp_dat %>% count(Handedness)
+```
+
+
+
+
+

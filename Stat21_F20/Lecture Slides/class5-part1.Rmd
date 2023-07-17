@@ -1,0 +1,243 @@
+---
+title: "Class 5 - Part 1"
+subtitle: "Chi-squared test for goodness-of-fit"
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Sept 22, 2020 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Goodness-of-fit 
+### Problem Set-up
+
+We have a model/theory about how the data should be distributed. We use a Goodness-of-fit test to determine if that model/theory seems reasonable based off of a representative sample of data. 
+
+**Population:**  
+
+**Model:** 
+
+No parameter of interest. rather a question about the appropriateness of an entire model. 
+
+**Sample:** A random subset of the population, count data, one-way contingency table  
+
+
+| Category      | Observations  |
+|---------------|---------------|
+| Level 1       | 21            |
+| Level 2       | 10            | 
+| Level 3       | 9             | 
+| $\dots$       | $\dots$       | 
+| Level $k$     | 16            | 
+
+
+**Sample size:** rather than being interested in the total sample size, we now have to pay attention to the sample size within each level of the categorical variable. The total number of levels of the categorical variable are $k>2$. 
+
+
+---
+## Goodness-of-fit 
+### Problem Set-up
+
+No longer have an **estimate** since we don't have a particular parameter of interest. Rather, the entire model is of interest. 
+
+We don't have confidence intervals here either! 
+
+Instead, we only have the tool of a (very specific) hypothesis test. 
+
+### Assumptions 
+
+Can only use this test on *count* data. Just because data is arranged in a table doesn't mean it is count data! 
+
+1. Based on the model in the null hypothesis, we expect at least $5$ observations within each of the $k$ levels of the categorical variable. This is called the *expected cell frequency* condition. 
+
+2. The data is a simple random sample (SRS) from the population of interest. There are two levels of independence we need to check for this assumption. First, we must check that the number of observations expected within each level are independent of one another. Second, we must verify that the samples within each of the levels are independent of one another. 
+
+
+---
+## Goodness-of-fit Hypothesis Test 
+
+We first must identify the null and alternative hypotheses.
+$$H_0: \text{The theorized model holds.} \quad\text{and}\quad H_A: \text{The theorized model does not hold.}$$
+
+
+**Q:** What is the "theorized model"? 
+
+
+--
+**A:** This depends on the question at hand and must be determined on a case-by-case basis. 
+
+
+
+---
+## Goodness-of-fit Hypothesis Test 
+
+.pull-left[
+| Counts | Sign |
+|--------|------|
+| 20  | Aries  |
+| 21  | Tarus  |
+| 16  | Gemini  |
+| 18  | Cancer  |
+| 23  | Leo  |
+| 19  | Virgo |
+| 22  | Libra  |
+| 29  | Scorpio  |
+| 22  | Sagittarius  |
+| 17  | Capricorn  |
+| 20  | Aquarius  |
+| 19  | Pisces  |
+]
+
+.push-right[**Example 1)** Suppose we are interested in determining if, an actor's zodiac sign can predict their success at the Academy Awards. To answer this question, we collect a random sample of Academy Award winning actors and record their zodiac signs. What are the null and alternative hypotheses for this test?
+
+We could write the hypotheses as
+
+$H_0:$ The zodiac signs are uniformally distributed among Academy Award winners. 
+
+$H_{A}:$ The zodiac signs are not uniformally distributed among Academy Award winners.
+
+
+OR 
+
+
+$H_0: p_{Aries}=p_{Tarus}=\dots=p_{Pices}$
+
+
+$H_A:$ At least one proportion is different from the others.
+
+Where $p_{Aries}$ in the above is the true population proportion of Academy Award winning Aries, for example.
+] 
+
+
+
+
+---
+## Goodness-of-fit Hypothesis Test 
+
+
+**Example 2)** Let's say we are interested in whether or not someone's birth order is related to whether or not someone goes into a care-giving profession (e.g. social work, nursing, activism). We collect a simple random sample of adults who work in a care-giving profession and record their birth order: only child, oldest, youngest, somewhere in the middle. What are the null and alternative hypotheses? 
+
+| Counts | Birth order  |
+|--------|--------------|
+| 56 | Only child |
+| 64 | Oldest |
+| 89 | Middle |
+| 107 | Youngest |
+
+
+--
+$$H_0: \text{Different birth orders are equally represented among care-givers.}\\ H_{A}: \text{Different birth orders are not equally represented among care-givers.}$$
+
+
+
+---
+## Goodness-of-fit Hypothesis Test 
+
+Then we calculate the test statistic
+$$\text{Test Statistic} = \chi^2 = \sum_{\text{all cells}}\frac{(Obs - Exp)^2}{Exp}.$$
+
+If $H_0$ is true, then the test statistic above follows a $\chi^2$ distribution with $k-1$ degrees of freedom, where $k$ is the number of levels of the categorical variable. 
+
+
+---
+## Goodness-of-fit Hypothesis Test 
+**Example continued**
+
+.push-right[
+| Counts | Sign | Expected counts |
+|--------|------|-----------------|
+| 20  | Aries  |        |
+| 21  | Tarus  |       |
+| 16  | Gemini  |        |
+| 18  | Cancer  |       |
+| 23  | Leo  |       |
+| 19  | Virgo |      |
+| 22  | Libra  |      |
+| 29  | Scorpio  |       |
+| 22  | Sagittarius  |        |
+| 17  | Capricorn  |       |
+| 20  | Aquarius  |       |
+| 19  | Pisces  |       |
+| 246 | Total  |      |
+]
+
+---
+## Chi-squared distribution 
+### Visualized 
+
+```{r, echo=FALSE, fig.align='center', out.width=500}
+knitr::include_graphics("Figs/chisq-dist.jpg")
+```
+
+
+---
+## Goodness-of-fit Hypothesis Test 
+
+[Image of p-value]
+
+This is not a one-sided hypothesis test! It's actually many-sided, since the alternative is looking for any deviation whatsoever from the model theorized in the null. 
+
+Just as with every other hypothesis test, we can never prove $H_0$. We can only ever say that the data is (or is not) consistent with the model from the null hypothesis. It is always possible that the data we observe just happens to be consistent with $H_0$ by chance. 
+
+
+
+
+

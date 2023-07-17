@@ -1,0 +1,44 @@
+NAME:  Simpson Stand Ground 2015
+TYPE:  Census (mostly)
+SIZE:  220 observations, 4 variables
+
+DESCRIPTIVE ABSTRACT:
+The Tampa Bay Times created a webpage on which they presented data
+on criminal cases in Florida in which the defendant use Florida’s 
+Stand Your Ground law as part of their defense. The race of the 
+victim and of the defendant are recorded, along with the outcome
+(conviction or acquittal).
+
+SOURCE:
+http://www.tampabay.com/stand-your-ground-law/data
+
+
+VARIABLE DESCRIPTIONS:
+Column Variable
+  1    Convicted? Yes or No
+  2    Race of the defendant (Accused) White or Minority
+  3    Was the victim white?  1 = white victim, 0 = minority victim
+  4    Was the victim a minority?  1 = minority victim, 0 = white victim
+
+
+NOTE:
+The website gives three races: white, black, and Hispanic. In the data 
+file “minority” means black or Hispanic. Also, the website classifies
+cases as fatal or nonfatal; the data file includes all fatal and nonfatal
+cases for which full information was available. The  website includes a
+note that the data are incomplete (but are the most comprehensive list
+in the state.) The data cover 2005 through early 2013 (at which point
+the newspaper stopped updating the website).
+
+PEDAGOGICAL NOTES:
+These data can be used to illustrate Simpson’s Paradox: Ignoring the race
+of the victim gives a higher conviction rate for white than for minority
+defendants. Controlling for victim’s race reverses this inequality. One
+could also use these data when teaching logistic regression.
+
+SUBMITTED BY:
+Jeff Witmer
+Department of Mathematics
+Oberlin College
+Oberlin, OH  44074
+jeff.witmer@oberlin.edu

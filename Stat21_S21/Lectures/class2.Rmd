@@ -1,0 +1,228 @@
+---
+title: "Class 2"
+subtitle: "Welcome and Introduction to "
+author: "STAT 021 with Suzanne Thornton"
+institute: "Swarthmore College"
+date: "For class on Tuesday, Feb 16, 2021 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+library("RefManageR")
+library("DT")
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+# Agenda
+
+Here's the agenda for today's class: 
+
+- Group check-ins
+
+- Normal Random Variables: Pictures and Code (15 mins)
+
+- CLT Simulation Exercise (20 mins, group work)
+
+- Inference for a proportion Example (15 mins)
+
+- Housekeeping items and announcements 
+
+---
+
+# Tuesday check-in 
+
+```{r, echo=FALSE, fig.align='center', out.height=500}
+knitr::include_graphics("Figs/feelings_wheel.jpg")
+```
+
+
+---
+# Normal Random Variables: Pictures and Code
+
+- density curve/histograms
+
+- critical value
+
+- quantiles
+
+- probabilities (area under the curves)
+
+- standardization/Z-score
+
+
+
+---
+# Normal Random Variables: Pictures and Code
+
+```{r}
+sample_size <- 10
+rnorm(sample_size, mean=3, sd=1.5)
+```
+
+---
+# Normal Random Variables: Pictures and Code
+
+
+```{r}
+my_quantile <- 3.45
+pnorm(my_quantile, mean=3, sd=1.5, lower.tail=TRUE)
+```
+
+
+
+--
+```{r}
+my_probability <- 0.75
+qnorm(my_probability, mean=3, sd=1.5, lower.tail=TRUE)
+```
+
+
+
+---
+# CLT Simulation Exercise
+
+**To do:** 
+
+Open the CLT_Example.R file in Moodle. (Only one group member needs to do this and can share their screen). Answer the questions presented within the R comments (the #'s) at the end of the file. 
+
+
+**Hand in:** 
+
+On Slack, send me a DM with your group's written answers. 
+
+When we come back together as a class, be prepared to discuss what you observed in the simulations with your group. 
+
+
+**Group roles:**
+
+- Recorder 
+
+- Reporter
+
+- Questioner 
+
+
+---
+# Example
+## Inference for a proportion 
+
+In New York City on October 23rd, 2014, a doctor who had recently been treating Ebola patients in Guinea went to the hospital with a slight fever and was subsequently diagnosed with Ebola. Soon after, a survey conducted by the Marist Poll, an organization with a carefully designed methodology for drawing random samples from identified populations, found that, out of a sample of size $1042$, $82\%$ of New Yorkers favored a "mandatory 21-day quarantine for anyone who has come in contact with an Ebola patient."
+
+.footnote[Introductory Statistics for the Life and Biomedical Sciences by Julie Vu and David Harrington.]
+
+---
+# Example
+## Inference for a proportion 
+
+**To do:** 
+
+a) Verify that the sampling distribution of $\hat{p}$ is nearly normal.
+
+b) Construct a $95\%$ confidence interval for $p$, the proportion of New York adults who supported a quarantine for anyone who has come into contact with an Ebola patient. Specifically state the values of $\hat{p}_{obs}$, $z_{\alpha/2}^*$, and $SE(\hat{p})$.  
+
+c) Conduct an $\alpha=0.05$ hypothesis test to answer the question: Do the majority of New York adults support the mandatory quarantine? 
+
+
+
+---
+## Housekeeping 
+
+- How to submit assignments on Gradescope 
+
+- Requirements for HW problems graded for completeness 
+
+- Re-grade requests (use for tests mainly)
+
+
+## Looking ahead 
+
+- Complete Week 2 Comprehension Quiz on Moodle by Thursday morning.  
+
+- Next class, we'll be working on problems from HW 1 together. This is a great time for asking questions! 
+
+---
+# Announcements 
+
+[Problem-Solving Skills and Strategies](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Stat21/S2021/Problem Solving Poster.pdf) 
+
+W+iMS and Swarthmore Problem Solvers are co-sponsoring this workshop on **Thursday, February 18, from 3:45-5:00 pm** (EST). 
+
+Come learn about the Putnam competition, about problem-solving techniques, and about making space for women and nonbinary students in the problem solving world. 
+
+Prof. Whitehead will give a presentation on different problem solving strategies. 
+
+W+iMS will be holding space to discuss why these spaces so often feel exclusive. 
+
+
+
+**Where:** https://swarthmore.zoom.us/j/88241051721%23success
+
+
+---
+# Announcements 
+
+**Swat Data Viz group**
+
+Join us each week to analyze a different data set, meet other Swatties, hone your data visualization skills, and build a portfolio. No experience necessary! 
+
+Never used R before? That's okay! This is a supportive, low-stakes environment and perfect for learning at your own pace. 
+
+We'll kick off this **Tuesday 5-5:30pm** (EST) at [this zoom link](https://swarthmore-dot-yamm-track.appspot.com/Redirect?ukey=1F9-nrOEIi9R2t2TNb2WSBm0Ucelzz0d89CTzSeiVUwY-1096690557&key=YAMMID-99960339&link=https%3A%2F%2Fswarthmore.zoom.us%2Fj%2F81874849257%3Fpwd%3DdzM3R1U5YU4rT2t5ZEk1SVVXVjd5dz09) (Meeting ID: 818 7484 9257,  passcode: dataviz). 
+
+You are also welcome to join us asynchronously throughout the week to ask questions and share work via the [Slack group](https://swarthmore-dot-yamm-track.appspot.com/Redirect?ukey=1F9-nrOEIi9R2t2TNb2WSBm0Ucelzz0d89CTzSeiVUwY-1096690557&key=YAMMID-99960339&link=https%3A%2F%2Fjoin.slack.com%2Ft%2Fswat-data-viz%2Fshared_invite%2Fzt-mci5g4s3-_LpMV2J5mYY0zzn~V5Y8DA). 
+
+Future meeting times will be determined based on a slack poll, so be sure to join the group even if Today's meeting time doesn't work for you! 
+
+The group will also have a blog to share our work publicly at https://swatdataviz.com
+
+Have questions? Feel free to reach out to Professor Amanda Luby on Slack or at aluby1@swarthmore.edu

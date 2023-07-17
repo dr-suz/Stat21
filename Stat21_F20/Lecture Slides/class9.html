@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 9</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="Class9_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class9_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 9
+## Agenda for in-class discussion
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Tuesday, Oct 6, 2020 (updated: 2020-10-06)
+
+---
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+# Happy Tuesday!  
+
+Here's the agenda for today's class: 
+
+- Housekeeping items
+
+  - HW 4 due Tuesday, the 13th by 6pm ET 
+  
+  - Test 1 will be released online on Thursday, the 15th
+      
+      - New Slack channel for Test 1
+  
+      - Live OHs (in Zoom): 
+        
+          Friday from 11:00am-12:00pm https://swarthmore.zoom.us/j/89462104560
+    
+      - Online time (in Slack):
+      
+          Thursday 10:00am - 12:00pm 
+      
+          Friday from 1:00pm-2:00pm
+
+  - RStudio should be working - if not please LMK ASAP 
+
+- ANOVA with penguins data set 
+  
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+&lt;img src="Figs/wheel_of_emotion.jpeg" height="500" style="display: block; margin: auto 0 auto auto;" /&gt;
+]
+
+---
+## Ursula Whitcher W+iMS talk and lunch
+
+.center[** Monday, Oct 12th at 3:30pm ET**
+https://swarthmore.zoom.us/j/95383974526]
+
+&lt;img src="Figs/UrsulaPoster.jpg" height="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Simpson's Paradox  
+
+- Can we go over the Simpson's Paradox death penalty example? I don't understand the difference between defendants and victims.
+ 
+- Do you have any sources for more examples of Simpson's Paradox? 
+
+---
+## Comprehension quiz questions 
+
+- Can we go over problem 6?
+   
+- Can we go over how to find the degrees of freedom does the error sum of squares?
+   
+- When discussing the results of the ANOVA test, do we have to talk about the F statistic in particular?
+     
+   
+---
+## ANOVA 
+### Moodle questions 
+
+- How deep of an understanding should we have of the ANOVA table...
+ 
+- More clarification on the different cells in the ANOVA table...
+
+- Clarify error sum of squares...
+
+- For the video in class, the anova tests was used when the number of observations was less than 12...
+ 
+More specifically:  
+ 
+- .blue[Can we talk more about the idea of the random error?]
+ 
+- .blue[How can we tell when a p-value signifies a change with one level vs all levels?]
+  
+- .blue[Is there more specific criteria on when to use an anova test versus multiple t tests?] 
+
+  
+---
+## ANOVA Table
+
+| Source | Sums of Squares | DF | Mean Square | F-ratio | P-value | 
+|--------|------------------|---|-------------|---------|---------|
+| Treatment | `\(SS_{trt}= \sum \sum(\bar{y}_{j}-\bar{\bar{y}})^2\)` | `\(K-1\)` | `\(MS_{trt} = \frac{SS_{trt}}{K-1}\)` | `\(\frac{MS_{trt}}{MSE}\)` | `\(Pr(F \geq \frac{MS_{trt}}{MSE})\)` | 
+| Error | `\(SSE=\sum\sum(y_{ij}-\bar{y}_{j})^2\)` | `\(n-K\)` | `\(MSE = \frac{SSE}{n-K}\)` |   |  | 
+| Total | `\(SS_{tot}=SS_{trt}+SSE\)`  | `\(n-1\)` |   |   |   |
+
+### ANOVA Model
+
+`$$y_{ij} = \mu_{j} + \epsilon_{ij}$$` 
+
+
+---
+## ANOVA Table Calculations 
+### Group work - 15 mins
+
+With your group, use R to help you fill in the elements of the [ANOVA table worksheet](https://docs.google.com/spreadsheets/d/1VjWLaPq_JW8OucQDhkijlajDn8T8zUTTc6yWlcV14-I/edit?usp=sharing) for the `penguins2` data set below.
+
+.scroll-output[
+
+```r
+#install.packages("remotes")
+#remotes::install_github("allisonhorst/palmerpenguins") 
+library("palmerpenguins")
+penguins2 &lt;- penguins %&gt;% 
+  na.omit() %&gt;% ## this is a very useful function that will omit an entire row if any of the column values are missing (NA)
+  mutate(bill_length_standard = (bill_length_mm-mean(bill_length_mm))/sd(bill_length_mm),
+         species_fct = factor(species))
+
+
+anova_model &lt;- aov(bill_length_mm ~ species_fct, penguins2)
+summary(anova_model)
+
+
+penguins2 %&gt;% group_by(species_fct) %&gt;% 
+              summarize(mean_bill = mean(bill_length_mm),
+              var_bill = var(bill_length_mm),
+              samp_size = length(bill_length_mm))
+```
+]
+
+---
+## ANOVA Table Calculations 
+### Group work - 15 mins
+
+**Note-taker:** You will submit the completed worksheet to me over your group's Slack channel at the end of class. (Please make sure the settings allow me to access your document!) 
+
+**Presenter:** Be prepared to answer questions based on your table when we discuss the worksheet after. 
+
+**Recorder:** Keep track of the time and alert your group when it's time to move on. I recommend spending the last 5 mins to review the completed tables.
+
+**Questioner:** Make sure that the work is reviewed before time is up and to ask any questions about missing elements or incorrect statements.
+
+---
+## Review of material 
+### Group work - 10 mins 
+
+We are going to revisit the info-graphic you started to create using this [worksheet template](https://docs.google.com/document/d/1urmRK3cGlDsVv-Az4KMkUbc07MYGwV8qnf11De3NAYc/edit?usp=sharing). 
+
+Now, we are going to specifically focus on the ANOVA test. Include the following information (as relevant):
+  - Types of plots (e.g. histogram, box plots, ...)
+Necessary assumptions (e.g. independent observations, normal population, ...)
+  - Types and number of variables (e.g. 2 categorical, 1 quantitative, continuous, count, ...)
+  - Functions in R (e.g. prop.test(), qnorm(), pnorm(), ...)
+  - Summary statistics (e.g. mean, variance, proportions, ...)
+  - Parameters of interest (e.g. `\(\mu\)`, `\(p\)`, none, ...)
+
+Spend some time comparing and contrasting the ANOVA model with the other methods. Use colors to highlight similarities. Be prepared to share you discussion results with the rest of the class. 
+
+---
+## Review of material 
+### Group work - 10 mins 
+
+Assign each setting to a different group member to fill in the details for. Make sure you go over the final product together to discuss any missing parts and to highlight similarities among the settings.
+
+**Note-taker:** You will submit either a screenshot of the final info-graphic or submit the Google doc directly to me over your group's Slack channel at the end of class. (Make sure the settings allow me to access your document!) 
+
+**Presenter:** Be prepared to explain your group's reasoning for the different features of your info-graphic when we come together as a class to review. 
+
+**Recorder:** Keep track of the time and alert your group when to move on to the next setting. I recommend spending the last 5 mins color-coding the similar traits among the different settings.
+
+**Questioner:** Although everyone can play this role in this activity, it is your responsibility to make sure that the work is reviewed before time is up and to ask any questions about missing elements or incorrect statements.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

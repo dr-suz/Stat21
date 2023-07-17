@@ -1,0 +1,415 @@
+---
+title: "Class 13"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/9/30 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+hc_employer_2013 <- read_table2("health_care_2013_cleaned.txt", col_names = TRUE)
+SLR_hc_employer_2013 <- lm(prop_coverage~spending_capita, data=hc_employer_2013)
+SLR_hc2013_summary <- SLR_hc_employer_2013 %>% summary
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+```{r, comic13, echo=FALSE, fig.align='center', out.height=600}
+knitr::include_graphics("Figs/extrapolating.png")
+#https://www.explainxkcd.com/wiki/index.php/Category:Statistics
+```
+
+---
+## For Exam 1: 
+### Note some small changes from our class 9 notes.
+
+~~Some simple ANOVA problems~~
+
+All review material 
+
+All SLR material
+
+Sums of squares terms
+
+No formula sheet or calculator will be needed
+
+Review class on Wednesday, Oct 2nd
+
+
+
+Office Hours: today and tomorrow from 2-3:30pm 
+
+
+
+---
+## A new example - restaurant tips
+Suppose we are interested in the question: do people tip more generously when ordering an expensive meal?
+
+```{r unnamedClass13_1, echo=TRUE, eval=FALSE}
+require(Lock5Data)
+data(RestaurantTips)
+SLR_tips = lm(Tip ~ Bill, data = RestaurantTips)
+
+RestaurantTips %>% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatterplot of the data and the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+```
+
+.footnote[Source: http://pages.stat.wisc.edu/~larget/stat302/regression.R]
+
+---
+## Another example - restaurant tips
+
+
+```{r unnamedClass13_2, echo=FALSE, fig.align='center'}
+require(Lock5Data)
+data(RestaurantTips)
+SLR_tips = lm(Tip ~ Bill, data = RestaurantTips)
+
+RestaurantTips %>% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm", se=FALSE) +
+                     labs(title="Scatterplot of the data and the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+```
+
+
+---
+## Restaurant tips example
+
+
+
+```{r unnamedClass13_3, echo=TRUE, eval=FALSE}
+RestaurantTips %>% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm")+
+                     labs(title="Scatterplot of the data and the regression line",
+                          subtitle="Superimposed 95% CI bounds on the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+```
+
+---
+## Restaurant tips example
+
+
+```{r unnamedClass13_4, echo=FALSE, fig.align='center'}
+RestaurantTips %>% ggplot(aes(x=Bill,y=Tip)) + 
+                     geom_point() + 
+                     geom_smooth(method="lm")+
+                     labs(title="Scatterplot of the data and the regression line",
+                          subtitle="Superimposed 95% CI bounds on the regression line",
+                          x="Cost of the bill", y="Amount tipped")
+```
+
+
+---
+## Restaurant tips example
+
+
+```{r unnamedClass13_5, echo=TRUE, eval=FALSE}
+RestaurantTipsv2 = data.frame(RestaurantTips, predict(SLR_tips, interval="prediction"))
+RestaurantTipsv2 %>% ggplot(aes(x=Bill,y=Tip)) +
+    geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3) +
+    geom_smooth(method="lm",se=FALSE) +
+    geom_point() +
+   labs(title="Scatterplot of the data and the regression line",
+        subtitle="Superimposed 95% prediction bounds on the regression line",
+        x="Cost of the bill", y="Amount tipped")
+```
+
+---
+## Restaurant tips example
+
+```{r unnamedClass13_6, echo=FALSE, fig.align='center'}
+RestaurantTipsv2 = data.frame(RestaurantTips, predict(SLR_tips, interval="prediction"))
+RestaurantTipsv2 %>% ggplot(aes(x=Bill,y=Tip)) +
+    geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3) +
+    geom_smooth(method="lm",se=FALSE) +
+    geom_point() +
+   labs(title="Scatterplot of the data and the regression line",
+        subtitle="Superimposed 95% prediction bounds on the regression line",
+        x="Cost of the bill", y="Amount tipped")
+```
+
+---
+## Confidence and prediction intervals 
+
+It can be really illuminating to look at the mathematical formulas for calculating these two types of intervals. In either case, suppose we have some new values of our predictor variable, $x_{new}$ and we are interested in confidence and prediction intervals for the response.
+
+
+For confidence intervals of the **average response**: 
+$$\hat{y} \pm t_{\alpha/2, n-2}SE(\hat{y})$$
+where $SE(\hat{y}) = \sum_{i=1}^{n}(y_i - \bar{y})(x_i - \bar{x})\sqrt{\frac{1}{n} + \frac{(x_{new}-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}$
+
+For confidence intervals of the **predicted response**: 
+$$\hat{y}_{new} \pm t_{\alpha/2, n-2}SE(\hat{y}_{new})$$
+where $SE(\hat{y}_{new}) = \sum_{i=1}^{n}(y_i - \bar{y})(x_i - \bar{x})\sqrt{1 + \frac{1}{n} + \frac{(x_{new}-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}$
+
+
+---
+## Confidence and prediction intervals 
+
+The prediction interval is designed to cover a “moving target”, the random future value of $y$, while the confidence interval is designed to cover the “fixed target”, the average (expected) value of $Y$, $E(Y)$.
+
+
+--
+**Q:** What is the statistical relationship driving this difference in the standard errors?
+
+
+--
+**A:** This is actually another example of a special property of the variance function! Namely, that for any independent and identically distributed random variables $Y_1$ and $Y_2$ we have
+$$Var(Y_1 - Y_2) = Var(Y_1) + Var(Y_2).$$
+
+
+
+<a href="https://www.youtube.com/watch?feature=player_embedded&v=qVCQi0KPR0s">This</a> is a 10 minute video going through another example of the difference between confidence intervals and prediction intervals. For more on the distinction between prediction intervals and confidence intervals go <a href="https://stats.stackexchange.com/questions/16493/difference-between-confidence-intervals-and-prediction-intervals">here</a>.
+
+
+---
+## Confidence intervals and prediction intervals in R 
+
+Now let's go back to the health care data set. 
+
+```{r unnamedClass13_7}
+new_hc_data = data.frame(spending_capita = 45000)
+```
+
+```{r unnamedClass13_8}
+predict(SLR_hc_employer_2013, new_hc_data, interval="confidence", level = 0.95) 
+predict(SLR_hc_employer_2013, new_hc_data, interval="predict", level = 0.95) 
+```
+
+
+
+---
+## Confidence intervals and prediction intervals 
+```{r unnamedClass13_9, echo=TRUE, eval=FALSE}
+CI_bounds <- as_tibble(predict(SLR_hc_employer_2013, hc_employer_2013, interval="confidence", level = 0.95)) 
+PI_bounds <- as_tibble(predict(SLR_hc_employer_2013, hc_employer_2013, interval="predict", level = 0.95))
+
+
+new_hc_data <- bind_cols(hc_employer_2013,CI_bounds,PI_bounds[,2:3]) %>%     
+               as.tibble(.name_repair="universal")
+## note the prediction interval bounds at the one's with "1" appended to the name
+
+ggplot(new_hc_data, aes(x=spending_capita,y=prop_coverage)) + 
+  ylim(0,1) + 
+  geom_ribbon(aes(ymin=lwr1, ymax=upr1, fill='prediction'),alpha=0.3) +  
+  geom_smooth(method="lm", se=TRUE, aes(fill='confidence'), alpha=0.3) +
+  geom_point() +
+  labs(title="Scatterplot of the data and the regression line",
+       subtitle="Confidence and prediction intervals",
+       y='Proportion of people covered',
+       x='Per capita spending')
+```
+
+
+---
+## Confidence intervals and prediction intervals 
+```{r pred_and_conf_ints_class13, echo=FALSE, fig.align='center', out.width=700, out.height=500}
+CI_bounds <- as_tibble(predict(SLR_hc_employer_2013, hc_employer_2013, interval="confidence", level = 0.95)) 
+PI_bounds <- as_tibble(predict(SLR_hc_employer_2013, hc_employer_2013, interval="predict", level = 0.95))
+
+
+new_hc_data <- bind_cols(hc_employer_2013,CI_bounds,PI_bounds[,2:3]) %>%     
+               as.tibble(.name_repair="universal")
+## note the prediction interval bounds at the one's with "1" appended to the name
+
+ggplot(new_hc_data, aes(x=spending_capita,y=prop_coverage)) + 
+  ylim(0,1) + 
+  geom_ribbon(aes(ymin=lwr1, ymax=upr1, fill='prediction'),alpha=0.3) +  
+  geom_smooth(method="lm", se=TRUE, aes(fill='confidence'), alpha=0.3) +
+  geom_point() +
+  labs(title="Scatterplot of the data and the regression line",
+       subtitle="Confidence and prediction intervals",
+       y='Proportion of people covered',
+       x='Per capita spending')
+```
+
+---
+## Good questions from Piazza - 1
+
+HW 3 Q 3 part b:  What are: the equation of the regression line, the value of the standard deviation of height, and the value of R-squared?
+  > Which is the "right" way to find the estimated standard deviation of the errors (and also the response)? (credit: Mehra)
+
+```{r unnamedClass13_10}
+sd(hc_employer_2013$prop_coverage)
+```
+
+The function above produces a summary statistic of our data that informs us about how spread out the observed data is. It is **not** an estimate of the standard deviation of the random error. Based on our observed proportion of people covered in each state we calculate:
+$$sd(y_{obs}) = \sqrt{\frac{\sum_{i=1}^{n}(y_i-\bar{y})^2}{n-1}}$$
+
+---
+## Good questions from Piazza - 1
+
+HW 3 Q 3 part b:  What are: the equation of the regression line, the value of the standard deviation of height, and the value of R-squared?
+  > Which is the "right" way to find the estimated standard deviation of the errors (and also the response)? (credit: Mehra)
+  
+```{r unnamedClass13_11}
+SLR_hc2013_summary$sigma
+```
+The function here however is calculating an estimate for the spread of our random measurement error:
+$$\hat{\sigma} = \sqrt{\frac{SS_{res}}{n-2}} = \sqrt{\frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)}{n-2}}$$
+
+---
+## Good questions from Piazza - 1
+
+Let's look at the restaurant data now too. 
+
+.scroll-output[
+```{r unnamedClass13_12}
+SLR_tips %>% summary
+
+sd(RestaurantTips$Tip)
+```
+
+Here we see an even larger difference between these two different statistics.] 
+
+---
+## Good questions from Piazza - 1
+
+```{r unnamedClass13_13}
+sd(RestaurantTips$Tip)
+```
+
+---
+## Good questions from Piazza - 2
+
+HW 3 Q3 part e: Test the hypothesis that $\hat{\beta}_1 = 0$ at an $\alpha = 0.05$ significance level. State your null and alternative hypotheses and report the test statistic and p-value (and/or rejection region). Interpret, in the context
+of the problem, the results of this test.
+  > Am I supposed to use the t.test function or the cor.test function? (credit: Major)
+
+
+---
+## Good questions from Piazza - 2
+
+.scroll-output[
+```{r, unnamedClass13_14}
+##t-test - two sided, compare to alpha/2
+SLR_hc2013_summary
+slope_t_value <- SLR_hc2013_summary$coefficients[2,3]
+pt(abs(slope_t_value), length(hc_employer_2013$prop_coverage)-1, lower.tail=FALSE)
+```
+]
+
+---
+## Good questions from Piazza - 2
+
+```{r, unnamedClass13_15}
+##correlation test 
+cor.test(~prop_coverage+spending_capita, data=hc_employer_2013)
+```
+In simple linear regression, since we only have one predictor variable, testing the correlation between $x$ and $y$ is the same thing as testing whether or not the slope coefficient, $\hat{\beta}_1$, is zero. However, it's important to note that the equality of these tests **only** hold in SLR.
+
+---
+## Revisiting the meaning of the sums of squares terms
+### In linear regression, what causes the response variable to vary?
+
+In fitting our model we break the sources of variability in $y$ into two components:
+
+  1) The variation in $x$ values. (deterministic) We measure this variation using the regression line by considering: $(\hat{y}_i – \bar{y} )$.
+
+  2) Individual variation of $y$ about a line. (random) We measure this variation using the residuals: $y_i – \hat{y}_i$.
+
+
+--
+Thus the overall variability in $Y$ is the total of these two individual sources: 
+
+  .center[Total variation in Y = variation due to x + variation NOT due to x]
+
+
+Source    | Sums of sqs  | Deg of free. | Mean square | F-statistic
+--------- | ------------ | ------------ | ----------- | ----------- 
+Model     | $\sum_{i=1}^{n}(\hat{y}_i-\bar{y})^2$ | $1$   | $MSReg=\frac{SS_{reg}}{1}$ | $F=\frac{MSReg}{MSE}$
+Residuals | $\sum_{i=1}^{n}(\hat{y}_i - y_i)^2$ | $n-2$ | $MSE=\frac{SSE}{n-2}$   | 
+
+---
+## Checking model assumptions
+
+In SLR, we can plot residuals vs X or plot residuals vs predicted but it is better to get in the habit of plotting ** residuals vs predicted** because this is what we use in multiple linear regression.  
+
+
+What are we looking for these plots? 
+
+1. Any "trends" in the plot
+  - E.g. negative residuals at small values of $\hat{y}_i$ and positive residuals at large values of $\hat{y}_i$ indicates non-linearity in the data. 
+  - **Q:** What can we do to address non-linearity? 
+
+1. Non-constant spread of the residuals
+  - E.g. More clustered residuals for small $\hat{y}_i$ values and more spread out residuals for large $\hat{y}_i$, looks like "funneling". 
+  
+
+**Q:** What can we do to address heteroscedasticity? 
+--
+The usual remedy is a transformation of the response.
+
+
+.footnote[<a href="https://data.princeton.edu/wws509/notes/c2s9
+">Here</a> is my source for the interpretations above. This is helpful to check out tor further reading on regression diagnostics (although we are not covering all the material that is mentioned here).]
+
+
+---
+## Checking for normality 
+
+Normal probability plots of the **residuals** help us check whether the combination of all the residuals is Normally distributed. 
+
+
+Guide to interpreting QQ plots: 
+
+  - If the data is curved, this indicates a skewed distribution
+
+      - Downward concavity corresponds to negative Skewness (long tail to the left) 
+
+      - Upward concavity indicating positive skewness. 
+
+  - An S-shape indicates heavy tails, or an excess of extreme values, relative to the Normal distribution.
+

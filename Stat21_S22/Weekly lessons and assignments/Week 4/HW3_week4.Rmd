@@ -1,0 +1,261 @@
+---
+title: "Stat 21 Homework 3"
+author: ' Person 1, Person 3, etc '
+date: 'Due: Sunday, Feb 13th by midnight'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+Use this file as the template for your submission. Do not delete anything from this template unless you are prompted to do so (e.g. where to write your name above, where to write your solutions or code below). Make sure you have installed the following packages in your version of RStudio: `tidyverse`, `knitr` __before__ you attempt to knit this document.
+
+Your completed assignment should be submitted as a single __PDF__ using the link under Week 3 titled "Submit HW 3 to Gradescope". You must use R markdown to write up your solutions. For any homework problems that involve coding in R, you must provide __both__ the code and a written answer interpreting the output within the context of the problem. You are allowed to work with your classmates on this homework assignment but you are expected to write up your own solutions. Every answer must be supported by a written statement unless otherwise specified. *A good rule of thumb is to make sure your answer is understandable to someone who hasn't read the problem question (or code output associated with it).* 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE)  
+knitr::opts_chunk$set(echo=TRUE)     
+knitr::opts_chunk$set(eval=TRUE)     
+
+###########################
+# LIBRARIES
+###########################
+library(tidyverse)
+library(knitr)
+library(Stat2Data) 
+```
+
+
+# Part I: Non-R Problems
+
+## Problem 1 
+
+For the data in the table below, find the estimated regression equation by hand. Make sure you show your work. 
+
+| X | Y |
+|--- |--- |
+| 1 | 4 |
+| 3 | 9 |
+| 5 | 8 |
+
+**Solution** [Write your solution here]
+
+```{r}
+## use this space if you'd like to show your calculation work with R code
+```
+
+
+## Problem 2
+
+Suppose we have two random variables $X$ and $Y$. What are the differences among the following assumptions regarding $X$ and $Y$: 
+
+- $X$ and $Y$ are uncorrelated, 
+  
+- $X$ and $Y$ are independent, 
+  
+- $X$ and $Y$ have the same variance, and 
+  
+- $X$ and $Y$ have the same distribution?
+
+**Solution:** [Write your solution here.]
+
+
+## Problem 3
+
+Sketch (by hand) residual plots (with predicted response values on the horizontal axis) that show each of the following:  
+  
+  - constant variance and linearity; 
+  
+  - non-constant variance and linearity; 
+  
+  - constant variance and non-linearity;
+  
+  - non-constant variance and non-linearity. 
+  
+You can draw these plots on paper and use CamScanner to take a photograph of your drawings. Once you knit this document to a PDF file, you can then convert your image files to PDF files and merge everything together using a website such as smallpdf.com. 
+
+**Solution:** [Attach your solutions to the pdf of your knitted HW document. Make sure you select the correct pages when uploading to Gradescope.]
+
+
+## Problem 4 
+
+In a few sentences and/or equations, briefly explain the relationship of the sum of squared errors term to the correlation between predictor $X$ and response $Y$. 
+
+**Solution:** [Write your solution here.]
+
+
+# Part II: R coding problems
+
+**Make sure you have installed the package `Stat2Data` before you knit this document. It contains the data sets for problems 5 and 6.**
+
+## Problem 5 
+
+Biologists know that the leaves on plants tend to get smaller as temperatures rise. The data set  `LeafWidth` has data on samples of leaves from the species *Dodonaea viscosa* subsp. *angustissima*, which have been collected in a certain region of South Australia for many years. The variable `Width` is the average width, in mm, of leaves, taken at their widest points, that were collected in a given year. 
+
+```{r}
+data("LeafWidth")
+names(LeafWidth)
+head(LeafWidth)
+```
+
+(a) Fit the regression of `Width` on `Year`. What is the fitted regression model? (Define any symbols that you use.)
+
+(b) Interpret the coefficient of `Year` in the context of this setting. 
+
+(c) What is the predicted width of these leaves in the year 1966? 
+
+**Solution:**
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+(a) [Write your solution here]
+
+(b) [Write your solution here]
+
+(c) [Write your solution here]
+
+
+## Problem 6 
+
+The data set `RailsTrails` contains data from a sample of 104 homes that were sold in 2007 in the city of Northampton, Massachusetts. The goal was to see if a home's proximity to a biking trail would relate to its selling price. Perhaps, for example, proximity to the trail would add value to the home. And to see if any such effect has changed over time, the researchers took estimated prices for these homes at four different time points using the website Zillow.com. Here we focus on the estimated price of homes in 2007 using the price in thousands  of 2014 dollars (variable name `Adj2007`). The variable `Distance` measures the distance in miles to the nearest entry point to the rail trail network. 
+
+```{r}
+data("RailsTrails")
+names(RailsTrails)
+head(RailsTrails)
+```
+
+(a) Create a scatter plot of `Adj2007` vs `Distance` and describe the relationship. 
+
+(b) Fit a SLR model and interpret the results, making a clear interpretation of the slope parameter.  (Define any symbols that you use.)
+
+(c) Report the regression standard error and discuss its meaning. 
+
+(d) Comment on the conditions of the model. 
+
+**Solutions:**
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+(a) [Write your solution here]
+
+(b) [Write your solution here]
+
+(c) [Write your solution here]
+
+(d) [Write your solution here]
+
+
+## Problem 7
+
+The number of pounds of steam used per month at a plant is thought to be related to the average monthly ambient temperature. The past year’s usages (per 1000 lbs) and temperatures follow.
+
+```{r}
+steam_data <- tibble(
+  month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), 
+  temperature = c(21,24,32,47,50,59,68,74,62,50,41,30),
+  usage = c(185.79,214.47,288.03,424.84,454.68,539.03,621.55,675.06,562.03,452.93,369.95,273.98))
+```
+
+(a) Fit a simple linear regression model to the data. (Define any symbols that you use.)
+
+(b) Display the analysis-of-variance table for this model and test for the significance of the regression model. State your null and alternative hypotheses and interpret the conclusion in the context of the problem.  
+  
+(c) Plant management believes that an increase in average ambient temperature of 1 degree will increase average monthly steam consumption by 10,000 lb. Do the data support this statement? 
+
+
+**Solution:** [Write your solution here.]
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+## Problem 8
+
+Install the R package `MVP` before running the code chunk below. 
+
+```{r}
+#library('MPV')
+#NFL_data <- table.b1 
+#names(NFL_data)
+```
+Use the code above to read this data into your R library. This data set concerns the performance of the 26 National Football League teams in 1976. It is suspected that the number of yards gained rushing by opponents (variable x8) has an effect on the number of games won by a team (variable y). Fit a simple linear regression model relating games won, y, to yards gained rushing by opponent, x8, and answer the following questions with this model.
+
+(a) Display the analysis-of-variance table for this model and test for the significance of the regression model. State your null and alternative hypotheses and interpret the conclusion in the context of the problem.  
+
+(b) Find and interpret a 95% CI on the slope of the yards gained rushing. 
+
+(c) What percent of the total variability in the number of games won is explained by this model? 
+
+
+**Solution:** [Write your solution here.]
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+***
+
+The data shown below present the average number of surviving bacteria in a canned food product and the minutes of exposure to 300 degree Fahrenheit heat. Use this data to answer Problems 9-10.
+
+```{r}
+bacteria_data <- tibble(bacteria_count = c(175, 108, 95, 82, 71, 50, 49, 31, 28, 17, 16, 11),
+                        minutes_exposure = c(1,2,3,4,5,6,7,8,9,10,11,12))
+```
+
+## Problem 9
+
+Fit a SLR model with the number of bacteria as the response. 
+
+(a) What is the estimated regression equation? (Define any symbols that you use.)
+
+(b) Display the residual plot and calculate the coefficient of determination to comment on the fit of this model. 
+
+(c) Based on this model, what is the average effect on the bacterial growth per each additional minute of exposure? 
+
+**Solution:** [Write your solution here.]
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+## Problem 10
+
+Identify an appropriate transformation of this data that can be more appropriately modeled by a linear relationship. (Hint: Transform the response variable by taking the logarithm or taking the inverse and using this transformed data as the new response variable.) 
+
+(a) Write the estimated regression equation for the transformed data. (Define any symbols that you use.)
+
+(b) Fit a SLR model to the transformed data and display the residual plot and the coefficient of determination. Interpret these in relation to the adequacy of this model.
+
+(c) What is the average effect on the bacterial growth per each additional minute of exposure? 
+
+```{r}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+**Solution:** 
+
+(a) [Write your solution here.]
+
+(b) [Write your solution here.]
+
+(c) [Write your solution here.]

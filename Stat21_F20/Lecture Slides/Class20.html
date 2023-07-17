@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 20</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <link href="Class20_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class20_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 20
+## Agenda for in-class discussion
+### STAT 021 with Suzanne Thornton
+### Swarthmore College
+### For class on Thursday, Nov 12, 2020 (updated: 2020-11-19)
+
+---
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+## Class 20, Tuesday the 17th 
+
+.scroll-output[Here's the agenda for today's class: 
+
+- Housekeeping items
+  
+  - Please respond to the poll in Slack (channel #final-project) about whether you want to do your final project with a randomly assigned group of 3-4 people or if you want to do your final project by yourself. 
+  
+  - Make sure you review the solutions to the [Class 17 worksheet](http://www.swarthmore.edu/NatSci/sthornt1/Stat021/Class17_files/Class17Worksheet.pdf)
+  
+- Check-in 
+
+- Recorded practice with MLR 
+
+  - Independent data 
+
+  - Example(s) from textbook  
+
+  - Open questions
+
+- Wrap up
+]
+
+---
+## Morning check in  
+### 7 mins
+
+.pull-left[**Instructions:**
+
+- **Everyone**, use the "annotate" feature to put an "X" near the word(s) that most accurately describe how you are feeling this morning. 
+- **Note-taker**, open this slide on your internet browser and share your screen with your group. 
+- **Presenter**, take a screenshot of the page when everyone is finished marking their "X"'s and send it to me via your group's slack channel. I will verify that I have seen the image with a check mark on your Slack comment.
+- **Recorder**, take notes on who is in attendance and who is performing each role for today's discussions.
+- **Questioner**, make sure that everyone has a chance to check in and discuss how they are feeling today.]
+.push-right[
+&lt;img src="Figs/real-feel.png" height="500" style="display: block; margin: auto 0 auto auto;" /&gt;
+]
+
+---
+## Practice with MLR
+### Problem 3.17 
+
+Consider the patient satisfaction data in Table B.17. For the purposes of this exercise, ignore the regressor “Medical-Surgical.” Perform a thorough analysis of these data. Please discuss any differences from the analyses outlined in Sections 2.7 and 3.6.
+
+
+```r
+library('tidyverse')
+patient_satisfaction &lt;- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/patient_satisfaction.txt")) %&gt;% select(-X6)
+head(patient_satisfaction)
+```
+
+```
+## # A tibble: 6 x 5
+##   Satisfaction   Age Severity SurgicalMedical Anxiety
+##          &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;           &lt;dbl&gt;   &lt;dbl&gt;
+## 1           68    55       50               0     2.1
+## 2           77    46       24               1     2.8
+## 3           96    30       46               1     3.3
+## 4           80    35       48               1     4.5
+## 5           43    59       58               0     2  
+## 6           44    61       60               0     5.1
+```
+
+
+---
+## Practice with MLR 
+### Problem 3.13 
+
+An engineer studied the effect of four variables on a dimensionless factor used to describe pressure drops in a screen-plate bubble column. Table B.9 summarizes the experimental results. 
+
+
+```r
+library('tidyverse')
+pressure_drop &lt;- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/pressure_drop.txt")) 
+head(pressure_drop)
+```
+
+```
+## # A tibble: 6 x 5
+##      x1    x2    x3    x4     y
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  2.14    10  0.34 1      28.9
+## 2  4.14    10  0.34 1      31  
+## 3  8.15    10  0.34 1      26.4
+## 4  2.14    10  0.34 0.246  27.2
+## 5  4.14    10  0.34 0.379  26.1
+## 6  8.15    10  0.34 0.474  23.2
+```
+
+
+
+
+---
+## Practice Problems 
+
+Use the following code to install R package "MPV" that has most of the data sets from Appendix B of your textbook. 
+
+```r
+packageurl &lt;- "https://cran.r-project.org/bin/macosx/contrib/4.0/MPV_1.55.tgz"
+install.packages(packageurl, repos=NULL, type="source")
+library('MPV')
+```
+
+Here is a list of suggested practice problems from your textbook (which is available online through the Tripod library service). I recommend that you work through these examples to prepare for the final test. 
+  - Chapter 3 (3.5, 3.7, 3.13)  
+  - Chapter 4 (4.4, 4.22, 4.27)
+  - Chapter 5 (5.2, 5.6, 5.20) 
+  - Chapter 7 (7.2, 7.3) 
+  - Chapter 8 (8.3, 8.6, 8.17)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

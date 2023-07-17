@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Class 25</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <link href="Class25_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Class25_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Class 25
+## STAT 021
+### Suzanne Thornton
+### Swarthmore College
+### 2019/11/6 (updated: 2020-10-22)
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+
+&lt;img src="Figs/phd_comic_anova.png" height="550" style="display: block; margin: auto;" /&gt;
+
+---
+## Today's class 
+
+- Finish review of HW 5 
+
+- Understanding ANOVA models as a MLR model
+
+- Interaction terms in ANOVA models 
+
+
+---
+## ANOVA as a MLR model 
+
+In an ANOVA model, the predictor variable is categorical. Recall we write 
+`$$Y_{i,j}  = \mu_{i} + \epsilon_{i,j}$$`
+
+where `\(k\)` is the number of categories and `\(i = 1,\dots, k\)` and `\(j = 1, \dots, n_{i}\)` and `\(\sum_{i=1}^{k}n_i = n\)`. 
+
+***
+
+Assumptions for inference:
+
+1. `\(E[\epsilon]=0\)`
+
+1. Homogeneity of variance (i.e. `\(Var(\epsilon)=\sigma^2\)`)
+
+1. Each `\(\epsilon\)` is independent of any other random error. 
+
+1. The random errors, `\(\epsilon\)` are Normally distributed. (Only necessary for inference.)
+
+
+---
+## Dummy varables (aka indicator variables)
+
+If we have a variable with `\(k\)` unique categories, we only need `\(k-1\)` indicator variables to uniquely identify each data point as belonging to one category. 
+
+Mechanical engineer needs to know the effective life of a cutting tool ( `\(Y\)` ) to the speed of the lathe used on it ( `\(x_1\)` in revolutions per minute) and the tool type (type A or type B). 
+
+&lt;img src="Figs/lathe.png" height="300" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Dummy varables (aka indicator variables)
+
+If we have a variable with `\(k\)` unique categories, we only need `\(k-1\)` indicator variables to uniquely identify each data point as belonging to one category. 
+
+Mechanical engineer needs to know the effective life of a cutting tool ( `\(Y\)` ) to the speed of the lathe used on it ( `\(x_1\)` in revolutions per minute) and the tool type (type A or type B). 
+
+We can define a predictor variable for tool type by
+`$$x_2 = \begin{cases}0, \text{ if type A}\\ 1, \text{ if type B} \end{cases}.$$`
+
+
+.blue[2 groups], .red[1 predictor variable]
+
+
+
+---
+## Dummy varables (aka indicator variables)
+
+If we have a variable with `\(k\)` unique categories, we only need `\(k-1\)` indicator variables to uniquely identify each data point as belonging to one category. 
+
+Mechanical engineer needs to know the effective life of a cutting tool ( `\(Y\)` ) to the speed of the lathe used on it ( `\(x_1\)` in revolutions per minute) and the tool type. 
+
+Suppose we have four different types of tools A,B,C, and D. We can uniquely identify the tool type of each observational unit with these three dummy variables:
+
+`$$x_2 = \begin{cases}0, \text{ if type A}\\ 1, \text{ if type B} \end{cases},
+x_3 = \begin{cases}0, \text{ if type A}\\ 1, \text{ if type C} \end{cases},
+x_4 = \begin{cases}0, \text{ if type A}\\ 1, \text{ if type D} \end{cases}.$$`
+
+
+
+.blue[4 groups], .red[3 predictor variables]
+
+
+---
+## Matrix notation for ANOVA 
+
+Suppose we have a categorical predictor variable with `\(k\)` different groups. Let `\(Y\)` be the continuous response variable. The ANOVA model for these two variables is:
+`$$y_{j} = \beta_0 + \beta_1 x_{1,j} + \beta_2 x_{2,j} + \cdots + \beta_{k-1}x_{(k-1),j} + \epsilon_{j}$$`
+for `\(j = 1, \dots, n\)` and 
+
+`$$x_{i,j} = \begin{cases} 1, \text{ if individual j is from category (i+1)} \\
+	0, \text{ otherwise}
+	\end{cases}.$$`
+	
+Holding all other variables fixed, `\(\beta_1\)` (for example) represents the average change in `\(y\)` we expect to see when we switch categories from the reference group to the next group of the *factor variable* in R.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

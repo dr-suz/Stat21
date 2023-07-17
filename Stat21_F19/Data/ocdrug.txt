@@ -1,0 +1,102 @@
+NAME:	Drug Interaction
+TYPE:	Designed experiment in humans
+SIZE:	44 lines, 8 variables
+
+DESCRIPTIVE ABSTRACT:
+
+Drug interaction study of a new and a standard oral contraceptive 
+therapy.  See the "STORY BEHIND THE DATA" and "PEDAGOGICAL NOTES" 
+sections below for details.
+
+SOURCES:
+
+Bradstreet, T. E. (1991), "Some Favorite Data Sets from Early Phases 
+  of Drug Research," in _Proceedings of the Section on Statistical 
+  Education, American Statistical Association_, pp. 190-195.
+
+Bradstreet, T. E. (1992), "Favorite Data Sets from Early Phases of 
+  Drug Research - Part 2," in _Proceedings of the Section on 
+  Statistical Education, American Statistical Association_, pp. 219-223.
+
+Bradstreet, T. E. 1994), "Favorite Data Sets from Early Phases of 
+  Drug Research - Part 3," in _Proceedings of the Section on Statistical 
+  Education, American Statistical Association_, pp. 247-252.
+
+Bradstreet, T. E., and Liss, C. L. (1995), "Favorite Data Sets from Early 
+  (and Late) Phases of Drug Research - Part 4," in _Proceedings of the 
+  Section on Statistical Education, American Statistical Association_, 
+  pp. 335-340.
+
+Bradstreet, T. E., and Short, T. H. (2001), "Favorite Data Sets From 
+  Early Phases of Drug Research - Part 5, "in _Proceedings of the 
+  Section on Statistics Education, American Statistical Association_, 
+  CD-ROM.
+
+VARIABLE DESCRIPTIONS:
+
+Columns         Description
+1-2             Female Subject Number (1 to 22)
+4               Treatment Sequence (1 = Drug D, placebo; 2 = placebo, 
+                Drug D)
+6               Study Period (1, 2)
+8               Treatment (0 = placebo, 1 = Drug D)
+10-15           EE - AUC (pg*hr/ml)
+17-19           EE - Cmax (pg/ml)
+21-28           NET - AUC (pg*hr/ml)
+30-34           NET - Cmax (pg/ml)
+
+Values are delimited by blanks.
+
+SPECIAL NOTES:
+
+Twenty-eight other data sets and stories are available at the Web site 
+http://www.villanova.edu/~short/Bradstreet/.
+
+STORY BEHIND THE DATA:
+
+Twenty-two female subjects were allocated randomly to one of two 
+treatment sequences in a two period crossover design.  The two 
+treatments were a new Drug D or placebo, both given concomitantly with 
+a standard oral contraceptive which was given in both study periods.  
+The oral contraceptive has two components - ethinyl estradiol (EE) and 
+norethindrone (NET).  The purpose of the study was to evaluate whether 
+the presence of Drug D affected the bioavailability of each of the oral 
+contraceptive components.
+
+PEDAGOGICAL NOTES:
+
+This article focuses on a two treatment, two period, two treatment 
+sequence crossover drug interaction study of a new drug and a standard 
+oral contraceptive therapy.  Both normal theory and distribution-free 
+statistical analyses are provided along with a notable amount of 
+graphical insight into the data set.  For one of the variables, depending 
+on which analysis is favored, the decision on the presence or absence of 
+a drug interaction is reversed.  The data also contain statistically 
+significant period effects; statistically significant but clinically 
+unimportant treatment effects; some modest degree of structural 
+nonnormality; and modest to more extreme outliers.
+
+This data set can be used in relatively sophisticated statistics courses 
+which emphasize either biostatistics, statistical methods in clinical 
+trials, data analysis, or experimental design.  The subject matter is of 
+interest and is accessible to faculty, and both statistics and 
+nonstatistics students.  The level of study detail and statistical analyses 
+which should be transferred to the classroom is dependent upon the students' 
+needs, for example more detail and more sophisticated statistical analyses 
+and diagnostic work for graduate level biostatistics or statistics students; 
+and less detail and less sophisticated statistical analyses and diagnostic 
+work for undergraduate service course students.
+
+This and 28 other pedagogically useful data sets can be found at 
+http://www.villanova.edu/~tshort/Bradstreet/.
+
+SUBMITTED BY:
+
+Thomas E. Bradstreet
+Merck Research Laboratories
+10 Sentry Parkway
+Blue Bell, PA 19422
+USA
+thomas_bradstreet@merck.com
+
+--

@@ -1,0 +1,180 @@
+---
+title: "Stat 21 Final Project - Part 3"
+author: "Swarthmore College"
+date: "Due: May 6, 2021"
+output:
+  pdf_document: 
+  toc: no
+html_document:
+  code_folding: show
+toc: yes
+toc_float: yes
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+This assignment is due on to be submitted to Moodle by noon (EST) on Monday __May 10, 2021__. This is the third of four parts that will comprise your final project for this class. This part of your final project is worth 100 points. The written component of your final project is worth 60 points and the virtual presentation component is worth 40 points. 
+
+Your submission is not complete until you have uploaded a viewable link to your video presentation and to the PDF of your paper to our Slack channel `final-projects`. This document contains the rubrics that will be used to grade this part of your final project as well as instructions for linking to your presentation and paper. 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+
+## Instructions for linking your final project in Slack
+
+Once you have successfullly knitted your paper to a PDF document and have an $.mp4$ video of your presentation you are ready to submit your project on Moodle and on Slack. To upload to Moodle, follow the same steps you used for submitting Part 1 of your final project. To upload your project to Slack, first create a public folder in your Swarthmore Google Drive by following these steps 
+
+1. Login to drive.google.com with your Swarthmore ID and password.
+
+2. Click the button that says "New" and select the option "Folder".
+
+3. Name the folder "Stat21S21[SThornton]" but replace my initial and last name with your own. 
+
+4. Click to highlight the folder and then click on the button near the top of the screen that shows a person next to the plus symbol. 
+
+5. In the bottom box where it says "Get link" click on the text in blue that says "Change link to Swarthmore.edu". Then click on "Copy Link" to get the address of the folder to share in Slack. 
+
+Then, upload your $.mp4$ video to this folder and upload your $.pdf$ document to this folder as well. In the Slack channel `final-project`, create a comment that includes the title of your project and a link to your viewable folder. 
+
+
+## Rubric for your presentation 
+
+Your presentation must be between three and five minutes. You will lose a point for every five-second increment you deviate from these time constraints. (E.g. If your presentation is five minutes and thirty seconds, you will lose six points.)
+
+Besides the timing, your presentation will be evaluated based on the following: 
+
+- Must contain at least two informative slides (20 points) 
+  
+  * Each slide should not contain more than three full sentences 
+    
+  * Slides may contain images, equations, and/or tables 
+
+- Clearly articulate your research question (10 points)
+
+  * Make sure the audience knows what was the question that motivated your research 
+
+- Clearly articulate your findings and conclusion (10 points)
+
+  * State any questions or criticisms 
+  
+  * Report any new findings or insights 
+
+
+## Rubric for your paper 
+
+All papers should be between two and three pages, single spaced, including tables, equations, and images but not including the bibliography. (You will not be penalized for papers that are longer than three pages but you will lose a point for every line your paper is short of two pages.) Font must be 12 point and a general style such as Times New Roman or Ariel. 
+
+Each paper should have at least four sections corresponding to the introduction, the description of the methods/problem, the presentation of the results of your analysis/study, and a concluding discussion. All references must be properly cited throughout your text. You must reference at least three peer-reviewed sources in your bibliography but you may reference more if you'd like. Avoid plagiarism in your report, that is, avoid any exact or nearly exact copying of text from other sources that are not cited within your report.
+
+
+### Option 1 - critique of a published statistical analysis
+
+- Informative introduction (worth 10 points)
+
+  * Must demonstrate an understanding of the main research question(s). 
+
+  * Must provide a brief literature review of relevant publications.  
+
+- Thoughtful analysis and reflection on the methodology (worth 20 points)
+
+  * Clearly communicate the main ideas and technical statistical methods used in the main paper. 
+
+  * Relate the statistical methods to the topics we covered in class.  
+
+  * Discuss the appropriateness of various necessary assumptions.
+
+- Statistical discussion and critique (worth 20 points)
+
+  * Present relevant statistical questions that may be a natural extension of the work. 
+
+  * Critique the results of the statistical analysis providing evidence of statistical reasoning. 
+
+- References (worth 10 points)
+
+  * Must be cited appropriately throughout the paper. 
+
+  * Each reference must be cited in a way that anyone can find the source. 
+
+  * Must be cited alphabetically. 
+
+
+### Option 2 - build your own statistical model  
+
+- Introduction and background (worth 10 points)
+
+  * Clearly state your statistical research question(s). 
+
+  * Provide a relevant background information for the data.  
+
+- Analysis: methods and results (worth 20 points)
+
+  * Provide a clear explanation of the data. Identify the observational units and the variables of interest and include any information you can on how the data was obtained.
+
+  * Clearly communicate the technical statistical methods used.
+
+  * Thoroughly discuss the appropriateness of various necessary assumptions for the statistical methods you used.
+
+
+- Discussion and critique (worth 20 points)
+
+  * Clearly communicate the results and conclusions from your statistical analysis. 
+  
+  * Comment on any limitations of your method and how/if those might be remedied in the future.
+
+- References (worth 10 points) 
+
+  * Must be cited appropriately throughout the paper. 
+
+  * Each reference must be cited in a way that anyone can find the source.
+
+  * Must be cited alphabetically. 
+  
+### Option 3 - report on an additional topic 
+
+- Informative introduction (worth 10 points)
+
+  * Must clearly present an overview of the new statistical method including it's usefulness. 
+  
+  * Describe what type of relationships the method allows one to investigate. 
+  
+  * Reference a recently published example application of this model as a motivating example. 
+
+- Reflection on the methodology (worth 20 points)
+
+  * Clearly communicate the main idea behind this method including any necessary conditions. 
+
+  * Explain some useful estimates/summaries that can be derived from this model and/or describe which type of visual summaries are useful in applications of this method. 
+  
+  * Include instructions on how to use this method in R. 
+
+- Discussion and conclusion (worth 20 points)
+
+  * Compare and contrast the method to models that we discussed in class. 
+
+  * Mention any known limitations of the method.  
+
+- References (worth 10 points)
+
+  * Must be cited appropriately throughout the paper. 
+
+  * Each reference must be cited in a way that anyone can find the source. 
+
+  * Must be cited alphabetically. 

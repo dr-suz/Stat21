@@ -1,0 +1,44 @@
+NAME: JSE DSS Four-Mile Run Dataset Revised.txt
+TYPE: Observational Data Analysis  
+SIZE: 19 Observations, 14 Variables 
+ARTICLE TITLE: Analyzing Exercise Training Effect and Its Impact on Cardiorespiratory and Cardiovascular Fitness 
+
+DESCRIPTIVE ABSTRACT:
+The data that appear in this dataset were collected by a Global Positioning System (GPS) watch worn by the runner of a four-mile course.  Among all the variables that were collected, the relationship between training effect and average heart rate and maximum heart rate is the primary focus.  Using heart rate measurements after each run, an analysis of post-exercise heart rate recovery provides an indication of cardiovascular fitness. 
+
+SOURCES: 
+This data was collected by the runner of a four-mile course using a Garmin Forerunner® 610 GPS watch. 
+
+VARIABLE DESCRIPTIONS:
+Columns
+     1	Run: Indicates run number.  There were 19 runs in all.
+     2	Time: How long it took to run the four-mile course, reported in minutes and seconds.
+     3	Pace: Average time to run one-mile during any one run, reported in minutes and seconds.
+     4	Calories Burned: Number of calories burned during the four-mile run.
+     5	Training Effect: Training-induced development of fitness and performance, measured on a scale from 1.0 to 5.0, with categories including Minor (1.0-1.9), Maintaining (2.0-2.9), Improving (3.0-3.9), Highly Improving (4.0-4.9), and Overreaching (5.0).
+     6	Max HR: Maximum heart rate during the four-mile run, reported in beats per minute.
+     7	Avg HR: Average heart rate during the four-mile run, reported in beats per minute.
+     8	Avg Speed: Average speed during four-mile run, reported in miles per hour.
+     9	Max Speed: Maximum speed during four-mile run, reported in miles per hour.
+    10	HR Rest: Heart rate immediately after run, reported in beats per minute.
+    11	HR Rest1: Heart rate one-minute after run, reported in beats per minute.
+    12	HR Rest2: Heart rate two-minutes after run, reported in beats per minute.
+    13	HR Change1: Change in heart rate computed as difference in heart rate from start of rest period until one-minute later, reported in beats per minute. 
+    14	HR Change2: Change in heart rate computed as difference in heart rate from start of rest period until two-minutes later, reported in beats per minute.
+Note that data values are aligned and are delimited by spaces.  There are no missing values.
+                                                           	
+STORY BEHIND THE DATA:
+After losing a couple friends to smoking-related cancer at relatively young ages, Kevin decided to make some positive changes in his own life at the age of 47.  Not only did he commit to give up his casual cigarette smoking, but he also decided to begin a running program.  Up to this point in his life, Kevin had never really exercised regularly and he was approximately 55 pounds overweight.  He began his running program slowly, intermittently jogging slowly and walking around his neighborhood.  After a period of time, he was able to run for relatively short distances and he eventually built up his stamina enough to run a four-mile loop near his home.  In order to track his progress, Kevin decided to purchase a GPS watch that would monitor his training data, including his heart rate, running pace, and calories burned, among other variables.  After collecting training data for nineteen different runs, Kevin wants to analyze the data in order to see how he is progressing in his exercise program.  Specifically, 
+Kevin is interested in determining how effective his training regimen is at improving his cardiovascular fitness and how he might modify his effort on individual runs in order to optimize overall health benefits. 
+
+PEDAGOGICAL NOTES:
+Most of the topics traditionally covered in a Statistics I course could be reviewed with this data, including basic numerical and graphical statistics for one and two variable data sets, along with confidence intervals and hypothesis testing for unknown population means.  Additionally, with some minor extension to the story, confidence intervals and hypothesis testing for unknown population proportions could also be included in the review.  Similarly, the story and data given here lend themselves nicely to an end-of-course review for a typical Statistics II course, including such topics as two-population confidence interval and hypothesis testing, multiple regression techniques and inference related to these models’ parameters, and even non-parametric methods.
+
+SUBMITTED BY:
+Paul J. Laumakis
+Department of Mathematics
+Rowan University
+201 Mullica Hill Road
+Glassboro, NJ 08028
+laumakis@rowan.edu
+

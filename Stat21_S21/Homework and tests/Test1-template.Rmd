@@ -1,0 +1,96 @@
+---
+title: "Stat 21 Test 1"
+author:
+- "Your name here"
+date: "Due: March  4, 2020 by noon EST"
+output:
+  pdf_document: 
+    toc: no
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+knitr::opts_chunk$set(fig.align='center') # center aligns images 
+knitr::opts_chunk$set(out.height=400) # sets the side of plots
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(knitr)
+```
+
+
+## Solution to Problem 1:
+
+```{r problem1}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+[Write your solution to Problem 1 here]
+
+
+
+
+
+## Solution to Problem 2: 
+
+```{r problem2}
+gender.data <- matrix(c(1994, 6, 40354, 8809, 43372, 5471), byrow=TRUE, ncol=2) 
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+[Write your solution to Problem 2 here]
+
+
+
+
+
+## Solution to Problem 3: 
+
+```{r problem3}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+[Write your solution to Problem 3 here]
+
+
+
+
+## Solution to Problem 4: 
+
+```{r problem4}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+
+[Write your solution to Problem 4 here]
+
+
+
+
+## Solution to Problem 5: 
+
+```{r problem5}
+## Uncomment this line and put any r-code you used for your solution here
+```
+
+[Write your solution to Problem 5 here]
+
+
+
+

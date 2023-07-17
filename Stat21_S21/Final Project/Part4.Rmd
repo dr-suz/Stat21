@@ -1,0 +1,63 @@
+---
+title: "Stat 21 Final Project - Part 4"
+author: "Swarthmore College"
+date: "Due: May 15, 2021 11:59pm EST"
+output:
+  pdf_document: 
+  toc: no
+urlcolor: blue
+---
+
+```{asis, directions=TRUE}
+This part of your final project will be completed in the Slack channel `final-project`. All components are due by __May 15th at 11:59pm EST__. Note that part of this assignment involves responding to questions or comments others post about your project on Slack. Please make sure that you have completed all comments on other students' projects no later than __Friday, May 14th at 11:59pm EST__. 
+```
+
+
+```{r setup, include=FALSE}
+###########################
+# DEFAULT SETTINGS
+###########################
+knitr::opts_chunk$set(message = FALSE) # include this if you don't want markdown to knit messages
+knitr::opts_chunk$set(warning = FALSE) # include this if you don't want markdown to knit warnings
+knitr::opts_chunk$set(echo=TRUE) # set echo=FALSE to hide code from html output
+
+###########################
+# LIBRARIES
+###########################
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(gcookbook)
+library(knitr)
+```
+
+*** 
+
+Part 4 of your final project represents the peer-review component of your projects. This part of your project is worth 100 points total. You may earn up to 80 points by completing any combination of the following 
+
+- Ask a thoughtful (and non-repetitive) question on another student's presentation (20 points each)
+
+- Respond to a question about your project (20 points each)
+
+- Provide a thoughtful (and non-repetitive) comment or observation on another student's presentation (10 points each, maximum of 4)
+
+- Provide a specific, topic-related compliment to another student's presentation (5 points each, maximum of 4)
+
+
+The remaining 20 points of this assignment will be assigned based on how well you adhere to the following instructions: 
+
+- Edit your Slack comment sharing your presentation to include the title of your project and the option number for your project; 
+
+- Ask at least one thoughtful (non-repetitive) questions on at least one project from someone who did the same option as you; 
+
+- Comment on at least one project from someone who did a different option than you did; 
+
+- Prioritize commenting on anyone who has not yet received at least two comments; 
+
+- Be respectful and courteous and focus your comments on the content of the work; 
+
+- Make sure your feedback provides indication that you have both watched the recorded presentation and skimed through the written report for any projects you provide with feedback; 
+
+- Submit your comments to other student's projects by 11:59 pm EST on Friday the 14th; 
+
+- Submit your responses to other students' questions/comments by 11:59 pm EST on Sunday the 15th. 

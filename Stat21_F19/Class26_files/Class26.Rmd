@@ -1,0 +1,227 @@
+---
+title: "Class 26"
+subtitle: "STAT 021"
+author: "Suzanne Thornton"
+institute: "Swarthmore College"
+date: "2019/11/6 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+ #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    self_contained: false # if true, fonts will be stored locally
+#    includes:
+ #     in_header: "assets/mathjax-equation-numbers.html"
+    nature:
+#      beforeInit: ["assets/remark-zoom.js", "https://platform.twitter.com/widgets.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9' # alternatives '16:9' or '4:3' or others e.g. 13:9
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+includes:
+  in_header: mystyles.sty
+---
+
+```{r setup_pres, include=FALSE, echo=FALSE}
+#devtools::install_github("ropenscilabs/icon")
+#devtools::session_info('rmarkdown')
+
+rm(list=ls())
+library('tidyverse')
+library('gridExtra')
+library('broom')
+library('cowplot')
+
+library("RefManageR")
+library("DT")
+
+
+#setwd("~/Google Drive Swat/Swat docs/Stat 21/Class13_files")
+#setwd("~/Drive/Swat docs/Stat 21/Class9_files")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.path='Figs/',echo=TRUE, warning=FALSE, message=FALSE)
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 50%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+```
+
+
+## Today's material
+
+- 2 way ANOVA model with interaction effects 
+
+- MLR with 1 numerical and 1 categorical predictor variable and interaction effects 
+
+
+
+
+---
+## Interaction terms in a MLR
+### Two numerical predictor variables
+
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2 + \epsilon$$
+
+
+- When an interaction effect is present in a MLR model, the impact of $x_1$ on $Y$ depends on the value of $x_2$.
+
+- When interaction effects are significant, this means that interpretation of the main effects of $x_1$ or $x_2$ alone is missing important information.  
+
+
+
+---
+## MLR with both numerical and categorical predictors 
+
+Suppose $x_1$ is a numerical predictor variable and the other predictor variable we are interested in has $3$ categories A, B, and C. 
+
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \epsilon$$
+where $x_2$ and $x_3$ are dummy variables coding for the three categories as follows:
+$$x_2 = \begin{cases}0, \text{ if not category A}\\ 1, \text{ if category A} \end{cases} \text{, } x_3 = \begin{cases}0, \text{ if not category C}\\ 1, \text{ if category C} \end{cases}.$$
+
+**Q)** What is the reference category based on these indicator variables? 
+
+
+--
+**A)** Here category B is the reference category. 
+
+
+--
+So our fitted regression equation is
+$$\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_{1,i} + \hat{\beta}_2 x_{2,i} + \hat{\beta}_3 x_{3,i}$$
+
+---
+## MLR with both numerical and categorical predictors 
+
+Suppose $x_1$ is a numerical predictor variable and the other predictor variable we are interested in has $3$ categories A, B, and C. 
+
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \epsilon$$
+where $x_2$ and $x_3$ are dummy variables coding for the three categories as follows:
+$$x_2 = \begin{cases}0, \text{ if not category A}\\ 1, \text{ if category A} \end{cases} \text{, } x_3 = \begin{cases}0, \text{ if not category C}\\ 1, \text{ if category C} \end{cases}.$$
+
+**Q 1)** What is the average $y$ value for an observational unit of type A (based on this model)?
+
+
+--
+**A)** $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 (1) + \hat{\beta}_3 (0) = (\hat{\beta}_0 + \hat{\beta}_2) + \hat{\beta}_1 x_1$
+
+
+---
+## MLR with both numerical and categorical predictors 
+
+Suppose $x_1$ is a numerical predictor variable and the other predictor variable we are interested in has $3$ categories A, B, and C. 
+
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \epsilon$$
+where $x_2$ and $x_3$ are dummy variables coding for the three categories as follows:
+$$x_2 = \begin{cases}0, \text{ if not category A}\\ 1, \text{ if category A} \end{cases} \text{, } x_3 = \begin{cases}0, \text{ if not category C}\\ 1, \text{ if category C} \end{cases}.$$
+
+**Q 2)** What is the average $y$ value for an observational unit of type B (based on this model)?
+
+
+--
+**A)** $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 (0) + \hat{\beta}_3 (0) = \hat{\beta}_0 + \hat{\beta}_1 x_1$
+
+
+---
+## MLR with both numerical and categorical predictors 
+### Interaction terms 
+
+If we want to account for an interaction between $x_1$ and the categorical predictor variable we are considering the model:
+
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 (x_1 x_2) + \beta_5 (x_1 x_3)  + \epsilon$$
+where $x_2$ and $x_3$ are dummy variables coding for the three categories as before:
+$$x_2 = \begin{cases}0, \text{ if not category A}\\ 1, \text{ if category A} \end{cases} \text{, } x_3 = \begin{cases}0, \text{ if not category C}\\ 1, \text{ if category C} \end{cases}.$$
+
+
+**Q 3)** What is the average $y$ value for an observational unit of type A (based on this model)?
+
+
+--
+**A)** $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 (1) + \hat{\beta}_3 (0) + \hat{\beta}_4 (x_1 \times 1) + \hat{\beta}_5 (x_1 \times 0) = (\hat{\beta}_0 + \hat{\beta}_2) + (\hat{\beta}_1 + \hat{\beta}_4) x_1$ 
+
+
+---
+## MLR with both numerical and categorical predictors 
+### Interaction terms 
+
+If we want to account for an interaction between $x_1$ and the categorical predictor variable we are considering the model:
+
+$$Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 (x_1 x_2) + \beta_5 (x_1 x_3)  + \epsilon$$
+where $x_2$ and $x_3$ are dummy variables coding for the three categories as before:
+$$x_2 = \begin{cases}0, \text{ if not category A}\\ 1, \text{ if category A} \end{cases} \text{, } x_3 = \begin{cases}0, \text{ if not category C}\\ 1, \text{ if category C} \end{cases}.$$
+
+
+**Q 4)** What is the average $y$ value for an observational unit of type B (based on this model)?
+
+
+--
+**A)** $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 (0) + \hat{\beta}_3 (0) + \hat{\beta}_4 (x_1 \times 0) + \hat{\beta}_5 (x_1 \times 0) = \hat{\beta}_0 + \hat{\beta}_1 x_1$ 
+
+---
+## MLR with both numerical and categorical predictors 
+### Main effects model 
+
+```{r nointeraction26, echo=FALSE, fig.align='center', out.width=400}
+wine <- read_csv("~/Google Drive Swat/Swat docs/Stat 21/Data/red_wines.csv", skip=1, col_names = TRUE, cols(x1 = col_character()))
+#head(wine)
+wine <- wine %>% mutate(type = fct_infreq(x1))
+
+wine_MLR <- lm(y ~ type + x7, data = wine) #x7 is anthinoactin color, y is quality from 0-20 
+#summary(wine_MLR)
+
+yhat0 <- function(x){11.2674 + 0.9596 + 1.4242*x}
+yhat1 <- function(x){11.2674 + 1.4242*x}
+anthocyannin_color <- seq(1.5,3.5,length=5)
+ggplot() + geom_point(aes(x=anthocyannin_color, y=yhat0(anthocyannin_color), color="black")) +
+           geom_line(aes(x=anthocyannin_color, y=yhat0(anthocyannin_color))) +
+           geom_point(aes(x=anthocyannin_color, y=yhat1(anthocyannin_color), color="red")) + 
+          geom_line(aes(x=anthocyannin_color, y=yhat1(anthocyannin_color)), col="red") + 
+  scale_colour_manual(name  = "Wine type",
+                              labels = c("Cabernet Sauvignon", "Shiraz"),
+                              values = c("black","red")) + 
+          theme(legend.position = c(0.05, 0.95), 
+                legend.justification = c("left", "top")) +
+          labs(title="Main effects model", x="Anthocyannin color", y="Quality") 
+```
+
+
+---
+## MLR with both numerical and categorical predictors 
+### Interaction model 
+
+```{r interaction26, echo=FALSE, fig.align='center', out.width=400}
+wine_MLR2 <- lm(y ~ type + x7 + type*x7, data = wine)  
+#summary(wine_MLR2)
+yhat0_int <- function(x){11.88253 -0.02405 + 1.19492*x + 0.38100*x}
+yhat1_int <- function(x){11.88253 + 1.19492*x}
+ggplot() + geom_point(aes(x=anthocyannin_color, y=yhat0_int(anthocyannin_color), color="black")) + 
+  geom_line(aes(x=anthocyannin_color, y=yhat0_int(anthocyannin_color))) +
+  geom_point(aes(x=anthocyannin_color,y=yhat1_int(anthocyannin_color),color="red")) + 
+  geom_line(aes(x=anthocyannin_color, y=yhat1_int(anthocyannin_color)), col="red") +
+  scale_colour_manual(name  = "Wine type",
+                              labels = c("Cabernet Sauvignon", "Shiraz"),
+                              values = c("black","red")) + 
+          theme(legend.position = c(0.05, 0.95), 
+                legend.justification = c("left", "top")) +
+  labs(title="Interaction model", x="Anthocyannin color", y="Quality")
+
+```
+
