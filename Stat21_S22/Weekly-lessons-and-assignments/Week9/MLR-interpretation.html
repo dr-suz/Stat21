@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>MLR Interpreting Effect Sizes</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <script src="MLR-interpretation_files/header-attrs/header-attrs.js"></script>
+    <link href="MLR-interpretation_files/remark-css/default.css" rel="stylesheet" />
+    <link href="MLR-interpretation_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# MLR Interpreting Effect Sizes
+]
+.subtitle[
+## Stat 21
+]
+.author[
+### Suzanne Thornton
+]
+.institute[
+### Swarthmore College
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+## MLR Interpretation
+### Example 
+
+Suppose we are interested in predicting the amount of time required by a driver to service soft drink vending machines in particular area. This service activity includes stocking the machine with beverage products and minor maintenance or house-keeping. 
+ 
+We suspect that the two most important variables affecting the delivery time `\((Y)\)` are the number of cases of product being stocked `\((x_1)\)` and the distance the driver must walk to the machine `\((x_2)\)`. 
+ 
+
+
+---
+## MLR Interpretation
+### Example 
+
+**Case 1:** All predictors are numerical. 
+
+`$$Y \mid (x_1, x_2) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \epsilon$$` 
+
+
+**Q1:** What is the interpretation of `\(\beta_3\)`? 
+
+
+
+--
+**Q2:** What if we transform the response? 
+
+
+
+--
+**Q3:**What if we transform a predictor? 
+
+
+--
+The *interpretation* of all `\(\beta\)` coefficients involves assuming the values of the other predictor terms are not changing, or, that they are held at the same, constant value/level. 
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+Another relationship we may want to capture would allow for an interaction between two or more of the predictor variables.  
+
+
+**Examples**
+
+- As automobiles age, the annual cost-per-mile-driven of keeping them in working order increases, i.e., the effect of mileage on maintenance cost depends on the age of a car. 
+
+- As workers become more experienced, their level of education becomes less of a factor in determining job performance, i.e., the effect of years-of-education on productivity depends on a worker’s experience. 
+
+- Advertising an upcoming sporting event has a more beneficial impact if the visiting team is one of the league leaders, i.e., the effect of advertising on ticket sales depends on the visitor’s league standing. 
+
+- Purchasers of condominiums in a high-rise will pay a premium to be on a lower floor if the condominium has a beach view, and will pay extra to be on an upper floor if the unit has an inland view, i.e., the effect of “floor number” on the market value of a condominium depends on the view from the unit.
+
+
+.footnote[Source: https://www.kellogg.northwestern.edu/faculty/weber/emp/_session_2/interactions.htm]
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+Another relationship we may want to capture would allow for an interaction between two or more of the predictor variables.  
+
+
+
+**Note** For two predictors to have an interacting effect on a response is not the same thing as one predictor variable being dependent on another predictor. E.g. If cars are selected at random (and not, say, just selected from a sample say of city employees only) then age and annual mileage will vary independently in the cars being studied, but the interaction between age and mileage would still be present.
+
+
+.footnote[Source: https://www.kellogg.northwestern.edu/faculty/weber/emp/_session_2/interactions.htm]
+
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+**Case 1:** All predictors are numerical. 
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_2 + \epsilon$$` 
+This type of model suggests that the effect of one of the predictors on `\(Y\)` depends on the size of another predictor! 
+
+
+**Q:** What is the average effect on `\(Y\)` if `\(x_1\)` increases by one unit?
+
+
+--
+The answer depends on the value of `\(x_2\)`! 
+
+
+
+To see this, plug in `\(x_1=0\)` and simplify the regression model and then plug in `\(x_1=1\)` and simplify the regression model. Then look at the difference in these two equations.
+
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \epsilon$$` 
+
+**Case 2:** Some predictors are categorical and some are numerical. 
+
+Suppose `\(x_1\)` and `\(x_2\)` are indicator variables for a categorical predictor with three levels (A, B, C). Let `\(x_1 = \begin{cases}1, \text{if Level A} \\ 0, \text{otherwise} \end{cases}\)` and `\(x_2 = \begin{cases}1, \text{if Level B} \\ 0, \text{otherwise} \end{cases}\)`. 
+
+A model with an interaction between these two predictor variables (the numerical `\(x_3\)` and the categorical predictor with three levels) looks like 
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3 + \epsilon.$$`
+
+This type of model suggests that the effect of `\(x_3\)` on `\(Y\)` depends on the level of the categorical variable. 
+
+
+--
+Now the interpretation of holding other predictor terms at a constant value/level isn't necessarily possible!  
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+
+**Case 2:** Some predictors are categorical and some are numerical. 
+
+Suppose `\(x_1\)` and `\(x_2\)` are indicator variables for a categorical predictor with three levels (A, B, C). Let `\(x_1 = \begin{cases}1, \text{if Level A} \\ 0, \text{otherwise} \end{cases}\)` and `\(x_2 = \begin{cases}1, \text{if Level B} \\ 0, \text{otherwise} \end{cases}\)`. 
+
+A model with an interaction between these two predictor variables (the numerical `\(x_3\)` and the categorical predictor with three levels) looks like 
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3 + \epsilon.$$`
+
+
+**Q:** What is the average effect on `\(Y\)` if `\(x_3\)` increases by one unit?
+
+
+--
+The answer depends on the values of `\(x_1\)` and `\(x_2\)`! 
+
+
+
+To see this, plug in `\(x_3=0\)` and simplify the regression model and then plug in `\(x_3=1\)` and simplify the regression model. Then look at the difference in these two equations.
+
+
+
+
+
+---
+## MLR Interpretation
+### Interaction Effects 
+
+**Case 2:** Some predictors are categorical and some are numerical. 
+
+Suppose `\(x_1\)` and `\(x_2\)` are indicator variables for a categorical predictor with three levels (A, B, C). Let `\(x_1 = \begin{cases}1, \text{if Level A} \\ 0, \text{otherwise} \end{cases}\)` and `\(x_2 = \begin{cases}1, \text{if Level B} \\ 0, \text{otherwise} \end{cases}\)`. 
+
+A model with an interaction between these two predictor variables (the numerical `\(x_3\)` and the categorical predictor with three levels) looks like 
+
+`$$Y \mid (x_1, x_2, x_3) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_3 + \beta_5 x_2 x_3 + \epsilon.$$`
+
+
+**Q:** What is the average effect on `\(Y\)` changing from Level C to Level A?
+
+
+--
+The answer depends on the value of `\(x_3\)`! 
+
+
+Again, to see this, write out the regression model for an individual from Level C and then write out the regression model for an individual from Level A. Then look at the difference in these two equations.
+
+
+
+
+---
+## MLR Interpretation
+### Group worksheet
+
+
+```r
+library("tidyverse")
+mileage_dat &lt;- read_table("~/GitHub/Stat21/Data/mileage.txt", 
+                       skip=2, 
+                       col_names = c("car", "mpg", "displacement", "weight", "transmission_type"), 
+                       cols(transmission_type = col_factor()))  %&gt;% na.omit
+## Note that transmission_type is already a factor! 
+head(mileage_dat)
+```
+
+```
+## # A tibble: 6 × 5
+##   car          mpg displacement weight transmission_type
+##   &lt;chr&gt;      &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;            
+## 1 Apollo      18.9          350   3910 A                
+## 2 Omega       17            350   2860 A                
+## 3 Nova        20            250   3510 A                
+## 4 Monarch     18.2          351   3890 A                
+## 5 Duster      20.1          225   3365 M                
+## 6 JensonConv  11.2          440   4215 A
+```
+
+---
+## MLR Interpretation
+### Group worksheet
+
+
+**Model 1:** Fit a main effects model with transmission type (A as the reference level) and weight as the predictors and mileage as the response:
+
+
+`$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 * \text{weight} + \hat{\beta}_2 * \text{transmission_typeM},$$`
+
+where `\(weight=\)` the weight of the vehicle and 
+`$$\text{transmission_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$`
+
+
+
+```r
+mod1 &lt;- lm(mpg ~ weight + transmission_type, mileage_dat)
+summary(mod1)$coefficients[,1]
+```
+
+```
+##        (Intercept)             weight transmission_typeM 
+##       34.205671014       -0.004226654        3.715761765
+```
+
+
+
+---
+## MLR Interpretation
+### Group worksheet
+
+**Model 2:** Fit a main effects model with transmission type (M as the reference level) and weight as the predictors and mileage as the response:
+
+`$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 * \text{weight} + \hat{\beta}_2 * \text{transmission_typeA},$$`
+  where `\(weight=\)` the weight of the vehicle and 
+`$$\text{transmission_typeA} = \begin{cases}1, \quad \text{if transmission type is automatic}\\ 0, \quad \text{otherwise} \end{cases}.$$`
+
+
+
+```r
+mod2 &lt;- lm(mpg ~ weight + relevel(transmission_type, "M"), mileage_dat)
+summary(mod2)$coefficients[,1]
+```
+
+```
+##                      (Intercept)                           weight 
+##                     37.921432779                     -0.004226654 
+## relevel(transmission_type, "M")A 
+##                     -3.715761765
+```
+
+
+---
+## MLR Interpretation
+### Group worksheet
+
+**Model 3:** Fit an interaction effects model with transmission type (A as the reference level) and weight as the predictors and mileage as the response:
+
+`$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 * \text{weight}) + (\hat{\beta}_2 * \text{transmission_typeM}) + (\hat{\beta}_4 * \text{weight} * \text{transmission_typeM}),$$`
+  where 
+`$$\text{transmission_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$`
+
+
+```r
+mod3 &lt;- lm(mpg ~ weight + transmission_type + weight:transmission_type, mileage_dat)
+summary(mod3)$coefficients[,1]
+```
+
+```
+##               (Intercept)                    weight        transmission_typeM 
+##              29.453069625              -0.003036693              28.655350372 
+## weight:transmission_typeM 
+##              -0.009480683
+```
+
+
+
+
+---
+## MLR Interpretation
+### Group worksheet
+
+**Model 3:** Fit an interaction effects model with transmission type (A as the reference level) and weight as the predictors and mileage as the response:
+
+`$$\hat{y} = \hat{\beta}_0 + (\hat{\beta}_1 * \text{weight}) + (\hat{\beta}_2 * \text{transmission_typeM}) + (\hat{\beta}_4 * \text{weight} * \text{transmission_typeM}),$$`
+`$$\text{transmission_typeM} = \begin{cases}1, \quad \text{if transmission type is manual}\\ 0, \quad \text{otherwise} \end{cases}.$$`
+
+
+```r
+mod3 &lt;- lm(mpg ~ weight + transmission_type + weight:transmission_type, mileage_dat)
+summary(mod3)$coefficients[,1]
+```
+
+```
+##               (Intercept)                    weight        transmission_typeM 
+##              29.453069625              -0.003036693              28.655350372 
+## weight:transmission_typeM 
+##              -0.009480683
+```
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

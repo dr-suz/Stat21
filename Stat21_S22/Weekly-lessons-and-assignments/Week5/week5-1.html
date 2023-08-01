@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 5: Multiple linear regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="STAT 021 with Suzanne Thornton" />
+    <script src="week5-1_files/header-attrs/header-attrs.js"></script>
+    <link href="week5-1_files/remark-css/default.css" rel="stylesheet" />
+    <link href="week5-1_files/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Week 5: Multiple linear regression
+]
+.author[
+### STAT 021 with Suzanne Thornton
+]
+.institute[
+### Swarthmore College
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small {
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+&lt;/style&gt;
+
+
+
+
+
+---
+### SLR 
+
+`$$Y \mid x = \beta_0 + \beta_1 x + \epsilon, \quad E(\epsilon)=0 \text{ and } Var(\epsilon)=\sigma^2$$`
+
+`$$E(Y \mid x) = \hat{\beta}_0 + \hat{\beta}_1 x$$`
+
+Estimation
+
+  - Variance of the random error (and random response)
+  
+  - Average/predicted response per unit increase in predictor 
+
+Inference 
+
+  - Tests for the "significance of the predictor" 
+
+  - Confidence intervals for the coefficients 
+  
+  - Confidence intervals for the mean response (later)
+  
+  - Prediction intervals for an unobserved response (later) 
+  
+  
+
+---
+### SLR 
+
+.scroll-output[
+`$$Y \mid x = \beta_0 + \beta_1 x + \epsilon, \quad E(\epsilon)=0 \text{ and } Var(\epsilon)=\sigma^2$$`
+
+
+`$$E(Y \mid x) = \hat{\beta}_0 + \hat{\beta}_1 x$$`
+
+
+Interpretation 
+
+  - Average response not exact 
+  
+  - Residuals as approximations to random measurement error 
+  
+Assumptions about the random measurement error associated with the response variable
+  
+  - Zero mean - is a freebie, why? 
+
+  - Constant variance  
+  
+    * Residual plots - residuals vs fitted values 
+    
+    * Transform the quantitative response or predictor variables if need be 
+  
+  - Independence 
+  
+  - Normally distributed measurement error 
+    
+    * Normal probability plots - of the *standardized* residuals 
+    
+    * Only necessary for *inference* 
+]
+
+
+
+---
+# Multiple linear regression (MLR)
+
+General model for `\(p\)` predictor variables
+
+`$$Y \mid (x_1, x_2, \dots, x_p) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \epsilon$$`
+
+where the following assumptions are made about the random noise, `\(\epsilon\)`
+
+  - `\(E(\epsilon)=0\)` and more importantly, `\(Var(\epsilon)=\sigma^2\)`;
+  
+  - All errors are independent of one another; 
+  
+  - The error is normally distributed (only necessary for *inference*). 
+
+---
+# Multiple linear regression (MLR)
+
+## Measuring the model adequacy 
+
+  - Overall F-test 
+
+  - Adjusted R-squared 
+
+  - (Standardized) Residual Plot 
+  
+  
+  
+## Multicollinearity 
+
+There are a lot of important c-words in statistics. Especially confusing can be the following: collinearity, correlation, and covariance. But, somewhat intuitively, there is a relationship among these three terms. 
+
+Recall the definitions of correlation and covariance for any two random variables, say, `\(X\)` and `\(Y\)`:
+
+`$$Cov(X,Y) = E[(X -E[X])(Y-E[Y])] = \dots = E[XY] - E[X]E[Y]$$`
+
+`$$Cor(X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}$$`
+
+
+--
+Also, recall the fact that .blue[if `\(X\)` and `\(Y\)` are independent, then `\(Cov(X,Y)=0\)` and therefore `\(X\)` and `\(Y\)` are uncorrelated.]
+
+**But** if `\(X\)` and `\(Y\)` are uncorrelated, then it is still possible for `\(X\)` and `\(Y\)` to be dependent or independent.    
+
+---
+## Multicollinearity 
+
+So now we see that correlation is just a standardized version of the covariance between two variables. (Standardized in the sense that it will always be between the interval `\([-1,1]\)`.)
+
+**Q:** What is multicollinearity?
+
+
+--
+This is a term specific to MLR models that describes the statistical phenomenon in which two or more predictor variables are highly correlated with each other. 
+
+
+In other words, this means that two predictor variables, say, `\(x_1\)` and `\(x_2\)`, are colinear if `\(Cor(x_1, x_2) \approx \pm 1\)`. 
+
+  - This means that we could predict the values of one from the other in a SLR model! 
+  - This is **not** a problem for .blue[estimation] or .blue[prediction] with a MLR. 
+  - This **is** a problem however that inflates the estimated variances of our regression coefficients and therefore the individual test of significant slope parameters. Thus it can be a problem for .red[inference].&lt;sup&gt;[5]&lt;/sup&gt; 
+  - Outliers can have a big impact on the collinearity of a pair of variables.&lt;sup&gt;[5]&lt;/sup&gt; 
+
+
+---
+## Multicollinearity Example 
+### Public School SAT data
+
+.scroll-output[Again let's investigate the MLR model with four predictor variables that we built to predict SAT scores of public schools. Does it seem like any of the predictor variables might be correlated with each other? 
+
+
+```r
+SAT_data &lt;- read_table2("~/GitHub/Stat21/Data/sat_data.txt", col_names=FALSE, cols(col_character(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double(), col_double()))
+colnames(SAT_data) = c("State", "PerPupilSpending", "StuTeachRatio", "Salary", "PropnStu", "SAT_verbal", "SAT_math", "SAT_tot")
+SAT_data &lt;- SAT_data %&gt;% mutate(prop_taking_SAT = PropnStu/100) %&gt;% select(-PropnStu)
+SAT_data %&gt;% select(c(PerPupilSpending, StuTeachRatio, Salary, prop_taking_SAT)) %&gt;% plot
+```
+
+![](Figs/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+]
+
+---
+## Multicollinearity Example 
+### Public School SAT data
+
+.scroll-output[Again let's investigate the MLR model with four predictor variables that we built to predict SAT scores of public schools. Does it seem like any of the predictor variables might be correlated with each other? 
+
+
+```r
+MLR_SAT4 &lt;- lm(SAT_tot ~ PerPupilSpending +
+                         StuTeachRatio + 
+                         Salary + 
+                         prop_taking_SAT, data = SAT_data)
+summary(MLR_SAT4)
+```
+
+```
+## 
+## Call:
+## lm(formula = SAT_tot ~ PerPupilSpending + StuTeachRatio + Salary + 
+##     prop_taking_SAT, data = SAT_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -90.531 -20.855  -1.746  15.979  66.571 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      1045.972     52.870  19.784  &lt; 2e-16 ***
+## PerPupilSpending    4.463     10.547   0.423    0.674    
+## StuTeachRatio      -3.624      3.215  -1.127    0.266    
+## Salary              1.638      2.387   0.686    0.496    
+## prop_taking_SAT  -290.448     23.126 -12.559 2.61e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 32.7 on 45 degrees of freedom
+## Multiple R-squared:  0.8246,	Adjusted R-squared:  0.809 
+## F-statistic: 52.88 on 4 and 45 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+---
+## Multicollinearity Example 
+### Public School SAT data
+
+We can estimate the correlations among each pair of variables (without risking multiple testing issues): 
+.scroll-small[
+
+```r
+cor(SAT_data$PerPupilSpending, SAT_data$StuTeachRatio)
+```
+
+```
+## [1] -0.3710254
+```
+
+```r
+cor(SAT_data$PerPupilSpending, SAT_data$Salary)
+```
+
+```
+## [1] 0.8698015
+```
+
+```r
+cor(SAT_data$PerPupilSpending, SAT_data$prop_taking_SAT)
+```
+
+```
+## [1] 0.5926274
+```
+
+```r
+cor(SAT_data$StuTeachRatio, SAT_data$Salary)
+```
+
+```
+## [1] -0.001146081
+```
+
+```r
+cor(SAT_data$StuTeachRatio, SAT_data$prop_taking_SAT)
+```
+
+```
+## [1] -0.2130536
+```
+
+```r
+cor(SAT_data$Salary, SAT_data$prop_taking_SAT)
+```
+
+```
+## [1] 0.6167799
+```
+Note: The estimated correlation between two variables is not affected by whether or not those variables are standardized because correlation itself is already standardized.
+]
+
+
+---
+## Multicollinearity
+
+
+When we see evidence of collinear predictor variables, it's a good idea to re-visit which variables you want to include in the model .red[because]  collinearity affects the variance of our predictors and therefore affects the conclusion of the individual t-tests!&lt;sup&gt;[4]&lt;/sup&gt;
+
+
+**Q:** Do we need to be concerned about multiple testing with interaction terms? with collinearity? 
+
+
+--
+**A:** We do need to keep an eye on multiple tests issues when we're determining which main effects and interaction effects to include in the model (these are questions of statistical significance). The problem of multiple testing is not a concern however, in estimation/prediction problems therefore it is not a major concern when checking for collinearity (all we're doing is getting estimates for different correlations).
+
+
+
+**Note:** Interaction terms are structurally colinear, which we can't do much about. 
+ 
+---
+## Multicollinearity
+### Remedies 
+
+A couple of simple remedies for collinearity are
+
+  - Try collecting more data to see if the collinearity is dues to insufficient data; 
+  
+  - Reduce the number of variables in your model so that none of them are collinear;
+  
+  - Other regression methods such as *ridge regression* (you don't need to know what this is for my class).&lt;sup&gt;[5]&lt;/sup&gt; 
+
+---
+## Multicollinearity
+### Public School SAT data
+
+Finally we can get a better model for the SAT data by adjusting which variables we include:
+
+.scroll-small[
+
+```
+## 
+## Call:
+## lm(formula = SAT_tot ~ PerPupilSpending + StuTeachRatio + prop_taking_SAT, 
+##     data = SAT_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -92.284 -21.130   1.414  16.709  66.073 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      1035.474     50.316  20.580   &lt;2e-16 ***
+## PerPupilSpending   11.014      4.452   2.474   0.0171 *  
+## StuTeachRatio      -2.028      2.207  -0.919   0.3629    
+## prop_taking_SAT  -284.912     21.548 -13.222   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 32.51 on 46 degrees of freedom
+## Multiple R-squared:  0.8227,	Adjusted R-squared:  0.8112 
+## F-statistic: 71.16 on 3 and 46 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+
+---
+## Interaction terms and multicollinearity
+
+Broadly speaking, there are two main types of collinearity: 
+
+  1. Structural multicollinearity which occurs when we create a model term using other terms in the model (e.g. including interaction terms). This is a (unfortunately unavoidable) byproduct of the model that we specify.
+  
+  2. Data multicollinearity which occurs when the data itself for different predictor variables are highly correlated. Some ways we can address this data-inherent multicollinearity is to collect more data or see if it makes sense to drop a variable from the model.  
+
+
+.footnote[Source: https://statisticsbyjim.com/regression/multicollinearity-in-regression-analysis/]
+
+
+---
+## Multicollinearity
+### Some things to think about 
+
+- What are the effects of incorporating interaction terms in your linear model? 
+
+- What are the effects of severe multicollineary among some predictor variables in your model? 
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

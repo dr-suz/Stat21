@@ -234,7 +234,7 @@ Again, to see this, write out the regression model for an individual from Level 
 
 ```{r eval=TRUE}
 library("tidyverse")
-mileage_dat <- read_table("mileage.txt", 
+mileage_dat <- read_table("~/GitHub/Stat21/Data/mileage.txt", 
                        skip=2, 
                        col_names = c("car", "mpg", "displacement", "weight", "transmission_type"), 
                        cols(transmission_type = col_factor()))  %>% na.omit

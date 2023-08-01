@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 8 and 9</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Suzanne Thornton" />
+    <script src="Ch4_files/header-attrs/header-attrs.js"></script>
+    <link href="Ch4_files/remark-css/default.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Week 8 and 9
+]
+.subtitle[
+## Selecting predictors and identifying unsual data points
+]
+.author[
+### Suzanne Thornton
+]
+.institute[
+### Swarthmore College
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre{
+  background: #FFBB33;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.scroll-output{
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.scroll-small{
+  height: 30%;
+  overflow-y: scroll;
+}
+   
+.red{color: #ce151e;}
+.green{color: #26b421;}
+.blue{color: #426EF0;}
+    
+    
+## Why isn't this running????
+&lt;/style&gt;
+# Decisions about predictors
+## Nested F test 
+
+
+```r
+data(CrabShip)
+CrabShip %&gt;% head
+```
+
+```
+##   Mass Oxygen   Noise
+## 1 22.7   89.2 ambient
+## 2 34.6  141.1 ambient
+## 3 36.0  140.1 ambient
+## 4 40.1  204.9 ambient
+## 5 47.5  129.1 ambient
+## 6 49.6  154.6 ambient
+```
+
+---
+# Decisions about predictors
+## Nested F test
+
+
+```r
+full &lt;- lm(Oxygen ~ Mass + Noise, CrabShip)
+red &lt;- lm(Oxygen ~ Mass, CrabShip)
+anova(red, full)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Model 1: Oxygen ~ Mass
+## Model 2: Oxygen ~ Mass + Noise
+##   Res.Df   RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1     32 89954                                  
+## 2     31 42516  1     47438 34.589 1.721e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+# Decisions about predictors
+## Mallow's Cp 
+
+
+```r
+library(olsrr)
+# ols_mallows_cp(model, fullmodel)
+
+ols_mallows_cp(red, full)
+```
+
+```
+## [1] 35.58853
+```
+---
+# Decisions about predictors
+## AIC 
+
+
+```r
+ols_aic(red, method="R")
+```
+
+```
+## [1] 370.4313
+```
+
+```r
+ols_aic(full, method="R")
+```
+
+```
+## [1] 346.9512
+```
+
+.scroll-small[
+## BIC 
+
+```r
+ols_sbic(red, full)
+```
+
+```
+## [1] 271.5531
+```
+]
+
+---
+# Decisions about predictors
+## Compare adjusted coefficient of determination 
+
+.scroll-output[
+
+```r
+summary(full)$adj.r.squared
+```
+
+```
+## [1] 0.6038188
+```
+
+```r
+summary(red)$adj.r.squared
+```
+
+```
+## [1] 0.1879705
+```
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+
+```r
+data(HousesNY)
+HousesNY %&gt;% head
+```
+
+```
+##   Price Beds Baths  Size  Lot
+## 1  57.6    3     2 0.960 1.30
+## 2 120.0    6     2 2.786 0.23
+## 3 150.0    4     2 1.704 0.27
+## 4 143.0    3     2 1.200 0.80
+## 5  92.5    3     1 1.329 0.42
+## 6  50.0    2     1 0.974 0.34
+```
+
+Added variable plots are useful when we want to understand relative effects of a particular predictor variable, given that all other predictors have been accounted for in the model. In particular, for MLR models this is a useful technique to identify potentially influential data points that are unusual only if we consider the values of another/other predictor variable(s). 
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+
+```r
+mod0 &lt;- lm(Price ~ Beds + Lot + Size, HousesNY)
+mod0 %&gt;% summary 
+```
+
+```
+## 
+## Call:
+## lm(formula = Price ~ Beds + Lot + Size, data = HousesNY)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -64.549 -28.878   0.228  29.280  68.743 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)   37.899     24.397   1.553   0.1268  
+## Beds           5.022      9.567   0.525   0.6020  
+## Lot            5.934      6.783   0.875   0.3859  
+## Size          32.142     12.696   2.532   0.0146 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 36.3 on 49 degrees of freedom
+## Multiple R-squared:  0.2766,	Adjusted R-squared:  0.2324 
+## F-statistic: 6.247 on 3 and 49 DF,  p-value: 0.001121
+```
+
+Suppose the predictor of interest is `Size`. The larger model includes `Beds`, `Lot`, and `Size`.
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+
+```r
+mod1 &lt;- lm(Price ~ Beds + Lot, HousesNY)
+mod1 %&gt;% summary 
+```
+
+```
+## 
+## Call:
+## lm(formula = Price ~ Beds + Lot, data = HousesNY)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -68.850 -30.035  -5.439  33.385  69.208 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   32.652     25.590   1.276  0.20787   
+## Beds          22.803      6.838   3.335  0.00162 **
+## Lot            4.429      7.113   0.623  0.53634   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 38.21 on 50 degrees of freedom
+## Multiple R-squared:  0.182,	Adjusted R-squared:  0.1493 
+## F-statistic: 5.563 on 2 and 50 DF,  p-value: 0.006586
+```
+
+The smaller model includes only `Beds` and `Lot`.]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+Added variable plots would consider the effect of the predictors from the smaller model `Beds` and `Lot` in relation to the predictor of interest, `Size`. 
+
+
+```r
+mod2 &lt;- lm(Size ~ Beds + Lot, HousesNY)
+mod2 %&gt;% summary 
+```
+
+```
+## 
+## Call:
+## lm(formula = Size ~ Beds + Lot, data = HousesNY)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.64501 -0.29638  0.02711  0.26535  1.06363 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.16325    0.27079  -0.603    0.549    
+## Beds         0.55318    0.07236   7.645 5.92e-10 ***
+## Lot         -0.04683    0.07527  -0.622    0.537    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4044 on 50 degrees of freedom
+## Multiple R-squared:  0.5601,	Adjusted R-squared:  0.5425 
+## F-statistic: 31.83 on 2 and 50 DF,  p-value: 1.211e-09
+```
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+Let's collect the residuals from the smaller model and the residuals from the regression of the predictor of interest (`Size`) on the predictors of the smaller model in a new data object.  
+
+
+```r
+added_varb_plot_data &lt;- tibble(res1 = mod1$residuals, res2 = mod2$residuals)
+added_varb_plot_data %&gt;% head
+```
+
+```
+## # A tibble: 6 × 2
+##    res1    res2
+##   &lt;dbl&gt;   &lt;dbl&gt;
+## 1 -49.2 -0.475 
+## 2 -50.5 -0.359 
+## 3  24.9 -0.333 
+## 4  38.4 -0.259 
+## 5 -10.4 -0.148 
+## 6 -29.8  0.0468
+```
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+.scroll-output[
+Now we'll create an added variable plot by plotting these two groups of residuals against one another. We want to look out for any strange data points to investigate them as potentially influential data points. 
+
+
+```r
+ggplot(added_varb_plot_data, aes(x=res2, y=res1)) + 
+  geom_point() + 
+  geom_smooth(method=lm, se=FALSE) + 
+  geom_abline(intercept=0) + 
+  geom_text(label=rownames(added_varb_plot_data), nudge_y = -5) + 
+  labs(title="Added variable plot for housing data", x="Residuals for regressing Beds on Size",y="Residuals for regressing Price on Beds")
+```
+]
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+
+![](Figs/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+---
+# Identifying unsusal data points
+## Added varb plots 
+.scroll-output[
+Notice that the slope of the line of best fit for the added variable plot is actually the coefficient of the predictor `Size` in the larger model containing all three predictors. 
+
+
+```r
+resids_mod &lt;- lm(res1 ~ res2, added_varb_plot_data)
+resids_mod %&gt;% summary()
+```
+
+```
+## 
+## Call:
+## lm(formula = res1 ~ res2, data = added_varb_plot_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -64.549 -28.878   0.228  29.280  68.743 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) 4.153e-15  4.887e+00   0.000   1.0000  
+## res2        3.214e+01  1.244e+01   2.583   0.0127 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 35.58 on 51 degrees of freedom
+## Multiple R-squared:  0.1157,	Adjusted R-squared:  0.09834 
+## F-statistic: 6.672 on 1 and 51 DF,  p-value: 0.01271
+```
+]
+
+---
+# Identifying unsusal data points
+## Leverage
+
+
+`$$Leverage_i = h_i = \frac{1}{n} + \frac{x_i - \bar{x}}{\sum (x_i - \bar{x})^2}$$`
+
+Standardized residuals: `\(\frac{y_i - \bar{y}}{\hat{\sigma}\sqrt{1 - h_i}}\)`
+
+Studentized residuals: `\(\frac{y_i - \bar{y}}{\hat{\sigma}_{(i)}\sqrt{1 - h_i}}\)`, where `\(\hat{\sigma}_{(i)}\)` is the estimate from the model that doesn't include the `\(i^{th}\)` data point. 
+
+
+---
+# Identifying unsusal data points
+## Leverage
+
+Other measures of influence include 
+
+* Cook's distance 
+
+* DFfits
+
+* DFbetas 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
