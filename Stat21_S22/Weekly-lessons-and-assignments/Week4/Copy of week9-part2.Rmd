@@ -1,5 +1,5 @@
 ---
-title: "Week 9 - Part 2"
+title: "Week 4 - Part 2"
 subtitle: "Estimating the Error Variance"
 author: "Suzanne Thornton"
 institute: "Swarthmore College"
@@ -32,7 +32,8 @@ library('cowplot')
 library("RefManageR")
 library("DT")
 
-hc_employer_2013 <- read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_data.txt")) 
+hc_employer_2013 <- read_table2("~/GitHub/Stat21/Data/health_care_data.txt")
+  #url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_data.txt")) 
   #read_table2(url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/health_care_2013_cleaned.txt")) 
 colnames(hc_employer_2013) <- c("Location", "TotalHealthSpending", "TotalUninsured", 
                                 "TotalPop", "spending_capita", "prop_uninsured")

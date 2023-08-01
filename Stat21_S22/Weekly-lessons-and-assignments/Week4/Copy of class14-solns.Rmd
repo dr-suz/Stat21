@@ -1,9 +1,9 @@
 ---
-title: "Class 14 - Section 1 "
+title: "Simple linear regression worksheet"
 subtitle: "Statistical Methods II (Stat 021)"
 author: "Suzanne Thornton"
 institute: "Swarthmore College"
-date: "For class on Thursday, April 1, 2021 (updated: `r Sys.Date()`)"
+date: "(updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
  #   css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -65,13 +65,11 @@ pre {
 ## Group work  
 ### Part I - Building and interpreting a SLR model 
 
-(Homework 5: Problems 5-10)
-
 The following data set was collected in 2018-2019 and recorded different attributes of skyscrapers in NYC. We are going to investigate how the height (in meters) $(Y)$ of a skyscraper depends on the number of stories (i.e. floors) it has $(x)$. 
 
 ```{r}
-skyscrapers <- read_csv(
-                url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/skyscraper_data.csv"))
+skyscrapers <- read_csv("~/GitHub/Stat21/Data/skyscraper_data.csv")
+#                url("http://www.swarthmore.edu/NatSci/sthornt1/DataFiles/skyscraper_data.csv"))
 head(skyscrapers)
 ```
 
@@ -155,7 +153,6 @@ How can you evaluate the independence assumption?
 ## Group work  
 ### Part II - Interpreting plots for SLR models  
 
-(Homework 5: Problems 5-10)
 .scroll-output[
 
 The following code creates a scatter plot of the data and fits the linear regression line over it (as well as a confidence bound on the regression line). 
@@ -281,23 +278,4 @@ ggplot(skyscrapers2, aes(sample=residuals_std)) +
 
 .blue[Interpretation: We're checking the assumption that the errors are normally distributed by determining if the residuals look Normally distributed. There is some strong deviation from the diagonal line that indicates a Normal distribution, especially for larger values of our standardized residuals. We see some indication here that the largest values of our residuals are even bigger than we would expect if the random error was actually Normally distributed. Thus we have slightly higher upper tail values than we would under Normality.]
 
-
----
-### Planning ahead for next week  
-
-- Watch the videos for Week 9 before Tuesday's class.  
-
-  * Confidence intervals, prediction intervals for SLR
-  
-  * Analysis of variance for SLR 
-  
-  * Transforming data for regression models 
-  
-  * Introduce multiple linear regression (MLR)
-
-- Finish and submit HW 5 before Monday, April 5th at 8am EST. 
-
-  * .blue[You can skip Problem 8]
-
-  * Remember to select which pages contain solutions for each problem! 
 

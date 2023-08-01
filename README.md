@@ -9,9 +9,9 @@
 
 ### Topics 
 
-* RStudio introduction 
-
 * Review material
+
+* RStudio introduction 
 
 * Simple linear regression
 
@@ -29,7 +29,9 @@
 
 * [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-3.html)
 
-* [week 4 link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/)
+* [Week 4 Inference with SLR models](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/Copy-of-week9-part1.html)
+
+* [Week 4 Estimating the error variance](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/Copy-of-week9-part2.html)
 
 * [Residual analysis in R](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week8/error_simulations.html)
 
@@ -42,6 +44,12 @@
 * [Homework 2 solutions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/HW2_week3_solns.html)
 
 * [Week 3 worksheet](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/worksheet.pdf)
+
+* [Homework 3 solutions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/HW3_week4_solns.pdf)
+
+* [Week 4 worksheet](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/worksheet4_solns.html)
+
+* [Week 4 SLR worksheet](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/Copy-of-class14-solns.html)
 
 ### Quizes 
 
@@ -69,8 +77,6 @@
 ### Homework 
 
 * [Week 5 worksheet](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week5/worksheet-week5.html)
-
-* Homework 3 solutions
 
 * [Homework 4 solutions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week6/HW4_week6_solns.pdf)
 
