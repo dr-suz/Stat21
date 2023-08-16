@@ -1,23 +1,17 @@
 # Stat 21: Introduction to Statistical Methods 2
 
-* Example [syllabus](https://dr-suz.github.io/Stat21/Stat21_S22/S22-Syllabus.pdf) and [calendar](https://dr-suz.github.io/Stat21/Stat21_S22/S22-Student-Calendar.pdf) 
+Here is an example [syllabus](https://dr-suz.github.io/Stat21/Stat21_S22/S22-Syllabus.pdf) and [calendar](https://dr-suz.github.io/Stat21/Stat21_S22/S22-Student-Calendar.pdf). 
+
+This is the second in a series of introductory, undergraduate statistics courses. The course is an application-focused introduction to statistical modeling. For this course, students are required to use RStudio and the topics covered can be broken into three units. Unit 1 covers some review material, introduces RStudio, and simple linear regression (SLR). Unit 2 introduces multiple linear regression (MLR) and Unit 3 explores ethical statistical modeling practices and analysis of variance (ANOVA) models.
 
   
 ***
 
 ## Unit 1
 
-### Topics 
+### Class notes 
 
-* Review material
-
-* RStudio introduction 
-
-* Simple linear regression
-
-### Class slides 
-
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-1.html)
+* [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-1.html)
 
 * [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-2.html)
 
@@ -29,13 +23,15 @@
 
 * [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-3.html)
 
-* [Week 4 Inference with SLR models](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/Copy-of-week9-part1.html)
+* [Understanding the coefficient of determination](https://dr-suz.github.io/Stat21/week9-part3.html)
 
-* [Week 4 Estimating the error variance](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/Copy-of-week9-part2.html)
+* [Inference with SLR models](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/Copy-of-week9-part1.html)
+
+* [Estimating the error variance](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/Copy-of-week9-part2.html)
 
 * [Residual analysis in R](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week8/error_simulations.html)
 
-### Homework 
+### Homework and in-class worksheets
 
 * [Homework 1 solutions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/HW1_week2_solns.pdf)
 
@@ -54,14 +50,11 @@
 ### Quizes 
 
 
+
+
 ## Unit 2  
 
-### Topics 
-
-*  Multiple linear regression
-
-
-### Class slides 
+### Class notes 
 
 * [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week5/week5-1.html)
 
@@ -69,12 +62,11 @@
 
 * [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week8/Ch4.html)
 
-* [Week 9 MLR additional topics](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/MLR-additional-topics.html)
+* [MLR additional topics](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/MLR-additional-topics.html)
 
-* [Week 9 MLR interpretation and effect sizes](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/MLR-interpretation.html)
+* [MLR interpretation and effect sizes](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/MLR-interpretation.html)
 
-
-### Homework 
+### Homework and in-class worksheets
 
 * [Week 5 worksheet](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week5/worksheet-week5.html)
 
@@ -90,30 +82,21 @@
 
 * [Homework 7 solutions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/HW7_week9_solns.pdf)
 
-
-
 ### Quizes 
 
 
+
 ## Unit 3 
-
-### Topics 
-
-* Ethical statistical modeling
-
-* Analysis of variance (ANOVA) models 
  
+### Class notes  
 
-### Class slides  
+* [Ethical statistical modeling](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week11/ethical-stats.html)
 
-[Week 11 Ethical statistical modeling](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week11/ethical-stats.html)
+* [ANOVA notation](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week13/anova_notation.pdf)
 
-* [Week 13 ANOVA notation](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week13/anova_notation.pdf)
+* [Multiple comparisons](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week13/multiple_comparisons.html)
 
-* [Week 13 Multiple comparisons](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week13/multiple_comparisons.html)
-
-
-### Homework 
+### Homework and in-class worksheets
 
 * [Homework 8](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week11/HW8.pdf)
 
@@ -128,16 +111,16 @@
 
 
 
-### Final exam
+## Final exam
 
 
-### Final project 
+## Final project 
 
 
 ## Miscellaneous slides 
 
 * [Simpson's paradox](https://dr-suz.github.io/Stat21/week8-part1.html)
 
-* [Understanding the coefficient of determination](https://dr-suz.github.io/Stat21/week9-part3.html)
+
 
 * [Estimating the error variance](https://dr-suz.github.io/Stat21/week9-part2.html)
