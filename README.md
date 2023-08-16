@@ -11,17 +11,17 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 ### Class notes 
 
-* [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-1.html)
+* [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-1.html) (review)
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-2.html)
+* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-2.html) (review)
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-3.html)
+* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-3.html) (review)
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-1.html)
+* [Inference for a single population mean](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-1.html) (review)
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-2.html)
+* [Inference for the difference between two population means](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-2.html) (review)
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-3.html)
+* [Importing and visualizing data with RStudio](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-3.html)
 
 * [Understanding the coefficient of determination](https://dr-suz.github.io/Stat21/week9-part3.html)
 
