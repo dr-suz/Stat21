@@ -6,10 +6,7 @@ This is the second in a series of introductory, undergraduate statistics courses
 
   
 ***
-
-## Unit 1
-
-### Class notes 
+## Review material
 
 * [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-1.html) (review) 
 
@@ -17,11 +14,25 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 * [Inference for a single population proportion](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-3.html) (review)
 
+* [Inference for the difference between two population proportions](https://dr-suz.github.io/Stat21/week2-bonus-video.html#1) (review)
+
 * [Inference for a single population mean](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-1.html) (review)
 
 * [Inference for the difference between two population means](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-2.html) (review)
 
+* [Probability and conditional probability](https://dr-suz.github.io/Stat21/week4-part1.html#1)
+
+* [Chi-square goodness of fit procedure](https://dr-suz.github.io/Stat21/week4-part2.html#1)
+
+* [More chi-square procedures](https://dr-suz.github.io/Stat21/week5-part1.html#1)
+
+## Unit 1
+
+### Class notes 
+
 * [Importing and visualizing data with RStudio](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-3.html)
+
+* [Simple linear regression](https://dr-suz.github.io/Stat21/week8-part2.html#1)
 
 * [Understanding the coefficient of determination](https://dr-suz.github.io/Stat21/week9-part3.html)
 
@@ -54,15 +65,23 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 ### Class notes 
 
-* [Multiple linear regression](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week5/week5-1.html)
+* [Multiple linear regression](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week5/week5-1.html) and [and example](https://dr-suz.github.io/Stat21/week11-part2.html#1)
 
 * [Comparing SLR and MLR](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week6/week6-1.html)
 
 * [Selecting predictors and identifing unsual data points](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week8/Ch4.html)
 
-* [MLR additional topics](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/MLR-additional-topics.html)
+* [MLR additional topics](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/MLR-additional-topics.html) 
+
+[Adjusted R-squared](https://dr-suz.github.io/Stat21/week11-part3.html#1)
+
+[Categorical predictors](https://dr-suz.github.io/Stat21/week11-part4.html#1)
+
+[Defining and detecting multicollinearity](https://dr-suz.github.io/Stat21/week12-part2.html#1)
 
 * [MLR interpretation and effect sizes](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/MLR-interpretation.html)
+
+[Defining and interpreting interaction terms](https://dr-suz.github.io/Stat21/week12-part1.html#1)
 
 ### Homework and in-class worksheets
 
@@ -86,6 +105,8 @@ This is the second in a series of introductory, undergraduate statistics courses
 ## Unit 3 
  
 ### Class notes  
+
+* [Residual analysis for regression models](https://dr-suz.github.io/Stat21/week12-part3.html#1)
 
 * [Simpson's paradox](https://dr-suz.github.io/Stat21/week8-part1.html)
 
@@ -121,7 +142,9 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 
 
+## More slides 
 
+* [Simulation study with confidence intervals](https://dr-suz.github.io/Stat21/week10-part1.html#1)
 
 
 
