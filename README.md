@@ -2,23 +2,23 @@
 
 Here is an example [syllabus](https://dr-suz.github.io/Stat21/Stat21_S22/S22-Syllabus.pdf) and [calendar](https://dr-suz.github.io/Stat21/Stat21_S22/S22-Student-Calendar.pdf). 
 
-This is the second in a series of introductory, undergraduate statistics courses. The course is an application-focused introduction to statistical modeling. For this course, students are required to use RStudio and the topics covered can be broken into three units. Unit 1 covers some review material, introduces RStudio, and simple linear regression (SLR). Unit 2 introduces multiple linear regression (MLR) and Unit 3 explores ethical statistical modeling practices and analysis of variance (ANOVA) models.
+This is the second in a series of introductory, undergraduate statistics courses. The course is an application-focused introduction to statistical modeling. For this course, students are required to use RStudio and the topics covered can be broken into three units. Unit 1 introduces RStudio and simple linear regression (SLR), Unit 2 introduces multiple linear regression (MLR), and Unit 3 explores ethical statistical modeling practices and analysis of variance (ANOVA) models.
 
   
 ***
 ## Review material
 
-* [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-1.html) (review) 
+* [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-1.html)  
 
-* [The Central Limit Theorem and sampling distributions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-2.html) (review)
+* [The Central Limit Theorem and sampling distributions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-2.html)  
 
-* [Inference for a single population proportion](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-3.html) (review)
+* [Inference for a single population proportion](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-3.html)  
 
-* [Inference for the difference between two population proportions](https://dr-suz.github.io/Stat21/week2-bonus-video.html#1) (review)
+* [Inference for the difference between two population proportions](https://dr-suz.github.io/Stat21/week2-bonus-video.html#1)  
 
-* [Inference for a single population mean](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-1.html) (review)
+* [Inference for a single population mean](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-1.html)  
 
-* [Inference for the difference between two population means](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-2.html) (review)
+* [Inference for the difference between two population means](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-2.html)  
 
 * [Probability and conditional probability](https://dr-suz.github.io/Stat21/week4-part1.html#1)
 
