@@ -11,11 +11,11 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 ### Class notes 
 
-* [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-1.html) (review)
+* [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-1.html) (review)
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-2.html) (review)
+* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-2.html) (review)
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2-virtual/week2-3.html) (review)
+* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-3.html) (review)
 
 * [Inference for a single population mean](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-1.html) (review)
 
@@ -47,8 +47,6 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 * [Week 4 SLR worksheet](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week4/Copy-of-class14-solns.html)
 
-### Quizes 
-
 
 
 
@@ -56,11 +54,11 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 ### Class notes 
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week5/week5-1.html)
+* [Multiple linear regression](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week5/week5-1.html)
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week6/week6-1.html)
+* [Comparing SLR and MLR](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week6/week6-1.html)
 
-* [link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week8/Ch4.html)
+* [Selecting predictors and identifing unsual data points](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week8/Ch4.html)
 
 * [MLR additional topics](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/MLR-additional-topics.html)
 
@@ -82,13 +80,14 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 * [Homework 7 solutions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week9/HW7_week9_solns.pdf)
 
-### Quizes 
 
 
 
 ## Unit 3 
  
 ### Class notes  
+
+* [Simpson's paradox](https://dr-suz.github.io/Stat21/week8-part1.html)
 
 * [Ethical statistical modeling](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week11/ethical-stats.html)
 
@@ -106,21 +105,24 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 * [Homework 10 solutions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week13/HW10_week13_solns.pdf)
 
-### Quizes 
 
 
 
 
-## Final exam
+## Other assessment items
+
+### Quizzes
 
 
-## Final project 
+### Final exam
 
 
-## Miscellaneous slides 
-
-* [Simpson's paradox](https://dr-suz.github.io/Stat21/week8-part1.html)
+### Final project 
 
 
 
-* [Estimating the error variance](https://dr-suz.github.io/Stat21/week9-part2.html)
+
+
+
+
+
