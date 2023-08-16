@@ -11,11 +11,17 @@ This is the second in a series of introductory, undergraduate statistics courses
 
 ### Class notes 
 
-* [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-1.html) (review)
+* [Normal random variables](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-1.html) (review) 
+
+[test link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-1.html)
 
 * [The Central Limit Theorem and sampling distributions](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-2.html) (review)
 
+[test link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-2.html)
+
 * [Inference for a single population proportion](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-3.html) (review)
+
+[test link](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week2/week2-3.html)
 
 * [Inference for a single population mean](https://dr-suz.github.io/Stat21/Stat21_S22/Weekly-lessons-and-assignments/Week3/week3-1.html) (review)
 
