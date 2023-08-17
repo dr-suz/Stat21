@@ -1,0 +1,114 @@
+---
+title: "Stat 21 Final Project"
+author: '[Your name here]'
+date: '[Enter date here]'
+output:
+  html_document: 
+bibliography: my_references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE) 
+knitr::opts_chunk$set(echo=TRUE) 
+
+library(tidyverse)
+library(knitr)
+```
+
+
+# Section 1: Introduction
+
+## Who? 
+
+List all group members and the responsibilities of each group member. Verify that each group member has read these instructions carefully. 
+
+## Miscellaneous instructions 
+
+To include mathematical equations in your document, write in between two dollar signs. Make sure there is no space after the first dollar sign or before the last one. 
+
+E.g. \$this is good\$  but  \$ this is bad \$.
+  
+If you want the equation to be centered and on it's own line, then put it in between four dollar signs. For example, 
+
+$$\hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1} x_{1} + \hat{\beta}_{2} x_{2}^{2}.$$ 
+
+
+
+## What?
+
+Introduce the research question you and your group wish to explore here. Include some comments on the motivation behind your research question and be sure to cite any supporting literature or sources at the References section at the end of this document. State at least one statistical question related to your larger research question that you wish to address with a MLR model. Your final report should include an exploratory data analysis in this section. 
+
+
+Here is an example of how to include a citation from your references [@ponuwei_bleb_2016]. If you want to mention the reference directly, you may do so by removing the square brackets. For example, @andrich_contributors_1996 wrote a book about categorical variables. 
+
+Describe your data (including the data source) and make sure you include
+
+* A description of the observational units 
+
+* A description of the response variable and its variable type
+
+* A description of the predictor variables and the population coefficients you wish to understand using statistical inference
+
+* A description of any other variables you think may be relevant to your analysis.
+
+
+# Section 2: Regression Analysis 
+
+## How? 
+
+Outline your analysis steps in this section. (The outline does not need to be in complete sentences but should follow the general modelling steps of (1) choose, (2) fit, (3) assess, (4) use.) This outline will provide a basis for your final report's Methods section. Try to plan which steps you and your group mates will take to answer your research question using MLR modeling techniques. 
+
+Below is an outline template for you to use if you wish. Feel free to customize your outline in a way that makes sense to your and your group. 
+
+* Choose 
+
+  + First 
+  
+  + Second 
+  
+  + Third 
+
+* Fit 
+
+  + First 
+  
+  + Second 
+  
+  + Third 
+
+* Assess 
+
+  + First 
+  
+  + Second 
+  
+  + Third 
+
+* Use 
+
+  + First 
+  
+  + Second 
+  
+  + Third 
+  
+# Section 3: Discussion and Limitations 
+
+Complete this section for your final report. You don't need to include anything here for your proposal. 
+
+# Section 4: Conclusion 
+
+Complete this section for your final report. You don't need to include anything here for your proposal. 
+
+# Section 5: Additional Work 
+
+Complete this section for your final report. You don't need to include anything here for your proposal. 
+
+
+# References 
+
+Look at the very top of this .Rmd document. In the *preamble* there is a line that reads `bibliography: my_references.bib`. This line references a separate, bibliography file called "my_references.bib". You must create this separate file which will contain the information for each of your references cited in your report. Here are [some instructions](https://docs.google.com/document/d/1wD0CirpU_nqpEo91Y3AucqYrxTa1yQbaliVVTrDJuUQ/edit?usp=sharing) on how to easily collect your references into a single .bib file. 
+
+Once you have completed the steps above, upload (or download) the "my_references.bib" file so that it is stored in the same location (e.g. folder) as this .Rmd file. Only then will you be able to knit this template into an output report. After you follow these instructions to create and save your .bib file and after you change the citation keys in this document, erase this paragraph and the proceeding one and re-knit your report. 
+

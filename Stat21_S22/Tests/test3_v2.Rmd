@@ -66,7 +66,7 @@ You have prepared for this test and with a clear and well-rested mind, you are r
 
 
 ```{r echo=FALSE}
-mydata <- read_csv2("~/Downloads/e-shop clothing 2008.csv", col_names=TRUE)
+mydata <- read_csv2("e-shop clothing 2008.csv", col_names=TRUE)
 
 #mydata %>% names 
 mydata <- mydata[,c(4,5,7,9,10,12)]
